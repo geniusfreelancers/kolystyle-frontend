@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/head :: common-head" />
+<body>
+	<div class="wrapper-box">
+		<div class="main-wrapper">
+
+			<div th:replace="common/head :: navbar" />
+
+			<div id="container-wrapper">
+
+
+        <div class="col-md-3 col-sm-3">
+            <div th:replace="common/head :: customersidebar" /> 
+        </div>
+        <div class="col-md-9 col-sm-9">
+            <div class="col-md-12 border-grey">
+              <div class="col-md-12">
+                  <h3 class="text-moredanger">add credit card</h3>
+                  <p class="">Add your credit card for faster checkout &amp; manage all your payment information in one secure spot.</p>
+
+                <form id="addnewCardForm" th:action="@{/customer/addcard}" method="post">
+                        <div class="error" th:if="${errors}" style="color: #ff0000;">
+                            Any errors occured goes here
+                            </div>
+                      <hr/>
+                        <div class="col-md-6">
+                            <h3 class="text-moredanger">credit card information</h3>
+
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" placeholder="First Name" name="firstName" id="firstName" value="" class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" placeholder="Last Name" name="lastName" id="lastName" value="" class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cardNumber">Card Number </label>
+                                <div class="input-group"><span class="input-group-addon"><i class="fa fa-credit-card" aria-hidden="true"></i></span>
+                                <input type="tel" name="cardNumber" id="cardNumber" value="" placeholder="Valid Card Number" class="form-control"/>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                              	<div class="row">
+                              	<div class="col-md-4">
+                                <label for="cardType">Card Type </label>
+                                <input type="text" name="type" id="type" value="" class="form-control"/>
+                            	</div>
+                            	<div class="col-md-4">
+                                <label for="cardExpiry">Expiration</label>
+                                <input type="text" placeholder="Expiry Date" name="cardExpiry" id="cardExpiry" value="" class="form-control" />
+                            	</div>
+
+                            <div class="col-md-4">
+                                <label for="cardSecurity">CVC</label>
+                                <input type="password" placeholder="CVC" name="cardSecurity" id="cardSecurity" value="" class="form-control" />
+                            </div>
+                            </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" placeholder="Email" name="email" id="email" value="" class="form-control" />
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+
+                            <h3 class="text-moredanger">billing address</h3>
+
+
+                            <div class="form-group">
+                                <label for="billingStreet">Street Address 1</label>
+                                <input type="text" placeholder="Street Address 1" id="billingStreet" name="billingStreet" class="form-control" value="" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="billingApartmentNumber">Street Address 2</label>
+                                <input type="text" placeholder="Street Address 2" name="apartmentNumber" id="billingApartmentNumber" value="" class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="billingCity">City</label>
+                                <input type="text" placeholder="City" name="city" id="city" value="" class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                            <div class="row">
+                            <div class="col-md-6">
+                                <label for="billingState">State</label>
+                                <input type="text" name="state" id="state" value="" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="billingZip">Zip Code</label>
+                                <input type="text" placeholder="Zipcode" name="zipCode" id="zipCode" value="" class="form-control" />
+                            </div>
+                            </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="billingCountry">Country</label>
+                                <input type="text" placeholder="Country" name="country" id="country" value="" class="form-control" />
+                            </div>
+
+                            <a href="/customer/wallet" class="btn btn-default margin-tb-5">CANCEL</a>
+                            <input type="submit" value="SAVE CREDIT CARD" class="btn btn-danger margin-tb-5"/>
+                        </div>
+
+
+                    </form>
+<script>
+    $().ready(function(){
+    	$( "#addnewCardForm" ).validate({
+            rules: {
+            	firstName:"required",
+            	billingStreet:"required",
+            	city:"required",
+            	state:"required",
+            	zipCode:"required",
+            	country:"required",
+            	type:"required",
+            	cardExpiry:"required",
+            	cardSecurity:"required",
+            	email: {
+                    required: true,
+                    email:true
+                },
+                cardNumber:{
+                	required: true,
+                	minlength:14
+                },
+                lastName:"required"
+            },
+            messages:{
+            	firstName:"First Name Required",
+            	billingStreet:"Street Address Required",
+            	city:"City Required",
+            	state:"State Required",
+            	zipCode:"Zipcode Required",
+            	country:"Country Required",
+            	type:"Card Type Required",
+            	cardExpiry:"Expiry Date Required",
+            	cardSecurity:"CVC Required",
+            	email: {
+                    required: "Email Required",
+                },
+                cardNumber:{
+                	required: "Credit Card Number Required",
+                	minlength: "Invalid Credit Card"
+                },
+                lastName:"Last Name Required"
+            }
+        });
+    });        
+</script>
+                </div>
+                <div class="col-md-12">
+                    <p class="security-button-bar">Note: For security, please do NOT email us your account number.</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+   <div class="clear"></div>
+				
+
+				<script th:src="@{/js/controller.js}"></script>
+
+				<!-- end of container -->
+				<div th:replace="common/head :: footer" />
+
+				<div th:replace="common/head :: body-bottom-scripts" />
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
+   

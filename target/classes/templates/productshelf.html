@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/head :: common-head" />
+<body>
+	<div class="wrapper-box">
+		<div class="main-wrapper">
+
+			<div th:replace="common/head :: navbar" />
+
+			<div id="container">
+				<div id="content">
+
+		<div class="row" style="margin-top: 60px;">
+		
+		<div class="col-xs-3">
+			<!--h3><label for="category">Category</label></h3-->
+			<div class="list-group" id="category">
+			<a th:href="@{/productshelf(category='all')}" th:classappend="${activeAll}? 'active'" class="list-group-item">All</a>
+			<a th:href="@{/searchByCategory(category='Management')}" th:classappend="${activeManagement}? 'active'" class="list-group-item">Management</a>
+			<a th:href="@{/searchByCategory(category='Friction')}" th:classappend="${activeFriction}? 'active'" class="list-group-item">Friction</a>
+			<a th:href="@{/searchByCategory(category='Engineering')}" th:classappend="${activeEngineering}? 'active'" class="list-group-item">Engineering</a>
+			<a th:href="@{/searchByCategory(category='Programming')}" th:classappend="${activeProgramming}? 'active'" class="list-group-item">Programming</a>
+			<a th:href="@{/searchByCategory(category='Arts &amp; Literature')}" th:classappend="${activeArtsLiterature}? 'active'" class="list-group-item">Arts &amp; Literature</a>
+			</div>
+		</div>
+		
+			<div class="col-xs-9">
+
+				<div th:if="${emptyList}">
+					<h5 style="font-style: italic;">Opps, no result found</h5>
+				</div>
+				<!-- Each Product Start -->
+	<div class="product-item" id="productList" data-th-each="product : ${productList}">
+				
+				
+				
+  <div class="col-md-4 col-sm-6 slide-inner" th:attr="data-price=${product.ourPrice},data-brand=${product.author},data-category=${product.category},data-size=small" >
+                    <div class="product-singleArea">
+                    
+                        <div class="product-img">
+                        
+                            <div class="overlay">
+                            <div th:class="'overlay_'+${product.id}">
+                                
+                            </div>
+                            </div>
+                            
+                            <a th:href="@{/productDetail?id=}+${product.id}">
+                                <img class="img-responsive primary_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
+                            <a th:href="@{/productDetail?id=}+${product.id}">
+                                <img class="img-responsive hover_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
+                           
+                            <div class="product-cart-area">
+                                <div class="btn-others">
+                                    <ul>
+                                        <li><a href=""><i class="fa fa-heart-o"></i></a></li>
+                                        <li><a href=""><i class="fa fa-exchange"></i></a></li>
+                                        <li><a href="detail.html"><i class="fa fa-expand"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="btn-add-to-cart cart-btn">
+                                <!-- Add to cart -->
+                                <form method="post" >
+								<input hidden="hidden" th:id="'id-addingtocart-'+${product.id}" name="id" th:value="${product.id}"/>
+								<input hidden="hidden" id="qty" name="qty" value="1"/>
+
+								<button type="submit" th:id="'addingtocart-'+${product.id}" class="cart glyphicon glyphicon-shopping-cart">ADD TO CART</button>
+
+</form>
+                                
+    <!-- Add to cart End -->                            
+                                        <!-- a href="">
+                                            <span class="glyphicon glyphicon-shopping-cart"></span>ADD TO CART
+                                        </a-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-details">
+
+                            <style>
+                                .addedtocart_${product.id}{
+                                    color:#ffffff;
+                                    position: relative;
+                                    top:50px;
+                                    /*text-shadow: #ffffff;*/
+                                    font-weight: bold;
+                                    font-size: 24px;
+                                }
+                                .overlay_${product.id} {
+                                    display:none;
+                                    bottom: 0;
+                                    height: 100%;
+                                    left: 0;
+                                    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+                                    filter: alpha(opacity=0);
+                                    opacity: 0.5;
+                                    padding: 5px;
+                                    position: absolute;
+                                    width: 100%;
+                                    background: #9a7d7d;
+                                }
+
+                            </style>
+                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}"><h2 th:text="${product.title}"></h2></a></div>
+                            <div class="product-pd">
+                                <div class="product-price">
+								<a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: x-large; color: #db3208;">$<span
+												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
+								</div>
+                                <div class="product-discount">
+                                <span th:class="'id-addingtocart-'+${product.id}" id="addedtocart"></span>
+								<span style="text-decoration: line-through;color:#b3b3b3;">$<span
+												th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
+								</div>
+                            </div>
+                            <div class="product-review" style="display:none;">
+                                <div class="star">
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+	</div>
+            <!---->
+
+				<!-- Each Product Ends -->
+			</div>
+		
+	</div>
+	<div class="clear"></div>
+	<!-- end of container -->
+	</div>
+				<script th:src="@{/js/controller.js}"></script>
+
+				<!-- end of container -->
+				<div th:replace="common/head :: footer" />
+
+				<div th:replace="common/head :: body-bottom-scripts" />
+			
+		</div>
+</div>
+	</div>
+	<!-- script>
+	$(document).ready(function(){
+		$('#productList').DataTable({
+			"lengthMenu":[[5,10,15,20,-1],[5,10,15,20,"All"]],
+			"ordering":false,
+			stateSave:true
+		});
+		
+		$("#productList").on('page.dt',function(){
+			$('html, body').animate({
+				scrollTop: $('#productList').offset().top
+			}, 200);
+		});
+	});
+	</script-->
+</body>
+</html>

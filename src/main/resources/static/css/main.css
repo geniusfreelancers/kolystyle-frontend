@@ -1,0 +1,313 @@
+.container-wrapper{
+   width: 80%;
+    margin: auto;
+}
+.category_inner img {
+    width: 100%;
+}
+.product-header {
+    padding: 20px 0 15px;
+    margin: 0px 0 10px;
+    border-bottom: 1px solid #eee;
+    background-image: url(../image/backgroundpro.png);
+}
+.home-image{
+    display: block;
+    width: 100%!important;
+    height: auto!important;
+
+}
+.table{
+    table-layout: fixed;
+    overflow: auto;
+}
+
+.table th{
+    text-align: center;
+}
+
+.table td{
+    text-align: center;
+    background: whitesmoke;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.login-box{
+    width: 80%;
+    margin: 10px 10%;
+}
+.login-box h3, .password-rules h3{
+    color: #c00;
+}
+.help-text{
+    color:#666666;
+}
+.forgot-password{
+    color: #333!important;
+    font-weight: bold;
+}
+.margin-tb-5{
+    margin: 5% 0px;
+}
+.margin-tb-10px{
+    margin: 10px 0px;
+}
+.login-container{
+
+}
+.continue-shopping{
+    font-size: 1.2em;
+    color:#000000;
+    text-decoration: underline!important;
+}
+.bg-dark{
+background-color: #000000;
+color: #ffffff;
+    font-weight: bold;
+}
+.border-left-grey{
+    border-left: 1px solid #e6e2e2;
+}
+
+.password-rules{
+    border:1px solid #e6e2e2;
+}
+.password-rules ul li {
+    background: url(https://www.macys.com/sns/web20/assets/img/icon-checked.gif) no-repeat top left;
+    color: #333333;
+    font-size: 1em;
+    padding: 0 0 0 40px;
+    line-height: 38px;
+    list-style: none;
+}
+/*Register Form*/
+.basicinformation-wrapper {
+    /*border: 1px solid red;*/
+    padding: 0px 2%;
+}
+.basicinformation-wrapper h3 {
+    background: #dfdada;
+    padding: 5px;
+}
+.form-group-width{
+    width:35%;
+}
+.input-height{
+    height: 40px!important;
+}
+.padding-2{
+    padding-top:15px;
+}
+.account-benefits i{
+    color:red;
+}
+.benifit-lead {
+    font-size: 1em;
+    font-weight: bold;
+}
+.account-benefits {
+    margin-top: 25px;
+    border: 1px solid black;
+    padding: 15px 0px;
+}
+.hideme{
+    display: none;
+}
+.sidenav ul li{
+   list-style: none;
+}
+.heading a {
+    text-transform: capitalize;
+    font-weight: bold;
+    color: #222 !important;
+    font-size:1.2em;
+}
+.heading{
+    list-style: none;
+    padding: 0px 5px;
+    margin: 0px!important;
+}
+.border-btm-blk{
+    border-bottom: 1px solid black;
+}
+#common-heading{
+    text-decoration: none;
+}
+
+.sub-head{
+    list-style: none;
+    font-weight: bold;
+    padding: 0px 5px;
+}
+
+.sidenav {
+    width: 70%;
+    border: 1px solid #d6d6d6;
+}
+.side-nav{
+    padding: 0px 15px 10px 15px;
+}
+.border-grey{
+    border: 1px solid #c3c3c3;
+}
+.border-btm-grey{
+    border-bottom: 1px solid #c3c3c3;
+}
+.border-top-grey{
+    border-top:  1px solid #c3c3c3;
+}
+.text-moredanger {
+    color: rgb(234, 14, 14);
+}
+.creditcard-border{
+    padding: 10px 0px;
+    border: 1px solid #eee;
+}
+.visa-card{
+    color:#0023a0;
+}
+.master-card{
+    color:#f50c0c;
+}
+.amex-card{
+    color:#128bbd;
+}
+.discover-card{
+    color:#f6840c;
+}
+.margin-btm-10{
+    margin-bottom: 10px;
+}
+.address-list{
+    list-style: none;
+    border: 1px solid #b3b3b3;
+    padding: 10px;
+    background: #fbfbfb;
+}
+.address-list-head{
+    font-weight: bold;
+}
+.error-message{
+    color:#ff0000;
+    margin-left: 5px;
+}
+.wishlist-product-title>a{
+    color:#333333;
+    font-size: 1.3em;
+    font-weight: bold;
+    text-decoration: none;
+}
+.wishlist-product-title>a:hover{
+    text-decoration: none;
+}
+.wishlist-info-container> p{
+    margin: 5px 0px!important;
+}
+.item-promotion{
+    font-weight: bold;
+}
+.wishlist-price-container{
+    background: none repeat scroll 0 0 rgba(204, 204, 204, 0.34);
+    min-height: 230px!important;
+    padding: 10px 0px;
+ }
+.wishlist-price{
+    font-weight: bold;
+    font-size: 1.3em;
+    text-align: center;
+    margin: 10px 0px 30px 0px!important;
+}
+.add-to-cart {
+    margin: 20px auto;
+}
+.wishlist-container{
+    padding: 10px 0px!important;
+}
+.col-width-50{
+    width: 50%!important;
+}
+.order-header{
+    background: #EEEEEE;
+    margin: 10px 0px 0px 0px!important;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.order-big-text{
+    font-size: 18px;
+}
+.order-group{
+    list-style:none;
+}
+.order-group li {
+    display: inline;
+}
+.order-number {
+    border-right: 1px solid #999;
+    padding-right: 5px;
+}
+.order-total {
+    padding-left: 3px;
+}
+.search-order-container {
+    background: #fafafa url(https://www.macys.com/sns/web20/assets/img/ordermods/orderLookupShadow.gif) repeat-x 0 0;
+}
+.padding-tb-10{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.search-order-container {
+    margin-bottom: 15px;
+}
+.orderlist-container {
+    margin-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #000000;
+}
+.orderlist-container p{
+    font-size: 12px!important;
+}
+.order-price-summary {
+    border: 1px solid #eee;
+    background: #eee;
+}
+.amount-details ul {
+    border-bottom: 1px dashed #808080;
+    padding: 10px 0px;
+}
+.amount-details ul li{
+    list-style: none;
+}
+.checkout-subtotal{
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.margin-left-30 {
+    margin-left: 30px;
+}
+.order-submission ul {
+    padding: 10px 0px;
+}
+.order-submission ul li{
+    list-style: none;
+}
+.text-white{
+    color:#ffffff!important;
+}
+.promo-container {
+    height: 60px;
+    padding: 20px 0px;
+    margin: 15px 0px;
+}
+.promo-container input{
+    height:34px;
+}
+.bold-big-text{
+    font-size: 1.5em;
+    font-weight: bold;
+}
+.no-radius{
+    border-radius: 0px!important;
+}

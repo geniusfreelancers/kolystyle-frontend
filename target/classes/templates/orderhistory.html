@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/head :: common-head" />
+<body>
+	<div class="wrapper-box">
+		<div class="main-wrapper">
+
+			<div th:replace="common/head :: navbar" />
+
+			<div id="container-wrapper">
+
+
+        <div class="col-md-3 col-sm-3">
+            <div th:replace="common/head :: customersidebar" /> 
+        </div>
+        <div class="col-md-9 col-sm-9">
+            <div class="col-md-12 border-grey">
+                <h3 class="text-moredanger"><span th:text="${user.firstName}"></span>'s order status &amp; history</h3>
+               <div class="col-md-12 wishlist-main-wrapper">
+                    <!--Search order row-->
+                    <div class="col-md-12 search-order-container padding-tb-10">
+                    
+
+ 									<div class="alert alert-danger" th:if="${incorrectEmail}">
+										<span>Order with associated Email cannot be found</span>
+									</div>
+								
+                    
+				<form id="searchOrderForm" th:action="@{/customer/findmyorder}" method="post">
+                            <div class="col-md-6">
+                            
+	 				<div class="col-md-7">						
+                                  <input hidden="hidden" name="id" th:value="${user.id}"/>
+
+                                    <input hidden="hidden" name="username" th:value="${user.username}"/>
+                                    
+                                   
+                                <div class="form-group">
+                                <label for="orderid">look up an order by order number:</label> 
+                                <input type="text" id="orderid" name="orderid" value="" required="required" placeholder="ORDER NUMBER" class="form-control"/>
+                                <p style="color:#828282;"><i class="fa fa-info-circle" aria-hidden="true"></i>
+                                	It's at the top of your Order Confirmation email or on the invoice that came with your shipment.
+                                </p>
+                                </div>
+                            </div>
+                            </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="orderemail">verify email address:</label>
+                                <input type="text" name="orderemail" required="required" id="orderemail" value="" class="form-control"/>
+                            </div>
+                            <input type="submit" value="TRACK ORDER" class="btn btn-danger"/>
+						</div>
+					</form>
+<script>
+    $( "#searchOrderForm" ).validate({
+        rules: {
+            field: {
+                required: true
+            }
+        }
+    });
+</script>					
+
+                        </div>
+                    </div>
+                    <!--Order Header row-->
+                    <div th:if="${listOfOrders}"  th:each="order : ${orderList}">
+                    
+                    <div class="col-md-12 order-header">
+                        <div class="col-md-6 order-summary">
+                            <div class="col-md-12">
+                                <p class="order-date">order date <span class="order-big-text text-moredanger" th:text="${order.orderDate}"></span></p>
+                            </div>
+                            <div class="col-md-12">
+                                <ul class="order-group">
+                                    <li class="order-number">order # <span class="order-big-text" th:text="${order.id}"></span></li>
+                                    <li class="order-total">order total <span class="order-big-text">$<span th:text="${order.orderTotal}"></span></span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                       
+                       		 <p class="order-status">order status <span class="order-big-text text-moredanger" th:text="${order.orderStatus}"></span></p>
+                        
+                        </div>
+                        <div class="col-md-3 order-details-button text-right">
+                            <a th:href="@{/customer/orderdetails(id=${order.id})}" class="btn btn-danger">order details</a>
+                        </div>
+                    </div>
+                    <!--Order Header row-->
+                    <!--Order Details row-->
+ <div  th:each="cartItem : ${order.cartItemList}">
+                    <div class="col-md-12 border-btm-grey orderlist-container">
+                        <div class="col-md-2 orderlist-image-container">
+                            <a th:href="@{/productDetail(id=${cartItem.product.id})}"> <img
+									class="img-responsive product-shelf center-block" style="width:70px;"
+									th:src="#{adminPath}+@{/image/product/}+${cartItem.product.id}+'/'+${cartItem.product.coverImageName}" />
+								</a>
+                        </div>
+                        <div class="col-md-5 orderlist-info-container">
+                            <p class="orderlist-product-title">
+                                <a href="/realtorsNepal/product/viewProduct/68"><span th:text="${cartItem.product.title}"></span></a>
+                            </p>
+                            <p class="order-item-color">Color: Natural</p>
+                            <p class="order-size-qty"><span class="order-item-size">Size: 7M</span>
+                                <span class="order-item-qty">Qty: 1</span>
+                            </p>
+                        </div>
+                        <div class="col-md-3 orderlist-shipping-container">
+                            <p class="order-ship">expected ship date</p>
+                            <p class="order-ship-date" th:text="${order.shippingDate}"></p>
+                        </div>
+                        <div class="col-md-2 orderlist-pricing-container">
+                            <p class="order-price">
+                            $<span th:text="${cartItem.product.ourPrice}"
+										th:style="${cartItem.product.inStockNumber}==0? 'text-decoration: line-through' : ''"></span>
+                            </p>
+                        </div>
+
+                    </div>
+                    <!--Order Details row-->
+                    </div>
+</div>
+  <!--Order Header row-->
+
+<div th:if="${findOrder}">
+                  
+                  
+                    
+                    <div class="col-md-12 order-header">
+                        <div class="col-md-6 order-summary">
+                            <div class="col-md-12">
+                                <p class="order-date">order date <span class="order-big-text text-moredanger" th:text="${order.orderDate}"></span></p>
+                            </div>
+                            <div class="col-md-12">
+                                <ul class="order-group">
+                                    <li class="order-number">order # <span class="order-big-text" th:text="${order.id}"></span></li>
+                                    <li class="order-total">order total <span class="order-big-text">$<span th:text="${order.orderTotal}"></span></span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                       
+                       		 <p class="order-status">order status <span class="order-big-text text-moredanger" th:text="${order.orderStatus}"></span></p>
+                        
+                        </div>
+                        <div class="col-md-3 order-details-button text-right">
+                            <a th:href="@{/customer/orderdetails(id=${order.id})}" class="btn btn-danger">order details</a>
+                        </div>
+                    </div>
+                    <!--Order Header row-->
+                    <!--Order Details row-->
+ <div  th:each="cartItem : ${order.cartItemList}">
+                    <div class="col-md-12 border-btm-grey orderlist-container">
+                        <div class="col-md-2 orderlist-image-container">
+                            <a th:href="@{/productDetail(id=${cartItem.product.id})}"> <img
+									class="img-responsive product-shelf center-block" style="width:70px;"
+									th:src="#{adminPath}+@{/image/product/}+${cartItem.product.id}+'/'+${cartItem.product.coverImageName}" />
+								</a>
+                        </div>
+                        <div class="col-md-5 orderlist-info-container">
+                            <p class="orderlist-product-title">
+                                <a href="/realtorsNepal/product/viewProduct/68"><span th:text="${cartItem.product.title}"></span></a>
+                            </p>
+                            <p class="order-item-color">Color: Natural</p>
+                            <p class="order-size-qty"><span class="order-item-size">Size: 7M</span>
+                                <span class="order-item-qty">Qty: 1</span>
+                            </p>
+                        </div>
+                        <div class="col-md-3 orderlist-shipping-container">
+                            <p class="order-ship">expected ship date</p>
+                            <p class="order-ship-date" th:text="${order.shippingDate}"></p>
+                        </div>
+                        <div class="col-md-2 orderlist-pricing-container">
+                            <p class="order-price">
+                            $<span th:text="${cartItem.product.ourPrice}"
+										th:style="${cartItem.product.inStockNumber}==0? 'text-decoration: line-through' : ''"></span>
+                            </p>
+                        </div>
+
+                    </div>
+                    <!--Order Details row-->
+                    </div>
+
+</div>
+
+
+                
+                <div class="col-md-12">
+                    <p class="security-button-bar">Note: For security, please do NOT email us your account number.</p>
+
+                </div>
+
+            </div>
+</div>
+        
+<div class="clear"></div>
+				
+
+				<script th:src="@{/js/controller.js}"></script>
+
+				<!-- end of container -->
+				<div th:replace="common/head :: footer" />
+
+				<div th:replace="common/head :: body-bottom-scripts" />
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
+   

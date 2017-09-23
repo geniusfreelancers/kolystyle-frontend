@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/head :: common-head" />
+<body>
+	<div class="wrapper-box">
+		<div class="main-wrapper">
+
+			<div th:replace="common/head :: navbar" />
+
+			<div id="container">
+				<div id="content">
+					<!-- Nivo Slider Start -->
+					<section class="slider-wrapper">
+						<div id="slideshow" class="nivoSlider">
+							<a class="nivo-imageLink"
+								href="http://themeforest.net/item/polishop-responsive-ecommerce-html-template/4410285?ref=harnishdesign"><img
+								src="/image/slider/slide-1.jpg" alt="slide-1" /></a> <a
+								class="nivo-imageLink"
+								href="http://themeforest.net/item/polishop-responsive-ecommerce-html-template/4410285?ref=harnishdesign"><img
+								src="/image/slider/slide-2.jpg" alt="slide-2" /></a> <a
+								class="nivo-imageLink"
+								href="http://themeforest.net/item/polishop-responsive-ecommerce-html-template/4410285?ref=harnishdesign"><img
+								src="/image/slider/slide-3.jpg" alt="slide-3" /></a>
+						</div>
+					</section>
+					
+					<script>
+					
+	                $(document).ready(function() {
+	                    $('#slideshow').nivoSlider();
+	                });
+	                
+					
+					</script>
+					
+					<!-- Nivo Slider End-->
+					<!-- Welcom Text Start-->
+					<div class="welcome text-center">
+						<i class="fa fa-link" aria-hidden="true"></i> FEATURED CATEGORIES
+						<i class="fa fa-link" aria-hidden="true"></i>
+					</div>
+
+					<!-- Product Categories Start-->
+					<div class="row">
+						<div class="col-md-12">
+
+							<div class="col-md-12 boxcontent">
+
+								<div class="col-md-4">
+									<a href="/searchByCategory?category=Management"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/7.jpg" />
+										<span class="info_wrapper">
+											<h4 style="font-weight: normal;">Designer Anarkali Suit</h4>
+									</span>
+									</a>
+								</div>
+
+								<div class="col-md-4">
+									<a href="/searchByCategory?category=Programming"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/8.jpg" />
+										<span class="info_wrapper">
+											<h4 style="font-weight: normal;">Designer Saree</h4>
+									</span>
+									</a>
+								</div>
+
+
+								<div class="col-md-4">
+									<a href="/searchByCategory?category=Friction"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/9.jpg" />
+										<span class="info_wrapper">
+											<h4 style="font-weight: normal;">Designer Salwar Suit</h4>
+									</span>
+									</a>
+								</div>
+
+
+
+							</div>
+						</div>
+					</div>
+					<!-- Product Categories End-->
+					
+										
+					<!-- Featured Product Start-->			
+<section class="box">
+						<div class="box-heading">Featured</div>
+						<div class="box-content">
+							<div class="box-product">
+								<div class="featured_carousel" id="productList">
+
+
+									<ul class="slides slidercontainer">
+									<div class="product-item" data-th-each="product : ${productList}" th:if="${product.feature == 'featured'}">
+											<!---->
+											<li class="col-md-2 col-sm-6">
+												<div class="slide-inner">
+													<div class="product-singleArea">
+														<div class="product-img">
+															<div class="overlay"></div>
+															<div class="overlay_product">
+																<div class="addedtocart_product">Added
+																	to cart</div>
+															</div>
+															<a th:href="@{/productDetail?id=}+${product.id}"> 
+															<img
+																class="img-responsive primary_image shelf-product"
+																th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
+															</a>
+															<a
+																th:href="@{/productDetail?id=}+${product.id}"> 
+																<img
+																class="img-responsive hover_image"
+																th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
+															</a>
+															<div class="offer-nostock">new</div>
+															<div class="product-cart-area">
+																<div class="btn-others">
+																	<ul>
+																		<li><a href=""><i class="fa fa-heart-o"></i></a></li>
+																		<li><a href=""><i class="fa fa-exchange"></i></a></li>
+																		<li><a href="detail.html"><i
+																				class="fa fa-expand"></i></a></li>
+																	</ul>
+																</div>
+																<div class="btn-add-to-cart cart-btn">
+																	<a href="">
+																		<span class="glyphicon glyphicon-shopping-cart"></span>ADD
+																		TO CART
+																	</a>
+																</div>
+															</div>
+														</div>
+														<div class="product-details">
+															<div class="product-title text-center">
+																<a th:href="@{/productDetail?id=}+${product.id}"><h4 th:text="${product.title}"></h4></a>
+															</div>
+															<div class="product-pd">
+																<div class="product-price"><a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: large; color: #db3208;">$<span
+												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
+												</div>
+																<div class="product-discount"><span style="text-decoration: line-through;color:#b3b3b3;">$<span
+												th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
+												</div>															
+															</div>
+															<div class="product-review" style="display:none;">
+																<div class="star">
+																	<span class="yes"><i class="fa fa-star"></i></span> <span
+																		class="yes"><i class="fa fa-star"></i></span> <span
+																		class="yes"><i class="fa fa-star"></i></span> <span
+																		class="yes"><i class="fa fa-star"></i></span> <span
+																		class="yes"><i class="fa fa-star"></i></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</li>
+											</div>
+
+									</ul>
+								</div>
+							</div>
+						</div>
+					</section>
+								
+					
+					
+					<!-- Featured Product End-->
+					<!-- Product Tab Start-->
+	<section id="product-tab" class="product-tab col-md-12" style="padding-left:0px!important;">
+						<ul class="nav nav-tabs">
+							<li class="active"><a data-toggle="tab" href="#tab-latest">Latest</a></li>
+							<li><a data-toggle="tab" href="#tab-bestseller">Best Seller</a></li>
+							<li><a data-toggle="tab" href="#tab-special">Special</a></li>
+						</ul>
+
+					
+					<div class="tab-content">
+						<div id="tab-latest" class="tab-pane fade in active">
+							<div class="product-box">
+								<ul class="product-container">
+									<div class="product-item" data-th-each="product : ${productList}" th:if="${product.feature == 'latest'}">
+										
+										
+											<li class="col-md-2 col-sm-6">
+												<div class="slide-inner">
+													<div class="product-singleArea">
+														<div class="product-img">
+															<div class="overlay"></div>
+															<div class="overlay_product">
+																<div class="addedtocart_product">Added
+																	to cart</div>
+															</div>
+															<a th:href="@{/productDetail?id=}+${product.id}"> 
+															<img
+																class="img-responsive primary_image shelf-product"
+																th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
+															</a>
+															<a
+																th:href="@{/productDetail?id=}+${product.id}"> 
+																<img
+																class="img-responsive hover_image"
+																th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
+															</a>
+															<div class="offer-nostock">new</div>
+															<div class="product-cart-area">
+																<div class="btn-others">
+																	<ul>
+																		<li><a href=""><i class="fa fa-heart-o"></i></a></li>
+																		<li><a href=""><i class="fa fa-exchange"></i></a></li>
+																		<li><a href="detail.html"><i
+																				class="fa fa-expand"></i></a></li>
+																	</ul>
+																</div>
+																<div class="btn-add-to-cart cart-btn">
+																	<a href="">
+																		<span class="glyphicon glyphicon-shopping-cart"></span>ADD
+																		TO CART
+																	</a>
+																</div>
+															</div>
+														</div>
+														<div class="product-details">
+															<div class="product-title text-center">
+																<a th:href="@{/productDetail?id=}+${product.id}"><h4 th:text="${product.title}"></h4></a>
+															</div>
+															<div class="product-pd">
+																<div class="product-price"><a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: large; color: #db3208;">$<span
+												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
+												</div>
+																<div class="product-discount"><span style="text-decoration: line-through;color:#b3b3b3;">$<span
+												th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
+												</div>															
+															</div>
+															<div class="product-review" style="display:none;">
+																<div class="star">
+																	<span class="yes"><i class="fa fa-star"></i></span> <span
+																		class="yes"><i class="fa fa-star"></i></span> <span
+																		class="yes"><i class="fa fa-star"></i></span> <span
+																		class="yes"><i class="fa fa-star"></i></span> <span
+																		class="yes"><i class="fa fa-star"></i></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</li>
+										
+										</div>
+								
+								</ul>
+							
+							</div>
+						</div>
+						<div id="tab-bestseller" class="tab-pane fade">
+							<div class="product-box">
+								<ul class="product-container">
+									<div class="product-item" data-th-each="product : ${productList}" th:if="${product.feature == 'bestseller'}">
+										
+										
+											<li class="col-md-2 col-sm-6">
+												<div class="slide-inner">
+													<div class="product-singleArea">
+														<div class="product-img">
+															<div class="overlay"></div>
+															<div class="overlay_product">
+																<div class="addedtocart_product">Added
+																	to cart</div>
+															</div>
+															<a th:href="@{/productDetail?id=}+${product.id}"> 
+															<img
+																class="img-responsive primary_image shelf-product"
+																th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
+															</a>
+															<a
+																th:href="@{/productDetail?id=}+${product.id}"> 
+																<img
+																class="img-responsive hover_image"
+																th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
+															</a>
+															<div class="offer-nostock">new</div>
+															<div class="product-cart-area">
+																<div class="btn-others">
+																	<ul>
+																		<li><a href=""><i class="fa fa-heart-o"></i></a></li>
+																		<li><a href=""><i class="fa fa-exchange"></i></a></li>
+																		<li><a href="detail.html"><i
+																				class="fa fa-expand"></i></a></li>
+																	</ul>
+																</div>
+																<div class="btn-add-to-cart cart-btn">
+																	<a href="">
+																		<span class="glyphicon glyphicon-shopping-cart"></span>ADD
+																		TO CART
+																	</a>
+																</div>
+															</div>
+														</div>
+														<div class="product-details">
+															<div class="product-title text-center">
+																<a th:href="@{/productDetail?id=}+${product.id}"><h4 th:text="${product.title}"></h4></a>
+															</div>
+															<div class="product-pd">
+																<div class="product-price"><a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: large; color: #db3208;">$<span
+												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
+												</div>
+																<div class="product-discount"><span style="text-decoration: line-through;color:#b3b3b3;">$<span
+												th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
+												</div>															
+															</div>
+															<div class="product-review" style="display:none;">
+																<div class="star">
+																	<span class="yes"><i class="fa fa-star"></i></span> <span
+																		class="yes"><i class="fa fa-star"></i></span> <span
+																		class="yes"><i class="fa fa-star"></i></span> <span
+																		class="yes"><i class="fa fa-star"></i></span> <span
+																		class="yes"><i class="fa fa-star"></i></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</li>
+										
+										</div>
+								
+								</ul>
+							
+							</div>
+						</div>
+						<div id="tab-special" class="tab-pane fade">
+							<div class="product-box">
+								<ul class="product-container">
+									<div class="product-item" data-th-each="product : ${productList}" th:if="${product.feature == 'special'}">
+										
+										
+											<li class="col-md-2 col-sm-6">
+												<div class="slide-inner">
+													<div class="product-singleArea">
+														<div class="product-img">
+															<div class="overlay"></div>
+															<div class="overlay_product">
+																<div class="addedtocart_product">Added
+																	to cart</div>
+															</div>
+															<a th:href="@{/productDetail?id=}+${product.id}"> 
+															<img
+																class="img-responsive primary_image shelf-product"
+																th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
+															</a>
+															<a
+																th:href="@{/productDetail?id=}+${product.id}"> 
+																<img
+																class="img-responsive hover_image"
+																th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
+															</a>
+															<div class="offer-nostock">new</div>
+															<div class="product-cart-area">
+																<div class="btn-others">
+																	<ul>
+																		<li><a href=""><i class="fa fa-heart-o"></i></a></li>
+																		<li><a href=""><i class="fa fa-exchange"></i></a></li>
+																		<li><a href="detail.html"><i
+																				class="fa fa-expand"></i></a></li>
+																	</ul>
+																</div>
+																<div class="btn-add-to-cart cart-btn">
+																	<a href="">
+																		<span class="glyphicon glyphicon-shopping-cart"></span>ADD
+																		TO CART
+																	</a>
+																</div>
+															</div>
+														</div>
+														<div class="product-details">
+															<div class="product-title text-center">
+																<a th:href="@{/productDetail?id=}+${product.id}"><h4 th:text="${product.title}"></h4></a>
+															</div>
+															<div class="product-pd">
+																<div class="product-price"><a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: large; color: #db3208;">$<span
+												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
+												</div>
+																<div class="product-discount"><span style="text-decoration: line-through;color:#b3b3b3;">$<span
+												th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
+												</div>															
+															</div>
+															<div class="product-review" style="display:none;">
+																<div class="star">
+																	<span class="yes"><i class="fa fa-star"></i></span> <span
+																		class="yes"><i class="fa fa-star"></i></span> <span
+																		class="yes"><i class="fa fa-star"></i></span> <span
+																		class="yes"><i class="fa fa-star"></i></span> <span
+																		class="yes"><i class="fa fa-star"></i></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</li>
+										
+										</div>
+								
+								</ul>
+							
+							</div>
+						</div>
+					</div>
+
+</section>
+					
+					
+					<!-- Product Tab End-->
+					
+					
+					
+					<!-- Carousel Start-->
+					<section id="carousel">
+						<ul class="jcarousel-skin-opencart">
+							<li><a href="#"><img src="/image/product/brand_logo.jpg"
+									alt="brand_logo" title="brand_logo" /></a></li>
+							<li><a href="#"><img
+									src="/image/product/brand_logo1.jpg" alt="brand_logo"
+									title="brand_logo" /></a></li>
+							<li><a href="#"><img
+									src="/image/product/brand_logo2.jpg" alt="brand_logo"
+									title="brand_logo" /></a></li>
+							<li><a href="#"><img
+									src="/image/product/brand_logo3.jpg" alt="brand_logo"
+									title="brand_logo" /></a></li>
+							<li><a href="#"><img
+									src="/image/product/brand_logo4.jpg" alt="brand_logo"
+									title="brand_logo" /></a></li>
+							<li><a href="#"><img
+									src="/image/product/brand_logo5.jpg" alt="brand_logo"
+									title="brand_logo" /></a></li>
+						</ul>
+					</section>
+					<!-- Carousel End-->
+
+					<div class="clear"></div>
+				</div>
+
+				<script th:src="@{/js/controller.js}"></script>
+
+				<!-- end of container -->
+				<div th:replace="common/head :: footer" />
+
+				<div th:replace="common/head :: body-bottom-scripts" />
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
