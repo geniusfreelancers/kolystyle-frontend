@@ -44,16 +44,16 @@
 						<br/>
 					<div class="row">
 						<div class="col-xs-6">
-							<h4>Products</h4>
+							<h4>Product</h4>
 						</div>
 						<div class="col-xs-2">
-							<h4>Price</h4>
+							<h4>Unit Price</h4>
 						</div>
 						<div class="col-xs-2">
 							<h4>Qty</h4>
 						</div>
 						<div class="col-xs-2 text-right">
-							<h4>Amount</h4>
+							<h4>Subtotal</h4>
 						</div>
 					</div>
 					<!-- ***************************Display Products in Cart***************************************** -->
@@ -118,17 +118,17 @@
 						<label class="col-md-4 control-label" style="margin-top:5px;" for="promoCode">
 							HAVE A PROMO CODE? </label>
 						<div class="col-md-5">
-							<input th:if="${userShoppingCart}" hidden="hidden" name="id" th:value="${shoppingCart.id}" />
-							<input th:if="${guestShoppingCart}" hidden="hidden" name="id" th:value="${guestBagId}" />
+							<input th:if="${userShoppingCart}" hidden="hidden" name="id" id="cartId" th:value="${shoppingCart.id}" />
+							<input th:if="${guestShoppingCart}" hidden="hidden" name="id" id="cartId" th:value="${guestBagId}" />
 							 <input
-									th:id="enterPromoCode" th:name="promocode"					
+									th:id="enterPromoCode" th:name="promocode"	th:value="${guestPormo}"				
 									class="form-control promoCode" value="" th:type="text"/>
 									
 									<!-- Coupon you applied is not valid th:if="${invalidPromoError}"-->
-									<p id="applyPromoError" class="text-danger">Error dont mess up</p>
+									<p id="applyPromoError"></p>
 						</div>
 						<div class="col-md-3">			
-								<button style="display: none;"
+								<button style="display: none;" 
 									th:id="applyPromoNow" type="submit"
 									class="btn btn-primary btn-md">Apply</button>
 						</div>
@@ -143,14 +143,16 @@
 						<div class="row">
 						
 						<h4 class="col-xs-12 text-right">
-							<strong style="font-size: large;">Total Price (<span
+							<strong style="font-size: large;">Subtotal (<span
 								th:text="${#lists.size(cartItemList)}"></span> items):
-							</strong> <span style="color: #db3208; font-size: large;">$<span th:if="${userShoppingCart}"
+							</strong> <span style="color: #db3208; font-size: large;">$<span id="subtotalamount" th:if="${userShoppingCart}"
 								th:text="${shoppingCart.grandTotal}"></span>
 								
-								<span th:if="${guestShoppingCart}"
+								<span id="subtotalamount" th:if="${guestShoppingCart}"
 								th:text="${guestShoppingCartGrandTotal}"></span>
-								
+								<input th:if="${userShoppingCart}" hidden="hidden" name="id" id="subamount" th:value="${shoppingCart.grandTotal}" />
+								<input th:if="${guestShoppingCart}" hidden="hidden" name="id" id="subamount" th:value="${guestShoppingCartGrandTotal}" />
+							
 								</span>
 						</h4>
 						

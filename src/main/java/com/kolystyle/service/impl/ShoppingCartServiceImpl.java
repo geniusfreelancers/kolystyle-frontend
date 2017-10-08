@@ -88,4 +88,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		guestShoppingCart.setGrandTotal(new BigDecimal(0));
 		guestShoppingCartRepository.save(guestShoppingCart);
 	}
+	
+	//Find Guest Shopping Cart By ID
+	public GuestShoppingCart findByGuestShoppingCartId(String id) {
+		return guestShoppingCartRepository.findByGuestSession(id);
+	}
 }

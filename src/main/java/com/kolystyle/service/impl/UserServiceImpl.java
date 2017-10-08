@@ -15,6 +15,7 @@ import com.kolystyle.domain.User;
 import com.kolystyle.domain.UserBilling;
 import com.kolystyle.domain.UserPayment;
 import com.kolystyle.domain.UserShipping;
+import com.kolystyle.domain.WishList;
 import com.kolystyle.domain.security.PasswordResetToken;
 import com.kolystyle.domain.security.UserRole;
 import com.kolystyle.repository.PasswordResetTokenRepository;
@@ -86,6 +87,11 @@ public class UserServiceImpl implements UserService {
 			ShoppingCart shoppingCart = new ShoppingCart();
 			shoppingCart.setUser(user);
 			user.setShoppingCart(shoppingCart);
+			
+			//Wish List
+			WishList wishList = new WishList();
+			wishList.setUser(user);
+			user.setWishList(wishList);
 			
 			user.setUserShippingList(new ArrayList<UserShipping>());
 			user.setUserPaymentList(new ArrayList<UserPayment>());

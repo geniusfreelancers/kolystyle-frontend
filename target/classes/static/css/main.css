@@ -75,8 +75,13 @@ color: #ffffff;
 .password-rules{
     border:1px solid #e6e2e2;
 }
+.text-red-icon{
+	color:#d22c27!important;
+}
 .password-rules ul li {
-    background: url(https://www.macys.com/sns/web20/assets/img/icon-checked.gif) no-repeat top left;
+    /* background: url(https://www.macys.com/sns/web20/assets/img/icon-checked.gif) no-repeat top left;
+     */
+    
     color: #333333;
     font-size: 1em;
     padding: 0 0 0 40px;
@@ -211,7 +216,6 @@ color: #ffffff;
 }
 .wishlist-price-container{
     background: none repeat scroll 0 0 rgba(204, 204, 204, 0.34);
-    min-height: 230px!important;
     padding: 10px 0px;
  }
 .wishlist-price{

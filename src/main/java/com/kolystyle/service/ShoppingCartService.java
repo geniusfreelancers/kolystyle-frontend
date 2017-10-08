@@ -9,4 +9,6 @@ public interface ShoppingCartService {
 	void clearShoppingCart(ShoppingCart shoppingCart);
 	
 	GuestShoppingCart updateGuestShoppingCart(GuestShoppingCart guestShoppingCart);
+	
+	GuestShoppingCart findByGuestShoppingCartId(String id);
 }

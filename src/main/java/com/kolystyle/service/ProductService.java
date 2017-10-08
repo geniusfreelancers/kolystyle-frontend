@@ -13,6 +13,8 @@ public interface ProductService {
 	 
 	List<Product> findByCategory(String category);
 	
+	List<Product> findBySubCategory(String category, String subCategory, String mainSubCategory);
+	
 	List<Product> blurrySearch(String title);
 	
 

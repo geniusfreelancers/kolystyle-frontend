@@ -72,7 +72,7 @@
                         <a sec:authorize="isAnonymous()" th:href="@{/userlogin}">LOGIN / REGISTER</a>
                         <a sec:authorize="isAuthenticated()" th:href="@{/customer/account}">MY ACCOUNT</a>
                         <a sec:authorize="isAuthenticated()" th:href="@{/logout}">LOGOUT</a>
-                   		<a href="#" id="wishlist-total">Wish List (0)</a>
+                   		<a href="/customer/wishlist" id="wishlist-total">Wish List</a>
                     	<a th:href="@{/shoppingCart/cart}">Checkout</a>
 
                 </div>
@@ -91,51 +91,26 @@
                 <!--Mini Shopping Cart Start-->
                 <section id="cart">
                     <div class="heading">
-                        <h4><img width="32" height="32" alt="" src="/image/cart-bg.png"/></h4>
-                        <a><span id="cart-total">2 item(s) - $710.18</span></a> </div>
+                        <!--h4><img width="32" height="32" alt="" src="/image/cart-bg.png"/></h4-->
+                        <a><i class="fa fa-cart-plus mini-cart-icon" aria-hidden="true"></i><span id="cart-total">&nbsp;Shopping Bag</span></a> </div>
 
 
 
                     <div class="content">
                         <div class="mini-cart-info">
-                            <table>
-                                <tr>
-                                    <td class="image"><a href="product.html"><img src="/image/product/Jeep-Casual-Shoes-210x210.jpg" alt="Lotto Sports Shoes" title="Lotto Sports Shoes" /></a></td>
-                                    <td class="name"><a href="product.html">Lotto Sports Shoes</a></td>
-                                    <td class="quantity">x&nbsp;1</td>
-                                    <td class="total">$589.50</td>
-                                    <td class="remove"><img src="/image/remove-small.png" alt="Remove" title="Remove" /></td>
-                                </tr>
-                                <tr>
-                                    <td class="image"><a href="product.html"><img src="/image/product/iphone_1-200x200.jpg" alt="iPhone 4s" title="iPhone 4s" /></a></td>
-                                    <td class="name"><a href="product.html">iPhone 4s</a></td>
-                                    <td class="quantity">x&nbsp;1</td>
-                                    <td class="total">$120.68</td>
-                                    <td class="remove"><img src="/image/remove-small.png" alt="Remove" title="Remove" /></td>
-                                </tr>
+                            <table id="cart-item-list">
+                            	
+                                
+                                
                             </table>
                         </div>
                         <div class="mini-cart-total">
-                            <table>
-                                <tr>
-                                    <td class="right"><b>Sub-Total:</b></td>
-                                    <td class="right">$601.00</td>
-                                </tr>
-                                <tr>
-                                    <td class="right"><b>Eco Tax (-2.00):</b></td>
-                                    <td class="right">$4.00</td>
-                                </tr>
-                                <tr>
-                                    <td class="right"><b>VAT (17.5%):</b></td>
-                                    <td class="right">$105.18</td>
-                                </tr>
-                                <tr>
-                                    <td class="right"><b>Total:</b></td>
-                                    <td class="right">$710.18</td>
-                                </tr>
+                            <table id="mini-cart-total">
+                                
+                               
                             </table>
                         </div>
-                        <div class="checkout"><a class="button" href="cart.html">View Cart</a> &nbsp; <a class="button" href="checkout.html">Checkout</a></div>
+                        <div class="checkout" id="mini-cart-checkout"></div>
                     </div>
                 </section>
                 <!--Mini Shopping Cart End-->
@@ -147,104 +122,100 @@
             <nav id="menu">
                 <ul>
                     <li class="home"><a title="Home" href="/"><span>Home</span></a></li>
-                    <li class="categories_hor"><a>SAREE</a>
+                    <li class="categories_hor"><a href="/searchByCategory?category=saree">SAREE</a>
                         <div>
-                            <div class="column"> <a href="/product/productList/mens/kurthi">Occasion</a>
+                            <div class="column"> <a href="/searchBySubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=none">Occasion</a>
                                 <div>
                                     <ul>
-                                        <li><a href="category.html">Wedding Wear</a></li>
-                                        <li><a href="category.html">Desktops (0)</a></li>
-                                        <li><a href="category.html">Components (1)</a></li>
-                                        <li><a href="category.html">Software (1)</a></li>
-                                        <li><a href="category.html">Phones &amp; PDAs (4)</a></li>
-                                        <li><a href="category.html">Cameras (2)</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=wedding">Wedding Wear</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=party">Party Wear</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=bridal">Bridal Wear</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=festive">Festive Wear</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=casual">Casual Wear</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=occasion">All Occasions...</a></li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="column"> <a href="category.html">Style</a>
+                            <div class="column"> <a href="/searchBySubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=">Style</a>
                                 <div>
                                     <ul>
-                                        <li><a href="category.html">Children's Jewellery (0)</a></li>
-                                        <li><a href="category.html">Men's Jewellery (1)</a></li>
-                                        <li><a href="category.html">Women's Jewellery (0)</a></li>
-                                        <li><a href="category.html">Sample Test (0)</a></li>
-                                        <li><a href="category.html">Sample Test11 (0)</a></li>
-                                        <li><a href="category.html">Sample Test12 (0)</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=kanchipuram">Kanchipuram Saree</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=banarasi">Banarasi Saree</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=ombre">Ombre Sarees</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=prestiched">Pre-stitched Sarees</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=handloom">Handloom Saree</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=style">All styles...</a></li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="column"> <a href="category.html">Fabric</a>
+                            <div class="column"> <a href="/searchBySubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=">Fabric</a>
                                 <div>
                                     <ul>
-                                        <li><a href="category.html">Children's Shoes (1)</a></li>
-                                        <li><a href="category.html">Men's Shoes (2)</a></li>
-                                        <li><a href="category.html">Women's Shoes (1)</a></li>
-                                        <li><a href="category.html">Test Sample (0)</a></li>
-                                        <li><a href="category.html">Test Sample1 (0)</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=cotton">Cotton Saree</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=silk">Silk Saree</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=art">Art Silk Saree</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=georgette">Georgette Saree</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=chiffon">Chiffon Saree</a></li>
+                                        <li><a href="/searchBySubCategory?category=Saree&amp;subCategory=fabric">All Fabrics...</a></li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="column"> <a href="category.html">More</a>
+                            <div class="column"> <a href="/searchByCategory?category=saree">More</a>
                                 <div>
                                     <ul>
-                                        <li><a href="category.html">Men (1)</a></li>
-                                        <li><a href="category.html">Women (1)</a></li>
-                                        <li><a href="category.html">Boys (0)</a></li>
-                                        <li><a href="category.html">Girls (0)</a></li>
-                                        <li><a href="category.html">Accessories (0)</a></li>
-                                        <li><a href="category.html">Sample Test21 (0)</a></li>
+                                        <li><a href="/searchByCategory?category=blouse">Blouse</a></li>
+                                        <li><a href="/searchByCategory?category=petticoat">Petticoat</a></li>
                                     </ul>
                                 </div>
                             </div>
                            
                         </div>
                     </li>
-                    <li class="categories_hor"><a>SALWAR KAMEEZ</a>
+                    <li class="categories_hor"><a href="/searchByCategory?category=Salwar">SALWAR KAMEEZ</a>
                         <div>
-                            <div class="column"> <a href="category.html">Occasion</a>
+                            <div class="column"> <a href="/searchBySubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=">Occasion</a>
                                 <div>
                                     <ul>
-                                        <li><a href="category.html">Laptops (0)</a></li>
-                                        <li><a href="category.html">Desktops (0)</a></li>
-                                        <li><a href="category.html">Components (1)</a></li>
-                                        <li><a href="category.html">Software (1)</a></li>
-                                        <li><a href="category.html">Phones &amp; PDAs (4)</a></li>
-                                        <li><a href="category.html">Cameras (2)</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=wedding">Wedding Wear</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=party">Party Wear</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=festive">Festive Wear</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=casual">Casual Wear</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=occasion">All Occasions...</a></li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="column"> <a href="category.html">Style</a>
+                            <div class="column"> <a href="/searchBySubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=">Style</a>
                                 <div>
                                     <ul>
-                                        <li><a href="category.html">Children's Jewellery (0)</a></li>
-                                        <li><a href="category.html">Men's Jewellery (1)</a></li>
-                                        <li><a href="category.html">Women's Jewellery (0)</a></li>
-                                        <li><a href="category.html">Sample Test (0)</a></li>
-                                        <li><a href="category.html">Sample Test11 (0)</a></li>
-                                        <li><a href="category.html">Sample Test12 (0)</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=anarkali">Anarkali Style</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=straight">Straight Style</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=abaya">Abaya Style</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=pakistani">Pakistani Style</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=punjabi">Punjabi Style</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=style">All styles...</a></li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="column"> <a href="category.html">Fabric</a>
+                            <div class="column"> <a href="/searchBySubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=">Fabric</a>
                                 <div>
                                     <ul>
-                                        <li><a href="category.html">Children's Shoes (1)</a></li>
-                                        <li><a href="category.html">Men's Shoes (2)</a></li>
-                                        <li><a href="category.html">Women's Shoes (1)</a></li>
-                                        <li><a href="category.html">Test Sample (0)</a></li>
-                                        <li><a href="category.html">Test Sample1 (0)</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=chanderi">Chanderi Suits</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=georgette">Georgette Suits</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=cotton">Cotton Suits</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=net">Net Suits</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=art">Art Silk Suits</a></li>
+                                        <li><a href="/searchBySubCategory?category=Salwar&amp;subCategory=fabric">All Fabrics...</a></li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="column"> <a href="category.html">Alternates</a>
+                            <div class="column"> <a href="/searchByCategory?category=Salwar">Alternates</a>
                                 <div>
                                     <ul>
-                                        <li><a href="category.html">Men (1)</a></li>
-                                        <li><a href="category.html">Women (1)</a></li>
-                                        <li><a href="category.html">Boys (0)</a></li>
-                                        <li><a href="category.html">Girls (0)</a></li>
-                                        <li><a href="category.html">Accessories (0)</a></li>
-                                        <li><a href="category.html">Sample Test21 (0)</a></li>
+                                        <li><a href="/searchByCategory?category=Kurtas">Long Kurtas</a></li>
+                                        <li><a href="/searchByCategory?category=Tunics">Tunics</a></li>
+                                        <li><a href="/searchByCategory?category=Bottoms">Bottoms</a></li>
+                                        <li><a href="/searchByCategory?category=Dupattas">Dupattas</a></li>
+                                        <li><a href="/searchByCategory?category=Gowns">Gowns</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -253,41 +224,50 @@
                     </li>
                     <li class="categories_hor"><a>LEHENGA</a>
                         <div>
-                            <div class="column"> <a href="category.html">Occasion</a>
+                            <div class="column"> <a href="/searchBySubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=">Occasion</a>
                                 <div>
                                     <ul>
-                                        <li><a href="category.html">Laptops (0)</a></li>
-                                        <li><a href="category.html">Desktops (0)</a></li>
-                                        <li><a href="category.html">Components (1)</a></li>
-                                        <li><a href="category.html">Software (1)</a></li>
-                                        <li><a href="category.html">Phones &amp; PDAs (4)</a></li>
-                                        <li><a href="category.html">Cameras (2)</a></li>
+                                        <li><a href="/searchBySubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=wedding">Wedding Wear</a></li>
+                                        <li><a href="/searchBySubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=party">Party Wear</a></li>
+                                        <li><a href="/searchBySubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=festive">Festive Wear</a></li>
+                                        <li><a href="/searchBySubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=bridal">Bridal Wear</a></li>
+                                        <li><a href="/searchBySubCategory?category=Lehenga&amp;subCategory=occasion">All Occasions...</a></li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="column"> <a href="category.html">Style</a>
+                            <div class="column"> <a href="/searchBySubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=">Style</a>
                                 <div>
                                     <ul>
-                                        <li><a href="category.html">Children's Jewellery (0)</a></li>
-                                        <li><a href="category.html">Men's Jewellery (1)</a></li>
-                                        <li><a href="category.html">Women's Jewellery (0)</a></li>
-                                        <li><a href="category.html">Sample Test (0)</a></li>
-                                        <li><a href="category.html">Sample Test11 (0)</a></li>
-                                        <li><a href="category.html">Sample Test12 (0)</a></li>
+                                        <li><a href="/searchBySubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=circular">Circular Style</a></li>
+                                        <li><a href="/searchBySubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=aline">A-Line Lehenga</a></li>
+                                        <li><a href="/searchBySubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=mermaid">Mermaid Style</a></li>
+                                        <li><a href="/searchBySubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=indowestern">Indowestern Lehenga</a></li>
+                                        <li><a href="/searchBySubCategory?category=Lehenga&amp;subCategory=style">All styles...</a></li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="column"> <a href="category.html">Fabric</a>
+                            <div class="column"> <a href="/searchBySubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=">Fabric</a>
                                 <div>
                                     <ul>
-                                        <li><a href="category.html">Children's Shoes (1)</a></li>
-                                        <li><a href="category.html">Men's Shoes (2)</a></li>
-                                        <li><a href="category.html">Women's Shoes (1)</a></li>
-                                        <li><a href="category.html">Test Sample (0)</a></li>
-                                        <li><a href="category.html">Test Sample1 (0)</a></li>
+                                        <li><a href="/searchBySubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=silk">Silk Lehenga</a></li>
+                                        <li><a href="/searchBySubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=georgette">Georgette Lehenga</a></li>
+                                        <li><a href="/searchBySubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=velvet">Velvet Lehenga</a></li>
+                                        <li><a href="/searchBySubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=net">Net Lehenga</a></li>
+                                        <li><a href="/searchBySubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=art">Art Silk Lehenga</a></li>
+                                        <li><a href="/searchBySubCategory?category=Lehenga&amp;subCategory=fabric">All Fabrics...</a></li>
                                     </ul>
                                 </div>
                             </div>
+                            <div class="column"> <a href="/searchByCategory?category=Lehenga">Alternates</a>
+                                <div>
+                                    <ul>
+                                        <li><a href="/searchByCategory?category=Abaya">Abaya Style Suit</a></li>
+                                        <li><a href="/searchByCategory?category=LehengaSaree">Lehenga Style Saree</a></li>
+                                        <li><a href="/searchByCategory?category=Gowns">Gowns</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
                         </div>
                     </li>
                    
@@ -297,12 +277,25 @@
                                 <li>
                                     <table border="0" cellpadding="0" cellspacing="0" style="width: 500px;">
                                         <tbody>
+                                        
                                         <tr>
-                                            <td><h3>You can insert any content here.</h3>
-                                                <p>&nbsp;</p></td>
+                                            <td><strong><img alt="responsive" src="/image/gown.jpg" style="width: 250px; height: 150px; border-width: 0px; border-style: solid; float: left; margin-left: 10px; margin-right: 10px;" />Lorem Ipsum</strong> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing.</td>
                                         </tr>
+                                        </tbody>
+                                    </table>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="">JEWELRY</a>
+                        <div class="custom_block">
+                            <ul>
+                                <li>
+                                    <table border="0" cellpadding="0" cellspacing="0" style="width: 500px;">
+                                        <tbody>
+                                        
                                         <tr>
-                                            <td><strong><img alt="responsive" src="/image/product/responsive.jpg" style="width: 250px; height: 150px; border-width: 0px; border-style: solid; float: left; margin-left: 10px; margin-right: 10px;" />Lorem Ipsum</strong> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing.</td>
+                                            <td><strong><img alt="responsive" src="/image/jewels.jpg" style="width: 250px; height: 150px; border-width: 0px; border-style: solid; float: left; margin-left: 10px; margin-right: 10px;" />Lorem Ipsum</strong> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing.</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -313,10 +306,10 @@
                     <li><a>My Account</a>
                         <div>
                             <ul>
-                                <li><a href="#">My Account</a></li>
-                                <li><a href="#">Order History</a></li>
-                                <li><a href="#" id="wishlist-total">Wish List (0)</a></li>
-                                <li><a href="#">Newsletter</a></li>
+                                <li><a th:href="@{/customer/account}">My Account</a></li>
+                                <li><a href="/customer/orderhistory">Order History</a></li>
+                                <li><a href="/customer/wishlist" id="wishlist-total">My Wish List</a></li>
+                                <li><a href="/ordertracking">Track Order</a></li>
                             </ul>
                         </div>
                     </li>
@@ -472,7 +465,7 @@
 	<div th:fragment="customersidebar">
 	<!---->
 <aside class="sidenav" role="navigation">
-    <p class="heading border-btm-blk"><a id="common-heading" href="/customer">my account</a></p>
+    <p class="heading border-btm-blk"><a id="common-heading" href="/customer/account">my account</a></p>
     <!-- Sidebar -->
     <ul class="side-nav">
 
@@ -485,15 +478,15 @@
 
         <li class=""><a href="/customer/wallet">My Wallet</a></li>
 
-        <li class=""><a href="/customer/wishlist/mylist">My Lists</a></li>
+        <li class=""><a href="/customer/wishlist">My Lists</a></li>
 
         <li class="sub-head">MY ORDERS</li>
 
         <li class=""><a href="/customer/orderhistory">My Order History</a></li>
 
-        <li class="sub-head">GIFT CARDS</li>
+        <!-- li class="sub-head">GIFT CARDS</li>
 
-        <li class=""><a href="/customer/giftcards">Gift Card Balance</a></li>
+        <li class=""><a href="/customer/giftcards">Gift Card Balance</a></li-->
 
     </ul>
     <!-- End Sidebar -->

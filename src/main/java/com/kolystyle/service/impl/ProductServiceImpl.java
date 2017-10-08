@@ -47,6 +47,50 @@ public class ProductServiceImpl implements ProductService{
 		return activeProductList;
 	}
 	
+	
+	public List<Product> findBySubCategory(String category, String subCategory, String mainSubCategory){
+		List<Product> productList = productRepository.findByCategory(category);
+		/*List<Product> productSubList = productRepository.findBySubCategory(subCategory);
+		List<Product> producMaintList = productRepository.findByMainSubCategory(mainSubCategory);*/
+		
+		List<Product> activeProductList = new ArrayList<>();
+		
+		for(Product product: productList){
+			if(product.isActive()){
+				activeProductList.add(product);
+			}
+		}
+		
+		List<Product> validProductList = new ArrayList<>();
+		
+		for(Product product: activeProductList){
+			String subCat = product.getSubCategory();
+			String submainCat = product.getMainSubCategory();
+			
+			
+				if(subCategory == "" || subCategory.isEmpty() || subCategory.equalsIgnoreCase("none") || subCategory == null) {
+					validProductList.add(product);
+				}else{
+					if(subCat != null) {
+						if(subCat.equalsIgnoreCase(subCategory)){
+							if(mainSubCategory == "" || mainSubCategory.isEmpty() || mainSubCategory.equalsIgnoreCase("none") || mainSubCategory == null) {
+								validProductList.add(product);
+							}else{
+								if(submainCat != null) {
+									if(submainCat.equalsIgnoreCase(mainSubCategory)) {
+										validProductList.add(product);
+									}
+								}
+							} 
+						}
+					}
+					
+				}	
+			}
+
+		return validProductList;
+	}
+	
 	public List<Product> blurrySearch(String title){
 		List<Product> productList = productRepository.findByTitleContaining(title);
 		

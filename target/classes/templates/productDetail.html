@@ -12,6 +12,7 @@
 <div class="row">
 <form th:action="@{/shoppingCart/addItem}" method="post">
 	<input hidden="hidden" th:field="*{product.id}"/>
+	<input hidden="hidden" th:id="'id-addingtocart-'+${product.id}" name="id" th:value="${product.id}"/>
 	<div class="rows" style="margin-top:20px;">
 	<div class="col-md-3 col-md-offset-1">
 	<a th:href="@{/productshelf}">Back to Product List</a><br/>
@@ -44,6 +45,16 @@
 				<h4>Our Price: <span style="color:#db3208;">$<span th:text="${product.ourPrice}"></span></span></h4>
 				<p>List Price: <span style="text-decoration:line-through;">$<span th:text="${product.listPrice}"></span></span></p>
 				<p>You save: $<span th:text="${#numbers.formatDecimal((product.listPrice - product.ourPrice),0 , 'COMMA',2,'POINT')}"></span></p>
+			
+			<span>Size: </span>
+				<select name="size">
+				<option value="40">40</option>
+				<option value="41">41</option>
+				<option value="42">42</option>
+				<option value="43">43</option>
+				<option value="44">44</option>
+				</select>
+				<br/><br/>
 				<span>Qty: </span>
 				<select name="qty">
 				<option th:each="qty : ${qtyList}" th:value="${qty}" th:text="${qty}"></option>
@@ -55,6 +66,10 @@
 				<h4 th:if="*{product.inStockNumber&lt;10 and product.inStockNumber&gt;0}" style="color:green">Only <span th:text="${product.inStockNumber}"></span> In Stock</h4>
 				<h4 th:if="*{product.inStockNumber==0}" style="color:darkred;">Unavailable</h4>
 				<button type="submit" class="btn btn-danger" style="font-weight:bolder;padding:10px 10px 10px 10px;">ADD TO CART</button>
+				<br/><br/>
+				<a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist">Add to wishlist <i class="fa fa-heart-o "></i></a>
+				<br/><br/>
+				<span th:class="'id-addingtocart-'+${product.id}" id="addedtocart"></span>
 				</div>
 				</div>
 				</div>

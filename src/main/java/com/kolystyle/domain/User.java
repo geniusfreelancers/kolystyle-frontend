@@ -51,6 +51,9 @@ public class User implements UserDetails{
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="user")
 	private ShoppingCart shoppingCart;
 	
+	@OneToOne(cascade=CascadeType.ALL, mappedBy="user")
+	private WishList wishList;
+	
 	@OneToMany(cascade= CascadeType.ALL, mappedBy = "user")
 	private List<UserShipping> userShippingList;
 
@@ -189,6 +192,12 @@ public class User implements UserDetails{
 	
 	
 	
+	public WishList getWishList() {
+		return wishList;
+	}
+	public void setWishList(WishList wishList) {
+		this.wishList = wishList;
+	}
 	public List<Order> getOrderList() {
 		return orderList;
 	}

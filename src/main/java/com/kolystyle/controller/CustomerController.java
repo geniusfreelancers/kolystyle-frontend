@@ -270,6 +270,7 @@ public class CustomerController {
 		
 		List<String> stateList = USConstants.listOfUSStatesCode;
 		Collections.sort(stateList);
+		model.addAttribute("stateList",stateList);
         return "addcard";
     }
 	

@@ -13,13 +13,13 @@
 					<section class="slider-wrapper">
 						<div id="slideshow" class="nivoSlider">
 							<a class="nivo-imageLink"
-								href="http://themeforest.net/item/polishop-responsive-ecommerce-html-template/4410285?ref=harnishdesign"><img
-								src="/image/slider/slide-1.jpg" alt="slide-1" /></a> <a
+								href="/searchByCategory?category=Management"><img
+								src="/image/slider/homebanner.gif" alt="slide-1" /></a> <a
 								class="nivo-imageLink"
-								href="http://themeforest.net/item/polishop-responsive-ecommerce-html-template/4410285?ref=harnishdesign"><img
+								href="/searchByCategory?category=Programming"><img
 								src="/image/slider/slide-2.jpg" alt="slide-2" /></a> <a
 								class="nivo-imageLink"
-								href="http://themeforest.net/item/polishop-responsive-ecommerce-html-template/4410285?ref=harnishdesign"><img
+								href="/searchByCategory?category=Friction"><img
 								src="/image/slider/slide-3.jpg" alt="slide-3" /></a>
 						</div>
 					</section>
@@ -96,14 +96,14 @@
 									<ul class="slides slidercontainer">
 									<div class="product-item" data-th-each="product : ${productList}" th:if="${product.feature == 'featured'}">
 											<!---->
-											<li class="col-md-2 col-sm-6">
+											<li class="col-md-2 col-sm-6 compact-container">
 												<div class="slide-inner">
 													<div class="product-singleArea">
 														<div class="product-img">
 															<div class="overlay"></div>
 															<div class="overlay_product">
-																<div class="addedtocart_product">Added
-																	to cart</div>
+																<!-- div class="addedtocart_product">Added
+																	to cart</div-->
 															</div>
 															<a th:href="@{/productDetail?id=}+${product.id}"> 
 															<img
@@ -120,17 +120,20 @@
 															<div class="product-cart-area">
 																<div class="btn-others">
 																	<ul>
-																		<li><a href=""><i class="fa fa-heart-o"></i></a></li>
-																		<li><a href=""><i class="fa fa-exchange"></i></a></li>
+																		<li><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
+                                        								<li><a href=""><i class="fa fa-exchange"></i></a></li>
 																		<li><a href="detail.html"><i
 																				class="fa fa-expand"></i></a></li>
 																	</ul>
 																</div>
 																<div class="btn-add-to-cart cart-btn">
-																	<a href="">
-																		<span class="glyphicon glyphicon-shopping-cart"></span>ADD
-																		TO CART
-																	</a>
+																	<form method="post" >
+																	<input hidden="hidden" th:id="'id-addingtocart-'+${product.id}" name="id" th:value="${product.id}"/>
+																	<input hidden="hidden" id="qty" name="qty" value="1"/>
+										
+																	<a href="" th:id="'addingtocart-'+${product.id}" class="cart"><span class="glyphicon glyphicon-shopping-cart"></span>ADD TO CART</a>
+									
+																	</form>
 																</div>
 															</div>
 														</div>
@@ -142,7 +145,9 @@
 																<div class="product-price"><a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: large; color: #db3208;">$<span
 												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
 												</div>
-																<div class="product-discount"><span style="text-decoration: line-through;color:#b3b3b3;">$<span
+																<div class="product-discount">
+																<span th:class="'id-addingtocart-'+${product.id}" id="addedtocart"></span>
+																<span style="text-decoration: line-through;color:#b3b3b3;">$<span
 												th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
 												</div>															
 															</div>
@@ -186,14 +191,14 @@
 									<div class="product-item" data-th-each="product : ${productList}" th:if="${product.feature == 'latest'}">
 										
 										
-											<li class="col-md-2 col-sm-6">
+											<li class="col-md-2 col-sm-6 compact-container">
 												<div class="slide-inner">
 													<div class="product-singleArea">
 														<div class="product-img">
 															<div class="overlay"></div>
 															<div class="overlay_product">
-																<div class="addedtocart_product">Added
-																	to cart</div>
+																<!--div class="addedtocart_product">Added
+																	to cart</div-->
 															</div>
 															<a th:href="@{/productDetail?id=}+${product.id}"> 
 															<img
@@ -262,14 +267,14 @@
 									<div class="product-item" data-th-each="product : ${productList}" th:if="${product.feature == 'bestseller'}">
 										
 										
-											<li class="col-md-2 col-sm-6">
+											<li class="col-md-2 col-sm-6 compact-container">
 												<div class="slide-inner">
 													<div class="product-singleArea">
 														<div class="product-img">
 															<div class="overlay"></div>
 															<div class="overlay_product">
-																<div class="addedtocart_product">Added
-																	to cart</div>
+																<!--div class="addedtocart_product">Added
+																	to cart</div-->
 															</div>
 															<a th:href="@{/productDetail?id=}+${product.id}"> 
 															<img
@@ -338,14 +343,14 @@
 									<div class="product-item" data-th-each="product : ${productList}" th:if="${product.feature == 'special'}">
 										
 										
-											<li class="col-md-2 col-sm-6">
+											<li class="col-md-2 col-sm-6 compact-container">
 												<div class="slide-inner">
 													<div class="product-singleArea">
 														<div class="product-img">
 															<div class="overlay"></div>
 															<div class="overlay_product">
-																<div class="addedtocart_product">Added
-																	to cart</div>
+																<!--div class="addedtocart_product">Added
+																	to cart</div-->
 															</div>
 															<a th:href="@{/productDetail?id=}+${product.id}"> 
 															<img

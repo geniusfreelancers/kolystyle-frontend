@@ -9,6 +9,8 @@ import com.kolystyle.domain.Product;
 public interface ProductRepository extends CrudRepository<Product, Long> {
 
 	List<Product> findByCategory(String category);
+	/*List<Product> findBySubCategory(String subCategory);
+	List<Product> findByMainSubCategory(String mainSubCategory);*/
 	
 	List<Product> findByTitleContaining(String title);
 }

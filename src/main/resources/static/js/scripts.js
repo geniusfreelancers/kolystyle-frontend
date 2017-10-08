@@ -1,6 +1,88 @@
 /**
  * 
  */
+//Apply Promo
+//Add New Category
+$(function() {
+	$('#applyPromoNow').click(
+	        function() {
+	            $.post("/shoppingCart/applyPromoCode", {
+	            	id : $('#cartId').val(),
+	            	promocode : $('#enterPromoCode').val(),
+	                ajax : 'true'
+	            }, function(data) {
+	            	var code = $('#enterPromoCode').val();
+	                var newamount = $('#subamount').val();
+	                var htmls = '';
+	              //  var len = data.length;
+	               
+	                if(data){
+	                    htmls += '<p><span>'+data.id+'</span><span>'+data.couponCode+'</span><span>'+data.promoValue+'</span>';
+	                    if(data.percentOrDollar == "dollar"){
+	                    	newamount = newamount - data.promoValue;
+	                    }else{
+	                    	var updated = data.promoValue;
+	                    	newamount = newamount+((updated/newamount)*100);
+	                    }
+	                    
+	                }else{
+	                	htmls += '<p style="color:red">'+code+' is not a valid code</p>';
+	                }
+	                
+	                    
+	                $('#applyPromoError').show();
+	                $('#applyPromoError').html(htmls);
+	                $('#subtotalamount').html(newamount);
+	              //  $('#enterPromoCode').prop( "disabled", true );
+	                
+	                
+	                
+	            });
+	            return false;
+	        });
+  });
+//Update Mini Cart Category.
+
+$(function() {
+	$('#cart-total').click(
+	        function() {
+	            $.getJSON("/shoppingCart/minicart", {
+	               // id : $(this).val(),
+	            	id : 2,
+	                ajax : 'true'
+	            }, function(data) {
+	                var html = '';
+	                var htmls ='';
+	                var len = data.length;
+	                if(len < 1 ){
+	                	html += '<td>You have no items in your shopping bag.</td>';
+	                }else{
+	                for ( var i = 0; i < len; i++) {
+	                	
+	                	 html +='<tr><td class="image"><a href="/productDetail?id='+data[i].product.id+'"><img src="http://localhost:8089/adminportal/image/product/'+data[i].product.id+'/'+data[i].product.coverImageName+'" alt="'+data[i].product.title+'" title="'+data[i].product.title+'" /></a></td><td class="name"><a href="/productDetail?id='+data[i].product.id+'">'+data[i].product.title+'</a></td><td class="quantity">x&nbsp;'+data[i].qty+'</td><td class="total">$'+data[i].product.ourPrice * data[i].qty+'</td></tr>';
+	                	 
+	                
+	                }	
+	                if(data[len-1].shoppingCart ==null){
+	                	htmls= '<tr><td class="right"><b>Your Bag Total:</b></td><td class="right">$'+data[len-1].guestShoppingCart.grandTotal+'</td></tr>';
+	                }else{
+	                	htmls= '<tr><td class="right"><b>Your Bag Total:</b></td><td class="right">$'+data[len-1].shoppingCart.grandTotal+'</td></tr>';
+	                	
+	                }
+	                var checkBtn = '<a class="button" href="/shoppingCart/cart">Checkout</a>';
+	                }    
+	                $('#cart-item-list').html(html);
+	                $('#mini-cart-total').html(htmls);
+	                $('#mini-cart-checkout').html(checkBtn);
+	                });
+	                
+	                
+	               
+	            });
+	        });
+ 
+
+
 function checkBillingAddress(){
 	if($("#theSameAsShippingAddress").is(":checked")){
 		$(".billingAddress").prop("disabled",true);
@@ -95,6 +177,32 @@ $(document).ready(function(){
 	
 	
 });
+
+//Add Product to WishList
+$(function() {
+    $(".addingtowishlist").click(function() {
+    	var id=this.id;
+      // validate and process form here
+    	var ids = $("#id-"+id).val();
+    	
+    	var dataString = 'id='+ ids;
+    	$.ajax({
+    	    type: "POST",
+    	    url: "/customer/addtolist?id="+ids,
+    	    data: dataString,
+    	    success: function() {
+    	    $(".id-"+id).html("<a href='/customer/wishlist'>Added to Wishlist</a>").show();
+    	    $(".id-"+id).fadeOut(10000);
+    	    //  alert("Submitted"+id);
+    	    }
+    	  });
+    	  return false;
+    });
+  });
+
+
+
+
 //Add Product to cart
 $(function() {
     $(".cart").click(function() {
@@ -108,7 +216,7 @@ $(function() {
     	    url: "/shoppingCart/addItem",
     	    data: dataString,
     	    success: function() {
-    	    $(".id-"+id).html("Added to cart").show();
+    	    $(".id-"+id).html("<a href='/shoppingCart/cart' class='addedtocart'>Added to cart</a>").show();
     	    $(".id-"+id).fadeOut(10000);
     	    //  alert("Submitted"+id);
     	    }
@@ -119,7 +227,7 @@ $(function() {
 
 
 
-$(function(){
+/*$(function(){
 	$('#applyPromoNow').click(function(){
 		var promocode = $('#enterPromoCode').val();
 		if(promocode ==""){
@@ -142,5 +250,5 @@ $(function(){
 			});
 		}
 	});
-});
+});*/
 

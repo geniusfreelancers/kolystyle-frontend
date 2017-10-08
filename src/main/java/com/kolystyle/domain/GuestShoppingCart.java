@@ -31,6 +31,10 @@ public class GuestShoppingCart {
 	@JsonIgnore
 	private List<CartItem> cartItemList;
 
+	private String promoCode;
+	
+	private BigDecimal promoTotal;
+	
 	public Long getId() {
 		return id;
 	}
@@ -72,6 +76,22 @@ public class GuestShoppingCart {
 
 	public void setCartItemList(List<CartItem> cartItemList) {
 		this.cartItemList = cartItemList;
+	}
+
+	public String getPromoCode() {
+		return promoCode;
+	}
+
+	public void setPromoCode(String promoCode) {
+		this.promoCode = promoCode;
+	}
+
+	public BigDecimal getPromoTotal() {
+		return promoTotal;
+	}
+
+	public void setPromoTotal(BigDecimal promoTotal) {
+		this.promoTotal = promoTotal;
 	}
 
 	

@@ -71,4 +71,34 @@ public class SearchController {
 		return "productshelf";
 	}
 	
+	@RequestMapping("/searchBySubCategory")
+	public String searchBySubCategory(@RequestParam("category") String category,
+			@RequestParam("subCategory") String subCategory,
+			@RequestParam("mainsubCategory") String mainsubCategory,
+			Model model, Principal principal){
+		
+		if(principal != null){
+			String username = principal.getName();
+			User user = userService.findByUsername(username);
+			model.addAttribute("user", user);
+		}
+		
+		String classActiveCategory = "active"+category;
+		classActiveCategory = classActiveCategory.replaceAll("\\s+", "");
+		classActiveCategory = classActiveCategory.replaceAll("&", "");
+		
+		model.addAttribute("classActiveCategory", true);
+		
+		List<Product> productList = productService.findBySubCategory(category, subCategory, mainsubCategory);
+		
+		if(productList.isEmpty()){
+			model.addAttribute("emptyList", true);
+			return "productshelf";
+		}
+		
+		model.addAttribute("productList",productList);
+		
+		return "productshelf";
+	}
+	
 }

@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Product {
-	
+		
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
@@ -26,6 +26,8 @@ public class Product {
 	private String publicationDate;
 	private String language;
 	private String category;
+	private String subCategory;
+	private String mainSubCategory;
 	private int numberOfPages;
 	private String format;
 	private int isbn;
@@ -106,6 +108,22 @@ public class Product {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public String getSubCategory() {
+		return subCategory;
+	}
+
+	public void setSubCategory(String subCategory) {
+		this.subCategory = subCategory;
+	}
+
+	public String getMainSubCategory() {
+		return mainSubCategory;
+	}
+
+	public void setMainSubCategory(String mainSubCategory) {
+		this.mainSubCategory = mainSubCategory;
 	}
 
 	public int getNumberOfPages() {
