@@ -6,6 +6,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -81,6 +86,43 @@ public class CheckoutController {
 	
 	@Autowired
 	private MailConstructor mailConstructor;
+	
+	@RequestMapping("/guestcheckout")
+	public String guestcheckout(HttpServletRequest request,HttpServletResponse response,Model model ) {
+		HttpSession session = request.getSession();
+		ShoppingCart shoppingCart;
+		Cookie[] cookies = request.getCookies();
+		String cartId = "";
+		boolean foundCookie = false;
+   	 	//Check cookie value
+        for(int i = 0; i < cookies.length; i++) { 
+            Cookie cartID = cookies[i];
+            if (cartID.getName().equals("BagId")) {
+            	cartId = cartID.getValue();
+                System.out.println("BagId = " + cartId);
+                foundCookie = true;
+            }}
+        if(!foundCookie) {
+        	System.out.println("Bag ID IS MISSING");
+        	shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
+        }else {
+        	shoppingCart = shoppingCartService.findCartByBagId(cartId);
+        }
+        
+        List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
+ 
+		ShippingAddress shippingAddress = new ShippingAddress();
+		BillingAddress billingAddress = new BillingAddress();
+		Payment payment = new Payment();
+		
+		model.addAttribute("shippingAddress",shippingAddress);
+		model.addAttribute("payment",payment);
+		model.addAttribute("billingAddress",billingAddress);
+		model.addAttribute("cartItemList",cartItemList);
+		model.addAttribute("shoppingCart",shoppingCart);
+		return "guestcheckout";
+		
+	}
 	
 	@RequestMapping("/checkout")
 	public String checkout(

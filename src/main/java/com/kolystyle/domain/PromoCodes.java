@@ -23,7 +23,7 @@ public class PromoCodes {
 	
 	//Either Specific User or All
 	private String promoType;
-	private Double promoValue;
+	private BigDecimal promoValue;
 	
 	private boolean promoStatus;
 
@@ -99,11 +99,11 @@ public class PromoCodes {
 		this.promoType = promoType;
 	}
 
-	public Double getPromoValue() {
+	public BigDecimal getPromoValue() {
 		return promoValue;
 	}
 
-	public void setPromoValue(Double promoValue) {
+	public void setPromoValue(BigDecimal promoValue) {
 		this.promoValue = promoValue;
 	}
 

@@ -1,6 +1,7 @@
 package com.kolystyle.domain;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -22,13 +23,22 @@ public class ShoppingCart {
 	private Long id;
 	private BigDecimal GrandTotal;
 	
-	@OneToMany(mappedBy="shoppingCart", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	@JsonIgnore
+	
+	@OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<CartItem> cartItemList;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private User user;
 
+	private String cartType;
+	private String sessionId;
+	private String bagId;
+	private String promoCode;
+	private BigDecimal discountedAmount;
+	private Date updatedDate;
+	private BigDecimal shippingCost;
+	private BigDecimal orderTotal;
+	
 	public Long getId() {
 		return id;
 	}
@@ -60,6 +70,69 @@ public class ShoppingCart {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
+	public String getCartType() {
+		return cartType;
+	}
+
+	public void setCartType(String cartType) {
+		this.cartType = cartType;
+	}
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
+	public String getBagId() {
+		return bagId;
+	}
+
+	public void setBagId(String bagId) {
+		this.bagId = bagId;
+	}
+
+	public String getPromoCode() {
+		return promoCode;
+	}
+
+	public void setPromoCode(String promoCode) {
+		this.promoCode = promoCode;
+	}
+
+	public BigDecimal getDiscountedAmount() {
+		return discountedAmount;
+	}
+
+	public void setDiscountedAmount(BigDecimal discountedAmount) {
+		this.discountedAmount = discountedAmount;
+	}
+
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+
+	public BigDecimal getShippingCost() {
+		return shippingCost;
+	}
+
+	public void setShippingCost(BigDecimal shippingCost) {
+		this.shippingCost = shippingCost;
+	}
+
+	public BigDecimal getOrderTotal() {
+		return orderTotal;
+	}
+
+	public void setOrderTotal(BigDecimal orderTotal) {
+		this.orderTotal = orderTotal;
+	}
 	
 }

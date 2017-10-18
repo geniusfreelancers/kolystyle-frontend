@@ -1,4 +1,4 @@
-/*package com.kolystyle.controller;
+package com.kolystyle.controller;
 
 import java.math.BigDecimal;
 import java.security.Principal;
@@ -6,10 +6,13 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,21 +23,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kolystyle.domain.CartItem;
-import com.kolystyle.domain.GuestShoppingCart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.kolystyle.domain.Product;
 import com.kolystyle.domain.PromoCodes;
 import com.kolystyle.domain.ShoppingCart;
+import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.domain.User;
-import com.kolystyle.repository.GuestShoppingCartRepository;
+import com.kolystyle.repository.ShoppingCartRepository;
 import com.kolystyle.service.CartItemService;
 import com.kolystyle.service.ProductService;
 import com.kolystyle.service.PromoCodesService;
 import com.kolystyle.service.ShoppingCartService;
+import com.kolystyle.service.SiteSettingService;
 import com.kolystyle.service.UserService;
 
 @Controller
 @RequestMapping("/shoppingCart")
-public class GuestShoppingCartController {
+public class CartController {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(CartController.class);
 	
 	@Autowired
 	private UserService userService;
@@ -48,188 +56,226 @@ public class GuestShoppingCartController {
 	@Autowired
 	private ProductService productService;
 	
-
+	@Autowired
+	private ShoppingCartRepository shoppingCartRepository;
 	
 	@Autowired
 	private PromoCodesService promoCodesService;
 	
+
+	
 	//Apply Promo  Codes 	
 	@RequestMapping(value="/applyPromoCode", method=RequestMethod.POST)
 	public @ResponseBody 
-	PromoCodes applyPromoCode(@ModelAttribute("id") String id,
+	ShoppingCart applyPromoCode(@ModelAttribute("id") String id,
 			@ModelAttribute("promocode") String promocode, 
-			Model model, HttpServletRequest request){
+			Model model,Principal principal, HttpServletRequest request){
 		HttpSession session = request.getSession();
 		if(promocode.isEmpty()){
 			model.addAttribute("emptyPromoError",true);
 			return null;
 		}
 		PromoCodes promoCodes = promoCodesService.findByPromoCode(promocode);
+		User user = null;
+		ShoppingCart shoppingCart;
+		if(principal != null){
+			user= userService.findByUsername(principal.getName());
+			shoppingCart = user.getShoppingCart();
+			LOG.info("User {} is a member with shopping cart id of {} and bag ID of {}", user.getUsername(), shoppingCart.getId(),shoppingCart.getBagId());
+		}else{	
+			// Get Cart from Session.
+			shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
+			LOG.info("User is a GUEST with shopping cart id of {} and bag ID of {}", shoppingCart.getId(),shoppingCart.getBagId());
+		}
 		if(promoCodes==null){
-			return promoCodes;
+			LOG.info("User entered invalid promo code: {}", promoCodes);
+			return shoppingCart;
 		}else{
-			
-			System.out.println("Coupon value is: "+promoCodes.getPromoValue());
+			LOG.info("User entered valid promo code: {} value of {}", promoCodes,promoCodes.getPromoValue());
 		}
-		int ShoppingCartId = id.length();
-		if(ShoppingCartId < 11){
-			System.out.println("Member : "+id);
-		}else{
-			System.out.println("Guest : "+id);
-			//GuestShoppingCart guestCart = shoppingCartService.findByGuestShoppingCartId(id);
-			ShoppingCart guestCart = (ShoppingCart) session.getAttribute("ShoppingCart");
-			Double gTotal = guestCart.getGrandTotal().doubleValue();
-			Double gNewTotal;
-			if(promoCodes.getPercentOrDollar().equalsIgnoreCase("dollar")) {
-				gNewTotal = gTotal- promoCodes.getPromoValue();
-				
-			}else {
-				gNewTotal = (promoCodes.getPromoValue()/100.00);
-				System.out.println("Percentage : "+gNewTotal);
-				gNewTotal = gNewTotal*gTotal;
-				System.out.println("Final Discount : "+gNewTotal);
-				gNewTotal = gTotal - gNewTotal;	
-			}
-			BigDecimal b = new BigDecimal(gNewTotal);
-			
-			System.out.println("Final Total : "+gNewTotal);
-			guestCart.setPromoCode(promocode);
-			guestCart.setDiscountedAmount(b);
-			shoppingCartRepository.save(guestCart);
-		}
+		
 
-		return promoCodes;
+			BigDecimal gTotal = shoppingCart.getGrandTotal();
+			BigDecimal promoVal = promoCodes.getPromoValue();
+			BigDecimal gNewTotal = new BigDecimal(0);
+			LOG.info("User's Shopping Cart Grand Total is: {}", gTotal);
+			if(promoCodes.getPercentOrDollar().equalsIgnoreCase("dollar")) {
+				gNewTotal = gTotal.subtract(promoVal);
+						//gTotal- promoCodes.getPromoValue();
+				LOG.info("User's applied Coupon Code with dollar value of: {}", promoVal);
+				LOG.info("User's New Shopping Cart Grand Total is: {} after {} dollars discount", gNewTotal,promoVal);
+			}else {
+				gNewTotal = promoVal.divide(new BigDecimal(100),2);
+				LOG.info("User's applied Coupon Code with percentage value of: {}%", promoCodes.getPromoValue());
+				gNewTotal = gNewTotal.multiply(gTotal);
+				LOG.info("User's applied Coupon Code with percentage value of: {}% and gets $ {} discount", promoVal,gNewTotal);
+				gNewTotal = gTotal.subtract(gNewTotal);
+				LOG.info("User's New Shopping Cart Grand Total is: {} after {} percentage discount", gNewTotal,promoVal);
+			}
+			BigDecimal b = gNewTotal;
+			LOG.info("Converting to BigDecimal {} from Double {}",b, gNewTotal);
+			shoppingCart.setPromoCode(promocode);
+			LOG.info("Promo Code {} is stored in Shopping Cart with Bag ID {}",promocode, shoppingCart.getBagId());
+			shoppingCart.setDiscountedAmount(b);
+			LOG.info("Stored Discounted Amount {} Shopping Cart with Bag ID {} where Grand Total was {}",b,promocode, shoppingCart.getBagId(),shoppingCart.getGrandTotal());
+			shoppingCartRepository.save(shoppingCart);
+			LOG.info("Shopping Cart is saved and returning promoCodes as JSON");
+
+		return shoppingCart;
 	}
 	
 	@RequestMapping("/cart")
 	public String shoppingCart(Model model,Principal principal,HttpServletRequest request){
 		
 		User user = null;
-		
+		ShoppingCart shoppingCart;
 		HttpSession session = request.getSession();
-
 		
 		//User need to log in If wanted to implement Guest Check out need to work on this
 		if(principal != null){
-		ShoppingCart shoppingCart;
+		
 		user= userService.findByUsername(principal.getName());
 		shoppingCart = user.getShoppingCart();
-		
-		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
-		shoppingCartService.updateShoppingCart(shoppingCart);
-		model.addAttribute("cartItemList",cartItemList);
-		model.addAttribute("shoppingCart",shoppingCart);
-		model.addAttribute("userShoppingCart",true);
-
 		}else{
-			GuestShoppingCart guestShoppingCart;
+			
 			// Get Cart from Session.
-       	 guestShoppingCart = (GuestShoppingCart) session.getAttribute("guestShoppingCart");
+			shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
        	 
        	// If null, create it.
-       	if (guestShoppingCart == null) {
-       		guestShoppingCart = new GuestShoppingCart();
+       	if (shoppingCart == null) {
+       		shoppingCart = new ShoppingCart();
        		String sessionID = session.getId();
-   			guestShoppingCart.setGuestSession(sessionID);
+       		shoppingCart.setSessionId(sessionID);
    			
    			
 			//To generate random number 99 is max and 10 is min
 			Random rand = new Random();
 			int  newrandom = rand.nextInt(99) + 10;
 			
-			Time Stamp and Random Number for Bag Id so we can always
-			  have unique bag id within Guest Cart
+		//	Time Stamp and Random Number for Bag Id so we can always
+			//  have unique bag id within Guest Cart
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			
 			String bagId = newrandom+"KS"+timestamp.getTime();
-   			guestShoppingCart.setBagId(bagId);
-   			guestShoppingCartRepository.save(guestShoppingCart);
+			shoppingCart.setBagId(bagId);
+			shoppingCartRepository.save(shoppingCart);
            
        		// And store to Session.
-       		request.getSession().setAttribute("guestShoppingCart",guestShoppingCart);
+       		request.getSession().setAttribute("ShoppingCart",shoppingCart);
        	}
-       	List<CartItem> cartItemList = cartItemService.findByGuestShoppingCart(guestShoppingCart);
-       	shoppingCartService.updateGuestShoppingCart(guestShoppingCart);
-       	model.addAttribute("cartItemList",cartItemList);
-		model.addAttribute("guestShoppingCart",guestShoppingCart);
-		model.addAttribute("guestPormo",guestShoppingCart.getPromoCode());
-		model.addAttribute("guestShoppingCartId",guestShoppingCart.getId());
-		model.addAttribute("guestBagId",guestShoppingCart.getBagId());
-		model.addAttribute("guestShoppingCartGrandTotal",guestShoppingCart.getGrandTotal());
-		model.addAttribute("guestShoppingCart",true);
+       	
 		}
+		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
+		if(cartItemList.size()< 1) {
+			model.addAttribute("emptyCart",true);
+		}else {
+			model.addAttribute("emptyCart",false);	
+		}
+       	shoppingCartService.updateShoppingCart(shoppingCart);
+       	/*SiteSetting siteSetting= siteSettingService.findOne((long) 1);
+       	
+       	if(shoppingCart.getGrandTotal().doubleValue()>=siteSetting.getFreeShippingMin().doubleValue()) {
+       		if(shoppingCart.getDiscountedAmount() != null) {
+       			if(shoppingCart.getDiscountedAmount().doubleValue()>=siteSetting.getFreeShippingMin().doubleValue()) {
+       				
+       				model.addAttribute("freeShip",true);
+       			}else {
+       				model.addAttribute("freeShip",false);
+       			}
+       		}else {
+       			model.addAttribute("freeShip",true);
+       		}
+       		
+       	}else {
+       		model.addAttribute("freeShip",false);
+       		model.addAttribute("shippingCost",10.00);
+       	}*/
+		model.addAttribute("cartItemList",cartItemList);
+		model.addAttribute("shoppingCart",shoppingCart);
 		
 		return "shoppingCart";
 	}
 	
 	@RequestMapping("/addItem")
-	public String addItem(@ModelAttribute("product") Product product,@ModelAttribute("qty") String qty,HttpServletRequest request, Model model, Principal principal){
-	
+	public String addItem(@ModelAttribute("product") Product product,
+			@ModelAttribute("qty") String qty,
+			@ModelAttribute("size") String size,
+			HttpServletRequest request, HttpServletResponse response, 
+			Model model, 
+			Principal principal){
 		User user = null;
 		ShoppingCart shoppingCart;
+		//Get Browser cookie and Session
 		HttpSession session = request.getSession();
-		GuestShoppingCart guestShoppingCart;
+		LOG.info("User with session Id {} adding product to cart", request.getSession().getId());
+		Cookie[] cookies = request.getCookies();
+		boolean foundCookie = false;
+   	 //Check cookie value
+        for(int i = 0; i < cookies.length; i++) { 
+            Cookie cartID = cookies[i];
+            if (cartID.getName().equals("BagId")) {
+            	LOG.info("User with Bag Id {} adding product to cart", cartID.getValue());
+                System.out.println("BagId = " + cartID.getValue());
+                foundCookie = true;
+            }
+        }
 		//Check this for id being null
 		product = productService.findOne(product.getId());
+		LOG.info("User adding product with ID  {} to cart", product.getId());
 		//Check if product qty is available
 		if(Integer.parseInt(qty) > product.getInStockNumber()){
 			model.addAttribute("notEnoughStock",true);
+			LOG.info("User is looking to add {} product with ID to cart in following qty", Integer.parseInt(qty));
 			return "forward:/productDetail?id="+product.getId();
 		}
 		
 		//Modify this line if you want Guest to add items to cart
         if(principal != null){
         	user =userService.findByUsername(principal.getName());
+        	LOG.info("User {} is adding product to cart", user.getUsername());
         	shoppingCart = user.getShoppingCart();
-        	CartItem cartItem = cartItemService.addProductToCartItem(product,user,Integer.parseInt(qty));
         }else{  
         	
+        	//Get Cart By Bag Id
+        	
         	// Get Cart from Session.
-        	 guestShoppingCart = (GuestShoppingCart) session.getAttribute("guestShoppingCart");
+        	 shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
+        	 LOG.info("Returning Guest User is adding product to cart");
         	 
         	// If null, create it.
-        	if (guestShoppingCart == null) {
-        		guestShoppingCart = new GuestShoppingCart();
+        	if (shoppingCart == null) {
+        		shoppingCart = new ShoppingCart();
         		String sessionID = session.getId();
-    			guestShoppingCart.setGuestSession(sessionID);   			
+        		shoppingCart.setSessionId(sessionID);   			
        			
     			//To generate random number 99 is max and 10 is min
     			Random rand = new Random();
     			int  newrandom = rand.nextInt(99) + 10;
     			
-    			Time Stamp and Random Number for Bag Id so we can always
-    			  have unique bag id within Guest Cart
+    			/*Time Stamp and Random Number for Bag Id so we can always
+    			  have unique bag id within Guest Cart*/
     			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     			
     			String bagId = newrandom+"KS"+timestamp.getTime();
-       			guestShoppingCart.setBagId(bagId);
-    			guestShoppingCartRepository.save(guestShoppingCart);
-            
+    			shoppingCart.setCartType("guest");
+    			shoppingCart.setBagId(bagId);
+    			shoppingCartRepository.save(shoppingCart);
+    			LOG.info("Guest User with Bag ID {} is adding product to cart", shoppingCart.getBagId());
         		// And store to Session.
-        		request.getSession().setAttribute("guestShoppingCart",guestShoppingCart);
-        	}
-        	CartItem cartItem = cartItemService.addProductToGuestCartItem(product,guestShoppingCart,Integer.parseInt(qty));
-        }
- 
-   
-	
-		
-	
-		//May be useful for coupons options with different mapping Else you can delete it
-//		List<CartItem> cartItemList = cartItemService.findByShoppingCart(user.getShoppingCart());
-//		for(CartItem cartItem : cartItemList){
-//			if(product.getId() == cartItem.getProduct().getId()){
-//				if(product.getInStockNumber() < (cartItem.getQty()+Integer.parseInt(qty))){
-//					model.addAttribute("notEnoughStock",true);
-//					return "forward:/productDetail?id="+product.getId();
-//				}	}	}		
+        		request.getSession().setAttribute("ShoppingCart",shoppingCart);
+        		// And CartId to cookie.
+       		 if (!foundCookie) {
+       	            Cookie cookie1 = new Cookie("BagId",shoppingCart.getBagId());
+       	            cookie1.setPath("/");
+       	            cookie1.setMaxAge(30*24*60*60);
+       	            response.addCookie(cookie1); 
+       	        }
 
-		
-		
-		
-	
-		
-		
+        	}
+        }
+        
+     	cartItemService.addProductToCartItem(product,shoppingCart,Integer.parseInt(qty), size);
+        
 		model.addAttribute("addProductSuccess",true);
 		
 		return "forward:/productDetail?id="+product.getId();
@@ -265,10 +311,10 @@ public class GuestShoppingCartController {
 		
 		return "forward:/shoppingCart/cart";
 	}
-	*//******
+	/******
 	 * Making JSON RESPONSE FOR SHOPPING CART TO DISPLAY MINI CART
-	 *//*
-	@RequestMapping(value="/minicart", method=RequestMethod.GET)
+	 */
+	/*@RequestMapping(value="/minicart", method=RequestMethod.GET)
 	public @ResponseBody 
 	List<CartItem> miniCart(Model model,Principal principal,HttpServletRequest request){
 		
@@ -327,6 +373,5 @@ public class GuestShoppingCartController {
 		}
 		
 		return cartItemList;
-	}
+	}*/
 }
-*/

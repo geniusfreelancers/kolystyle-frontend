@@ -7,13 +7,13 @@ var cartApp = angular.module("cartApp", []);
 cartApp.controller("cartCtrl", function ($scope, $http) {
 
     $scope.refreshCart = function () {
-        $http.get('/realtorsNepal/rest/cart/'+$scope.cartId).success(function (data) {
-            $scope.cart = data;
+        $http.get('/rest/cart/'+$scope.cartId).success(function (data) {
+            $scope.shoppingCart = data;
         });
     };
 
     $scope.clearCart = function () {
-        $http.delete('/realtorsNepal/rest/cart/'+$scope.cartId).success($scope.refreshCart());
+        $http.delete('/rest/cart/'+$scope.cartId).success($scope.refreshCart());
 
     };
 
@@ -23,7 +23,7 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
     };
 
     $scope.addToCart = function (productId) {
-        $http.put('/realtorsNepal/rest/cart/add/'+productId).success(function () {
+        $http.put('/rest/cart/add/'+productId).success(function () {
             $(function()
             {
                 $('.overlay_'+productId).show();
@@ -35,28 +35,45 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
     };
 
     $scope.removeFromCart = function (productId) {
-        $http.put('/realtorsNepal/rest/cart/remove/'+productId).success(function (data) {
+        $http.put('/rest/cart/remove/'+productId).success(function (data) {
             $scope.refreshCart();
         });
     };
 
-    $scope.applyPromoCode = function () {
-        var promocode = angular.element('#promocode').val();
-        if(promocode !=""){
-        $http.put('/realtorsNepal/rest/cart/applypromo/33/'+promocode).success(function (data) {
-            $scope.refreshCart();
-        });
-        }
-    };
 
     $scope.calGrandTotal = function () {
         var grandTotal = 0;
 
-        for (var i=0; i<$scope.cart.cartItems.length; i++){
-            grandTotal += $scope.cart.cartItems[i].totalPrice;
+        for (var i=0; i<$scope.shoppingCart.cartItemList.length; i++){
+            grandTotal += $scope.shoppingCart.cartItemList[i].subtotal;
         }
 
         return grandTotal;
+
+    };
+    
+    $scope.calPromoDiscount = function () {
+        /*var promoDiscount = 0;
+        if($scope.shoppingCart.discountedAmount == null){
+        	promoDiscount = $scope.shoppingCart.grandTotal - $scope.shoppingCart.discountedAmount;
+        }else{
+        	promoDiscount = 'FREE';
+        }
+        return promoDiscount;*/
+    	return $scope.shoppingCart.discountedAmount;
+
+    };
+    
+    $scope.calOrderTotal = function () {
+        var orderTotal = 0;
+       /* if($scope.shoppingCart.discountedAmount =! null){
+        	orderTotal = $scope.shoppingCart.discountedAmount + $scope.shoppingCart.shippingCost;
+        }else{
+        	orderTotal = $scope.calGrandTotal() + $scope.shoppingCart.shippingCost;
+        }*/
+        
+        orderTotal = $scope.calGrandTotal() + $scope.shoppingCart.shippingCost;
+        return orderTotal;
 
     };
 

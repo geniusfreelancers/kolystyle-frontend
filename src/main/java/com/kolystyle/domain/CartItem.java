@@ -22,7 +22,7 @@ public class CartItem {
 	private Long id;
 	private int qty;
 	private BigDecimal subtotal;
-	
+	private String productSize;
 	@OneToOne
 	private Product product;
 	
@@ -32,13 +32,10 @@ public class CartItem {
 
 
 	@ManyToOne
-	@JoinColumn(name="shopping_cart_id")
+    @JoinColumn(name = "shopping_cart_id")
+    @JsonIgnore
 	private ShoppingCart shoppingCart;
-	
-	@ManyToOne
-	@JoinColumn(name="guest_shopping_cart_id")
-	private GuestShoppingCart guestShoppingCart;
-	
+		
 	@ManyToOne
 	@JoinColumn(name="order_id")
 	private Order order;
@@ -67,6 +64,14 @@ public class CartItem {
 		this.subtotal = subtotal;
 	}
 
+	public String getProductSize() {
+		return productSize;
+	}
+
+	public void setProductSize(String productSize) {
+		this.productSize = productSize;
+	}
+
 	public Product getProduct() {
 		return product;
 	}
@@ -89,14 +94,6 @@ public class CartItem {
 
 	public void setShoppingCart(ShoppingCart shoppingCart) {
 		this.shoppingCart = shoppingCart;
-	}
-
-	public GuestShoppingCart getGuestShoppingCart() {
-		return guestShoppingCart;
-	}
-
-	public void setGuestShoppingCart(GuestShoppingCart guestShoppingCart) {
-		this.guestShoppingCart = guestShoppingCart;
 	}
 
 	public Order getOrder() {

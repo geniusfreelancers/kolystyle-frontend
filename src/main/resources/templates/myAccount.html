@@ -76,6 +76,20 @@ $().ready(function(){
                 <a th:href="@{/register}" class="btn btn-danger margin-tb-5">CREATE</a>
 
         </div>
+        <!-- Guest Option Starts-->
+        <div class="login-box register-box" id="register-box" th:if="${guestOption}" style="border-top: 1px solid #e2e2e4;">
+            <h3> </h3>
+            <h3 class="signin-btn">don't want to create Koly's account yet?</h3>
+            <p class="signin-text">We got you covered. You can check out as guest as well</p>
+
+                <div class="form-group">
+                    <a href="#" class="privacy-policy">Privacy Policy</a>
+                </div>
+				<!-- th:href="@{/checkout(id=${shoppingCart.id})}" -->
+                <a th:href="@{/guestcheckout}" class="btn btn-danger">CHECKOUT AS GUEST</a>
+
+        </div>
+        <!-- Guest Option Ends -->
 
     </div>
     <div class="password-rules col-md-12">

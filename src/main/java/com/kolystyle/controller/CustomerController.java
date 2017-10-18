@@ -4,7 +4,9 @@ import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +26,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.Order;
+import com.kolystyle.domain.ShoppingCart;
 import com.kolystyle.domain.User;
 import com.kolystyle.domain.UserBilling;
 import com.kolystyle.domain.UserPayment;
 import com.kolystyle.domain.UserShipping;
+import com.kolystyle.repository.CartItemRepository;
 import com.kolystyle.service.CartItemService;
 import com.kolystyle.service.OrderService;
+import com.kolystyle.service.ShoppingCartService;
 import com.kolystyle.service.UserPaymentService;
 import com.kolystyle.service.UserService;
 import com.kolystyle.service.UserShippingService;
@@ -53,6 +58,10 @@ public class CustomerController {
 	private CartItemService cartItemService;
 	@Autowired
 	private	UserPaymentService userPaymentService;
+	@Autowired
+	private CartItemRepository cartItemRepository;
+	@Autowired
+	private ShoppingCartService shoppingCartService;
 	
     @RequestMapping("/myprofile")
     public String myprofile(Model model,@AuthenticationPrincipal User activeUser){
@@ -64,9 +73,37 @@ public class CustomerController {
     }
     
 	@RequestMapping("/account")
-	public String account(Model model,@AuthenticationPrincipal User activeUser) {
+	public String account(Model model,@AuthenticationPrincipal User activeUser,HttpServletRequest request,HttpServletResponse response) {
 		User user = userService.findByUsername(activeUser.getUsername());
-
+		//Getting User info
+		Cookie[] cookies = request.getCookies();
+		String cartId = "";
+		boolean foundCookie = false;
+   	 	//Check cookie value
+        for(int i = 0; i < cookies.length; i++) { 
+            Cookie cartID = cookies[i];
+            if (cartID.getName().equals("BagId")) {
+            	cartId = cartID.getValue();
+                System.out.println("BagId = " + cartId);
+                foundCookie = true;
+                cartID.setPath("/");
+                cartID.setMaxAge(0);
+         		response.addCookie(cartID);
+                ShoppingCart guestShoppingCart = shoppingCartService.findCartByBagId(cartId);
+                List<CartItem> cartItemList = cartItemService.findByShoppingCart(guestShoppingCart);
+                
+                for(CartItem cartItem : cartItemList) {
+                	//Need to check if the item is already in user cart
+                 	cartItem.setShoppingCart(user.getShoppingCart());
+                	cartItemRepository.save(cartItem);
+                }
+                
+                user.getShoppingCart().setGrandTotal(guestShoppingCart.getGrandTotal());
+                user.getShoppingCart().setPromoCode(guestShoppingCart.getPromoCode());
+                user.getShoppingCart().setDiscountedAmount(guestShoppingCart.getDiscountedAmount());
+                shoppingCartService.remove(guestShoppingCart);
+            }
+        }
         model.addAttribute("user", user);
 		return "account";
 	}

@@ -3,6 +3,13 @@
             CUSTOM STYLE
 
 ******************************************/
+.cart-product-details p{
+	margin-bottom:2px;
+}
+.black-bg{
+	background:#000000;
+	color:#ffffff;
+}
 .wishlist-image-container {
     height: 160px;
 }
@@ -211,7 +218,7 @@ body, td, th, input, textarea, select, a {font-size:12px;}
 h1 {color: #222; margin-bottom:30px; margin-top: 10px; font-size: 32px; font-weight: normal; text-align:center; text-rendering:optimizelegibility; font-family:Georgia, "Times New Roman", Times, serif;}
 h2 {color: #222; font-size:15px; margin-top: 0px; margin-bottom:15px; padding:3px 0px 5px 0px; border-bottom: 1px solid #ddd; text-transform: uppercase; font-weight:normal; }
 h4 {color: #222; font-size:13px; margin-top: 0px; margin-bottom:10px; padding:3px 0px 5px 0px; font-weight:bold; }
-p {margin-top: 0px; margin-bottom: 20px; line-height:20px;}
+p {margin-top: 0px; /* margin-bottom: 20px; */ line-height:20px;}
 a, a:visited, a b { color:#222; text-decoration: none; cursor: pointer;}
 a:hover {text-decoration:none; color:#000;}
 a img { border: none; }

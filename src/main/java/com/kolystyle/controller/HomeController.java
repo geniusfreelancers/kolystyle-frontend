@@ -10,7 +10,10 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 
@@ -31,9 +34,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kolystyle.domain.CartItem;
-import com.kolystyle.domain.GuestShoppingCart;
+
 import com.kolystyle.domain.Order;
 import com.kolystyle.domain.Product;
+import com.kolystyle.domain.ShoppingCart;
 import com.kolystyle.domain.User;
 import com.kolystyle.domain.UserBilling;
 import com.kolystyle.domain.UserPayment;
@@ -45,6 +49,7 @@ import com.kolystyle.repository.CartItemRepository;
 import com.kolystyle.service.CartItemService;
 import com.kolystyle.service.OrderService;
 import com.kolystyle.service.ProductService;
+import com.kolystyle.service.ShoppingCartService;
 import com.kolystyle.service.UserPaymentService;
 import com.kolystyle.service.UserService;
 import com.kolystyle.service.UserShippingService;
@@ -81,6 +86,9 @@ public class HomeController {
 	private CartItemService cartItemService;
 	
 	@Autowired
+	private ShoppingCartService shoppingCartService;
+	
+	@Autowired
 	private OrderService orderService;
 	
 	@Autowired
@@ -100,12 +108,13 @@ public class HomeController {
 	        
 	        return "home";
 	    }
-	
-	
 
 	@RequestMapping("/userlogin")
 	public String login(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout",
             required = false) String logout,Model model,HttpServletRequest request) {
+		HttpSession session = request.getSession();
+        String sessionID = session.getId();
+        model.addAttribute("sessionID",sessionID);
 		if(error != null){
             model.addAttribute("invalid",true);
         }
@@ -113,17 +122,21 @@ public class HomeController {
         if(logout != null){
             model.addAttribute("logout",true);
         }
-        HttpSession session = request.getSession();
-        String sessionID = session.getId();
-        model.addAttribute("sessionID",sessionID);
-		//model.addAttribute("classActiveLogin", true);
+        if(request.getHeader("referer")!= null) {
+        String referrer = request.getHeader("referer");
+        String newref = referrer.substring(referrer.length()-17,referrer.length());
+		if(newref.equalsIgnoreCase("shoppingCart/cart")){
+        	model.addAttribute("guestOption",true); 
+        	return "myAccount";
+        }
+        }
 		return "myAccount";
 	}
 	
 	
 	@RequestMapping("/login")
 	public String loginPost(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout",
-            required = false) String logout,Model model, @ModelAttribute("username") String username,@ModelAttribute("guestsession") String guestsession) {
+            required = false) String logout,Model model, @ModelAttribute("username") String username) {
 		if(error != null){
             model.addAttribute("invalid",true);
             return "myAccount";
@@ -133,43 +146,14 @@ public class HomeController {
             model.addAttribute("logout",true);
             return "myAccount";
         }
-        //Getting User info
-        
-        
-/*        GuestShoppingCart guestShoppingCart = cartItemService.findGuestCartBySessionId(guestsession);
-        List<CartItem> cartItemList = cartItemService.findByGuestShoppingCart(guestShoppingCart);
-        User user = userService.findByUsername(username);
-   //   	user.getShoppingCart().setCartItemList(cartItemList);
-        List<CartItem> userCartItemList = cartItemService.findByShoppingCart(user.getShoppingCart());
-        for(CartItem cartItem : cartItemList) {
-        		
-    		
-    		for(CartItem usercartItem : userCartItemList){
-    			if(cartItem.getProduct().getId() == usercartItem.getProduct().getId()){
-    				Product product = cartItem.getProduct();
-    				int qtyy = cartItem.getQty();
-    				int qty = usercartItem.getQty();
-    				int newqty = qtyy+qty;
-    				cartItem.setQty(newqty);
-    				//cartItem.setQty(cartItem.getQty()+qty);
-    				cartItem.setSubtotal(new BigDecimal(product.getOurPrice()).multiply(new BigDecimal(newqty)));
-    				cartItemRepository.save(usercartItem);
-    				cartItemRepository.delete(cartItem);
-    			}	}
-        	//Check for null pointer Exception on login post
-         	cartItem.setShoppingCart(user.getShoppingCart());
-        	cartItem.setGuestShoppingCart(null);
-        	cartItemRepository.save(cartItem);
-        
-        }   */  
+      
 		UserDetails userDetails = userSecurityService.loadUserByUsername(username);
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(),
 				userDetails.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		User user = userService.findByUsername(username);
+
 		model.addAttribute("user", user);
-		///////
-		
 		return "account";	
 	}
 	
@@ -179,41 +163,30 @@ public class HomeController {
 	public String register(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
         String sessionID = session.getId();
+        User user = new User();
         model.addAttribute("sessionID",sessionID);
+        model.addAttribute("user",user);
 		return "register";
 	}
 	
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String registerPost(HttpServletRequest request,@ModelAttribute("firstName") String firstName,@ModelAttribute("lastName") String lastName,
-			@ModelAttribute("email") String userEmail,@ModelAttribute("phone") String phone,
-			@ModelAttribute("username") String username,@ModelAttribute("password") String userPassword,@ModelAttribute("guestsession") String guestsession, Model model) throws Exception {
-		model.addAttribute("firstName", firstName);
-		model.addAttribute("lastName", lastName);
-		model.addAttribute("email", userEmail);
-		model.addAttribute("phone", phone);
-		model.addAttribute("username", username);
-		model.addAttribute("password", userPassword);
+	public String registerPost(HttpServletRequest request,
+			@ModelAttribute("user") User user,
+			Model model, HttpServletResponse response) throws Exception {
 
-		if (userService.findByUsername(username) != null) {
+		if (userService.findByUsername(user.getUsername()) != null) {
 			model.addAttribute("usernameExists", true);
 			return "register";
 		}
-		if (userService.findByEmail(userEmail) != null) {
+		if (userService.findByEmail(user.getEmail()) != null) {
 			model.addAttribute("emailExists", true);
 			return "register";
 		}
 
-		User user = new User();
-		user.setFirstName(firstName);
-		user.setLastName(lastName);
-		user.setEmail(userEmail);
-		user.setPhone(phone);
-		user.setUsername(username);
-
 		//This can be used to randomly generate password
 		//String password = SecurityUtility.randomPassword();
-
+		String userPassword = user.getPassword();
 		String encryptedPassword = SecurityUtility.passwordEncoder().encode(userPassword);
 		user.setPassword(encryptedPassword);
 
@@ -224,19 +197,34 @@ public class HomeController {
 		userRoles.add(new UserRole(user, role));
 		userService.createUser(user, userRoles);
 
-  //Getting User info
-        
-        
-        GuestShoppingCart guestShoppingCart = cartItemService.findGuestCartBySessionId(guestsession);
-        List<CartItem> cartItemList = cartItemService.findByGuestShoppingCart(guestShoppingCart);
-        
-        for(CartItem cartItem : cartItemList) {
-         	cartItem.setShoppingCart(user.getShoppingCart());
-        	cartItem.setGuestShoppingCart(null);
-        	cartItemRepository.save(cartItem);
+		//Getting User info
+		Cookie[] cookies = request.getCookies();
+		String cartId = "";
+		boolean foundCookie = false;
+   	 	//Check cookie value
+        for(int i = 0; i < cookies.length; i++) { 
+            Cookie cartID = cookies[i];
+            if (cartID.getName().equals("BagId")) {
+            	cartId = cartID.getValue();
+                System.out.println("BagId = " + cartId);
+                foundCookie = true;
+                cartID.setPath("/");
+                cartID.setMaxAge(0);
+         		response.addCookie(cartID);
+                ShoppingCart guestShoppingCart = shoppingCartService.findCartByBagId(cartId);
+                List<CartItem> cartItemList = cartItemService.findByShoppingCart(guestShoppingCart);
+                
+                for(CartItem cartItem : cartItemList) {
+                 	cartItem.setShoppingCart(user.getShoppingCart());
+                	cartItemRepository.save(cartItem);
+                }
+                
+                user.getShoppingCart().setGrandTotal(guestShoppingCart.getGrandTotal());
+                user.getShoppingCart().setPromoCode(guestShoppingCart.getPromoCode());
+                user.getShoppingCart().setDiscountedAmount(guestShoppingCart.getDiscountedAmount());
+                shoppingCartService.remove(guestShoppingCart);
+            }
         }
-		
-		
 		String token = UUID.randomUUID().toString();
 		userService.createPasswordResetTokenForUser(user, token);
 

@@ -1,7 +1,9 @@
 package com.kolystyle.service.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -86,6 +88,18 @@ public class UserServiceImpl implements UserService {
 			user.getUserRoles().addAll(userRoles);
 			ShoppingCart shoppingCart = new ShoppingCart();
 			shoppingCart.setUser(user);
+			//Set Bag Id
+			//To generate random number 99 is max and 10 is min
+			Random rand = new Random();
+			int  newrandom = rand.nextInt(99) + 10;
+			
+			/*Time Stamp and Random Number for Bag Id so we can always
+			  have unique bag id within Guest Cart*/
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			
+			String bagId = newrandom+"KF"+timestamp.getTime();
+			shoppingCart.setBagId(bagId);
+			shoppingCart.setCartType("customer");
 			user.setShoppingCart(shoppingCart);
 			
 			//Wish List

@@ -1,4 +1,4 @@
-package com.kolystyle.domain;
+/*package com.kolystyle.domain;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -98,3 +98,4 @@ public class GuestShoppingCart {
 	
 }
 
+*/

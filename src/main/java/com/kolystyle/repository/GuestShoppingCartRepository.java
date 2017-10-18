@@ -1,4 +1,4 @@
-package com.kolystyle.repository;
+/*package com.kolystyle.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -11,4 +11,4 @@ public interface GuestShoppingCartRepository extends CrudRepository<GuestShoppin
 
 	
 
-}
+}*/

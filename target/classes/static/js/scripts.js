@@ -14,15 +14,17 @@ $(function() {
 	            	var code = $('#enterPromoCode').val();
 	                var newamount = $('#subamount').val();
 	                var htmls = '';
-	              //  var len = data.length;
+	              	var discount = 0;
 	               
 	                if(data){
 	                    htmls += '<p><span>'+data.id+'</span><span>'+data.couponCode+'</span><span>'+data.promoValue+'</span>';
 	                    if(data.percentOrDollar == "dollar"){
+	                    	discount = data.promoValue;
 	                    	newamount = newamount - data.promoValue;
 	                    }else{
 	                    	var updated = data.promoValue;
-	                    	newamount = newamount+((updated/newamount)*100);
+	                    	discount = (updated/100)*newamount;
+	                    	newamount = newamount-((updated/100)*newamount);
 	                    }
 	                    
 	                }else{
@@ -32,7 +34,11 @@ $(function() {
 	                    
 	                $('#applyPromoError').show();
 	                $('#applyPromoError').html(htmls);
-	                $('#subtotalamount').html(newamount);
+	                $('#shippingcost').html(data.shippingCost);
+	                $('#discountamount').html((data.grandTotal-data.discountedAmount).toFixed(2));
+	                $('#ordertotal').html(data.shippingCost+data.discountedAmount.toFixed(2));
+	                
+	              //  $('#ordertotal').html(newamount.toFixed(2));
 	              //  $('#enterPromoCode').prop( "disabled", true );
 	                
 	                
@@ -137,18 +143,19 @@ function enableButton(){
 $(document).ready(function(){
 	$("#saveNow").hide();
 });
+$(document).ready(function(){
+$(".cartItemQty").on('change',function(){
+	var id=this.id;
+	if(this.value!=''){
+	$('#update-item-'+id).css('display','inline-block');
+	}else{
+	$('#update-item-'+id).css('display','none');
+	}
+});
+});
 
 $(document).ready(function(){
-	$(".cartItemQty").on('change',function(){
-		var id=this.id;
-		if(this.value!=''){
-		$('#update-item-'+id).css('display','inline-block');
-		}else{
-		$('#update-item-'+id).css('display','none');
-		}
-	});
-	
-	$("#theSameAsShippingAddress").on('click',checkBillingAddress);
+$("#theSameAsShippingAddress").on('click',checkBillingAddress);
 	$("#txtConfirmPassword").keyup(checkPasswordMatch);
 	$("#txtNewPassword").keyup(checkPasswordMatch);
 	$("#email").keyup(checkPasswordMatch);

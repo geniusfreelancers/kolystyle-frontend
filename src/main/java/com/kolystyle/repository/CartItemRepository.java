@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kolystyle.domain.CartItem;
-import com.kolystyle.domain.GuestShoppingCart;
+
 import com.kolystyle.domain.Order;
 import com.kolystyle.domain.ShoppingCart;
 
@@ -17,6 +17,5 @@ public interface CartItemRepository extends CrudRepository<CartItem, Long> {
 	
 	List<CartItem> findByOrder(Order order);
 	
-	List<CartItem> findByGuestShoppingCart(GuestShoppingCart guestShoppingCart);
 	
 }

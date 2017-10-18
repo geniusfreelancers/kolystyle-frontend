@@ -1,14 +1,23 @@
 package com.kolystyle.service;
 
-import com.kolystyle.domain.GuestShoppingCart;
+
+import java.math.BigDecimal;
+
+import com.kolystyle.domain.PromoCodes;
 import com.kolystyle.domain.ShoppingCart;
 
 public interface ShoppingCartService {
 	ShoppingCart updateShoppingCart(ShoppingCart shoppingCart);
 	
 	void clearShoppingCart(ShoppingCart shoppingCart);
+	ShoppingCart findCartByBagId(String bagId);
+	void remove(ShoppingCart shoppingCart);
+	BigDecimal calculateCartSubTotal(ShoppingCart shoppingCart);
+	BigDecimal calculateDiscountAmount(ShoppingCart shoppingCart, PromoCodes promoCodes);
+	BigDecimal calculateCartOrderTotal(ShoppingCart shoppingCart); 
+	BigDecimal calculateShippingCost(ShoppingCart shoppingCart);
+	PromoCodes checkCouponValidity(PromoCodes promoCodes);
+/*	GuestShoppingCart updateGuestShoppingCart(GuestShoppingCart guestShoppingCart);
 	
-	GuestShoppingCart updateGuestShoppingCart(GuestShoppingCart guestShoppingCart);
-	
-	GuestShoppingCart findByGuestShoppingCartId(String id);
+	GuestShoppingCart findByGuestShoppingCartId(String id);*/
 }

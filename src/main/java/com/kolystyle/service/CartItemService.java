@@ -5,17 +5,17 @@ import java.util.List;
 
 
 import com.kolystyle.domain.CartItem;
-import com.kolystyle.domain.GuestShoppingCart;
+
 import com.kolystyle.domain.Order;
 import com.kolystyle.domain.Product;
 import com.kolystyle.domain.ShoppingCart;
-import com.kolystyle.domain.User;
+
 
 public interface CartItemService {
 
 	List<CartItem> findByShoppingCart(ShoppingCart shoppingCart);
 	
-	CartItem addProductToCartItem(Product product,User user,int qty);
+	CartItem addProductToCartItem(Product product,ShoppingCart shoppingCart,int qty,String size);
 	
 	CartItem updateCartItem(CartItem cartItem);
 	
@@ -28,11 +28,10 @@ public interface CartItemService {
 	List<CartItem> findByOrder(Order order);
 	
 	//Guest Cart Added
-	GuestShoppingCart findGuestCartBySessionId(String sessionid);
-	List<CartItem> findByGuestShoppingCart(GuestShoppingCart guestShoppingCart);
+	ShoppingCart findGuestCartBySessionId(String sessionid);
 	
-	CartItem addProductToGuestCartItem(Product product,GuestShoppingCart guestShoppingCart,int qty);
+	/*List<CartItem> findByGuestShoppingCart(GuestShoppingCart guestShoppingCart);*/
 	
-	
+
 	
 }

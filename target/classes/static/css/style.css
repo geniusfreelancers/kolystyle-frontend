@@ -17,10 +17,10 @@ body {
 	padding:5px 22px;
 }
 hr{
-	border:none;
-	height:1px;
-	color:#333;
-	background-color:#333;
+	border: none;
+    height: 1px;
+    color: #dedee0;
+    background-color: #e5e5e7;
 }
 .container{
 	width:90%;
