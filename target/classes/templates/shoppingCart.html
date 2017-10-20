@@ -21,7 +21,7 @@
 					
 					<!-- <div class="col-md-6 text-right"> -->
 					
-					<div class="col-md-8 col-md-offset-2">
+					<div class="col-md-8 col-md-offset-2" th:if="${!emptyCart}">
 					<p>
 						<i class="fa fa-shopping-bag fa-2x text-danger" aria-hidden="true"></i>
 						<strong>BAG ID: <span th:text="${shoppingCart.bagId}"></span></strong>
@@ -60,7 +60,7 @@
 						</div>
 					</div>
 					
-					<section class="" ng-app="cartApp">
+					<section class="" ng-app="cartApp" th:if="${!emptyCart}">
             <div ng-controller = "cartCtrl" th:attr="ng-init='initCartId('+${shoppingCart.id}+')'">
 					<!-- ***************************Display Products in Cart***************************************** -->
 					<div class="row" th:attr="ng-repeat = 'cartItem in shoppingCart.cartItemList'">
@@ -243,11 +243,8 @@
 					</div>
 					<div class="row">
 					<div class="col-md-8 col-md-offset-2">
-					<div class="col-md-6 col-xs-6 text-left">
-						<a class="btn btn-warning" th:href="@{/productshelf}">Continue
-							Shopping</a>
-					</div>
-					<div class="col-md-6 col-xs-6 text-right" th:if="${!emptyCart}">
+					
+					<div class="col-md-12 col-xs-12 text-right" th:if="${!emptyCart}">
 					
 						<a class="btn btn-primary"
 							th:href="@{/checkout(id=${shoppingCart.id})}">Check Out</a>
@@ -257,6 +254,10 @@
 
 				</div>
 				</section>
+				<div class="col-md-6 col-xs-6 text-left">
+						<a class="btn btn-warning" th:href="@{/productshelf}">Continue
+							Shopping</a>
+					</div>
 				
 			</div>
 		</div>

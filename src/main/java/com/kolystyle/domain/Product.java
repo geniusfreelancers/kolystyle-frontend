@@ -1,5 +1,6 @@
 package com.kolystyle.domain;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -7,45 +8,63 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kolystyle.domain.Category;
+import com.kolystyle.domain.ProductToCartItem;
+import com.kolystyle.domain.SubCategory;
+import com.kolystyle.domain.SubSubCategory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Product {
-		
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	private String title;
-	private String author;
-	private String publisher;
-	private String publicationDate;
-	private String language;
-	private String category;
-	private String subCategory;
-	private String mainSubCategory;
-	private int numberOfPages;
-	private String format;
-	private int isbn;
+	private String brand;
+	private String gender;
+	private Date addedDate;
+	private String shippingOption;
+	private String availabilityToShip;
+	private String sku;
 	private double shippingWeight;
 	private double listPrice;
 	private double ourPrice;
 	private boolean active=true;
-	
+	private String extraPromo;
 	@Column(columnDefinition="text")
 	private String description;
+	@Column(columnDefinition="text")
+	private String tailoringService;
+	@Column(columnDefinition="text")
+	private String colorAndWashCare;
+	@Column(columnDefinition="text")
+	private String shippingAndReturnPolicy;
 	private int inStockNumber;
 
 	private String coverImageName;
-	
 	private String feature;
+	private String size;
+	@ManyToOne
+	@JoinColumn(name="category_id")
+	private Category category;
+	@ManyToOne
+	@JoinColumn(name="sub_category_id")
+	private SubCategory subCategory;
+	@ManyToOne
+	@JoinColumn(name="sub_sub_category_id")
+	private SubSubCategory mainSubCategory;
 	
-//	@Transient
-//	private MultipartFile productImage;
+	/*@OneToMany(mappedBy="newProduct")
+	@JsonIgnore
+	private List<CategoryList> categoryList;*/
 	
 	@Transient
 	private List<MultipartFile> productImage;
@@ -70,84 +89,52 @@ public class Product {
 		this.title = title;
 	}
 
-	public String getAuthor() {
-		return author;
+	public String getBrand() {
+		return brand;
 	}
 
-	public void setAuthor(String author) {
-		this.author = author;
+	public void setBrand(String brand) {
+		this.brand = brand;
 	}
 
-	public String getPublisher() {
-		return publisher;
+	public String getGender() {
+		return gender;
 	}
 
-	public void setPublisher(String publisher) {
-		this.publisher = publisher;
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 
-	public String getPublicationDate() {
-		return publicationDate;
+	public Date getAddedDate() {
+		return addedDate;
 	}
 
-	public void setPublicationDate(String publicationDate) {
-		this.publicationDate = publicationDate;
+	public void setAddedDate(Date addedDate) {
+		this.addedDate = addedDate;
 	}
 
-	public String getLanguage() {
-		return language;
+	public String getShippingOption() {
+		return shippingOption;
 	}
 
-	public void setLanguage(String language) {
-		this.language = language;
+	public void setShippingOption(String shippingOption) {
+		this.shippingOption = shippingOption;
 	}
 
-	public String getCategory() {
-		return category;
+	public String getAvailabilityToShip() {
+		return availabilityToShip;
 	}
 
-	public void setCategory(String category) {
-		this.category = category;
+	public void setAvailabilityToShip(String availabilityToShip) {
+		this.availabilityToShip = availabilityToShip;
 	}
 
-	public String getSubCategory() {
-		return subCategory;
+	public String getSku() {
+		return sku;
 	}
 
-	public void setSubCategory(String subCategory) {
-		this.subCategory = subCategory;
-	}
-
-	public String getMainSubCategory() {
-		return mainSubCategory;
-	}
-
-	public void setMainSubCategory(String mainSubCategory) {
-		this.mainSubCategory = mainSubCategory;
-	}
-
-	public int getNumberOfPages() {
-		return numberOfPages;
-	}
-
-	public void setNumberOfPages(int numberOfPages) {
-		this.numberOfPages = numberOfPages;
-	}
-
-	public String getFormat() {
-		return format;
-	}
-
-	public void setFormat(String format) {
-		this.format = format;
-	}
-
-	public int getIsbn() {
-		return isbn;
-	}
-
-	public void setIsbn(int isbn) {
-		this.isbn = isbn;
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 
 	public double getShippingWeight() {
@@ -182,12 +169,44 @@ public class Product {
 		this.active = active;
 	}
 
+	public String getExtraPromo() {
+		return extraPromo;
+	}
+
+	public void setExtraPromo(String extraPromo) {
+		this.extraPromo = extraPromo;
+	}
+
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getTailoringService() {
+		return tailoringService;
+	}
+
+	public void setTailoringService(String tailoringService) {
+		this.tailoringService = tailoringService;
+	}
+
+	public String getColorAndWashCare() {
+		return colorAndWashCare;
+	}
+
+	public void setColorAndWashCare(String colorAndWashCare) {
+		this.colorAndWashCare = colorAndWashCare;
+	}
+
+	public String getShippingAndReturnPolicy() {
+		return shippingAndReturnPolicy;
+	}
+
+	public void setShippingAndReturnPolicy(String shippingAndReturnPolicy) {
+		this.shippingAndReturnPolicy = shippingAndReturnPolicy;
 	}
 
 	public int getInStockNumber() {
@@ -198,29 +217,6 @@ public class Product {
 		this.inStockNumber = inStockNumber;
 	}
 
-	/*	public MultipartFile getProductImage() {
-	return productImage;
-}
-
-public void setProductImage(MultipartFile productImage) {
-	this.productImage = productImage;
-}*/
-
-public List<MultipartFile> getProductImage() {
-	return productImage;
-}
-
-public void setProductImage(List<MultipartFile> productImage) {
-	this.productImage = productImage;
-}
-
-	public List<ProductToCartItem> getProductToCartItemList() {
-		return productToCartItemList;
-	}
-
-	public void setProductToCartItemList(List<ProductToCartItem> productToCartItemList) {
-		this.productToCartItemList = productToCartItemList;
-	}
 	public String getCoverImageName() {
 		return coverImageName;
 	}
@@ -236,5 +232,56 @@ public void setProductImage(List<MultipartFile> productImage) {
 	public void setFeature(String feature) {
 		this.feature = feature;
 	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
 	
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public SubCategory getSubCategory() {
+		return subCategory;
+	}
+
+	public void setSubCategory(SubCategory subCategory) {
+		this.subCategory = subCategory;
+	}
+
+	public SubSubCategory getMainSubCategory() {
+		return mainSubCategory;
+	}
+
+	public void setMainSubCategory(SubSubCategory mainSubCategory) {
+		this.mainSubCategory = mainSubCategory;
+	}
+
+	public List<MultipartFile> getProductImage() {
+		return productImage;
+	}
+
+	public void setProductImage(List<MultipartFile> productImage) {
+		this.productImage = productImage;
+	}
+
+	public List<ProductToCartItem> getProductToCartItemList() {
+		return productToCartItemList;
+	}
+
+	public void setProductToCartItemList(List<ProductToCartItem> productToCartItemList) {
+		this.productToCartItemList = productToCartItemList;
+	}
+
+	
+
 }

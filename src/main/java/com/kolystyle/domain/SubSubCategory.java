@@ -7,26 +7,30 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Category {
+public class SubSubCategory {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
-	private String categorySlug;
-	private String categoryName;
-	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "category")
+	private String subSubCategorySlug;
+	private String subSubCategoryName;
+
+	@ManyToOne
+	@JoinColumn(name="subCategory_id")
 	@JsonIgnore
-	private List<SubCategory> subCategory;
+	private SubCategory subCategory;
+
 	
-	@OneToMany(mappedBy="category")
+	@OneToMany(mappedBy="mainSubCategory")
 	@JsonIgnore
 	private List<Product> product;
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -35,27 +39,27 @@ public class Category {
 		this.id = id;
 	}
 
-	public String getCategorySlug() {
-		return categorySlug;
+	public String getSubSubCategorySlug() {
+		return subSubCategorySlug;
 	}
 
-	public void setCategorySlug(String categorySlug) {
-		this.categorySlug = categorySlug;
+	public void setSubSubCategorySlug(String subSubCategorySlug) {
+		this.subSubCategorySlug = subSubCategorySlug;
 	}
 
-	public String getCategoryName() {
-		return categoryName;
+	public String getSubSubCategoryName() {
+		return subSubCategoryName;
 	}
 
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
+	public void setSubSubCategoryName(String subSubCategoryName) {
+		this.subSubCategoryName = subSubCategoryName;
 	}
 
-	public List<SubCategory> getSubCategory() {
+	public SubCategory getSubCategory() {
 		return subCategory;
 	}
 
-	public void setSubCategory(List<SubCategory> subCategory) {
+	public void setSubCategory(SubCategory subCategory) {
 		this.subCategory = subCategory;
 	}
 
@@ -69,4 +73,3 @@ public class Category {
 	
 	
 }
-

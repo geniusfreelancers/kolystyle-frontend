@@ -119,14 +119,15 @@ public class CartItemServiceImpl implements CartItemService {
        		
        	}*/
   //     	shoppingCart.setGrandTotal(shoppingCartService.);
+		Date addedDate = Calendar.getInstance().getTime();
+		shoppingCart.setUpdatedDate(addedDate);
 		
-		shoppingCartService.calculateCartSubTotal(shoppingCart);
+       	shoppingCartRepository.save(shoppingCart);
+       	shoppingCartService.calculateCartSubTotal(shoppingCart);
 		shoppingCartService.calculateDiscountAmount(shoppingCart, promoCodes);
 		shoppingCartService.calculateShippingCost(shoppingCart);
 		shoppingCartService.calculateCartOrderTotal(shoppingCart);
-       	Date addedDate = Calendar.getInstance().getTime();
-		shoppingCart.setUpdatedDate(addedDate);
-       	shoppingCartRepository.save(shoppingCart);
+		shoppingCartRepository.save(shoppingCart);
 		return cartItem;
 	}
 	

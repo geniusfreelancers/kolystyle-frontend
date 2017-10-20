@@ -140,28 +140,31 @@ public class CartController {
 			
 			// Get Cart from Session.
 			shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
+			
        	 
        	// If null, create it.
        	if (shoppingCart == null) {
-       		shoppingCart = new ShoppingCart();
-       		String sessionID = session.getId();
-       		shoppingCart.setSessionId(sessionID);
-   			
-   			
-			//To generate random number 99 is max and 10 is min
-			Random rand = new Random();
-			int  newrandom = rand.nextInt(99) + 10;
-			
-		//	Time Stamp and Random Number for Bag Id so we can always
-			//  have unique bag id within Guest Cart
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			
-			String bagId = newrandom+"KS"+timestamp.getTime();
-			shoppingCart.setBagId(bagId);
-			shoppingCartRepository.save(shoppingCart);
-           
+       		model.addAttribute("emptyCart",true);
+       		return "shoppingCart";
+/*//       		shoppingCart = new ShoppingCart();
+//       		String sessionID = session.getId();
+//       		shoppingCart.setSessionId(sessionID);
+//   			
+//   			
+//			//To generate random number 99 is max and 10 is min
+//			Random rand = new Random();
+//			int  newrandom = rand.nextInt(99) + 10;
+//			
+//		//	Time Stamp and Random Number for Bag Id so we can always
+//			//  have unique bag id within Guest Cart
+//			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//			
+//			String bagId = newrandom+"KS"+timestamp.getTime();
+//			shoppingCart.setBagId(bagId);
+//			shoppingCartRepository.save(shoppingCart);
+*/           
        		// And store to Session.
-       		request.getSession().setAttribute("ShoppingCart",shoppingCart);
+   //    		request.getSession().setAttribute("ShoppingCart",shoppingCart);
        	}
        	
 		}
@@ -172,24 +175,7 @@ public class CartController {
 			model.addAttribute("emptyCart",false);	
 		}
        	shoppingCartService.updateShoppingCart(shoppingCart);
-       	/*SiteSetting siteSetting= siteSettingService.findOne((long) 1);
        	
-       	if(shoppingCart.getGrandTotal().doubleValue()>=siteSetting.getFreeShippingMin().doubleValue()) {
-       		if(shoppingCart.getDiscountedAmount() != null) {
-       			if(shoppingCart.getDiscountedAmount().doubleValue()>=siteSetting.getFreeShippingMin().doubleValue()) {
-       				
-       				model.addAttribute("freeShip",true);
-       			}else {
-       				model.addAttribute("freeShip",false);
-       			}
-       		}else {
-       			model.addAttribute("freeShip",true);
-       		}
-       		
-       	}else {
-       		model.addAttribute("freeShip",false);
-       		model.addAttribute("shippingCost",10.00);
-       	}*/
 		model.addAttribute("cartItemList",cartItemList);
 		model.addAttribute("shoppingCart",shoppingCart);
 		

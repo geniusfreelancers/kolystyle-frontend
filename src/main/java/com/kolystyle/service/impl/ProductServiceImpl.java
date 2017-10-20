@@ -64,8 +64,8 @@ public class ProductServiceImpl implements ProductService{
 		List<Product> validProductList = new ArrayList<>();
 		
 		for(Product product: activeProductList){
-			String subCat = product.getSubCategory();
-			String submainCat = product.getMainSubCategory();
+			String subCat = product.getSubCategory().getSubCategorySlug();
+			String submainCat = product.getMainSubCategory().getSubSubCategorySlug();
 			
 			
 				if(subCategory == "" || subCategory.isEmpty() || subCategory.equalsIgnoreCase("none") || subCategory == null) {

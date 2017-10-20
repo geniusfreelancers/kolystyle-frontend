@@ -18,9 +18,9 @@ import javax.persistence.OneToOne;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kolystyle.domain.security.Authority;
 import com.kolystyle.domain.security.UserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class User implements UserDetails{
@@ -39,6 +39,7 @@ public class User implements UserDetails{
 	private String gender;
 	private Date Dob;
 	private String phone;
+	private String userType;
 	private String mailingStreet1;
 	private String mailingStreet2;
 	private String mailingCity;
@@ -47,6 +48,7 @@ public class User implements UserDetails{
 	private String mailingZipcode;
 	private boolean userPreferences;
 	private boolean enabled=true;
+	private String accountStatus;
 	
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="user")
 	private ShoppingCart shoppingCart;
@@ -123,7 +125,14 @@ public class User implements UserDetails{
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	
 
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
 	public String getMailingStreet1() {
 		return mailingStreet1;
 	}
@@ -236,6 +245,12 @@ public class User implements UserDetails{
 	@Override
 	public boolean isEnabled(){
 		return enabled;
+	}
+	public String getAccountStatus() {
+		return accountStatus;
+	}
+	public void setAccountStatus(String accountStatus) {
+		this.accountStatus = accountStatus;
 	}
 	
 }
