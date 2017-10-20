@@ -323,7 +323,7 @@ $(window).ready(function (){
 				
 				
 				
-  <div class="col-md-4 col-sm-6 slide-inner" th:attr="data-price=${product.ourPrice},data-brand=${product.author},data-category=${product.category},data-size=small" >
+  <div class="col-md-4 col-sm-6 slide-inner" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-size=${product.size}" >
                     <div class="product-singleArea">
                     
                         <div class="product-img">
