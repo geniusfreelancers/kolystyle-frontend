@@ -102,13 +102,12 @@ public class CheckoutController {
                 System.out.println("BagId = " + cartId);
                 foundCookie = true;
             }}
-        if(!foundCookie) {
+        shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
+        if(shoppingCart==null) {
         	System.out.println("Bag ID IS MISSING");
-        	shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
-        }else {
         	shoppingCart = shoppingCartService.findCartByBagId(cartId);
         }
-        
+                
         List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
  
 		ShippingAddress shippingAddress = new ShippingAddress();
@@ -120,6 +119,9 @@ public class CheckoutController {
 		model.addAttribute("billingAddress",billingAddress);
 		model.addAttribute("cartItemList",cartItemList);
 		model.addAttribute("shoppingCart",shoppingCart);
+		List<String> stateList = USConstants.listOfUSStatesCode;
+		Collections.sort(stateList);
+		model.addAttribute("stateList", stateList);
 		return "guestcheckout";
 		
 	}

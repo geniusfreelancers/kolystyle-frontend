@@ -3,6 +3,20 @@
             CUSTOM STYLE
 
 ******************************************/
+.paypalbtn{
+    height: 15px;
+    width: 100px;
+    display: inline-block;
+    vertical-align: middle;
+    background: url(/image/pp-logo-62px.png) 0 0 no-repeat;
+    }
+.title {
+    font-size: 1.4em;
+    /* font-weight: bolder; */
+    font-style: italic;
+    text-align: center;
+    color: #716e6e;
+}
 .cart-product-details p{
 	margin-bottom:2px;
 }

@@ -3,6 +3,7 @@ package com.kolystyle.service;
 
 import java.util.List;
 
+import com.kolystyle.domain.Category;
 import com.kolystyle.domain.Product;
 
 public interface ProductService {
@@ -11,11 +12,11 @@ public interface ProductService {
 	
 	Product findOne(Long id);
 	 
-	List<Product> findByCategory(String category);
+	List<Product> findByCategory(Category category);
+	List<Product> findTop12ByCategory(Category category);
 	
-	List<Product> findBySubCategory(String category, String subCategory, String mainSubCategory);
+	List<Product> findBySubCategory(Category category, String subCategory, String mainSubCategory);
 	
 	List<Product> blurrySearch(String title);
 	
-
 }

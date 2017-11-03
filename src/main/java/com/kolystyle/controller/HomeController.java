@@ -2,6 +2,7 @@ package com.kolystyle.controller;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -34,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kolystyle.domain.CartItem;
-
+import com.kolystyle.domain.Category;
 import com.kolystyle.domain.Order;
 import com.kolystyle.domain.Product;
 import com.kolystyle.domain.ShoppingCart;
@@ -289,11 +290,25 @@ public class HomeController {
 		}
 		
 		Product product = productService.findOne(id);
+		String availableSize = product.getSize();
+		List<String> sizeList = Arrays.asList(availableSize.split("\\s*,\\s*"));
 		
 		model.addAttribute("product", product);
 		
-		List<Integer> qtyList = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
+		//List<Integer> qtyList = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
+		int qtly = product.getInStockNumber();
+		List<Integer> qtyList = new ArrayList<Integer>();
+		for (int i=1; i<=qtly;i++) {
+			qtyList.add(i);
+		}
+		Category category = product.getCategory();
+		List<Product> productList = productService.findTop12ByCategory(category);
 		
+		
+		//List<Product> productList = productService.findByCategory(category);
+		model.addAttribute("productList", productList);
+		System.out.println(productList);
+		model.addAttribute("sizeList", sizeList);
 		model.addAttribute("qtyList", qtyList);
 		model.addAttribute("qty", 1);
 		

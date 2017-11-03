@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kolystyle.domain.Category;
 import com.kolystyle.domain.Product;
 import com.kolystyle.domain.User;
+import com.kolystyle.service.CategoryService;
 import com.kolystyle.service.ProductService;
 import com.kolystyle.service.UserService;
 
@@ -23,6 +25,9 @@ public class SearchController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private CategoryService categoryService;
 
 	@RequestMapping("/searchByCategory")
 	public String searchByCategory(@RequestParam("category") String category,
@@ -39,8 +44,8 @@ public class SearchController {
 		classActiveCategory = classActiveCategory.replaceAll("&", "");
 		
 		model.addAttribute("classActiveCategory", true);
-		
-		List<Product> productList = productService.findByCategory(category);
+		Category thiscategory = categoryService.findCategoryBySlug(category);
+		List<Product> productList = productService.findByCategory(thiscategory);
 		
 		if(productList.isEmpty()){
 			model.addAttribute("emptyList", true);
@@ -88,8 +93,8 @@ public class SearchController {
 		classActiveCategory = classActiveCategory.replaceAll("&", "");
 		
 		model.addAttribute("classActiveCategory", true);
-		
-		List<Product> productList = productService.findBySubCategory(category, subCategory, mainsubCategory);
+		Category thiscategory = categoryService.findCategoryBySlug(category);
+		List<Product> productList = productService.findBySubCategory(thiscategory, subCategory, mainsubCategory);
 		
 		if(productList.isEmpty()){
 			model.addAttribute("emptyList", true);

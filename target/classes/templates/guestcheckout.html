@@ -8,9 +8,11 @@
 			<div th:replace="common/head :: navbar" />
 
 			<div id="container">
-				<div id="content">
+				<div id="content">			
+				
 		<div class="row" style="margin-top: 10px;">
-			<form th:action="@{/charge}" method="post" id="checkout-form">
+
+			<form th:action="@{/charge}" method="post" id="payment-form">
 
 				<!-- Checkout Info -->
 				<div class="col-md-12">
@@ -21,7 +23,39 @@
 				</div>
 				<div class="col-md-6">
 				<div class="panel-group" id="accordion">
-				
+					<div class="col-md-12">
+					<!-- Contact Information -->
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion"
+										href="#customerInfo">Contact Information</a>
+								</h4>
+							</div>
+							<div id="customerInfo" class="panel-collapse collapse in"
+								th:classappend="${classActiveCustomer}? 'in'">
+								<div class="panel-body">
+									
+									<div class="form-group">
+
+										<label for="phoneNumber">* Phone number</label> <input type="text"
+											class="form-control" id="phoneNumber"
+											placeholder="Phone number" th:name="phoneNumber"
+											required="required"
+											th:value="${shippingAddress.shippingAddressName}" />
+									</div>
+									<div class="form-group">
+										<label for="email">* Email address</label> <input
+											type="text" class="form-control" id="email"
+											placeholder="Email Address"
+											th:name="email" required="required"
+											th:value="${shippingAddress.shippingAddressStreet1}" />
+									</div>
+								</div>
+							</div>
+						</div>
+					
+					</div>
 					<div class="col-md-12">
 
 						<!-- 1. Shipping Address -->
@@ -29,21 +63,36 @@
 							<div class="panel-heading">
 								<h4 class="panel-title">
 									<a data-toggle="collapse" data-parent="#accordion"
-										href="#shippingInfo"> 1. Shipping Address</a>
+										href="#shippingInfo">Shipping Address</a>
 								</h4>
 							</div>
 							<div id="shippingInfo" class="panel-collapse collapse in"
 								th:classappend="${classActiveShipping}? 'in'">
 								<div class="panel-body">
-									
+									<div class="row">
+										
+										<div class="col-xs-6">
 									<div class="form-group">
 
-										<label for="shippingName">* Name</label> <input type="text"
-											class="form-control" id="shippingName"
-											placeholder="Receiver Name" th:name="shippingAddressName"
+										<label for="firstName">* First Name</label> <input type="text"
+											class="form-control" id="firstName"
+											placeholder="First Name" th:name="firstName"
 											required="required"
-											th:value="${shippingAddress.shippingAddressName}" />
+											th:value="${shippingAddress.firstName}" />
 									</div>
+									</div>
+									<div class="col-xs-6">
+									<div class="form-group">
+
+										<label for="lastName">* Last Name</label> <input type="text"
+											class="form-control" id="lastName"
+											placeholder="Last Name" th:name="lastName"
+											required="required"
+											th:value="${shippingAddress.lastName}" />
+									</div>
+									</div>
+									</div>
+									
 									<div class="form-group">
 										<label for="shippingStreet">* Street Address</label> <input
 											type="text" class="form-control" id="shippingStreet"
@@ -103,17 +152,25 @@
 						<div class="panel panel-default">
 						<div class="panel-heading">
 						<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion" href="#paymentInfo">2. Payment Information</a>
+						<a data-toggle="collapse" data-parent="#accordion" href="#paymentInfo">Payment Information</a>
 						</h4>
 						</div>
 						
 						<div id="paymentInfo" class="panel-collapse collapse in" th:classappend="${classActivePayment}? 'in'">
 							<div class="panel-body">
 							
-									
-									<!-- Credit Card Information -->
+<div class="col-md-12">		
+
+<ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#creditCards"><b>Credit Card</b></a></li>
+  <li id="paypalBtn"><a data-toggle="tab" href="#payPal"><span class="paypalbtn"></span></a></li>
+</ul>
+<div class="tab-content">
+  <div id="creditCards" class="tab-pane fade in active">
+  <!-- Start -->
+							<!-- Credit Card Information -->
 									<div class="row">
-									<div class="col-xs-12">
+									<div class="col-md-12">
 									<img th:src="@{/image/creditcard.png}" class="img-responsive"/><br/>
 									<div class="form-group">
 									<label for="cardType">* Select Card Type: </label>
@@ -132,7 +189,15 @@
 															required="required" placeholder="Card Holder Name"
 															th:name="holderName" th:value="${payment.holderName}" />
 													</div>
-													<div class="form-group">
+								<label for="card-element-num">
+      Credit or debit card
+    </label>
+    <div id="card-element-num">
+      <!-- a Stripe Element will be inserted here. -->
+    </div>
+  
+    
+											<div class="form-group">
 														<label for="cardNumber">* Card Number:</label>
 														<div class="input-group"><span
 																class="input-group-addon"><i
@@ -142,12 +207,21 @@
 																th:name="cardNumber"
 																th:value="${payment.cardNumber}" /> 
 														</div>
-													</div>											
+													</div>										
 										</div>
 									</div>
 									
 									<div class="row">
 												<div class="col-xs-7">
+												
+												<label for="card-element-exp">
+      Expiry
+    </label>
+    <div id="card-element-exp">
+      <!-- a Stripe Element will be inserted here. -->
+    </div>
+												
+												
 													<div class="form-group">
 														<label>* Expiration Date</label>
 														<div class="row">
@@ -193,6 +267,12 @@
 													</div>
 												</div>
 												<div class="col-xs-5">
+												<label for="card-element-cvc">
+      CVC
+    </label>
+    <div id="card-element-cvc">
+      <!-- a Stripe Element will be inserted here. -->
+    </div>
 													<div class="form-group">
 														<label for="cardCVC">CV Code</label> <input id="cardCVC"
 															type="tel" class="form-control" name="cvc"
@@ -206,13 +286,14 @@
 												<div class="checkbox">
 												<label>
 												<input id="theSameAsShippingAddress" type="checkbox" name="billingSameAsShipping" value="true"/>
-												The same as shipping address
+												Use my shipping address
 												</label>
 												</div>
 												
-												<div class="form-group">
-										<label for="billingName">* Name</label>
-										<input type="text" class="form-control billingAddress" id="billingName" placeholder="Receiver Name" th:name="billingAddressName" required="required" th:value="${billingAddress.billingAddressName}" />
+									
+									<div class="form-group">
+										<label for="holderName">* Full Name</label>
+										<input type="text" class="form-control billingAddress" id="holderName" placeholder="Card Holder Name" th:name="holderName" required="required" th:value="${payment.holderName}" />
 									</div>
 									<div class="form-group">
 										<label for="billingAddress">* Street Address</label>
@@ -240,13 +321,33 @@
 									</div>
 									</div>
 									<div class="col-xs-6">
+									 <label for="card-element-zip">
+      Zipcode
+    </label>
+    <div id="card-element-zip">
+      <!-- a Stripe Element will be inserted here. -->
+    </div>
 									<div class="form-group">
 										<label for="billingZipcode">* Zip Code</label>
 										<input type="text" class="form-control billingAddress" id="billingZipcode" placeholder="Zip Code" th:name="billingAddressZipcode" required="required" th:value="${billingAddress.billingAddressZipcode}" />
 										
 									</div>
 									</div>
-									</div>
+									<!-- Used to display form errors -->
+    <div id="card-errors"></div>
+									</div>		
+									<!-- End -->
+  </div>
+  <div id="payPal" class="tab-pane fade">
+ 	<br/>
+ 	<p><strong>Note: </strong>PayPal can't be used with Gift Cards, Reward Cards and Credit Cards.</p>
+ 	<p class="help-text">You will login on PayPal's site on the next page and review your order, then you will finish the transaction at kolystyle.com</p>
+ 	<br/>
+ 	<button type="submit" class="btn btn-primary" id="rc-paypal-continue">Continue to Paypal</button>
+  </div>
+</div>
+	</div>								
+									
 												
 						<!--a data-toggle="collapse" data-parent="#accordion" class="btn btn-warning pull-right" href="#reviewItems">Next</a-->
 									
@@ -262,7 +363,7 @@
 					<div class="panel panel-default">
 					<div class="panel-heading">
 							<h4 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion" href="#reviewItems">3. Review Items and Shipping</a>
+							<a data-toggle="collapse" data-parent="#accordion" href="#reviewItems">Review Items and Shipping</a>
 							</h4>
 						</div>
 					<div id="reviewItems" class="panel-collapse collapse in">
@@ -270,14 +371,17 @@
 						<h4>Choose your shipping method:</h4>
 						<div class="radio">
 						<label>
-						<input type="radio" name="shippingMethod" value="groundShipping" checked="checked"/>Ground Shipping
+						<input type="radio" name="shippingMethod" value="groundShipping" checked="checked"/>Ground Shipping<br/>
+Transit time: 3-6 business days
 						</label>
 						</div>
 						
 						<div class="radio">
 						<label>
 						<input type="radio" name="shippingMethod" value="premiumShipping"/>Premium Shipping
+						<span class="text-right"><strong> $9.00</strong></span><br/>Transit time: 2-3 business days
 						</label>
+						
 						</div>
 						
 						<div class="row">
@@ -299,7 +403,7 @@
 						<div class="col-xs-4">
 							<div style="margin-left:50px;">	
 							<a th:href="@{/productDetail?id=}+${cartItem.product.id}"><h4 th:text="${cartItem.product.title}"></h4></a>
-								
+								<span>Size: </span><span>??</span> | <span>Web ID: </span><span>??</span>
 							</div>
 							</div>
 							<div class="col-xs-2">
@@ -389,6 +493,61 @@
 		</div>
 
 		<div class="clear"></div>
+
+  <script>
+var stripe = Stripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+var elements = stripe.elements();
+
+
+var cardNumber = elements.create('cardNumber');
+cardNumber.mount('#card-element-num');
+var cardExpiry = elements.create('cardExpiry');
+cardExpiry.mount('#card-element-exp');
+var cardCvc = elements.create('cardCvc');
+cardCvc.mount('#card-element-cvc');
+var cardPostalCode = elements.create('postalCode');
+// Add an instance of the card UI component into the `card-element` 
+cardPostalCode.mount('#card-element-zip');
+cardNumber.addEventListener('change', function(event) {
+	  var displayError = document.getElementById('card-errors');
+	  if (event.error) {
+	    displayError.textContent = event.error.message;
+	  } else {
+	    displayError.textContent = '';
+	  }
+	});
+	
+	
+	
+var form = document.getElementById('payment-form');
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  stripe.createToken(card).then(function(result) {
+    if (result.error) {
+      // Inform the customer that there was an error
+      var errorElement = document.getElementById('card-errors');
+      errorElement.textContent = result.error.message;
+    } else {
+      // Send the token to your server
+      stripeTokenHandler(result.token);
+    }
+  });
+});
+
+function stripeTokenHandler(token) {
+	  // Insert the token ID into the form so it gets submitted to the server
+	  var form = document.getElementById('payment-form');
+	  var hiddenInput = document.createElement('input');
+	  hiddenInput.setAttribute('type', 'hidden');
+	  hiddenInput.setAttribute('name', 'stripeToken');
+	  hiddenInput.setAttribute('value', token.id);
+	  form.appendChild(hiddenInput);
+
+	  // Submit the form
+	  form.submit();
+	}
+</script>
 				</div>
 
 				<script th:src="@{/js/controller.js}"></script>

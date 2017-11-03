@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kolystyle.domain.Category;
 import com.kolystyle.domain.Product;
 import com.kolystyle.repository.ProductRepository;
 import com.kolystyle.service.ProductService;
@@ -33,7 +34,11 @@ public class ProductServiceImpl implements ProductService{
 		return productRepository.findOne(id);
 	}
 	
-	public List<Product> findByCategory(String category){
+	public List<Product> findTop12ByCategory(Category category){
+		return productRepository.findTop12ByCategory(category);
+	}
+	
+	public List<Product> findByCategory(Category category){
 		List<Product> productList = productRepository.findByCategory(category);
 		
 		List<Product> activeProductList = new ArrayList<>();
@@ -48,7 +53,7 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	
-	public List<Product> findBySubCategory(String category, String subCategory, String mainSubCategory){
+	public List<Product> findBySubCategory(Category category, String subCategory, String mainSubCategory){
 		List<Product> productList = productRepository.findByCategory(category);
 		/*List<Product> productSubList = productRepository.findBySubCategory(subCategory);
 		List<Product> producMaintList = productRepository.findByMainSubCategory(mainSubCategory);*/
