@@ -1,5 +1,6 @@
 package com.kolystyle.controller;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Collections;
@@ -21,6 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.braintreegateway.BraintreeGateway;
+import com.braintreegateway.Result;
+import com.braintreegateway.Transaction;
+import com.braintreegateway.TransactionRequest;
 import com.kolystyle.domain.BillingAddress;
 import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.ChargeRequest;
@@ -95,13 +100,18 @@ public class CheckoutController {
 		String cartId = "";
 		boolean foundCookie = false;
    	 	//Check cookie value
-        for(int i = 0; i < cookies.length; i++) { 
-            Cookie cartID = cookies[i];
-            if (cartID.getName().equals("BagId")) {
-            	cartId = cartID.getValue();
-                System.out.println("BagId = " + cartId);
-                foundCookie = true;
-            }}
+		if (cookies != null){
+			int cok=cookies.length;
+			if(cok>0) {
+	        for(int i = 0; i < cookies.length; i++) { 
+	            Cookie cartID = cookies[i];
+	            if (cartID.getName().equals("BagId")) {
+	            	cartId = cartID.getValue();
+	                System.out.println("BagId = " + cartId);
+	                foundCookie = true;
+	            }}
+			}
+		}
         shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
         if(shoppingCart==null) {
         	System.out.println("Bag ID IS MISSING");
@@ -122,6 +132,11 @@ public class CheckoutController {
 		List<String> stateList = USConstants.listOfUSStatesCode;
 		Collections.sort(stateList);
 		model.addAttribute("stateList", stateList);
+		//Stripe Information
+		model.addAttribute("amount", 50 * 100); // in cents
+		model.addAttribute("stripePublicKey", stripePublicKey);
+		model.addAttribute("currency", ChargeRequest.Currency.USD);
+		
 		return "guestcheckout";
 		
 	}
@@ -209,6 +224,65 @@ public class CheckoutController {
 		//return "checkOutOld";
 		return "checkout";
        // return "form";
+		
+	}
+	
+	@RequestMapping(value="/paybypaypal", method=RequestMethod.POST)
+	public void payByPaypal() {
+/*		String cancelUrl = URLUtils.getBaseURl(request) + "/" + PAYPAL_CANCEL_URL;
+		String successUrl = URLUtils.getBaseURl(request) + "/" + PAYPAL_SUCCESS_URL;*/
+		
+		BraintreeGateway gateway = new BraintreeGateway("AfVpaqlZcYMo8N0mhhkoZsRPVxLGC4GEtLkAJ_hQx8dF1o7yga5RlEDT4BBiSgsRP0TeGRKKd8w1XFtR");
+		TransactionRequest request = new TransactionRequest().amount(new BigDecimal(20.00)).
+				merchantAccountId(stripePublicKey).paymentMethodNonce("paymentMethodNonce").
+				orderId("Mapped to PayPal Invoice Number").descriptor().
+				name("Descriptor displayed in customer CC statements. 22 char max").done();
+		
+		request.shippingAddress().firstName("bbbbb").lastName("jjjj").
+		streetAddress("gggg").extendedAddress("mmm").locality("kjkj").
+		region("jhj").postalCode("25232").done();
+		
+		request.options().paypal().customField("jjjjjjk").description("kkkkkk").done();
+				
+		/*TransactionRequest requestr = new TransactionRequest().
+			    amount(request.queryParams("amount")).
+			    merchantAccountId("USD").
+			    paymentMethodNonce(request.queryParams("paymentMethodNonce")).
+			    orderId("Mapped to PayPal Invoice Number").
+			    descriptor().
+			      name("Descriptor displayed in customer CC statements. 22 char max").
+			      done();
+			    shippingAddress().
+			    	.firstName("Jen")
+			        .lastName("Smith")
+			        .company("Braintree")
+			        .streetAddress("1 E 1st St")
+			        .extendedAddress("Suite 403")
+			        .locality("Bartlett")
+			        .region("IL")
+			        .postalCode("60103")
+			        .countryCodeAlpha2("US")
+			        .done();
+			    options().
+			      paypal().
+			        customField("PayPal custom field").
+			        description("Description for PayPal email receipt").
+			        done();
+			      storeInVaultOnSuccess(true).
+			      done();
+
+			Result<Transaction> saleResult = gateway.transaction().sale(request);
+
+			if (result.isSuccess()) {
+			  Transaction transaction = result.getTarget();
+			  System.out.println("Success ID: " + transaction.getId());
+			} else {
+			  System.out.println("Message: " + result.getMessage());
+			}*/
+	}
+	
+	@RequestMapping(value="/executepayment", method=RequestMethod.POST)
+	public void executePayment() {
 		
 	}
 	

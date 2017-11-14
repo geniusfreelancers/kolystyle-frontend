@@ -95,6 +95,11 @@ public class HomeController {
 	@Autowired
 	private CartItemRepository cartItemRepository;
 	
+	@RequestMapping("/thankyou")
+	public String thankyou() {
+		return "thankyou";
+	}
+	
 	@RequestMapping("/index")
 	public String index() {
 		return "index";

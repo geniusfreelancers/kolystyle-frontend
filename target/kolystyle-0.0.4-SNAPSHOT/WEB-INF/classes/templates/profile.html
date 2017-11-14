@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/head :: common-head" />
+<body>
+	<div class="wrapper-box">
+		<div class="main-wrapper">
+
+			<div th:replace="common/head :: navbar" />
+
+			<div id="container-wrapper">
+
+
+        <div class="col-md-3 col-sm-3">
+            <div th:replace="common/head :: customersidebar" /> 
+        </div>
+        <div class="col-md-9 col-sm-9">
+            <div class="col-md-12 border-grey">
+                <h3 class="text-moredanger"><span th:text="${user.firstName}"></span>'s profile</h3>
+                <p class="">Keep your mailing address below up to date to receive exclusive Koly's offers &amp; promotions by mail.</p>
+                <div class="col-md-12">
+							<div class="alert alert-danger" th:if="${incorrectPassword}">
+								<strong>Incorrect Password!</strong> Please enter the correct
+								password for the current user.
+							</div>
+							<div class="alert alert-danger" th:if="${emailExists}">
+								<strong><i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i> Email Already Exist!</strong> Please enter different email address
+								</div>
+							<div class="alert alert-success" th:if="${updateSuccess}">
+								<strong><i class="fa fa-check-circle fa-2x" aria-hidden="true"></i> Profile Information Updated Successfully!</strong>
+							</div>
+						<form id="profileForm" th:action="@{/customer/updateUserInfo}" method="post">
+						<input type="hidden" name="id" th:value="${user.id}" />
+						<div class="bg-info" th:if="${updateUserInfo}">User info updated.</div>
+						<div class="col-md-6">
+						<div class="form-group">
+                           <div class="row">
+												<div class="col-md-6">
+													<label for="firstName">First Name</label> <input
+														type="text" class="form-control" id="firstName"
+														 placeholder="First Name" name="firstName" th:value="${user.firstName}" />
+												</div>
+												<div class="col-md-6">
+													<label for="lastName">Last Name</label> <input type="text"
+														class="form-control" id="lastName" name="lastName"
+														 placeholder="Last Name" th:value="${user.lastName}" />
+												</div>
+											</div>
+											 </div>
+                        
+                        <div class="form-group">
+                            <label for="shippingStreet">Street Address 1 </label>
+                            <input type="text" placeholder="Street Address 1"  id="mailingStreet1" name="mailingStreet1" class="form-control" th:value="${user.mailingStreet1}" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="shippingApartmentNumber">Street Address 2</label>
+                            <input type="text" placeholder="Street Address 2" id="mailingStreet2" name="mailingStreet2" th:value="${user.mailingStreet2}" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                        <div class="row">
+                        <div class="col-md-4">
+                            <label for="shippingCity">City:</label>
+                            <input type="text" placeholder="City" id="mailingCity" name="mailingCity" th:value="${user.mailingCity}" class="form-control" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="shippingState">State</label>
+                            <input type="text"  id="mailingState" name="mailingState" th:value="${user.mailingState}" class="form-control" />
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <label for="shippingZip">Zipcode</label>
+                            <input type="text" placeholder="Zipcode" id="mailingZipcode" name="mailingZipcode" th:value="${user.mailingZipcode}" class="form-control" />
+                        </div>	
+                        </div>
+                        </div>
+                        <input type="hidden" name="userEmail" id="userEmail" th:value="${user.email}" />
+
+                        <div class="form-group">
+                            <label for="shippingCountry">Country</label>
+                            <input type="text" placeholder="Country" id="mailingCountry" name="mailingCountry" th:value="${user.mailingCountry}" class="form-control" />
+                        </div>
+ 						<div class="form-group">
+ 						<div class="row">
+ 						<div class="col-md-6">
+                            <label for="birthDate">Birth Date</label>
+                            <input type="date" placeholder="Birth Date" id="Dob" name="Dob" th:value="${user.Dob}" class="form-control" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="gender">Gender</label>
+                            <select th:value="${user.gender}" id="gender" name="gender" class="form-control">
+                            	<option selected="selected" disabled="disabled">Select One</option>
+                            	<option value="male" th:selected="(${user.gender}=='male')">Male</option>
+                            	<option value="female" th:selected="(${user.gender}=='female')">Female</option>
+                            </select>
+                            <!-- input type="text"  id="gender" name="gender" th:value="${user.gender}" class="form-control" /-->
+                        </div>
+                        </div>
+                        </div>				
+						</div>
+						<div class="col-md-6">
+						<div class="form-group">
+                            <label for="phone">Phone Number </label>
+                            <input type="text" placeholder="Phone Number" id="phone" name="phone" th:value="${user.phone}" class="form-control"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>&nbsp;<span class="" id="emailError"></span>
+                            <input type="text" placeholder="Email" id="email" name="email" th:value="${user.email}" class="form-control" th:classappend="${emailExists} ? 'input-error' "/>
+                        </div>
+                        <p style="color: #828282"><i class="fa fa-info-circle" aria-hidden="true"></i> All
+											email from Koly Style will be sent to this email including password reset instructions.
+											</p>
+						<div class="form-group">
+						<label for="currentPassword">Current Password</label> <input placeholder="Current Password"
+												type="password" class="form-control" id="currentPassword"
+												name="password" th:value="${currentPassword}" />
+										</div>	
+										<p style="color: #828282"><i class="fa fa-info-circle" aria-hidden="true"></i> Only enter your current password to
+											change the email address or password.</p>
+											
+                        <div class="form-group">
+                        <span style="color: red;" id="checkPasswordMatch"></span>
+                        <div class="row">
+                        
+                        <div class="col-md-6">
+						<label for="txtNewPassword">New Password</label> <input
+												type="password" class="form-control" id="txtNewPassword"
+												name="newPassword" placeholder="New Password"/>
+												</div>					
+						<div class="col-md-6">
+											<label for="txtConfirmPassword">Confirm Password</label>&nbsp;<span
+												class="text-success" id="PasswordMatched"></span> <input
+												placeholder="Confirm New Password" type="password" class="form-control" id="txtConfirmPassword" />
+										</div>
+										
+									</div>
+									
+									</div>
+						<p style="color: #828282"><i class="fa fa-info-circle" aria-hidden="true"></i> To change the current user
+											password, enter the new password in both fields.</p>											
+						</div>
+						
+						<button id="updateUserInfoButton" type="submit"
+											class="btn btn-danger">UPDATE</button>
+						
+						
+						</form>	
+<script>    
+    $().ready(function(){
+    	$( "#profileForm" ).validate({
+            rules: {
+            	firstName:"required",
+            	mailingStreet1:"required",
+            	mailingCity:"required",
+            	mailingState:"required",
+            	mailingZipcode:"required",
+            	mailingCountry:"required",
+            	Dob:"required",
+            	gender:"required",
+            	email: {
+                    required: true,
+                    email:true
+                },
+                txtNewPassword:{
+                	minlength:6
+                },
+                txtConfirmPassword:{
+                	equalTo:"#txtNewPassword"
+                },
+                phone:{
+                	minlength:10
+                },
+                lastName:"required"
+            },
+            messages:{
+            	firstName:"First Name Required",
+            	mailingStreet1:"Street Address Required",
+            	mailingCity:"City Required",
+            	mailingState:"State Required",
+            	mailingZipcode:"Zipcode Required",
+            	mailingCountry:"Country Required",
+            	Dob:"Birth Date Required",
+            	gender:"Gender Required",
+            	customerPhone:"Gender Required",
+            	gender:"Gender Required",
+            	email: {
+                    required: "Email Required",
+                },
+                txtNewPassword:{
+                	minlength: "Password must be atleast 6 characters"
+                },
+                txtConfirmPassword:{
+                	equalTo:"Please enter same password"
+                },
+                phone:{
+                	minlength: "Please enter a valid Phone Number"
+                },
+                lastName:"Last Name Required"
+            }
+        });
+    });    
+</script>
+
+						</div>
+                <div class="col-md-12">
+       <p class="security-button-bar" style="margin-top:10px;">Note: For security, please do NOT email us your account number.</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+   
+ 	
+					<div class="clear"></div>
+				
+
+				<script th:src="@{/js/controller.js}"></script>
+
+				<!-- end of container -->
+				<div th:replace="common/head :: footer" />
+
+				<div th:replace="common/head :: body-bottom-scripts" />
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
+   

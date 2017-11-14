@@ -20,6 +20,8 @@ public class Payment {
 	private int expiryYear;
 	private int cvc;
 	private String holderName;
+	private String cardToken;
+	private String paymentType;
 	
 	@OneToOne
 	private Order order;
@@ -89,6 +91,22 @@ public class Payment {
 
 	public void setHolderName(String holderName) {
 		this.holderName = holderName;
+	}
+
+	public String getCardToken() {
+		return cardToken;
+	}
+
+	public void setCardToken(String cardToken) {
+		this.cardToken = cardToken;
+	}
+
+	public String getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
 	}
 
 	public Order getOrder() {

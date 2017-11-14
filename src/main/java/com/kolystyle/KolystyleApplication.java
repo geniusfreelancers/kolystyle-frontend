@@ -1,6 +1,6 @@
-
 package com.kolystyle;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.braintreegateway.BraintreeGateway;
 import com.kolystyle.domain.User;
 import com.kolystyle.domain.security.Role;
 import com.kolystyle.domain.security.UserRole;
@@ -18,10 +19,28 @@ import com.kolystyle.utility.SecurityUtility;
 @SpringBootApplication
 public class KolystyleApplication implements CommandLineRunner {
 
+	public static String DEFAULT_CONFIG_FILENAME = "config.properties";
+    public static BraintreeGateway gateway;
+    
 	@Autowired
 	private UserService userService;
 	
 	public static void main(String[] args) {
+		String PATH = "src/main/resources/";
+	    
+		String folderName =  PATH.concat(DEFAULT_CONFIG_FILENAME);
+		
+		File configFile = new File(folderName);
+        try {
+            if(configFile.exists() && !configFile.isDirectory()) {
+                gateway = BraintreeGatewayFactory.fromConfigFile(configFile);
+            } else {
+                gateway = BraintreeGatewayFactory.fromConfigMapping(System.getenv());
+            }
+        } catch (NullPointerException e) {
+            System.err.println("Could not load Braintree configuration from config file or system environment.");
+            System.exit(1);
+        }
 		SpringApplication.run(KolystyleApplication.class, args);
 	}
 	

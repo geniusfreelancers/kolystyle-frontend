@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/head :: common-head" />
+<body>
+	<div class="wrapper-box">
+		<div class="main-wrapper">
+
+			<div th:replace="common/head :: navbar" />
+
+			<div id="container-wrapper">
+
+
+        <div class="col-md-3 col-sm-3">
+            <div th:replace="common/head :: customersidebar" /> 
+        </div>
+        <div class="col-md-9 col-sm-9">
+            <div class="col-md-12 border-grey">
+                <h3 class="text-moredanger">my preferences</h3>
+                <p class="">Be the first to get savings and offers when you subscribe for Koly's promotional emails.</p>
+                <p>Let us know how you'd like to get receipts &amp; notifications about deals, events &amp; more.</p>
+                   <p> Your current email address is set to: <strong><span class="text-success" th:text="${user.email}"></span></strong> <a href="/customer/myprofile">(Change)</a></p>
+                <div class="col-md-12" th:switch="${userPayment.type}">
+                <div class="alert alert-success" th:if="${prefUpdated}">
+                <span th:if="${updateSuccesstrue}">Thank you for subscribing for Koly's promotional emails.</span>
+                <span th:if="${updateSuccessfalse}">You will no longer receive any promotional emails from Koly's.</span>
+                </div>
+                    
+                        <form th:action="@{/customer/preferences}" method="post">
+                            <div class="error" th:if="${errors}" style="color: #ff0000;">
+                            Some errors occurred. Please try again later.
+                            </div>
+                        
+                        <div class="col-md-12 border-btm-grey">
+                            <div class="col-md-2">
+                                <i class="fa fa-envelope fa-4x text-moredanger" aria-hidden="true"></i>
+                            </div>
+                            <div class="col-md-10">
+                                <h3 class="text-moredanger">emails</h3>
+                                <p>Receive emails about sales, offers &amp; events.</p>
+                                <span class="text-primary" th:if="${user.userPreferences}"><strong>Enabled</strong> <span th:text="${user.email}"></span></span>
+                                <span class="text-danger" th:if="${!user.userPreferences}"><strong>Disabled</strong></span>
+                                <p>Would you like to receive emails from Koly's?</p>
+                      
+                      <div class="form-group">
+						
+						<input type="hidden" name="id" th:value="${user.id}" />
+						<div class="col-md-12">
+							<label> <input type="radio" name="userPreferences"
+								th:checked="${user.userPreferences}" value="true" /> Yes, I don't want to miss a thing!
+							</label> 
+						</div>
+						<div class="col-md-12">
+							<label> <input type="radio" th:checked="${!user.userPreferences}" name="userPreferences" value="false" />
+								No, thanks! I'm good for now.
+							</label>
+						</div>
+						<div class="col-md-12">
+						 <input type="submit" value="SAVE" class="btn btn-default"/>
+						 <br/><br/>
+						</div>
+						   
+					</div>
+                         
+                             
+                    
+                                
+                            </div>
+                        </div>
+                       
+
+
+                    </form>
+
+                </div>
+                <div class="col-md-12">
+                    <p class="security-button-bar">Note: For security, please do NOT email us your account number.</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+ 	
+					<div class="clear"></div>
+				
+
+				<script th:src="@{/js/controller.js}"></script>
+
+				<!-- end of container -->
+				<div th:replace="common/head :: footer" />
+
+				<div th:replace="common/head :: body-bottom-scripts" />
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
+   

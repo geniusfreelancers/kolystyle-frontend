@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/head :: common-head" />
+<body>
+	<div class="wrapper-box">
+		<div class="main-wrapper">
+
+			<div th:replace="common/head :: navbar" />
+
+			<div id="container-wrapper">
+				
+<!-- Register Page Start-->
+<div class="basicinformation-wrapper col-md-12">
+<h3>Basic Information:</h3>
+<form id="registerForm" th:action="@{/register}" method="post">
+<div class="col-md-1"></div>
+<div class="col-md-5">
+	<input hidden="hidden" id="guestsession" name="guestsession" th:value="${sessionID}"/>
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control input-height"
+												name="firstName" id="firstName" />
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control input-height"
+												name="lastName" id="lastName" />
+        </div>
+        
+         
+        
+        <div class="form-group">
+            <label for="newUsername">Username </label>&nbsp;<span style="color:red;" th:if="${usernameExists}">Username already exists. Choose a different one. </span>
+           <input type="text" class="form-control input-height"
+												name="username" id="username" />
+            
+        </div>
+</div>
+<div class="col-md-5">
+	<div class="form-group">
+            <label for="email">Email </label>&nbsp;<span style="color:red;" th:if="${emailExists}">Email already exists. Choose a different one. </span> 
+            <input required="required" type="email" class="form-control input-height"
+												name="email" id="email" />
+        </div>
+        
+
+        <div class="form-group">
+            <label for="phone">Phone </label>
+            <input type="text" class="form-control input-height"
+												name="phone" id="phone" />
+        </div>
+
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control input-height"
+								name="password" id="password" />
+            <p class="help-text">Tip: Use uppercase, lowercase and numbers for stronger password.</p>
+            <p class="text-success"><i class="fa fa-check-square-o" aria-hidden="true"></i> Must be 7-16 characters</p>
+            <p class="text-success"><i class="fa fa-check-square-o" aria-hidden="true"></i> Cannot contain spaces or . , - | \ / = _</p>
+        </div>
+
+
+        <a href="#" class="exclusive-link">*Exclusions Apply.</a>
+        <p class="terms-agree">By selecting "create account" you agree that you are subject to Koly's Notice of <a href="#" class="privacy-link">Privacy Practices</a> and <a href="#" class="legal-link">Legal Notice.</a></p>
+
+            <input type="submit" value="Submit" class="btn btn-default"/>
+            <a href="/login" class="btn btn-default">Cancel</a>
+
+            
+            </div>
+            <div class="col-md-1"></div>
+</form>
+
+<script>
+$().ready(function(){
+	$( "#registerForm" ).validate({
+        rules: {
+        	firstName:"required",
+        	username:{
+        		required: true,
+        		minlength:5
+        	},
+            email: {
+                required: true,
+                email:true
+            },
+            password:{
+            	required:true,
+            	minlength:7
+            	/*equalTo:"#password"*/
+            },
+            phone:{
+            	required:true,
+            	minlength:10
+            },
+            lastName:"required"
+        },
+        messages:{
+        	firstName:"First Name Required",
+        	username:{
+        		required: "Username Required",
+        		minlength:"Username must be atleast 5 characters"
+        	},
+        	email: {
+                required: "Email Required",
+            },
+            password:{
+            	required: "Password Required",
+            	minlength: "Password must be atleast 7 characters"
+            	/*equalTo:"Please enter same password"*/
+            },
+            phone:{
+            	required: "Phone Number Required",
+            	minlength: "Please enter a valid Phone Number"
+            },
+            lastName:"Last Name Required"
+        }
+    });
+});
+    
+</script>
+            <div class="account-benefits col-md-12">
+                <div class="col-md-4">
+                    <div class="col-md-3 padding-2">
+                        <i class="fa fa-shopping-cart fa-3x" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-md-9">
+                        <p class="benifit-lead">Enjoy faster checkout</p>
+                        <p>Know your info is stored securely for every order.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-3  padding-2">
+                        <i class="fa fa-tachometer fa-3x" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-md-9">
+                        <p class="benifit-lead">Track your orders</p>
+                        <p>Follow purchases from checkout to delivery.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-3 padding-2">
+                        <i class="fa fa-truck fa-3x" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-md-9">
+                        <p class="benifit-lead">Enjoy Free Shipping*</p>
+                        <p>Free shipping within USA with order of $100 and above</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+<!-- Register Page Ends -->
+
+	
+					<div class="clear"></div>
+				
+
+				<script th:src="@{/js/controller.js}"></script>
+
+				<!-- end of container -->
+				<div th:replace="common/head :: footer" />
+
+				<div th:replace="common/head :: body-bottom-scripts" />
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>

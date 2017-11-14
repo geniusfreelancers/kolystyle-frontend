@@ -3,6 +3,12 @@
             CUSTOM STYLE
 
 ******************************************/
+.border-all{
+	border:2px solid #dfebed;
+	border-radius:10px;
+	padding-top:10px;
+	padding-bottom:10px;
+}
 .paypalbtn{
     height: 15px;
     width: 100px;

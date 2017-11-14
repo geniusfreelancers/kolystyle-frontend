@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/head :: common-head" />
+<body>
+	<div class="wrapper-box">
+		<div class="main-wrapper">
+
+			<div th:replace="common/head :: navbar" />
+
+			<div id="container-wrapper">
+				
+<!-- Login Page Start-->
+    <div class="login-container col-md-6">
+        <div class="login-box" id="login-box">
+            <h3>sign in</h3>
+            <h3>have a Koly's profile?</h3>
+            <p class="signin-text">If you've already created a koly.com profile, you can sign in here.</p>
+
+            <div class="alert alert-success" th:if="${logout}">
+<span>You have been logged out successfully.</span>
+</div>
+
+            <form id="loginForm" th:action="@{/userlogin}" method="post">
+                <div class="alert alert-danger" th:if="${invalid}">
+                <span>Incorrect username or password</span></div>
+				<input hidden="hidden" id="guestsession" name="guestsession" th:value="${sessionID}"/>
+                <div class="form-group">
+                    <label for="username">Username: </label>
+                    <input type="text" id="username" name="username" class="form-control" required="required"/>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password: </label>
+                    <input type="password" id="password" name="password" class="form-control" required="required"/>
+                    <p class="help-text"><i class="fa fa-info-circle" aria-hidden="true"></i> Password is case sensitive</p>
+                </div>
+                <div class="form-group">
+                    <a th:href="@{/forgotpassword}" class="forgot-password">Forgot Your Password?</a>
+                </div>
+
+                <input type="submit" value="SIGN IN" class="btn btn-danger margin-tb-5"/>
+
+
+            </form>
+<script>
+$().ready(function(){
+	$( "#loginForm" ).validate({
+        rules: {
+        	username:"required",
+            password:"required"
+        },
+        messages:{
+        	username:"Username Required",
+        	password:"Password Required"
+        }
+    });
+});
+</script>
+        </div>
+    </div>
+    <div class="login-container col-md-6 border-left-grey">
+        <div class="login-box" id="register-box">
+            <h3> </h3>
+            <h3 class="signin-btn margin-tb-5">don't have a Koly's profile?</h3>
+            <p class="signin-text margin-tb-5">Create a profile now to take advantage of express checkout and other convenient features.
+                It only takes a minute! </p>
+
+
+
+                <div class="form-group margin-tb-5">
+                    <a href="#" class="member-benefits">See All The Benefits Of Creating A Profile</a>
+                </div>
+                <div class="form-group margin-tb-5">
+                    <a href="#" class="privacy-policy">Privacy Policy</a>
+                </div>
+
+                <a th:href="@{/register}" class="btn btn-danger margin-tb-5">CREATE</a>
+
+        </div>
+        <!-- Guest Option Starts-->
+        <div class="login-box register-box" id="register-box" th:if="${guestOption}" style="border-top: 1px solid #e2e2e4;">
+            <h3> </h3>
+            <h3 class="signin-btn">don't want to create Koly's account yet?</h3>
+            <p class="signin-text">We got you covered. You can check out as guest as well</p>
+
+                <div class="form-group">
+                    <a href="#" class="privacy-policy">Privacy Policy</a>
+                </div>
+				<!-- th:href="@{/checkout(id=${shoppingCart.id})}" -->
+                <a th:href="@{/guestcheckout}" class="btn btn-danger">CHECKOUT AS GUEST</a>
+
+        </div>
+        <!-- Guest Option Ends -->
+
+    </div>
+    <div class="password-rules col-md-12">
+        <h3>keep in mind a few basic password rules:</h3>
+        <ul>
+        <li class="col-md-4 col-sm-4">
+            <span class="fa fa-check-square fa-3x text-red-icon"></span>&nbsp;Change your passwords
+            periodically
+        </li>
+        <li class="col-md-4 col-sm-4">
+            <span class="fa fa-check-square fa-3x text-red-icon"></span>&nbsp;Avoid re-using password for multiple sites
+        </li>
+        <li class="col-md-4 col-sm-4">
+            <span class="fa fa-check-square fa-3x text-red-icon"></span>&nbsp;Use complex characters including uppercase and numbers
+        </li>
+        </ul>
+    </div>
+<!-- Login Page Ends -->
+
+	
+					<div class="clear"></div>
+				
+
+				<script th:src="@{/js/controller.js}"></script>
+
+				<!-- end of container -->
+				<div th:replace="common/head :: footer" />
+
+				<div th:replace="common/head :: body-bottom-scripts" />
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
