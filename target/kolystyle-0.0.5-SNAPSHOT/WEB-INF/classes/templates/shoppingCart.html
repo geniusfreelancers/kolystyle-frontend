@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/head :: common-head" />
+<body>
+	<div class="wrapper-box">
+		<div class="main-wrapper">
+
+			<div th:replace="common/head :: navbar" />
+
+			<div id="container">
+				<div id="content">
+			
+
+		<div class="row" style="margin-top: 10px;">
+			<div class="col-md-10 col-md-offset-1">
+				
+					<!-- <div class="col-md-6 text-left">
+						<a class="btn btn-warning" th:href="@{/productshelf}">Continue
+							Shopping</a>
+					</div> -->
+					
+					<!-- <div class="col-md-6 text-right"> -->
+					
+					<div class="col-md-8 col-md-offset-2" th:if="${!emptyCart}">
+					<p>
+						<i class="fa fa-shopping-bag fa-2x text-danger" aria-hidden="true"></i>
+						<strong>BAG ID: <span th:text="${shoppingCart.bagId}"></span></strong>
+					</p>
+					</div>
+					<!-- <div class="col-md-5">
+						<a class="btn btn-primary"
+							th:href="@{/checkout(id=${shoppingCart.id})}">Check Out</a>
+					</div> -->
+							
+					<!-- </div> -->
+					
+					<br/><br/>
+					
+					<div th:if="${notEnoughStock}" class="alert alert-warning col-md-8 col-md-offset-2">
+						Oops, some of the products does't have enough stock. Please update
+						product quantity.</div>
+					<div th:if="${emptyCart}" class="alert alert-danger col-md-8 col-md-offset-2">Oops,
+						your cart is empty. Please add some product to cart.</div>
+						
+						<br/>
+					<div class="row" th:if="${!emptyCart}">
+					<div class="col-md-8 col-md-offset-2 black-bg">
+						<div class="col-xs-6">
+							<p><strong>Item</strong></p>
+						</div>
+						<div class="col-xs-2">
+							<p><strong>Price</strong></p>
+						</div>
+						<div class="col-xs-2">
+							<p><strong>Qty</strong></p>
+						</div>
+						<div class="col-xs-2 text-right">
+							<p><strong>Item total</strong></p>
+						</div>
+						</div>
+					</div>
+					
+					<section class="" ng-app="cartApp" th:if="${!emptyCart}">
+            <div ng-controller = "cartCtrl" th:attr="ng-init='initCartId('+${shoppingCart.id}+')'">
+					<!-- ***************************Display Products in Cart***************************************** -->
+					<div class="row" th:attr="ng-repeat = 'cartItem in shoppingCart.cartItemList'">
+					<div class="col-md-8 col-md-offset-2"><hr/>
+						<form th:action="@{/shoppingCart/updateCartItem}" method="post">
+							
+							<div class="col-xs-2">
+								<a href="/productDetail?id={{cartItem.product.id}}"> <img
+									class="img-responsive product-shelf" style="width:70px;"
+									th:src="#{adminPath}+@{/image/product/{{cartItem.product.id}}/{{cartItem.product.coverImageName}}}" />
+								</a>
+							</div>
+							<div class="col-xs-4">
+							<div class="cart-product-details">	
+							<a href="/productDetail?id={{cartItem.product.id}}"><h4>{{cartItem.product.title}}</h4></a>
+								<p><span><strong>Size: </strong></span><span>{{cartItem.productSize}}</span></p>
+								<p><span>Web ID: </span><span>{{cartItem.product.isbn}}</span></p>
+								<!-- <p th:if="${cartItem.product.inStockNumber&gt;10}"
+									style="color: green;">In Stock</p>
+								<p
+									th:if="${cartItem.product.inStockNumber&lt;11 and cartItem.product.inStockNumber&gt;0 }"
+									style="color: green;">
+									Only <span th:text="${cartItem.product.inStockNumber}"></span>
+									In Stock
+								</p>
+								<p th:if="${cartItem.product.inStockNumber==0}"
+									style="color: darkred;">Product Unavailable</p> -->
+									<a href="#" class="text-danger" th:attr="ng-click='removeFromCart(cartItem.id)'" ><i class="fa fa-trash" aria-hidden="true"></i> Remove</a>
+									
+							</div>
+							</div>
+							<div class="col-xs-2">
+								<h5 class="text-success">
+									<strong>$<span>{{cartItem.product.ourPrice}}</span></strong>
+								</h5>
+								<h5 style="color: #db3208;text-decoration: line-through;">
+									$<span>{{cartItem.product.listPrice}}</span>
+								</h5>
+								
+							</div>
+							<div class="col-xs-2">
+								<input hidden="hidden" name="id" value="{{cartItem.id}}" /> <input
+									id="{{cartItem.id}}" style="width:70%;" name="qty" step="1"
+									
+									class="form-control cartItemQty" value="{{cartItem.qty}}" type="number" />
+								<br/>
+								<button style="display: none;"
+									id="update-item-{{cartItem.id}}" type="submit"
+									class="btn btn-warning btn-xs">Update</button>
+							</div>
+							<div class="col-xs-2">
+							<p class="text-right"> 
+									<strong>$<span>{{cartItem.product.ourPrice * cartItem.qty}}</span></strong>
+								</p>
+							<!-- <p class="text-right"  th:with="result=${cartItem.product.ourPrice * cartItem.qty}">
+									<strong>$<span th:text="${#numbers.formatDecimal(result, 0, 'COMMA', 2, 'POINT')}" ></span></strong>
+								</p> -->
+							</div>
+						</form>
+						
+</div>
+					</div>
+					<div class="row" th:if="${!emptyCart}">
+						
+						<div class="col-md-8 col-md-offset-2">
+						<hr/>
+						<form name="applyPromo" action="/shoppingCart/applyPromo" method="post">
+						<div class="form-group">
+						<label class="col-md-3 control-label" style="margin-top:5px;" for="promoCode">
+							HAVE A PROMO CODE? </label>
+						<div class="col-md-4">
+							<input hidden="hidden" name="id" id="cartId" th:value="${shoppingCart.id}" />
+							
+							 <input
+									th:id="enterPromoCode" th:name="promocode"	th:value="${shoppingCart.promoCode}"				
+									class="form-control promoCode" value="" th:type="text"/>
+									
+									<!-- Coupon you applied is not valid th:if="${invalidPromoError}"-->
+									<p id="applyPromoError"></p>
+						</div>
+						<div class="col-md-5">			
+								<button style="display: none;" 
+									th:id="applyPromoNow" type="submit"
+									class="btn btn-primary btn-md">Apply</button>
+						</div>
+					</div>
+					
+					
+							
+						</form>
+						
+						</div>
+						</div>
+						<div class="row" th:if="${!emptyCart}">
+						<div class="col-md-8 col-md-offset-2 text-right">
+						
+						<!-- Subtotal -->
+						<div class="col-md-10 col-xs-6">
+						<p>
+							<strong>Subtotal 
+							<!-- (<span
+								th:text="${#lists.size(cartItemList)}"></span> items)-->:
+							</strong> 
+						</p>
+						</div>	
+						<div class="col-md-2 col-xs-6">
+							<p><strong> <span>$<span id="subtotalamount">{{calGrandTotal()}}</span>
+								<input hidden="hidden" name="id" id="subamount" value="{{calGrandTotal()}}" />
+							
+								</span></strong> 
+						</p>
+						</div>
+						<!-- Promo Discount -->
+						<div class="col-md-10 col-xs-6 text-success">
+						<p>
+							<strong>PROMO</strong> 
+						</p>
+						</div>	
+						<div class="col-md-2 col-xs-6 text-success" th:if="${shoppingCart.discountedAmount}" th:with="result=${shoppingCart.grandTotal - shoppingCart.discountedAmount}">
+							<p><strong> <span>$<span id="discountamount">{{shoppingCart.grandTotal - shoppingCart.discountedAmount}}</span>
+								<input hidden="hidden" name="id" id="discountamounts" th:value="${shoppingCart.grandTotal}" />
+							
+								</span></strong> 
+						</p>
+						</div>
+						<!-- Shipping -->
+						<div class="col-md-10 col-xs-6">
+						<p>
+							Shipping :		
+						</p>
+						</div>	
+						<div class="col-md-2 col-xs-6">
+							<p> <span>$<!-- <span id="subtotalamount"
+								th:text="${#numbers.formatDecimal(shoppingCart.shippingCost, 0, 'COMMA', 2, 'POINT')}"></span>
+								 -->
+								 <span id="shippingcost">{{shoppingCart.shippingCost}}</span>
+								 <input hidden="hidden" name="id" id="subamount" th:value="${shoppingCart.shippingCost}" />
+							
+								</span> 
+						</p>
+						</div>
+						<!-- Estimated Tax -->
+						<div th:if="${estSalesTax}">
+						<div class="col-md-10 col-xs-6">
+						<p>
+							Estimated tax :
+				
+						</p>
+						</div>	
+						<div class="col-md-2 col-xs-6">
+							<p> <span>$<span id="subtotalamount"
+								th:text="${shoppingCart.grandTotal}"></span>
+								<input hidden="hidden" name="id" id="subamount" th:value="${shoppingCart.grandTotal}" />
+							
+								</span>
+						</p>
+						</div>
+						</div>
+						<!-- Order Total -->
+						<div class="col-md-10 col-xs-6">
+						<p><strong>
+							Order total :
+							</strong> 
+						</p>
+						</div>	
+						<div class="col-md-2 col-xs-6">
+							<p><strong> <span>$<!-- <span id="ordertotal"
+							th:text="${#numbers.formatDecimal(shoppingCart.discountedAmount, 0, 'COMMA', 2, 'POINT')}"
+								></span> -->
+								<span id="ordertotal">{{calOrderTotal()}}</span>
+								<input hidden="hidden" name="id" id="subamount" value="{{calOrderTotal()}}" />
+							
+								</span></strong> 
+						</p>
+						</div>
+						
+						</div>
+						
+						
+					</div>
+					<div class="row">
+					<div class="col-md-8 col-md-offset-2">
+					
+					<div class="col-md-12 col-xs-12 text-right" th:if="${!emptyCart}">
+					
+						<a class="btn btn-primary"
+							th:href="@{/checkout(id=${shoppingCart.id})}">Check Out</a>
+					</div>
+					</div>
+					</div>
+
+				</div>
+				</section>
+				<div class="col-md-6 col-xs-6 text-left">
+						<a class="btn btn-warning" th:href="@{/productshelf}">Continue
+							Shopping</a>
+					</div>
+				
+			</div>
+		</div>
+
+
+					<div class="clear"></div>
+				</div>
+
+				
+
+				<!-- end of container -->
+				<div th:replace="common/head :: footer" />
+
+				<div th:replace="common/head :: body-bottom-scripts" />
+				<script th:src="@{/js/controller.js}"></script>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>

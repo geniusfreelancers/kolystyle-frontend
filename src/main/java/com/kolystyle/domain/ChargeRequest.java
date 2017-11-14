@@ -13,6 +13,7 @@ public class ChargeRequest {
     private Currency currency;
     private String stripeEmail;
     private String stripeToken;
+    
 	public String getDescription() {
 		return description;
 	}

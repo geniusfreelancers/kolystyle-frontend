@@ -5,7 +5,7 @@
 
 	<groupId>com.kolystyle</groupId>
 	<artifactId>kolystyle</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.5-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Kolystyle</name>
@@ -44,7 +44,14 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 			<version>1.5.3.RELEASE</version>
 		</dependency>
-
+		
+	<!-- marked the embedded servlet container as provided>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency-->
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
@@ -91,11 +98,31 @@
 			<version>4.2.0</version>
 		</dependency>
 		<dependency>
+<<<<<<< HEAD
+=======
+			<groupId>com.stripe</groupId>
+			<artifactId>stripe-java</artifactId>
+			<version>4.2.0</version>
+		</dependency>
+		<dependency>
+>>>>>>> 3318ae795fb7b3a5a35aa53a826d846ab06bcd3d
 			<groupId>com.braintreepayments.gateway</groupId>
 			<artifactId>braintree-java</artifactId>
 			<version>2.73.0</version>
 		</dependency>
 		<dependency>
+<<<<<<< HEAD
+=======
+			<groupId>com.paypal.sdk</groupId>
+			<artifactId>rest-api-sdk</artifactId>
+			<version>1.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+	<dependency>
+>>>>>>> 3318ae795fb7b3a5a35aa53a826d846ab06bcd3d
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>

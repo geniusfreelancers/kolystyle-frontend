@@ -20,6 +20,7 @@ import com.kolystyle.utility.SecurityUtility;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private Environment env;
+	
 
 	@Autowired
 	private UserSecurityService userSecurityService;
@@ -28,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return SecurityUtility.passwordEncoder();
 	}
 
-	private static final String[] PUBLIC_MATCHERS = { "/css/**", "/js/**", "/image/**","/rest/cart/**", "/","/index", "/newUser","/forgetPassword","/forgotpassword","/login","/register","/fonts/**","/home","/productshelf","/productDetail","/searchByCategory","/searchBySubCategory","/searchProduct","/shoppingCart/**","/guestcheckout" };
+	private static final String[] PUBLIC_MATCHERS = { "/css/**", "/js/**", "/image/**","/rest/cart/**", "/","/index", "/newUser","/forgetPassword","/forgotpassword","/login","/register","/fonts/**","/home","/productshelf","/productDetail","/searchByCategory","/searchBySubCategory","/searchProduct","/shoppingCart/**","/paypal/**","/checkouts/**","/guestcheckout","/thankyou" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {

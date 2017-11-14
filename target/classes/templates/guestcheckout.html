@@ -2,6 +2,10 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="common/head :: common-head" />
 <body>
+<!-- Load the required components. -->
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script src="https://js.braintreegateway.com/web/3.25.0/js/client.min.js"></script>
+<script src="https://js.braintreegateway.com/web/3.25.0/js/paypal-checkout.min.js"></script>
 	<div class="wrapper-box">
 		<div class="main-wrapper">
 
@@ -12,8 +16,7 @@
 				
 		<div class="row" style="margin-top: 10px;">
 
-			<form th:action="@{/charge}" method="post" id="payment-form">
-
+			<form th:action="@{/chargeguest}" method="post" id="payment-form">
 				<!-- Checkout Info -->
 				<div class="col-md-12">
 					<div th:if="${missingRequiredField}">
@@ -23,39 +26,7 @@
 				</div>
 				<div class="col-md-6">
 				<div class="panel-group" id="accordion">
-					<div class="col-md-12">
-					<!-- Contact Information -->
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title">
-									<a data-toggle="collapse" data-parent="#accordion"
-										href="#customerInfo">Contact Information</a>
-								</h4>
-							</div>
-							<div id="customerInfo" class="panel-collapse collapse in"
-								th:classappend="${classActiveCustomer}? 'in'">
-								<div class="panel-body">
-									
-									<div class="form-group">
-
-										<label for="phoneNumber">* Phone number</label> <input type="text"
-											class="form-control" id="phoneNumber"
-											placeholder="Phone number" th:name="phoneNumber"
-											required="required"
-											th:value="${shippingAddress.shippingAddressName}" />
-									</div>
-									<div class="form-group">
-										<label for="email">* Email address</label> <input
-											type="text" class="form-control" id="email"
-											placeholder="Email Address"
-											th:name="email" required="required"
-											th:value="${shippingAddress.shippingAddressStreet1}" />
-									</div>
-								</div>
-							</div>
-						</div>
 					
-					</div>
 					<div class="col-md-12">
 
 						<!-- 1. Shipping Address -->
@@ -95,7 +66,7 @@
 									
 									<div class="form-group">
 										<label for="shippingStreet">* Street Address</label> <input
-											type="text" class="form-control" id="shippingStreet"
+											type="text" class="form-control" id="shippingAddressStreet1"
 											placeholder="Street Address 1"
 											th:name="shippingAddressStreet1" required="required"
 											th:value="${shippingAddress.shippingAddressStreet1}" />
@@ -108,7 +79,7 @@
 									</div>
 									<div class="form-group">
 												<label for="shippingCity">* City</label> <input type="text"
-													class="form-control" id="shippingCity"
+													class="form-control" id="shippingAddressCity"
 													placeholder="Shipping City" th:name="shippingAddressCity"
 													required="required"
 													th:value="${shippingAddress.shippingAddressCity}" />
@@ -118,7 +89,7 @@
 										<div class="col-xs-6">
 											<div class="form-group">
 												<label for="shippingState">* State</label> <select
-													id="shippingState" class="form-control"
+													id="shippingAddressState" class="form-control"
 													th:name="shippingAddressState"
 													th:value="${shippingAddress.shippingAddressState}"
 													required="required">
@@ -132,7 +103,7 @@
 										<div class="col-xs-6">
 											<div class="form-group">
 												<label for="shippingZipcode">* Zipcode</label> <input
-													type="text" class="form-control" id="shippingZipcode"
+													type="text" class="form-control" id="shippingAddressZipcode"
 													placeholder="Shipping Zipcode"
 													th:name="shippingAddressZipcode" required="required"
 													th:value="${shippingAddress.shippingAddressZipcode}" />
@@ -147,6 +118,41 @@
 							</div>
 						</div>
 					</div>
+					
+					<div class="col-md-12">
+					<!-- Shipping Method -->
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion"
+										href="#shipMethod">Shipping Method</a>
+								</h4>
+							</div>
+							<div id="shipMethod" class="panel-collapse collapse in"
+								th:classappend="${classActiveCustomer}? 'in'">
+								<div class="panel-body">
+									
+									<h4>Choose your shipping method:</h4>
+						<div class="radio">
+						<label>
+						<input type="radio" name="shippingMethod" value="groundShipping" checked="checked"/>Ground Shipping<br/>
+Transit time: 3-6 business days
+						</label>
+						</div>
+						
+						<div class="radio">
+						<label>
+						<input type="radio" name="shippingMethod" value="premiumShipping"/>Premium Shipping
+						<span class="text-right"><strong> $9.00</strong></span><br/>Transit time: 2-3 business days
+						</label>
+						
+						</div>
+								</div>
+							</div>
+						</div>
+					
+					</div>
+					
 					<div class="col-md-12">	
 						<!--2. Payment Information -->
 						<div class="panel panel-default">
@@ -186,11 +192,10 @@
 									<div class="form-group">
 														<label for="cardHolder">* Card Holder Name:</label> <input
 															type="text" class="form-control" id="cardHolder"
-															required="required" placeholder="Card Holder Name"
+															placeholder="Card Holder Name"
 															th:name="holderName" th:value="${payment.holderName}" />
 													</div>
-								<label for="card-element-num">
-      Credit or debit card
+								<label for="card-element-num">* Card Number:
     </label>
     <div id="card-element-num">
       <!-- a Stripe Element will be inserted here. -->
@@ -203,7 +208,7 @@
 																class="input-group-addon"><i
 																class="fa fa-credit-card" aria-hidden="true"></i></span>
 															<input type="tel" class="form-control" id="cardNumber"
-																required="required" placeholder="Valid Card Number"
+																placeholder="Valid Card Number"
 																th:name="cardNumber"
 																th:value="${payment.cardNumber}" /> 
 														</div>
@@ -227,7 +232,6 @@
 														<div class="row">
 															<div class="col-xs-6">
 																<select class="form-control" name="expiryMonth"
-																	required="required"
 																	th:value="${payment.expiryMonth}">
 																	<option disabled="disabled">-- Month --</option>
 																	<option value="01">Jan (01)</option>
@@ -293,11 +297,11 @@
 									
 									<div class="form-group">
 										<label for="holderName">* Full Name</label>
-										<input type="text" class="form-control billingAddress" id="holderName" placeholder="Card Holder Name" th:name="holderName" required="required" th:value="${payment.holderName}" />
+										<input type="text" class="form-control billingAddress" id="holderName" placeholder="Card Holder Name" th:name="holderName" th:value="${payment.holderName}" />
 									</div>
 									<div class="form-group">
 										<label for="billingAddress">* Street Address</label>
-										<input type="text" class="form-control billingAddress" id="billingAddress" placeholder="Street Address 1" th:name="billingAddressStreet1" required="required" th:value="${billingAddress.billingAddressStreet1}" />
+										<input type="text" class="form-control billingAddress" id="billingAddress" placeholder="Street Address 1" th:name="billingAddressStreet1" th:value="${billingAddress.billingAddressStreet1}" />
 										</div>
 									<div class="form-group">
 										<input type="text" class="form-control billingAddress" id="billingAddress" placeholder="Street Address 2" th:name="billingAddressStreet2"  th:value="${billingAddress.billingAddressStreet2}" />
@@ -305,7 +309,7 @@
 									</div>
 									<div class="form-group">
 										<label for="billingCity">* City</label>
-										<input type="text" class="form-control billingAddress" id="billingCity" placeholder="City" th:name="billingAddressCity" required="required" th:value="${billingAddress.billingAddressCity}" />
+										<input type="text" class="form-control billingAddress" id="billingCity" placeholder="City" th:name="billingAddressCity" th:value="${billingAddress.billingAddressCity}" />
 										
 									</div>
 									<div class="row">
@@ -313,7 +317,7 @@
 									<div class="col-xs-6">
 									<div class="form-group">
 										<label for="billingState">* State</label>
-										<select id="billingAddressState" class="form-control billingAddress" th:name="billingAddressState" th:value="${billingAddress.billingAddressState}" required="required">
+										<select id="billingAddressState" class="form-control billingAddress" th:name="billingAddressState" th:value="${billingAddress.billingAddressState}">
 											<option value="" disabled="disabled">Please select an option</option>
 											<option th:each="state : ${stateList}" th:text="${state}" th:selected="(${billingAddress.billingAddressState}==${state})"></option>
 											
@@ -329,7 +333,7 @@
     </div>
 									<div class="form-group">
 										<label for="billingZipcode">* Zip Code</label>
-										<input type="text" class="form-control billingAddress" id="billingZipcode" placeholder="Zip Code" th:name="billingAddressZipcode" required="required" th:value="${billingAddress.billingAddressZipcode}" />
+										<input type="text" class="form-control billingAddress" id="billingZipcode" placeholder="Zip Code" th:name="billingAddressZipcode" th:value="${billingAddress.billingAddressZipcode}" />
 										
 									</div>
 									</div>
@@ -344,6 +348,9 @@
  	<p class="help-text">You will login on PayPal's site on the next page and review your order, then you will finish the transaction at kolystyle.com</p>
  	<br/>
  	<button type="submit" class="btn btn-primary" id="rc-paypal-continue">Continue to Paypal</button>
+ 	<br/><br/>
+ 	<div id="paypal-button"></div>
+
   </div>
 </div>
 	</div>								
@@ -360,6 +367,41 @@
 				</div>
 				<!-- 3. Review Items and Shipping -->
 				<div class="col-md-6">
+				<div class="panel-group" id="accordion">
+					<div class="col-md-12">
+					<!-- Contact Information -->
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion"
+										href="#customerInfo">Contact Information</a>
+								</h4>
+							</div>
+							<div id="customerInfo" class="panel-collapse collapse in"
+								th:classappend="${classActiveCustomer}? 'in'">
+								<div class="panel-body">
+									
+									<div class="form-group">
+
+										<label for="phoneNumber">* Phone number</label> <input type="text"
+											class="form-control" id="phoneNumber"
+											placeholder="Phone number" th:name="phoneNumber"
+											required="required"
+											th:value="${shippingAddress.shippingAddressName}" />
+									</div>
+									<div class="form-group">
+										<label for="email">* Email address</label> <input
+											type="text" class="form-control" id="email"
+											placeholder="Email Address"
+											th:name="email" required="required"
+											th:value="${shippingAddress.shippingAddressStreet1}" />
+									</div>
+								</div>
+							</div>
+						</div>
+					
+					</div>
+					<div class="col-md-12">
 					<div class="panel panel-default">
 					<div class="panel-heading">
 							<h4 class="panel-title">
@@ -368,21 +410,7 @@
 						</div>
 					<div id="reviewItems" class="panel-collapse collapse in">
 					<div class="panel-body">
-						<h4>Choose your shipping method:</h4>
-						<div class="radio">
-						<label>
-						<input type="radio" name="shippingMethod" value="groundShipping" checked="checked"/>Ground Shipping<br/>
-Transit time: 3-6 business days
-						</label>
-						</div>
 						
-						<div class="radio">
-						<label>
-						<input type="radio" name="shippingMethod" value="premiumShipping"/>Premium Shipping
-						<span class="text-right"><strong> $9.00</strong></span><br/>Transit time: 2-3 business days
-						</label>
-						
-						</div>
 						
 						<div class="row">
 						<div class="col-xs-6"><h4>Products</h4></div>
@@ -403,7 +431,7 @@ Transit time: 3-6 business days
 						<div class="col-xs-4">
 							<div style="margin-left:50px;">	
 							<a th:href="@{/productDetail?id=}+${cartItem.product.id}"><h4 th:text="${cartItem.product.title}"></h4></a>
-								<span>Size: </span><span>??</span> | <span>Web ID: </span><span>??</span>
+								<span>Size: </span><span th:text="${cartItem.productSize}"></span> | <span>Web ID: </span><span th:text="${cartItem.product.sku}"></span>
 							</div>
 							</div>
 							<div class="col-xs-2">
@@ -425,6 +453,7 @@ Transit time: 3-6 business days
 					
 						</div>
 						<hr/>
+			
 							<div class="row">
 								<div class="col-xs-7 text-left">Total before tax:</div>
 								<div class="col-xs-5 text-right">
@@ -445,10 +474,13 @@ Transit time: 3-6 business days
 									-$<span>10.00</span>
 								</div>
 							</div>
+							
+				<section class="" ng-app="cartApp">
+				<div ng-controller = "cartCtrl" th:attr="ng-init='initCartId('+${shoppingCart.id}+')'">			
 							<div class="row">
 								<div class="col-xs-7 text-left">Shipping:</div>
 								<div class="col-xs-5 text-right text-danger">
-									<span>FREE</span>
+									<span>FREE {{cartItem.product.isbn}}</span>
 								</div>
 							</div>
 							
@@ -456,7 +488,7 @@ Transit time: 3-6 business days
 							<div class="row">
 								<div class="col-xs-7 text-left">
 									<h3 style="color: darkred;">
-										<strong>Order Total: </strong>
+										<strong>Order Total: {{cartItem.product.isbn}}</strong>
 									</h3>
 								</div>
 								<div class="col-xs-5 text-right">
@@ -468,13 +500,17 @@ Transit time: 3-6 business days
 								</div>
 								
 							</div>
+							
+			</div>
+		</section>				
+							
 							<div class="row">
 								<div class="col-xs-7 text-left">You saved:</div>
 								<div class="col-xs-5 text-right">
 									$<span class="text-alert">10.00</span>
 								</div>
 							</div>
-
+				
 							<div class="panel-footer">Shipping and handling haven't
 								applied.</div>
 							<br/><br/>
@@ -489,69 +525,16 @@ Transit time: 3-6 business days
 						</div>
 					</div>
 				</div>
+				</div>
+			</div>
 			</form>
 		</div>
-
 		<div class="clear"></div>
 
-  <script>
-var stripe = Stripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
-var elements = stripe.elements();
-
-
-var cardNumber = elements.create('cardNumber');
-cardNumber.mount('#card-element-num');
-var cardExpiry = elements.create('cardExpiry');
-cardExpiry.mount('#card-element-exp');
-var cardCvc = elements.create('cardCvc');
-cardCvc.mount('#card-element-cvc');
-var cardPostalCode = elements.create('postalCode');
-// Add an instance of the card UI component into the `card-element` 
-cardPostalCode.mount('#card-element-zip');
-cardNumber.addEventListener('change', function(event) {
-	  var displayError = document.getElementById('card-errors');
-	  if (event.error) {
-	    displayError.textContent = event.error.message;
-	  } else {
-	    displayError.textContent = '';
-	  }
-	});
-	
-	
-	
-var form = document.getElementById('payment-form');
-form.addEventListener('submit', function(event) {
-  event.preventDefault();
-
-  stripe.createToken(card).then(function(result) {
-    if (result.error) {
-      // Inform the customer that there was an error
-      var errorElement = document.getElementById('card-errors');
-      errorElement.textContent = result.error.message;
-    } else {
-      // Send the token to your server
-      stripeTokenHandler(result.token);
-    }
-  });
-});
-
-function stripeTokenHandler(token) {
-	  // Insert the token ID into the form so it gets submitted to the server
-	  var form = document.getElementById('payment-form');
-	  var hiddenInput = document.createElement('input');
-	  hiddenInput.setAttribute('type', 'hidden');
-	  hiddenInput.setAttribute('name', 'stripeToken');
-	  hiddenInput.setAttribute('value', token.id);
-	  form.appendChild(hiddenInput);
-
-	  // Submit the form
-	  form.submit();
-	}
-</script>
 				</div>
 
 				<script th:src="@{/js/controller.js}"></script>
-
+				<script th:src="@{/js/check.js}"></script>
 				<!-- end of container -->
 				<div th:replace="common/head :: footer" />
 

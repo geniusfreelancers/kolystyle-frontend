@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/head :: common-head" />
+<body>
+	<div class="wrapper-box">
+		<div class="main-wrapper">
+
+			<div th:replace="common/head :: navbar" />
+
+			<div id="container-wrapper">
+
+
+        <div class="col-md-3 col-sm-3">
+            <div th:replace="common/head :: customersidebar" /> 
+        </div>
+        <div class="col-md-9 col-sm-9">
+            <div class="col-md-12 border-grey">
+                <div class="col-md-6">
+                <h3 class="text-moredanger">Order # <span th:text="${order.id}"></span></h3>
+                </div>
+                <div class="col-md-6">
+                <h3 class="text-moredanger">Order Date <span th:text="${order.orderDate}"></span></h3>
+                </div>           
+                <div class="col-md-12">
+
+
+<!--Show Order Payment, Billing and Shipping Address-->
+
+<div class="row">
+<!-- Payment -->
+<div class="col-md-4">
+  <ul class="address-list">
+  	<li><strong>Payment Information</strong></li>
+    <li><span th:text="${orderPayment}"></span> ***********<span th:text="${orderPaymentNum}"></span></li>
+ 
+  	<li><strong>Shipping Method</strong></li>
+    <li><span class="uppercase" th:text="${order.shippingMethod}"></span></li>
+    
+   
+ </ul>
+</div>
+<!-- Billing -->
+<div class="col-md-4">
+  <ul class="address-list">
+
+  	<li><strong>Billing Address</strong></li>
+  	<li><span th:text="${billingName}"></span></li>
+    <li><span th:text="${orderBilling.BillingAddressStreet1}"></span> #
+    <span th:text="${orderBilling.BillingAddressStreet2}"></span></li>
+    <li><span th:text="${orderBilling.BillingAddressCity}"></span>,
+    <span th:text="${orderBilling.BillingAddressState}"></span> -
+    <span th:text="${orderBilling.BillingAddressZipcode}"></span></li>
+    <li><span th:text="${orderBilling.BillingAddressCountry}"></span></li> 
+ </ul>
+</div>
+<!-- Shipping -->
+<div class="col-md-4">
+  <ul class="address-list">
+  	<li><strong>Shipping Address</strong></li>
+  	<li><span th:text="${orderShipping.firstName}"></span> <span th:text="${orderShipping.lastName}"></span></li>
+    <li><span th:text="${orderShipping.ShippingAddressStreet1}"></span> # 
+    <span th:text="${orderShipping.ShippingAddressStreet2}"></span></li>
+    <li><span th:text="${orderShipping.ShippingAddressCity}"></span>,
+    <span th:text="${orderShipping.ShippingAddressState}"></span> -
+    <span th:text="${orderShipping.ShippingAddressZipcode}"></span></li>
+    <li><span th:text="${orderShipping.ShippingAddressCountry}"></span></li>     
+ </ul>
+</div>
+                      
+</div>
+<hr/>
+<div class="row">
+<div class="col-md-12">
+ <p class="order-status-container"><strong>Order Status</strong> - <span class="uppercase" th:text="${order.orderStatus}"></span></p>
+</div>
+<div class="col-md-12">
+					<!-- ***************************Display Products in Cart***************************************** -->
+					<div class="row" th:each="cartItem : ${cartItemList}">
+					<div class="col-md-12"><hr/>
+						
+							
+							<div class="col-xs-2">
+								<a th:href="@{/productDetail(id=${cartItem.product.id})}"> <img
+									class="img-responsive product-shelf center-block" style="width:50px;"
+									th:src="#{adminPath}+@{/image/product/}+${cartItem.product.id}+'/'+${cartItem.product.coverImageName}" />
+								</a>
+							</div>
+							<div class="col-xs-4">
+							<div>	
+							<a th:href="@{/productDetail?id=}+${cartItem.product.id}"><span th:text="${cartItem.product.title}"></span></a>
+								
+								
+							</div>
+							</div>
+							<div class="col-xs-2">
+								<p>
+									$<span th:text="${cartItem.product.ourPrice}"
+										th:style="${cartItem.product.inStockNumber}==0? 'text-decoration: line-through' : ''"></span>
+								</p>
+								
+							</div>
+							<div class="col-xs-2">
+							
+								<p class="text-center">
+									<span><strong>Qty</strong></span> : <span th:text="${cartItem.qty}"></span>
+								</p>
+							
+							</div>
+							<div class="col-xs-2">
+							
+							<p class="text-right"  th:with="result=${cartItem.product.ourPrice * cartItem.qty}">
+									$<span th:text="${#numbers.formatDecimal(result, 0, 'COMMA', 2, 'POINT')}" ></span>
+								</p>
+							</div>
+						
+						
+</div>
+					</div>
+<!-- End Products in Order -->
+</div>
+</div>
+
+                     
+
+                </div>
+						<div class="row">
+						<div class="col-md-4"></div>
+						<div class="col-md-5"></div>
+						<div class="col-md-3 order-total-container text-right">
+							<span><strong>Order Subtotal :
+							$<span th:text="${order.orderTotal}"></span>
+								</strong>
+								</span>
+						</div>
+						
+					</div>
+
+            </div>
+
+        </div>
+        
+ 
+					<div class="clear"></div>
+				
+
+				<script th:src="@{/js/controller.js}"></script>
+
+				<!-- end of container -->
+				<div th:replace="common/head :: footer" />
+
+				<div th:replace="common/head :: body-bottom-scripts" />
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
+   

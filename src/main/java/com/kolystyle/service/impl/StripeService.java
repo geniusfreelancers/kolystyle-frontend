@@ -26,6 +26,7 @@ public class StripeService {
     public void init() {
         Stripe.apiKey = secretKey;
     }
+    
     public Charge charge(ChargeRequest chargeRequest) 
       throws AuthenticationException, InvalidRequestException,
         APIConnectionException, CardException, APIException {

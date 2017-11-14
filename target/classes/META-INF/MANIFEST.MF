@@ -1,7 +1,12 @@
 Manifest-Version: 1.0
 Implementation-Title: Kolystyle
+<<<<<<< HEAD
 Implementation-Version: 0.0.1-SNAPSHOT
 Built-By: khanad1
+=======
+Implementation-Version: 0.0.5-SNAPSHOT
+Built-By: Samima
+>>>>>>> 3318ae795fb7b3a5a35aa53a826d846ab06bcd3d
 Implementation-Vendor-Id: com.kolystyle
 Build-Jdk: 1.8.0_121
 Implementation-URL: http://projects.spring.io/spring-boot/kolystyle/
