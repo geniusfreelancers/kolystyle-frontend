@@ -2,23 +2,15 @@ $().ready(function(){
 	$( "#payment-form" ).validate({
         rules: {
         	firstName:"required",
+        	lastName:"required",
         	shippingAddressStreet1: "required",
         	shippingAddressState: "required",
         	shippingAddressZipcode: "required",
-        	username:{
-        		required: true,
-        		minlength:5
-        	},
             email: {
                 required: true,
                 email:true
             },
-            password:{
-            	required:true,
-            	minlength:7
-            	/*equalTo:"#password"*/
-            },
-            phone:{
+            phoneNumber:{
             	required:true,
             	minlength:10
             },
@@ -26,6 +18,7 @@ $().ready(function(){
         },
         messages:{
         	firstName:"First Name Required",
+        	lastName:"Last Name Required",
         	shippingAddressStreet1:"Street Address Required",
         	shippingAddressState:"State Required",
         	shippingAddressZipcode:"Zipcode Required",
@@ -36,14 +29,9 @@ $().ready(function(){
         	email: {
                 required: "Email Required",
             },
-            password:{
-            	required: "Password Required",
-            	minlength: "Password must be atleast 7 characters"
-            	/*equalTo:"Please enter same password"*/
-            },
-            phone:{
+            phoneNumber:{
             	required: "Phone Number Required",
-            	minlength: "Please enter a valid Phone Number"
+            	minlength: "Invalid Phone Number"
             },
             shippingAddressCity:"City Required"
         }
