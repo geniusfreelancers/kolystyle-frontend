@@ -37,3 +37,10 @@ $().ready(function(){
         }
     });
 });
+
+
+$('.tab').click(function(){
+    var a=$(this).attr('id');
+    $('#sample').html('Active Tab is'+a);
+});
+

@@ -6,6 +6,7 @@
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script src="https://js.braintreegateway.com/web/3.25.0/js/client.min.js"></script>
 <script src="https://js.braintreegateway.com/web/3.25.0/js/paypal-checkout.min.js"></script>
+<script src="/js/demo.js"></script>
 	<div class="wrapper-box">
 		<div class="main-wrapper">
 
@@ -16,7 +17,8 @@
 				
 		<div class="row" style="margin-top: 10px;">
 
-			<form th:action="@{/chargeguest}" method="post" id="payment-form">
+			<!--form th:action="@{/chargeguest}" method="post" id="payment-form"-->
+			<form th:action="@{/checkouts}" method="post" id="payment-form">
 				<!-- Checkout Info -->
 				<div class="col-md-12">
 					<div th:if="${missingRequiredField}">
@@ -167,9 +169,11 @@ Transit time: 3-6 business days
 							
 <div class="col-md-12">		
 
+<div id="sample"></div>
+
 <ul class="nav nav-tabs">
-  <li class="active"><a data-toggle="tab" href="#creditCards"><b>Credit Card</b></a></li>
-  <li id="paypalBtn"><a data-toggle="tab" href="#payPal"><span class="paypalbtn"></span></a></li>
+  <li class="active"><a class="tab" data-toggle="tab" href="#creditCards" id="creditcardlink"><b>Credit Card</b></a></li>
+  <li id="paypalBtn"><a class="tab" data-toggle="tab" href="#payPal" id="paypallink"><span class="paypalbtn"></span></a></li>
 </ul>
 <div class="tab-content">
   <div id="creditCards" class="tab-pane fade in active">
@@ -347,6 +351,54 @@ Transit time: 3-6 business days
  	<p><strong>Note: </strong>PayPal can't be used with Gift Cards, Reward Cards and Credit Cards.</p>
  	<p class="help-text">You will login on PayPal's site on the next page and review your order, then you will finish the transaction at kolystyle.com</p>
  	<br/>
+ 	
+ 	<!-- Paypal Amount -->
+ 	<label for="amount">
+            <span class="input-label">Amount</span>
+            <div class="input-wrapper amount-wrapper">
+              <input id="amount" name="amount" type="tel" min="1" placeholder="Amount" value="10" />
+            </div>
+    </label>
+    
+    <div class="bt-drop-in-wrapper">
+            <div id="bt-dropin"></div>
+    </div>
+    
+    <input type="hidden" id="nonce" name="payment_method_nonce" />
+    
+    
+    <script src="https://js.braintreegateway.com/web/dropin/1.8.1/js/dropin.min.js"></script>
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  var form = document.querySelector('#payment-form');
+  var client_token = [[${clientToken}]];
+  braintree.dropin.create({
+    authorization: client_token,
+    container: '#bt-dropin',
+    paypal: {
+      flow: 'vault'
+    }
+  }, function (createErr, instance) {
+    form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    instance.requestPaymentMethod(function (err, payload) {
+      if (err) {
+        console.log('Error', err);
+        return;
+      }
+      // Add the nonce to the form and submit
+      document.querySelector('#nonce').value = payload.nonce;
+        form.submit();
+      });
+    });
+  });
+  var checkout = new Demo({
+    formID: 'payment-form'
+  });
+  /*]]>*/
+</script>
+ 	<!-- Paypal Amount -->
+ 	
  	<button type="submit" class="btn btn-primary" id="rc-paypal-continue">Continue to Paypal</button>
  	<br/><br/>
  	<div id="paypal-button"></div>

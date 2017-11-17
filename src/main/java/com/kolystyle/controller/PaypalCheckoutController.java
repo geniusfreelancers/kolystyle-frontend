@@ -1,4 +1,4 @@
-package com.kolystyle.controller;
+/*package com.kolystyle.controller;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
@@ -106,3 +106,4 @@ public class PaypalCheckoutController {
        return "checkouts/show";
    }
 }
+*/

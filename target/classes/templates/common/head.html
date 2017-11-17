@@ -69,9 +69,9 @@
                 </div-->
                 <div class="links">
 
-                        <a sec:authorize="isAnonymous()" th:href="@{/userlogin}">LOGIN / REGISTER</a>
-                        <a sec:authorize="isAuthenticated()" th:href="@{/customer/account}">MY ACCOUNT</a>
-                        <a sec:authorize="isAuthenticated()" th:href="@{/logout}">LOGOUT</a>
+                        <a id="loginlink" sec:authorize="isAnonymous()" th:href="@{/userlogin}">LOGIN / REGISTER</a>
+                        <a id="accountlink" sec:authorize="isAuthenticated()" th:href="@{/customer/account}">MY ACCOUNT</a>
+                        <a id="logoutlink" sec:authorize="isAuthenticated()" th:href="@{/logout}">LOGOUT</a>
                    		<a href="/customer/wishlist" id="wishlist-total">Wish List</a>
                     	<a id="checkout-link" th:href="@{/shoppingCart/cart}">Checkout</a>
 
@@ -504,7 +504,7 @@
         <div class="column">
             <h3>Information</h3>
             <ul>
-                <li><a href="about-us.html">About Us</a></li>
+                <li><a th:href="@{/public/about}">About Us</a></li>
                 <li><a href="about-us.html">Delivery Information</a></li>
                 <li><a href="about-us.html">Privacy Policy</a></li>
                 <li><a href="elements.html">Elements</a></li>

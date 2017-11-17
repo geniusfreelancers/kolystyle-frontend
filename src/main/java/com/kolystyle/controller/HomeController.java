@@ -105,6 +105,8 @@ public class HomeController {
 		return "index";
 	}
 	
+	
+	
 	 @RequestMapping("/")
 	    public String home(Model model){
 	        List<Product> productList = productService.findAll();
