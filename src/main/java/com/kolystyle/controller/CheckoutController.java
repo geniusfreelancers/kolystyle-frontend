@@ -3,6 +3,7 @@ package com.kolystyle.controller;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -18,14 +19,21 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.braintreegateway.BraintreeGateway;
+import com.braintreegateway.CreditCard;
+import com.braintreegateway.Customer;
 import com.braintreegateway.Result;
 import com.braintreegateway.Transaction;
 import com.braintreegateway.TransactionRequest;
+import com.braintreegateway.ValidationError;
+import com.braintreegateway.Transaction.Status;
+import com.kolystyle.KolystyleApplication;
 import com.kolystyle.domain.BillingAddress;
 import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.ChargeRequest;
@@ -51,6 +59,18 @@ import com.kolystyle.utility.USConstants;
 
 @Controller
 public class CheckoutController {
+	
+	private BraintreeGateway gateway = KolystyleApplication.gateway;
+
+    private Status[] TRANSACTION_SUCCESS_STATUSES = new Status[] {
+       Transaction.Status.AUTHORIZED,
+       Transaction.Status.AUTHORIZING,
+       Transaction.Status.SETTLED,
+       Transaction.Status.SETTLEMENT_CONFIRMED,
+       Transaction.Status.SETTLEMENT_PENDING,
+       Transaction.Status.SETTLING,
+       Transaction.Status.SUBMITTED_FOR_SETTLEMENT
+    };
 
 	private ShippingAddress shippingAddress = new ShippingAddress();
 	private BillingAddress billingAddress = new BillingAddress();
@@ -124,6 +144,11 @@ public class CheckoutController {
 		BillingAddress billingAddress = new BillingAddress();
 		Payment payment = new Payment();
 		
+		String clientToken = gateway.clientToken().generate();
+			
+	    //model.addAttribute("clientToken", clientToken);
+		//String clientToken = "1efrt4gehy4uru";
+		model.addAttribute("clientToken", clientToken);
 		model.addAttribute("shippingAddress",shippingAddress);
 		model.addAttribute("payment",payment);
 		model.addAttribute("billingAddress",billingAddress);
@@ -140,6 +165,68 @@ public class CheckoutController {
 		return "guestcheckout";
 		
 	}
+	
+	
+	//Paypal Checkout
+	 @RequestMapping(value = "/checkouts", method = RequestMethod.POST)
+	   public String postForm(@RequestParam("amount") String amount, @RequestParam("payment_method_nonce") String nonce, Model model, final RedirectAttributes redirectAttributes) {
+	       BigDecimal decimalAmount;
+	       try {
+	           decimalAmount = new BigDecimal(amount);
+	       } catch (NumberFormatException e) {
+	           redirectAttributes.addFlashAttribute("errorDetails", "Error: 81503: Amount is an invalid format.");
+	           return "redirect:checkouts";
+	       }
+
+	       TransactionRequest request = new TransactionRequest()
+	           .amount(decimalAmount)
+	           .paymentMethodNonce(nonce)
+	           .options()
+	               .submitForSettlement(true)
+	               .done();
+
+	       Result<Transaction> result = gateway.transaction().sale(request);
+
+	       if (result.isSuccess()) {
+	           Transaction transaction = result.getTarget();
+	           return "redirect:checkouts/" + transaction.getId();
+	       } else if (result.getTransaction() != null) {
+	           Transaction transaction = result.getTransaction();
+	           return "redirect:checkouts/" + transaction.getId();
+	       } else {
+	           String errorString = "";
+	           for (ValidationError error : result.getErrors().getAllDeepValidationErrors()) {
+	              errorString += "Error: " + error.getCode() + ": " + error.getMessage() + "\n";
+	           }
+	           redirectAttributes.addFlashAttribute("errorDetails", errorString);
+	           return "redirect:checkouts";
+	       }
+	   }
+	 
+	 
+	 @RequestMapping(value = "/checkouts/{transactionId}")
+	   public String getTransaction(@PathVariable String transactionId, Model model) {
+	       Transaction transaction;
+	       CreditCard creditCard;
+	       Customer customer;
+
+	       try {
+	           transaction = gateway.transaction().find(transactionId);
+	           creditCard = transaction.getCreditCard();
+	           customer = transaction.getCustomer();
+	       } catch (Exception e) {
+	           System.out.println("Exception: " + e);
+	           return "redirect:/checkouts";
+	       }
+
+	       model.addAttribute("isSuccess", Arrays.asList(TRANSACTION_SUCCESS_STATUSES).contains(transaction.getStatus()));
+	       model.addAttribute("transaction", transaction);
+	       model.addAttribute("creditCard", creditCard);
+	       model.addAttribute("customer", customer);
+
+	       return "checkouts/show";
+	   }
+	
 	
 	@RequestMapping("/checkout")
 	public String checkout(
