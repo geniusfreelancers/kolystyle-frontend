@@ -31,6 +31,7 @@
 <p>Order #	<span th:text="${order.id}"></span></p>
 <p>Ordered Date: <span th:text="${order.orderDate}"></span></p>
 <p>Paypal Response: <span th:text="${transaction.getId()}"></span></p>
+<p>Paypal Response: <span th:text="${transaction.getPaymentInstrumentType()}"></span></p>
 <p>Shipping Method: <span th:text="${order.shippingMethod}"></span></p>
 <p>Shipping address</p>
 <p><span th:text="${order.shippingAddress.firstName}"></span> <span th:text="${order.shippingAddress.lastName}"></span></p>
@@ -42,6 +43,22 @@
 </div>
 <div class="col-md-8">
 <p>Order Status: <span th:text="${order.orderStatus}"></span></p>
+
+<div class="progress">
+  <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" style="width:30%">
+    ORDER PLACED
+  </div>
+  <div class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" style="width:20%">
+    PROCESSING
+  </div>
+  <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" style="width:20%">
+    SHIPPED
+  </div>
+   <div class="progress-bar progress-bar-success" role="progressbar" style="width:30%">
+    DELIVERED
+  </div>
+</div>
+
 </div>
 <div class="col-md-12 text-center">
 <p>Estimated Delivery Date: <span th:text="${estimatedDeliveryDate}"></span></p>
@@ -49,9 +66,62 @@
 </div>
 </div>
 </div>
+<br/><br/>
 <div class="row">
 <div class="col-md-10 col-md-offset-1">
-<p class="text-center">Item Details</p>
+
+<div class="panel panel-primary">
+							<div class="panel-heading">
+								<h4 class="panel-title text-center">
+									<a data-toggle="collapse" data-parent="#accordion"
+										href="#shippingInfo">Item Details</a>
+								</h4>
+							</div>
+							<div id="shippingInfo" class="panel-collapse collapse">
+							<div class="panel-body">
+<div class="row">
+						<div class="col-xs-6"><h4>Products</h4></div>
+						<div class="col-xs-2"><h4>Price</h4></div>
+						<div class="col-xs-2"><h4>Qty</h4></div>
+						<div class="col-xs-2 text-right"><h4>Amount</h4></div>
+						</div>
+						
+						<!-- Display products in cart -->
+						<div class="row" th:each="cartItem : ${cartItemList}">
+						
+						<hr/>
+						<div class="col-xs-2">
+						<a th:href="@{/productDetail(id=${cartItem.product.id})}">
+						<img class="img-responsive shelf-product" th:src="#{adminPath}+@{/image/product/}+${cartItem.product.id}+'.png'" style="width:70px;" />
+						</a>
+						</div>
+						<div class="col-xs-4">
+							<div style="margin-left:50px;">	
+							<a th:href="@{/productDetail?id=}+${cartItem.product.id}"><h4 th:text="${cartItem.product.title}"></h4></a>
+								<span>Size: </span><span th:text="${cartItem.productSize}"></span> | <span>Web ID: </span><span th:text="${cartItem.product.sku}"></span>
+							</div>
+							</div>
+							<div class="col-xs-2">
+								<h5 style="color: #db3208; font-size: large;">
+									$<span th:text="${cartItem.product.ourPrice}"
+										th:style="${cartItem.product.inStockNumber}==0? 'text-decoration: line-through' : ''"></span>
+								</h5>
+								
+							</div>
+							<div class="col-xs-2">
+								<h5 style="font-size:large" th:text="${cartItem.qty}"></h5>
+							</div>
+							<div class="col-xs-2">
+							
+							<h5 class="text-primary text-right" style="font-size: large;"  th:with="result=${cartItem.product.ourPrice * cartItem.qty}">
+									$<span th:text="${#numbers.formatDecimal(result, 0, 'COMMA', 2, 'POINT')}" ></span>
+								</h5>
+							</div>
+					
+						</div>
+					</div>
+					</div>
+				</div>
 </div>
 </div>
 <div class="row">

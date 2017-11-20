@@ -47,6 +47,7 @@ import com.kolystyle.domain.UserBilling;
 import com.kolystyle.domain.UserPayment;
 import com.kolystyle.domain.UserShipping;
 import com.kolystyle.domain.ChargeRequest.Currency;
+import com.kolystyle.repository.OrderRepository;
 import com.kolystyle.service.BillingAddressService;
 import com.kolystyle.service.CartItemService;
 import com.kolystyle.service.OrderService;
@@ -85,7 +86,8 @@ public class CheckoutController {
 
 	@Autowired
 	private UserService userService;
-	
+	@Autowired
+	private OrderRepository orderRepository;
 	@Autowired
 	private ShoppingCartService shoppingCartService;
 	
@@ -237,7 +239,11 @@ if(shoppingCart==null) {
 		}*/
 	
 		Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, shippingMethod, user,email,phoneNumber);
-		
+		order.setOrderTotal(new BigDecimal(amount));
+		order.setPromocodeApplied(shoppingCart.getPromoCode());
+		order.setShippingCost(shoppingCart.getShippingCost());
+		order.setOrderType(shoppingCart.getCartType());
+		orderRepository.save(order);
 //		mailSender.send(mailConstructor.constructOrderConfirmationEmail(user,order,Locale.ENGLISH));
 		
 		shoppingCartService.clearShoppingCart(shoppingCart);
@@ -275,6 +281,7 @@ if(shoppingCart==null) {
 	       if (result.isSuccess()) {
 	           Transaction transaction = result.getTarget();
 	           model.addAttribute("transaction", transaction);
+	           model.addAttribute("cartItemList", order.getCartItemList());
 	         //  return "redirect:checkouts/" + transaction.getId();
 	           return "thankyou";
 	           

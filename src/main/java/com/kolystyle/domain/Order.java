@@ -26,6 +26,7 @@ public class Order {
 	private String shippingMethod;
 	private String orderStatus;
 	private String paymentType;
+	private String orderType;
 	private String orderEmail;
 	private String orderPhone;
 	private BigDecimal orderSubtotal;
@@ -145,6 +146,14 @@ public class Order {
 
 	public void setPaymentType(String paymentType) {
 		this.paymentType = paymentType;
+	}
+
+	public String getOrderType() {
+		return orderType;
+	}
+
+	public void setOrderType(String orderType) {
+		this.orderType = orderType;
 	}
 
 	public String getOrderEmail() {
