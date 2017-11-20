@@ -16,17 +16,21 @@ public class PublicController {
 	@Autowired
 	private StaticPageService staticPageService;
 
-	/*@RequestMapping("/about")
-	public String about() {
-		return "about";
-	}*/
+	@RequestMapping("/contact")
+	public String contact() {
+		return "contact";
+	}
 	
-	@RequestMapping("/{title}")
-	public String product(@PathVariable String title, Model model)
+	@RequestMapping("/{pagename}")
+	public String pages(@PathVariable String pagename, Model model)
 	{
-		StaticPage staticpage = staticPageService.getPageByTitle(title);
-		model.addAttribute("staticpage", staticpage);
-		return "staticpage";
+		StaticPage staticpage = staticPageService.findByPagename(pagename);
+		if(staticpage != null) {
+			model.addAttribute("staticpage", staticpage);
+			return "staticpage";
+		}
+		
+		return "badRequestPage";
 	}
 	
 }
