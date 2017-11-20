@@ -157,7 +157,7 @@ ShoppingCart shoppingCart = userService.findByUsername(principal.getName()).getS
         model.addAttribute("error", ex.getMessage());
         return "result";
     }
-}*/
+}
 
 
 
@@ -320,4 +320,4 @@ ShoppingCart shoppingCart = userService.findByUsername(principal.getName()).getS
         model.addAttribute("error", ex.getMessage());
         return "result";
     }
-}
+}*/

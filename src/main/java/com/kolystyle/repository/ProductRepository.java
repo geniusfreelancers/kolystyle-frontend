@@ -16,4 +16,8 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	List<Product> findByTitleContaining(String title);
 
 	List<Product> findTop12ByCategory(Category category);
+
+	List<Product> findBySku(String sku);
+
+	List<Product> findByBrandContaining(String brand);
 }

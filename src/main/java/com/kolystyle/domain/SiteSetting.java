@@ -12,6 +12,7 @@ public class SiteSetting {
 	private BigDecimal freeShippingMin;
 	
 	private BigDecimal shippingCost;
+	private String homeSlide;
 	
 	public Long getId() {
 		return id;
@@ -30,6 +31,12 @@ public class SiteSetting {
 	}
 	public void setShippingCost(BigDecimal shippingCost) {
 		this.shippingCost = shippingCost;
+	}
+	public String getHomeSlide() {
+		return homeSlide;
+	}
+	public void setHomeSlide(String homeSlide) {
+		this.homeSlide = homeSlide;
 	}	
 	
 }

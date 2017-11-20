@@ -38,6 +38,18 @@ $().ready(function(){
     });
 });
 
+/*$(document).ready(function(){
+    $("input[type=submit]").attr("disabled", "disabled");
+    
+    if ( $('#phoneNumber').is(":empty") ) {
+        alert ("verdadeiro");
+    }
+    else {
+        alert ("entrou no if");
+        $("input[type=submit]").removeAttr("disabled");
+    }
+
+});*/
 
 $('.tab').click(function(){
     var a=$(this).attr('id');
