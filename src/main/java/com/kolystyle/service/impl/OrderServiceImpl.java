@@ -27,13 +27,22 @@ public class OrderServiceImpl implements OrderService{
 	@Autowired
 	private CartItemService cartItemService;
 	
-	public synchronized Order createOrder(ShoppingCart shoppingCart, ShippingAddress shippingAddress, BillingAddress billingAddress, Payment payment, String shippingMethod, User user){
+	public synchronized Order createOrder(ShoppingCart shoppingCart, ShippingAddress shippingAddress, 
+			BillingAddress billingAddress, Payment payment, String shippingMethod, User user,
+			String email, String phone
+			){
 		Order order = new Order();
 		order.setBillingAddress(billingAddress);
 		order.setOrderStatus("created");
 		order.setPayment(payment);
 		order.setShippingAddress(shippingAddress);
 		order.setShippingMethod(shippingMethod);
+		String orderEmail = email;
+		String orderPhone = phone;
+		if(user != null) {
+			orderEmail = user.getEmail();
+			orderPhone = user.getPhone();
+		}
 		
 		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
 		
@@ -42,7 +51,8 @@ public class OrderServiceImpl implements OrderService{
 			cartItem.setOrder(order);
 			product.setInStockNumber(product.getInStockNumber() - cartItem.getQty());
 		}
-		
+		order.setOrderEmail(orderEmail);
+		order.setOrderPhone(orderPhone);
 		order.setCartItemList(cartItemList);
 		order.setOrderDate(Calendar.getInstance().getTime());
 		order.setOrderTotal(shoppingCart.getGrandTotal());
@@ -55,6 +65,11 @@ public class OrderServiceImpl implements OrderService{
 		return order;
 	}
 
+/*	public synchronized Order createGuestOrder(ShoppingCart shoppingCart, ShippingAddress shippingAddress, BillingAddress billingAddress,
+			Payment payment, String shippingMethod, String phone, String email) {
+		
+	}*/
+	
 	public Order findOne(Long id){
 		return orderRepository.findOne(id);
 	}

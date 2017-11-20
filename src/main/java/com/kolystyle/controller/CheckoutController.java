@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,6 +46,7 @@ import com.kolystyle.domain.User;
 import com.kolystyle.domain.UserBilling;
 import com.kolystyle.domain.UserPayment;
 import com.kolystyle.domain.UserShipping;
+import com.kolystyle.domain.ChargeRequest.Currency;
 import com.kolystyle.service.BillingAddressService;
 import com.kolystyle.service.CartItemService;
 import com.kolystyle.service.OrderService;
@@ -56,6 +58,8 @@ import com.kolystyle.service.UserService;
 import com.kolystyle.service.UserShippingService;
 import com.kolystyle.utility.MailConstructor;
 import com.kolystyle.utility.USConstants;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
 
 @Controller
 public class CheckoutController {
@@ -166,6 +170,128 @@ public class CheckoutController {
 		
 	}
 	
+	//@PostMapping("/chargeguest")
+	@RequestMapping(value = "/chargeguest", method = RequestMethod.POST)
+    public String charge(HttpServletRequest request,HttpServletResponse response,
+    		@RequestParam("amount") String amount, @RequestParam("payment_method_nonce") String nonce, 
+    		@RequestParam("phoneNumber") String phoneNumber, @RequestParam("email") String email,
+    		Model model, final RedirectAttributes redirectAttributes,
+    		@ModelAttribute("shippingAddress") ShippingAddress shippingAddress,
+			@ModelAttribute("billingAddress") BillingAddress billingAddress,
+			@ModelAttribute("payment") Payment payment,
+			@ModelAttribute("billingSameAsShipping") String billingSameAsShipping,
+			@ModelAttribute("shippingMethod") String shippingMethod,
+			Principal principal){    
+        
+//Save in DB
+User user = null;
+HttpSession session = request.getSession();
+ShoppingCart shoppingCart;
+Cookie[] cookies = request.getCookies();
+String cartId = "";
+boolean foundCookie = false;
+	//Check cookie value
+if (cookies != null){
+	int cok=cookies.length;
+	if(cok>0) {
+    for(int i = 0; i < cookies.length; i++) { 
+        Cookie cartID = cookies[i];
+        if (cartID.getName().equals("BagId")) {
+        	cartId = cartID.getValue();
+            System.out.println("BagId = " + cartId);
+            foundCookie = true;
+        }}
+	}
+}
+shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
+if(shoppingCart==null) {
+	System.out.println("Bag ID IS MISSING");
+	shoppingCart = shoppingCartService.findCartByBagId(cartId);
+}
+		
+		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
+		model.addAttribute("cartItemList",cartItemList);
+		if(shippingAddress.getShippingAddressStreet1().isEmpty()|| 
+				   shippingAddress.getShippingAddressCity().isEmpty() ||
+				   shippingAddress.getShippingAddressState().isEmpty() ||
+				   shippingAddress.getShippingAddressZipcode().isEmpty()) {
+			return "redirect:/checkout?id="+shoppingCart.getId()+"&missingRequiredField=true";
+		}
+/*		if(billingSameAsShipping.equals("true")){
+			billingAddress.setBillingAddressStreet1(shippingAddress.getShippingAddressStreet1());
+			billingAddress.setBillingAddressStreet2(shippingAddress.getShippingAddressStreet2());
+			billingAddress.setBillingAddressCity(shippingAddress.getShippingAddressCity());
+			billingAddress.setBillingAddressState(shippingAddress.getShippingAddressState());
+			billingAddress.setBillingAddressCountry(shippingAddress.getShippingAddressCountry());
+			billingAddress.setBillingAddressZipcode(shippingAddress.getShippingAddressZipcode());
+		}*/
+		
+		/*if(payment.getCardNumber().isEmpty() ||
+		   payment.getCvc() == 0 ||
+		   billingAddress.getBillingAddressStreet1().isEmpty() ||
+		   billingAddress.getBillingAddressCity().isEmpty() ||
+		   billingAddress.getBillingAddressState().isEmpty() ||
+		   billingAddress.getBillingAddressName().isEmpty() ||
+		   billingAddress.getBillingAddressZipcode().isEmpty()){
+			return "redirect:/checkout?id="+shoppingCart.getId()+"&missingRequiredField=true";
+		}*/
+	
+		Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, shippingMethod, user,email,phoneNumber);
+		
+//		mailSender.send(mailConstructor.constructOrderConfirmationEmail(user,order,Locale.ENGLISH));
+		
+		shoppingCartService.clearShoppingCart(shoppingCart);
+		
+		LocalDate today = LocalDate.now();
+		LocalDate estimatedDeliveryDate;
+		
+		if(shippingMethod.equals("groundShipping")){
+			estimatedDeliveryDate = today.plusDays(5);
+		}else{
+			estimatedDeliveryDate = today.plusDays(3);
+		}
+		
+		model.addAttribute("estimatedDeliveryDate",estimatedDeliveryDate);
+		model.addAttribute("order",order);
+		
+		//Paypal things humm
+		BigDecimal decimalAmount;
+	       try {
+	           decimalAmount = new BigDecimal(amount);
+	       } catch (NumberFormatException e) {
+	           redirectAttributes.addFlashAttribute("errorDetails", "Error: 81503: Amount is an invalid format.");
+	           return "redirect:checkouts";
+	       }
+
+	       TransactionRequest reequest = new TransactionRequest()
+	           .amount(decimalAmount)
+	           .paymentMethodNonce(nonce)
+	           .options()
+	               .submitForSettlement(true)
+	               .done();
+
+	       Result<Transaction> result = gateway.transaction().sale(reequest);
+
+	       if (result.isSuccess()) {
+	           Transaction transaction = result.getTarget();
+	           model.addAttribute("transaction", transaction);
+	         //  return "redirect:checkouts/" + transaction.getId();
+	           return "thankyou";
+	           
+	       } else if (result.getTransaction() != null) {
+	           Transaction transaction = result.getTransaction();
+	           return "redirect:checkouts/" + transaction.getId();
+	       } else {
+	           String errorString = "";
+	           for (ValidationError error : result.getErrors().getAllDeepValidationErrors()) {
+	              errorString += "Error: " + error.getCode() + ": " + error.getMessage() + "\n";
+	           }
+	           redirectAttributes.addFlashAttribute("errorDetails", errorString);
+	           return "redirect:checkouts";
+	       }
+     
+      //  return "orderSubmittedPage";
+    }
 	
 	//Paypal Checkout
 	 @RequestMapping(value = "/checkouts", method = RequestMethod.POST)
@@ -373,7 +499,7 @@ public class CheckoutController {
 		
 	}
 	
-	@RequestMapping(value="/checkout", method=RequestMethod.POST)
+	/*@RequestMapping(value="/checkout", method=RequestMethod.POST)
 	public String checkoutPost(
 			@ModelAttribute("shippingAddress") ShippingAddress shippingAddress,
 			@ModelAttribute("billingAddress") BillingAddress billingAddress,
@@ -432,7 +558,7 @@ public class CheckoutController {
 		
 		return "orderSubmittedPage";
 	}
-	
+	*/
 
 	
 	@RequestMapping("/setShippingAddress")
@@ -536,7 +662,7 @@ public class CheckoutController {
 	}
 	
 	
-	@RequestMapping(value="/checkoutP", method=RequestMethod.POST)
+	/*@RequestMapping(value="/checkoutP", method=RequestMethod.POST)
 	public String checkoutP(
 			ShippingAddress shippingAddress,
 			BillingAddress billingAddress,
@@ -594,6 +720,6 @@ public class CheckoutController {
 		model.addAttribute("estimatedDeliveryDate",estimatedDeliveryDate);
 		
 		return "orderSubmittedPage";
-	}
+	}*/
 	
 }

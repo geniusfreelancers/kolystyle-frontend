@@ -71,7 +71,10 @@ public class SearchController {
 			model.addAttribute("emptyList", true);
 			return "productshelf";
 		}
-		
+		if (productList.size()==1) {
+			model.addAttribute("product",productList);
+			return "redirect:/productDetail?id="+productList.get(0).getId();
+		}
 		model.addAttribute("productList",productList);
 		return "productshelf";
 	}

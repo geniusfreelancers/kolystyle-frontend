@@ -12,8 +12,10 @@ import com.kolystyle.domain.User;
 public interface OrderService {
 	
 	Order createOrder(ShoppingCart shoppingCart, ShippingAddress shippingAddress, BillingAddress billingAddress,
-			Payment payment, String shippingMethod, User user);
-
+			Payment payment, String shippingMethod, User user,String email, String phone);
+	/*Order createGuestOrder(ShoppingCart shoppingCart, ShippingAddress shippingAddress, BillingAddress billingAddress,
+			Payment payment, String shippingMethod, String phone, String email);*/
+	
 	Order findOne(Long id);
 	List<Order> findByUser(User user);
 }

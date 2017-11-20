@@ -98,7 +98,12 @@ public class ProductServiceImpl implements ProductService{
 	
 	public List<Product> blurrySearch(String title){
 		List<Product> productList = productRepository.findByTitleContaining(title);
-		
+		if (productList.size() == 0){
+			productList = productRepository.findBySku(title);
+		}
+		if (productList.size() == 0){
+			productList = productRepository.findByBrandContaining(title);
+		}
 		List<Product> activeProductList = new ArrayList<>();
 		
 		for(Product product: productList){
@@ -106,6 +111,7 @@ public class ProductServiceImpl implements ProductService{
 				activeProductList.add(product);
 			}
 		}
+			
 		
 		return activeProductList;
 	}

@@ -17,8 +17,8 @@
 				
 		<div class="row" style="margin-top: 10px;">
 
-			<!--form th:action="@{/chargeguest}" method="post" id="payment-form"-->
-			<form th:action="@{/checkouts}" method="post" id="payment-form">
+			<form th:action="@{/chargeguest}" method="post" id="payment-form">
+			<!--form th:action="@{/checkouts}" method="post" id="payment-form"-->
 				<!-- Checkout Info -->
 				<div class="col-md-12">
 					<div th:if="${missingRequiredField}">
@@ -400,7 +400,7 @@ Transit time: 3-6 business days
 							<div class="panel-footer">Shipping and handling haven't
 								applied.</div>
 							<br/><br/>
-							<button type="submit" class="btn btn-warning btn-block">Place
+							<button type="submit" class="btn btn-warning btn-block" id="submitorder">Place
 								your order</button>
 							<p style="font-size: smaller;">
 								By placing your order, you agree to Koly Style <a href="#">privacy</a>
