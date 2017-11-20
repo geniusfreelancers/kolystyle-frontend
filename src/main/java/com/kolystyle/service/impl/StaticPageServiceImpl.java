@@ -16,4 +16,8 @@ public class StaticPageServiceImpl implements StaticPageService{
 	public StaticPage getPageByTitle(String title) {
 		return staticPageRepository.findByTitle(title);
 	}
+	
+	public StaticPage findByPagename(String pagename) {
+		return staticPageRepository.findByPagename(pagename);
+	}
 }
