@@ -11,56 +11,15 @@
 				
 
 <div class="row">
-<style>
-#checkout-link{
-	display:none!important;
-}
-.mini-cart-label{
-	display:none!important;
-}
-</style>
-<div class="col-md-10 col-md-offset-1">
-<h3><i class="fa fa-check" aria-hidden="true" style="color:limegreen;"></i> Thank you for your order #<span>3951785799013</span></h3>
-<a href="/productshelf" class="btn btn-default">Continue Shopping</a>
-<br/><br/>
-<div class="col-md-12 border-all">
-<div class="col-md-12">
-	<p class=""><span th:text="${staticpage.title}"></span></p>
-</div>
-<div class="col-md-4">
-<p>Order #3951785799013</p>
-<p>Shipping address</p>
-<p>Deepak Khanal</p>
-<p>3050 E Livingston Ave</p>
-<p>Apt 27</p>
-<p>Columbus, OH 43227</p> 
-</div>
-<div class="col-md-8">
-<p>Order Status: <span>Order placed</span></p>
-</div>
-<div class="col-md-12 text-center">
-<p>Estimated Delivery Date: <span>Sat, Nov 25</span></p>
-</div>
-</div>
-</div>
-</div>
-<div class="row">
-<div class="col-md-10 col-md-offset-1">
-<p class="text-center">Item Details</p>
-</div>
-</div>
-<div class="row">
-<div class="col-md-10 col-md-offset-1">
-<div class="col-md-4 order-summary">
-<p>Order summary</p>
-</div>
-<div class="col-md-4 payment-type">
-<p>Payment type</p>
-</div>
-<div class="col-md-4 billing-address">
-<p>Billing address</p>
-</div>
-</div>
+
+		
+		<div class="col-md-10 col-md-offset-1">
+		<h1 class="uppercase" th:text="${staticpage.title}"></h1>
+		<p th:text="${staticpage.maincontent}"></p>
+		<p>Page ID:  <span th:text="${staticpage.id}"></span></p>
+		</div>
+		
+
 </div>
 
 	

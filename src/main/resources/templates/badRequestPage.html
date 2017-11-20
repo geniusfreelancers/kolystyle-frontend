@@ -1,37 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="common/header :: common-header" />
+<head th:replace="common/head :: common-head" />
 <body>
-	<div th:replace="common/header :: navbar" />
-	<div class="container">
-		<div class="row" style="margin-bottom: -100px;">
-			<div class="col-xs-8">
-				<h2 class="section-headline">
-					<h2 class="section-headline">
-						<span th:text="${#strings.toUpperCase(user.username)}"></span>
-					</h2>
-				</h2>
-			</div>
-			<div class="col-xs-4">
-				<img src="/image/logo.png" class="img-responsive" />
-			</div>
+	<div class="wrapper-box">
+		<div class="main-wrapper">
 
-		</div>
-		<hr
-			style="position: absolute; width: 93%; height: 6px; background-color: #333; z-index: -1; margin-top: -80px;" />
-		<img class="img-responsive" src="/image/wood.png"
-			style="margin-top: -75px;" />
+			<div th:replace="common/head :: navbar" />
 
-		<div class="row" style="margin-top:10px">
-		<div class="col-xs-9 col-xs-offset-3">
+			<div id="container-wrapper">
+				
+
+<div class="row">
+
+		
+		<div class="col-md-10 col-md-offset-1">
 		<h5>Bad request. The request path is invalid. Click <a th:href="@{/}">here</a> to return to the home page.</h5>
 		</div>
-		</div>
 		
-	</div>
-	<!-- end of container -->
-	<div th:replace="common/header :: footer" />
+
+</div>
+
 	
-	<div th:replace="common/header :: body-bottom-scripts" />
+					<div class="clear"></div>
+				
+
+				<script th:src="@{/js/controller.js}"></script>
+
+				<!-- end of container -->
+				<div th:replace="common/head :: footer" />
+
+				<div th:replace="common/head :: body-bottom-scripts" />
+			</div>
+		</div>
+
+	</div>
+
 </body>
 </html>
