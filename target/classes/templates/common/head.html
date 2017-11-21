@@ -13,7 +13,7 @@
 		th:src="@{/js/jquery.min.js}"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/jquery.validate.js}"></script>
-<script src="https://js.stripe.com/v3/"></script>
+<!-- script src="https://js.stripe.com/v3/"></script-->
 <!-- Bootstrap core CSS -->
 <link href="/css/bootstrap.min.css" rel="stylesheet" />
 
@@ -50,7 +50,7 @@
 <div th:fragment="navbar">
         <!--Header Part Start-->
         <header id="header">
-            <div class="htop">
+            <div th:if="!${membersOnly}" class="htop">
             <div id="language"><span
 							th:text="${user}? ${#strings.toUpperCase('Welcome '+user.username)} : 'Welcome Guest'"></span>
 			</div>				
@@ -597,8 +597,6 @@
     <script th:src="@{/js/jquery.dcjqaccordion.js}"></script>
     <script th:src="@{/js/custom.js}"></script>
     <script th:src="@{/js/html5.js}"></script>
-    <script th:src="@{/js/paypal.js}"></script>
-    <script th:src="@{/js/silkstripe.js}"></script>
     <script th:src="@{/js/checkout.js}"></script>
     <script th:src="@{/js/check.js}"></script>
     <script th:src="@{/js/validation.js}"></script>

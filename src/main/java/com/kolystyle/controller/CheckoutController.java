@@ -42,6 +42,7 @@ import com.kolystyle.domain.Order;
 import com.kolystyle.domain.Payment;
 import com.kolystyle.domain.ShippingAddress;
 import com.kolystyle.domain.ShoppingCart;
+import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.domain.User;
 import com.kolystyle.domain.UserBilling;
 import com.kolystyle.domain.UserPayment;
@@ -54,6 +55,7 @@ import com.kolystyle.service.OrderService;
 import com.kolystyle.service.PaymentService;
 import com.kolystyle.service.ShippingAddressService;
 import com.kolystyle.service.ShoppingCartService;
+import com.kolystyle.service.SiteSettingService;
 import com.kolystyle.service.UserPaymentService;
 import com.kolystyle.service.UserService;
 import com.kolystyle.service.UserShippingService;
@@ -107,6 +109,9 @@ public class CheckoutController {
 	private UserShippingService userShippingService;
 	
 	@Autowired
+	private SiteSettingService siteSettingService;
+	
+	@Autowired
 	private UserPaymentService userPaymentService;
 	
 	@Autowired
@@ -145,13 +150,13 @@ public class CheckoutController {
         }
                 
         List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
- 
+        SiteSetting siteSetting= siteSettingService.findOne((long) 1);
 		ShippingAddress shippingAddress = new ShippingAddress();
 		BillingAddress billingAddress = new BillingAddress();
 		Payment payment = new Payment();
 		
 		String clientToken = gateway.clientToken().generate();
-			
+		model.addAttribute("siteSetting", siteSetting);	
 	    //model.addAttribute("clientToken", clientToken);
 		//String clientToken = "1efrt4gehy4uru";
 		model.addAttribute("clientToken", clientToken);

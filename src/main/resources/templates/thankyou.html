@@ -20,20 +20,30 @@
 }
 </style>
 <div class="col-md-10 col-md-offset-1">
-<h3><i class="fa fa-check" aria-hidden="true" style="color:limegreen;"></i> Thank you for your order #<span th:text="${order.id}"></span></h3>
-<a href="/productshelf" class="btn btn-default">Continue Shopping</a>
-<br/><br/>
+
 <div class="col-md-12 border-all">
+<div class="col-md-6">
+	<h3><i class="fa fa-check" aria-hidden="true" style="color:limegreen;"></i> 
+	Thank you for your order #<span th:text="${order.id}"></span></h3>
+</div>
+<div class="col-md-6">
+	<a href="/productshelf" style="float: right;" class="btn btn-default">Continue Shopping</a>
+</div>
+<br/><br/>
 <div class="col-md-12">
-	<p class="">You'll receive an email with tracking information when your item ships.</p>
+	<p class="text-success head-link"><i class="fa fa-check-square-o" aria-hidden="true"></i> You'll receive an email with tracking information when your item ships.</p>
+</div>
+<div class="col-md-6">
+<p><strong>Order #</strong>	<span th:text="${order.id}"></span></p>
+</div>
+<div class="col-md-6">
+<p><strong>Ordered Date:</strong> <span th:text="${order.orderDate}"></span></p>
 </div>
 <div class="col-md-4">
-<p>Order #	<span th:text="${order.id}"></span></p>
-<p>Ordered Date: <span th:text="${order.orderDate}"></span></p>
 <p>Paypal Response: <span th:text="${transaction.getId()}"></span></p>
 <p>Paypal Response: <span th:text="${transaction.getPaymentInstrumentType()}"></span></p>
-<p>Shipping Method: <span th:text="${order.shippingMethod}"></span></p>
-<p>Shipping address</p>
+<p><strong>Shipping Method:</strong> <span th:text="${order.shippingMethod}"></span></p>
+<p><strong>Shipping address</strong></p>
 <p><span th:text="${order.shippingAddress.firstName}"></span> <span th:text="${order.shippingAddress.lastName}"></span></p>
 <p><span th:text="${order.shippingAddress.ShippingAddressStreet1}"></span></p>
 <p><span th:text="${order.shippingAddress.ShippingAddressStreet2}"></span></p>
@@ -42,16 +52,16 @@
 <span th:text="${order.shippingAddress.ShippingAddressZipcode}"></span></p> 
 </div>
 <div class="col-md-8">
-<p>Order Status: <span th:text="${order.orderStatus}"></span></p>
+<p><strong>Order Status</strong></p>
 
 <div class="progress">
-  <div th:if="${currentStatus} == 2" class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" style="width:30%">
+  <div th:if="${currentStatus} &gt; 1" class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" style="width:30%">
     ORDER PLACED
   </div>
-  <div th:if="${currentStatus} &gt; 2" class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" style="width:15%">
+  <div th:if="${currentStatus} &gt; 2" class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" style="width:15%">
     PROCESSING
   </div>
-  <div th:if="${currentStatus} &gt; 3" class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" style="width:15%">
+  <div th:if="${currentStatus} &gt; 3" class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" style="width:15%">
     SHIPPED
   </div>
   <div th:if="${currentStatus} &gt; 4" class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" style="width:15%">
@@ -64,7 +74,7 @@
 
 </div>
 <div class="col-md-12 text-center">
-<p>Estimated Delivery Date: <span th:text="${estimatedDeliveryDate}"></span></p>
+<p><strong>Estimated Delivery Date:</strong> <span class="text-success" th:text="${estimatedDeliveryDate}"></span></p>
 </div>
 </div>
 </div>
@@ -130,7 +140,7 @@
 <div class="row">
 <div class="col-md-10 col-md-offset-1">
 <div class="col-md-4 order-summary">
-<p>Order summary</p>
+<p><strong>Order summary</strong></p>
 <p>Subtotal(2 items)$<span th:text="${order.orderSubtotal}"></span></p>
 <p>Shipping <span th:text="${order.shippingCost}"></span></p>
 <p>Tax $<span th:text="${order.estTax}"></span></p>
@@ -138,17 +148,17 @@
 <p>Total $<span th:text="${order.orderTotal}"></span></p>
 </div>
 <div class="col-md-4 payment-type">
-<p>Payment type</p>
+<p><strong>Payment type</strong></p>
 <div th:if="${creditMethod}">
-	<span th:text="${transaction.getCreditCard().getCardType()}"></span> - Ending in
-	<span th:text="${transaction.getCreditCard().getLast4()}"></span>
+	<!--span th:text="${transaction.getCreditCard().getCardType()}"></span-->Ending in
+	<strong><span th:text="${transaction.getCreditCard().getLast4()}"></span></strong>
 </div>
 <div th:if="${paypalMethod}">
-	<span>Paypal</span>	
+	<span><i class="fa fa-paypal" aria-hidden="true"></i> Paypal</span>	
 </div>
 </div>
-<div class="col-md-4 billing-address">
-<p>Billing address</p>
+<div th:if="${creditMethod}" class="col-md-4 billing-address">
+<p><strong>Billing address</strong></p>
 <p><span th:text="${order.billingAddress.BillingAddressStreet1}"></span></p>
 <p><span th:text="${order.billingAddress.BillingAddressStreet2}"></span></p>
 <p><span th:text="${order.billingAddress.BillingAddressCity}"></span>, 

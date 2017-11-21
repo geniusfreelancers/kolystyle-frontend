@@ -3,6 +3,11 @@
             CUSTOM STYLE
 
 ******************************************/
+.head-link {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
 .border-all{
 	border:2px solid #dfebed;
 	border-radius:10px;

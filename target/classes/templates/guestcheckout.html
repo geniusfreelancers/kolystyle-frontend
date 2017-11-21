@@ -137,15 +137,15 @@
 									<h4>Choose your shipping method:</h4>
 						<div class="radio">
 						<label>
-						<input type="radio" name="shippingMethod" value="groundShipping" checked="checked"/>Ground Shipping<br/>
+						<input type="radio" name="shippingMethod" value="groundShipping" ng-checked="changeShippingMethod('groundShipping')" checked="checked"/>Ground Shipping<br/>
 Transit time: 3-6 business days
 						</label>
 						</div>
 						
 						<div class="radio">
 						<label>
-						<input type="radio" name="shippingMethod" value="premiumShipping"/>Premium Shipping
-						<span class="text-right"><strong> $9.00</strong></span><br/>Transit time: 2-3 business days
+						<input type="radio" name="shippingMethod" value="premiumShipping" ng-checked='changeShippingMethod("premiumShipping")'/>Premium Shipping
+						<span class="text-right"><strong> $<span th:text="${siteSetting.premiumShippingCost}"></span></strong></span><br/>Transit time: 2-3 business days
 						</label>
 						
 						</div>
@@ -363,12 +363,12 @@ Transit time: 3-6 business days
 								</div>
 							</div>
 							
-				<section class="" ng-app="cartApp">
-				<div ng-controller = "cartCtrl" th:attr="ng-init='initCartId('+${shoppingCart.id}+')'">			
+				<section class="" ng-app="checkoutApp">
+				<div ng-controller = "checkoutCtrl" th:attr="ng-init='initCartId('+${shoppingCart.id}+')'">			
 							<div class="row">
-								<div class="col-xs-7 text-left">Shipping:</div>
+								<div class="col-xs-7 text-left">Shipping: <span>{{calShippingCost()}}</span></div>
 								<div class="col-xs-5 text-right text-danger">
-									<span>FREE {{cartItem.product.isbn}}</span>
+									<span>FREE</span>
 								</div>
 							</div>
 							
@@ -376,7 +376,7 @@ Transit time: 3-6 business days
 							<div class="row">
 								<div class="col-xs-7 text-left">
 									<h3 style="color: darkred;">
-										<strong>Order Total: {{cartItem.product.isbn}}</strong>
+										<strong>Order Total: <span>{{calOrderTotal()}}</span></strong>
 									</h3>
 								</div>
 								<div class="col-xs-5 text-right">
