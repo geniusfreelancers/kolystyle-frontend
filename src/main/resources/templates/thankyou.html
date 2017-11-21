@@ -45,16 +45,19 @@
 <p>Order Status: <span th:text="${order.orderStatus}"></span></p>
 
 <div class="progress">
-  <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" style="width:30%">
+  <div th:if="${currentStatus} == 2" class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" style="width:30%">
     ORDER PLACED
   </div>
-  <div class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" style="width:20%">
+  <div th:if="${currentStatus} &gt; 2" class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" style="width:15%">
     PROCESSING
   </div>
-  <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" style="width:20%">
+  <div th:if="${currentStatus} &gt; 3" class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" style="width:15%">
     SHIPPED
   </div>
-   <div class="progress-bar progress-bar-success" role="progressbar" style="width:30%">
+  <div th:if="${currentStatus} &gt; 4" class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" style="width:15%">
+    IN TRANSIT
+  </div>
+   <div th:if="${currentStatus} == 6" class="progress-bar progress-bar-success" role="progressbar" style="width:25%">
     DELIVERED
   </div>
 </div>
@@ -136,8 +139,13 @@
 </div>
 <div class="col-md-4 payment-type">
 <p>Payment type</p>
-<span th:text="${transaction.getCreditCard().getCardType()}"></span> - Ending in
-<span th:text="${transaction.getCreditCard().getLast4()}"></span>
+<div th:if="${creditMethod}">
+	<span th:text="${transaction.getCreditCard().getCardType()}"></span> - Ending in
+	<span th:text="${transaction.getCreditCard().getLast4()}"></span>
+</div>
+<div th:if="${paypalMethod}">
+	<span>Paypal</span>	
+</div>
 </div>
 <div class="col-md-4 billing-address">
 <p>Billing address</p>

@@ -238,27 +238,7 @@ if(shoppingCart==null) {
 			return "redirect:/checkout?id="+shoppingCart.getId()+"&missingRequiredField=true";
 		}*/
 	
-		Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, shippingMethod, user,email,phoneNumber);
-		order.setOrderTotal(new BigDecimal(amount));
-		order.setPromocodeApplied(shoppingCart.getPromoCode());
-		order.setShippingCost(shoppingCart.getShippingCost());
-		order.setOrderType(shoppingCart.getCartType());
-		orderRepository.save(order);
-//		mailSender.send(mailConstructor.constructOrderConfirmationEmail(user,order,Locale.ENGLISH));
 		
-		shoppingCartService.clearShoppingCart(shoppingCart);
-		
-		LocalDate today = LocalDate.now();
-		LocalDate estimatedDeliveryDate;
-		
-		if(shippingMethod.equals("groundShipping")){
-			estimatedDeliveryDate = today.plusDays(5);
-		}else{
-			estimatedDeliveryDate = today.plusDays(3);
-		}
-		
-		model.addAttribute("estimatedDeliveryDate",estimatedDeliveryDate);
-		model.addAttribute("order",order);
 		
 		//Paypal things humm
 		BigDecimal decimalAmount;
@@ -279,9 +259,57 @@ if(shoppingCart==null) {
 	       Result<Transaction> result = gateway.transaction().sale(reequest);
 
 	       if (result.isSuccess()) {
-	           Transaction transaction = result.getTarget();
+	    	   Transaction transaction = result.getTarget();
 	           model.addAttribute("transaction", transaction);
-	           model.addAttribute("cartItemList", order.getCartItemList());
+	   
+	    	// Do all order placement stuff after paypal success
+	    	Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, shippingMethod, user,email,phoneNumber);
+	   		order.setPaymentType(transaction.getPaymentInstrumentType());
+	   		order.setPaymentConfirm(transaction.getId());
+	    	order.setOrderTotal(new BigDecimal(amount));
+	   		order.setPromocodeApplied(shoppingCart.getPromoCode());
+	   		order.setShippingCost(shoppingCart.getShippingCost());
+	   		order.setOrderType(shoppingCart.getCartType());
+	   		orderRepository.save(order);
+//	   		mailSender.send(mailConstructor.constructOrderConfirmationEmail(user,order,Locale.ENGLISH));
+	   		
+	   		shoppingCartService.clearShoppingCart(shoppingCart);
+	   		
+	   		LocalDate today = LocalDate.now();
+	   		LocalDate estimatedDeliveryDate;
+	   		
+	   		if(shippingMethod.equals("groundShipping")){
+	   			estimatedDeliveryDate = today.plusDays(5);
+	   		}else{
+	   			estimatedDeliveryDate = today.plusDays(3);
+	   		}
+	   		if(transaction.getPaymentInstrumentType().equals("paypal_account")){
+	        	   model.addAttribute("paypalMethod",true);
+		   			 
+		   		}else{
+		   			model.addAttribute("creditMethod",true);
+		   		}
+	   		int currentStatus = 1;
+	   		if(order.getOrderStatus().equalsIgnoreCase("created")) {
+	   			currentStatus = 2;
+	   		}else if (order.getOrderStatus().equalsIgnoreCase("processing")) {
+	   			currentStatus = 3;
+	   		}else if (order.getOrderStatus().equalsIgnoreCase("shipped")) {
+	   			currentStatus = 4;
+	   		}else if (order.getOrderStatus().equalsIgnoreCase("intransit")) {
+	   			currentStatus = 5;
+	   		}else if (order.getOrderStatus().equalsIgnoreCase("delivered")) {
+	   			currentStatus = 6;
+	   		}else {
+	   			currentStatus = 2;
+	   		}
+	   		model.addAttribute("estimatedDeliveryDate",estimatedDeliveryDate);
+	   		model.addAttribute("order",order);
+	   		model.addAttribute("currentStatus",currentStatus);
+	   		model.addAttribute("cartItemList", order.getCartItemList());
+	    	   //End of Order placement
+	    	   
+	          
 	         //  return "redirect:checkouts/" + transaction.getId();
 	           return "thankyou";
 	           
