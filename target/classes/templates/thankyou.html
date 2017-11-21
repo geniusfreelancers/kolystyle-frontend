@@ -141,11 +141,12 @@
 <div class="col-md-10 col-md-offset-1">
 <div class="col-md-4 order-summary">
 <p><strong>Order summary</strong></p>
-<p>Subtotal(2 items)$<span th:text="${order.orderSubtotal}"></span></p>
-<p>Shipping <span th:text="${order.shippingCost}"></span></p>
-<p>Tax $<span th:text="${order.estTax}"></span></p>
-<hr/>
-<p>Total $<span th:text="${order.orderTotal}"></span></p>
+<p><span class="col-xs-6">Subtotal(2 items)</span><span class="col-xs-6">$<span th:text="${order.orderSubtotal}"></span></span></p>
+<p class="text-success"><span class="col-xs-6">Promo Discount</span><span class="col-xs-6">$<span th:text="${order.discount}"></span></span></p>
+<p><span class="col-xs-6">Shipping</span><span class="col-xs-6">$<span th:text="${order.shippingCost}"></span></span></p>
+<hr class="dark-line"/>
+<p><strong><span class="col-xs-6">Total</span><span class="col-xs-6">$<span th:text="${order.orderTotal}"></span></span></strong></p>
+
 </div>
 <div class="col-md-4 payment-type">
 <p><strong>Payment type</strong></p>

@@ -27,13 +27,17 @@ checkoutApp.controller("checkoutCtrl", function ($scope, $http) {
 
     $scope.calShippingCost = function () {
         var shippingCost = $scope.checkOut.shippingCost;
+        
+        if (shippingCost == 0){
+        	shippingCost = 'FREE';
+        }
         return shippingCost;
     };
     
-    $scope.calOrderTotal = function () {
+/*    $scope.calOrderTotal = function () {
         var orderTotal = $scope.checkOut.orderTotal;
         return orderTotal;
 
-    };
+    };*/
 
 });

@@ -82,9 +82,6 @@ public class CheckoutController {
 	private ShippingAddress shippingAddress = new ShippingAddress();
 	private BillingAddress billingAddress = new BillingAddress();
 	private Payment payment = new Payment();
-	//Stripe Payment
-	@Value("${STRIPE_PUBLIC_KEY}")
-    private String stripePublicKey;
 
 	@Autowired
 	private UserService userService;
@@ -154,11 +151,13 @@ public class CheckoutController {
 		ShippingAddress shippingAddress = new ShippingAddress();
 		BillingAddress billingAddress = new BillingAddress();
 		Payment payment = new Payment();
-		
+		if(shoppingCart.getShippingMethod().equalsIgnoreCase("premiumShipping")) {
+			model.addAttribute("premiumShipping",true);
+		}else {
+			model.addAttribute("groundShipping",true);
+		}
 		String clientToken = gateway.clientToken().generate();
-		model.addAttribute("siteSetting", siteSetting);	
-	    //model.addAttribute("clientToken", clientToken);
-		//String clientToken = "1efrt4gehy4uru";
+		model.addAttribute("siteSetting", siteSetting);
 		model.addAttribute("clientToken", clientToken);
 		model.addAttribute("shippingAddress",shippingAddress);
 		model.addAttribute("payment",payment);
@@ -168,16 +167,11 @@ public class CheckoutController {
 		List<String> stateList = USConstants.listOfUSStatesCode;
 		Collections.sort(stateList);
 		model.addAttribute("stateList", stateList);
-		//Stripe Information
-		model.addAttribute("amount", 50 * 100); // in cents
-		model.addAttribute("stripePublicKey", stripePublicKey);
-		model.addAttribute("currency", ChargeRequest.Currency.USD);
 		
 		return "guestcheckout";
 		
 	}
 	
-	//@PostMapping("/chargeguest")
 	@RequestMapping(value = "/chargeguest", method = RequestMethod.POST)
     public String charge(HttpServletRequest request,HttpServletResponse response,
     		@RequestParam("amount") String amount, @RequestParam("payment_method_nonce") String nonce, 
@@ -265,7 +259,7 @@ if(shoppingCart==null) {
 
 	       if (result.isSuccess()) {
 	    	   Transaction transaction = result.getTarget();
-	           model.addAttribute("transaction", transaction);
+	           
 	   
 	    	// Do all order placement stuff after paypal success
 	    	Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, shippingMethod, user,email,phoneNumber);
@@ -275,15 +269,51 @@ if(shoppingCart==null) {
 	   		order.setPromocodeApplied(shoppingCart.getPromoCode());
 	   		order.setShippingCost(shoppingCart.getShippingCost());
 	   		order.setOrderType(shoppingCart.getCartType());
+	   		order.setOrderSubtotal(shoppingCart.getGrandTotal());
+	   		order.setDiscount(shoppingCart.getDiscountedAmount());
 	   		orderRepository.save(order);
 //	   		mailSender.send(mailConstructor.constructOrderConfirmationEmail(user,order,Locale.ENGLISH));
 	   		
 	   		shoppingCartService.clearShoppingCart(shoppingCart);
 	   		
+	   		
+	    	   //End of Order placement
+	    	   
+	          
+	         return "redirect:thankyou/" + transaction.getId() +"/"+order.getId();          
+	           
+	       } else if (result.getTransaction() != null) {
+	           Transaction transaction = result.getTransaction();
+	           return "redirect:checkouts/" + transaction.getId();
+	       } else {
+	           String errorString = "";
+	           for (ValidationError error : result.getErrors().getAllDeepValidationErrors()) {
+	              errorString += "Error: " + error.getCode() + ": " + error.getMessage() + "\n";
+	           }
+	           redirectAttributes.addFlashAttribute("errorDetails", errorString);
+	           return "redirect:guestcheckout";
+	       }
+     
+    }
+	
+	 @RequestMapping(value = "/thankyou/{transactionId}/{orderId}")
+	   public String getThankYou(@PathVariable String transactionId, @PathVariable Long orderId, Model model) {
+	       Transaction transaction;
+	       Order order;
+	       try {
+	           transaction = gateway.transaction().find(transactionId);
+	           order = orderService.findOne(orderId);
+	       } catch (Exception e) {
+	           System.out.println("Exception: " + e);
+	           return "badRequestPage";
+	       }
+
+	       model.addAttribute("isSuccess", Arrays.asList(TRANSACTION_SUCCESS_STATUSES).contains(transaction.getStatus()));
+	       model.addAttribute("transaction", transaction);
 	   		LocalDate today = LocalDate.now();
 	   		LocalDate estimatedDeliveryDate;
 	   		
-	   		if(shippingMethod.equals("groundShipping")){
+	   		if(order.getShippingMethod().equals("groundShipping")){
 	   			estimatedDeliveryDate = today.plusDays(5);
 	   		}else{
 	   			estimatedDeliveryDate = today.plusDays(3);
@@ -312,86 +342,11 @@ if(shoppingCart==null) {
 	   		model.addAttribute("order",order);
 	   		model.addAttribute("currentStatus",currentStatus);
 	   		model.addAttribute("cartItemList", order.getCartItemList());
-	    	   //End of Order placement
-	    	   
-	          
-	         //  return "redirect:checkouts/" + transaction.getId();
-	           return "thankyou";
-	           
-	       } else if (result.getTransaction() != null) {
-	           Transaction transaction = result.getTransaction();
-	           return "redirect:checkouts/" + transaction.getId();
-	       } else {
-	           String errorString = "";
-	           for (ValidationError error : result.getErrors().getAllDeepValidationErrors()) {
-	              errorString += "Error: " + error.getCode() + ": " + error.getMessage() + "\n";
-	           }
-	           redirectAttributes.addFlashAttribute("errorDetails", errorString);
-	           return "redirect:checkouts";
-	       }
-     
-      //  return "orderSubmittedPage";
-    }
+
+	       return "thankyou";
+	   }
 	
-	//Paypal Checkout
-	 @RequestMapping(value = "/checkouts", method = RequestMethod.POST)
-	   public String postForm(@RequestParam("amount") String amount, @RequestParam("payment_method_nonce") String nonce, Model model, final RedirectAttributes redirectAttributes) {
-	       BigDecimal decimalAmount;
-	       try {
-	           decimalAmount = new BigDecimal(amount);
-	       } catch (NumberFormatException e) {
-	           redirectAttributes.addFlashAttribute("errorDetails", "Error: 81503: Amount is an invalid format.");
-	           return "redirect:checkouts";
-	       }
-
-	       TransactionRequest request = new TransactionRequest()
-	           .amount(decimalAmount)
-	           .paymentMethodNonce(nonce)
-	           .options()
-	               .submitForSettlement(true)
-	               .done();
-
-	       Result<Transaction> result = gateway.transaction().sale(request);
-
-	       if (result.isSuccess()) {
-	           Transaction transaction = result.getTarget();
-	           return "redirect:checkouts/" + transaction.getId();
-	       } else if (result.getTransaction() != null) {
-	           Transaction transaction = result.getTransaction();
-	           return "redirect:checkouts/" + transaction.getId();
-	       } else {
-	           String errorString = "";
-	           for (ValidationError error : result.getErrors().getAllDeepValidationErrors()) {
-	              errorString += "Error: " + error.getCode() + ": " + error.getMessage() + "\n";
-	           }
-	           redirectAttributes.addFlashAttribute("errorDetails", errorString);
-	           return "redirect:checkouts";
-	       }
-	   }
-	 
-	 
-	 @RequestMapping(value = "/checkouts/{transactionId}")
-	   public String getTransaction(@PathVariable String transactionId, Model model) {
-	       Transaction transaction;
-	       CreditCard creditCard;
-	       Customer customer;
-
-	       try {
-	           transaction = gateway.transaction().find(transactionId);
-	           creditCard = transaction.getCreditCard();
-	           customer = transaction.getCustomer();
-	       } catch (Exception e) {
-	           System.out.println("Exception: " + e);
-	           return "redirect:/checkouts";
-	       }
-
-	       model.addAttribute("isSuccess", Arrays.asList(TRANSACTION_SUCCESS_STATUSES).contains(transaction.getStatus()));
-	       model.addAttribute("transaction", transaction);
-	       model.addAttribute("creditCard", creditCard);
-	       model.addAttribute("customer", customer);
-
-	       return "checkouts/show";
-	   }
+	
 	
 	
 	@RequestMapping("/checkout")
@@ -469,136 +424,13 @@ if(shoppingCart==null) {
 			model.addAttribute("missingRequiredField",true);
 		}
 		
-		//Stripe Information
-		model.addAttribute("amount", 50 * 100); // in cents
-        model.addAttribute("stripePublicKey", stripePublicKey);
-        model.addAttribute("currency", ChargeRequest.Currency.USD);
-        //Ends
 		//return "checkOutOld";
 		return "checkout";
        // return "form";
 		
 	}
 	
-	@RequestMapping(value="/paybypaypal", method=RequestMethod.POST)
-	public void payByPaypal() {
-/*		String cancelUrl = URLUtils.getBaseURl(request) + "/" + PAYPAL_CANCEL_URL;
-		String successUrl = URLUtils.getBaseURl(request) + "/" + PAYPAL_SUCCESS_URL;*/
-		
-		BraintreeGateway gateway = new BraintreeGateway("AfVpaqlZcYMo8N0mhhkoZsRPVxLGC4GEtLkAJ_hQx8dF1o7yga5RlEDT4BBiSgsRP0TeGRKKd8w1XFtR");
-		TransactionRequest request = new TransactionRequest().amount(new BigDecimal(20.00)).
-				merchantAccountId(stripePublicKey).paymentMethodNonce("paymentMethodNonce").
-				orderId("Mapped to PayPal Invoice Number").descriptor().
-				name("Descriptor displayed in customer CC statements. 22 char max").done();
-		
-		request.shippingAddress().firstName("bbbbb").lastName("jjjj").
-		streetAddress("gggg").extendedAddress("mmm").locality("kjkj").
-		region("jhj").postalCode("25232").done();
-		
-		request.options().paypal().customField("jjjjjjk").description("kkkkkk").done();
-				
-		/*TransactionRequest requestr = new TransactionRequest().
-			    amount(request.queryParams("amount")).
-			    merchantAccountId("USD").
-			    paymentMethodNonce(request.queryParams("paymentMethodNonce")).
-			    orderId("Mapped to PayPal Invoice Number").
-			    descriptor().
-			      name("Descriptor displayed in customer CC statements. 22 char max").
-			      done();
-			    shippingAddress().
-			    	.firstName("Jen")
-			        .lastName("Smith")
-			        .company("Braintree")
-			        .streetAddress("1 E 1st St")
-			        .extendedAddress("Suite 403")
-			        .locality("Bartlett")
-			        .region("IL")
-			        .postalCode("60103")
-			        .countryCodeAlpha2("US")
-			        .done();
-			    options().
-			      paypal().
-			        customField("PayPal custom field").
-			        description("Description for PayPal email receipt").
-			        done();
-			      storeInVaultOnSuccess(true).
-			      done();
-
-			Result<Transaction> saleResult = gateway.transaction().sale(request);
-
-			if (result.isSuccess()) {
-			  Transaction transaction = result.getTarget();
-			  System.out.println("Success ID: " + transaction.getId());
-			} else {
-			  System.out.println("Message: " + result.getMessage());
-			}*/
-	}
 	
-	@RequestMapping(value="/executepayment", method=RequestMethod.POST)
-	public void executePayment() {
-		
-	}
-	
-	/*@RequestMapping(value="/checkout", method=RequestMethod.POST)
-	public String checkoutPost(
-			@ModelAttribute("shippingAddress") ShippingAddress shippingAddress,
-			@ModelAttribute("billingAddress") BillingAddress billingAddress,
-			@ModelAttribute("payment") Payment payment,
-			@ModelAttribute("billingSameAsShipping") String billingSameAsShipping,
-			@ModelAttribute("shippingMethod") String shippingMethod,
-			Principal principal,
-			Model model
-			){
-		ShoppingCart shoppingCart = userService.findByUsername(principal.getName()).getShoppingCart();
-		
-		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
-		model.addAttribute("cartItemList",cartItemList);
-		
-		if(billingSameAsShipping.equals("true")){
-			billingAddress.setBillingAddressName(shippingAddress.getShippingAddressName());
-			billingAddress.setBillingAddressStreet1(shippingAddress.getShippingAddressStreet1());
-			billingAddress.setBillingAddressStreet2(shippingAddress.getShippingAddressStreet2());
-			billingAddress.setBillingAddressCity(shippingAddress.getShippingAddressCity());
-			billingAddress.setBillingAddressState(shippingAddress.getShippingAddressState());
-			billingAddress.setBillingAddressCountry(shippingAddress.getShippingAddressCountry());
-			billingAddress.setBillingAddressZipcode(shippingAddress.getShippingAddressZipcode());
-		}
-		
-		if(shippingAddress.getShippingAddressStreet1().isEmpty()|| 
-		   shippingAddress.getShippingAddressCity().isEmpty() ||
-		   shippingAddress.getShippingAddressState().isEmpty() ||
-		   shippingAddress.getShippingAddressZipcode().isEmpty() ||
-		   shippingAddress.getShippingAddressName().isEmpty() ||
-		   payment.getCardNumber().isEmpty() ||
-		   payment.getCvc() == 0 ||
-		   billingAddress.getBillingAddressStreet1().isEmpty() ||
-		   billingAddress.getBillingAddressCity().isEmpty() ||
-		   billingAddress.getBillingAddressState().isEmpty() ||
-		   billingAddress.getBillingAddressName().isEmpty() ||
-		   billingAddress.getBillingAddressZipcode().isEmpty()){
-			return "redirect:/checkout?id="+shoppingCart.getId()+"&missingRequiredField=true";
-		}
-		User user = userService.findByUsername(principal.getName());
-		Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, shippingMethod, user);
-		
-		mailSender.send(mailConstructor.constructOrderConfirmationEmail(user,order,Locale.ENGLISH));
-		
-		shoppingCartService.clearShoppingCart(shoppingCart);
-		
-		LocalDate today = LocalDate.now();
-		LocalDate estimatedDeliveryDate;
-		
-		if(shippingMethod.equals("groundShipping")){
-			estimatedDeliveryDate = today.plusDays(5);
-		}else{
-			estimatedDeliveryDate = today.plusDays(3);
-		}
-		
-		model.addAttribute("estimatedDeliveryDate",estimatedDeliveryDate);
-		
-		return "orderSubmittedPage";
-	}
-	*/
 
 	
 	@RequestMapping("/setShippingAddress")
@@ -700,66 +532,5 @@ if(shoppingCart==null) {
 		
 		
 	}
-	
-	
-	/*@RequestMapping(value="/checkoutP", method=RequestMethod.POST)
-	public String checkoutP(
-			ShippingAddress shippingAddress,
-			BillingAddress billingAddress,
-			Payment payment,
-			String billingSameAsShipping,
-			String shippingMethod,
-			Principal principal,
-			Model model
-			){
-		ShoppingCart shoppingCart = userService.findByUsername(principal.getName()).getShoppingCart();
-		
-		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
-		model.addAttribute("cartItemList",cartItemList);
-		
-		if(billingSameAsShipping.equals("true")){
-			billingAddress.setBillingAddressName(shippingAddress.getShippingAddressName());
-			billingAddress.setBillingAddressStreet1(shippingAddress.getShippingAddressStreet1());
-			billingAddress.setBillingAddressStreet2(shippingAddress.getShippingAddressStreet2());
-			billingAddress.setBillingAddressCity(shippingAddress.getShippingAddressCity());
-			billingAddress.setBillingAddressState(shippingAddress.getShippingAddressState());
-			billingAddress.setBillingAddressCountry(shippingAddress.getShippingAddressCountry());
-			billingAddress.setBillingAddressZipcode(shippingAddress.getShippingAddressZipcode());
-		}
-		
-		if(shippingAddress.getShippingAddressStreet1().isEmpty()|| 
-		   shippingAddress.getShippingAddressCity().isEmpty() ||
-		   shippingAddress.getShippingAddressState().isEmpty() ||
-		   shippingAddress.getShippingAddressZipcode().isEmpty() ||
-		   shippingAddress.getShippingAddressName().isEmpty() ||
-		   payment.getCardNumber().isEmpty() ||
-		   payment.getCvc() == 0 ||
-		   billingAddress.getBillingAddressStreet1().isEmpty() ||
-		   billingAddress.getBillingAddressCity().isEmpty() ||
-		   billingAddress.getBillingAddressState().isEmpty() ||
-		   billingAddress.getBillingAddressName().isEmpty() ||
-		   billingAddress.getBillingAddressZipcode().isEmpty()){
-			return "redirect:/checkout?id="+shoppingCart.getId()+"&missingRequiredField=true";
-		}
-		User user = userService.findByUsername(principal.getName());
-		Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, shippingMethod, user);
-		
-		mailSender.send(mailConstructor.constructOrderConfirmationEmail(user,order,Locale.ENGLISH));
-		
-		shoppingCartService.clearShoppingCart(shoppingCart);
-		
-		LocalDate today = LocalDate.now();
-		LocalDate estimatedDeliveryDate;
-		
-		if(shippingMethod.equals("groundShipping")){
-			estimatedDeliveryDate = today.plusDays(5);
-		}else{
-			estimatedDeliveryDate = today.plusDays(3);
-		}
-		
-		model.addAttribute("estimatedDeliveryDate",estimatedDeliveryDate);
-		
-		return "orderSubmittedPage";
-	}*/
 	
 }

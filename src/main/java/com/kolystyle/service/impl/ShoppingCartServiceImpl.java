@@ -52,6 +52,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		}
 		
 		shoppingCart.setGrandTotal(cartTotal);
+		shoppingCart.setOrderTotal(cartTotal.add(shoppingCart.getShippingCost()).subtract(shoppingCart.getDiscountedAmount()));
 		Date addedDate = Calendar.getInstance().getTime();
 		shoppingCart.setUpdatedDate(addedDate);
 		shoppingCartRepository.save(shoppingCart);

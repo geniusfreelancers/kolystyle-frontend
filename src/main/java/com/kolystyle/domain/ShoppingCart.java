@@ -38,7 +38,7 @@ public class ShoppingCart {
 	private Date updatedDate;
 	private BigDecimal shippingCost;
 	private BigDecimal orderTotal;
-	private String shippingMethod;
+	private String shippingMethod = "groundShipping";
 	
 	public Long getId() {
 		return id;
