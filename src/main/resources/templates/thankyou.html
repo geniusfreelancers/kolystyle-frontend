@@ -37,7 +37,13 @@
 <p><strong>Order #</strong>	<span th:text="${order.id}"></span></p>
 </div>
 <div class="col-md-6">
-<p><strong>Ordered Date:</strong> <span th:text="${order.orderDate}"></span></p>
+<p><strong>Ordered Date:</strong> <span id="orderedDate" th:text="${order.orderDate}"></span></p>
+<script th:inline="javascript">
+  /*<![CDATA[*/ 
+    var dateordered = [[${order.orderDate}]];
+   $('#orderedDate').html($.format.date(dateordered, "E MMM dd yyyy h:mm:ss a"));
+   /*]]>*/
+    </script>
 </div>
 <div class="col-md-4">
 <p>Paypal Response: <span th:text="${transaction.getId()}"></span></p>
@@ -70,6 +76,18 @@
    <div th:if="${currentStatus} == 6" class="progress-bar progress-bar-success" role="progressbar" style="width:25%">
     DELIVERED
   </div>
+</div>
+
+<div th:if="${currentStatus} == 4" class="col-md-12">
+    <p><strong>SHIPPED ON:</strong> <span id="shippedOn" th:text="${order.shippingDate}"></span></p>
+    <script th:inline="javascript">
+  /*<![CDATA[*/ 
+    var dateshipped = [[${order.shippingDate}]];
+   $('#shippedOn').html($.format.date(dateshipped, "E MMM dd yyyy h:mm:ss a"));
+   /*]]>*/
+    </script>
+    <p><strong>Tracking Number:</strong> <span id="trackingNumber" th:text="${order.id}"></span></p>
+    <p><strong>Shipped Via:</strong> <span id="shippedVia" th:text="${order.id}"></span></p>
 </div>
 
 </div>
