@@ -66,7 +66,7 @@
 			<div class="panel panel-default" style="margin-top:20px;">
 				<div class="panel-body">
 				<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-6" th:if="!${noMore}">
 				<span class="col-md-4 text-right">Size: </span>
 				<select name="size" id="size" class="col-md-6">
 				<option th:each="size : ${sizeList}" th:value="${size}" th:text="${size}"></option>
@@ -101,7 +101,7 @@
 					<h4 th:if="*{product.inStockNumber&lt;10 and product.inStockNumber&gt;0}" style="color:green">Only <span th:text="${product.inStockNumber}"></span> In Stock</h4>
 					<h4 th:if="*{product.inStockNumber==0}" style="color:darkred;">Unavailable</h4>
 					
-					<button type="submit" class="btn btn-danger center-block" id="addthisproduct" style="font-weight:bolder;padding:10px 10px 10px 10px;">ADD TO CART</button>
+					<button th:if="!${noMore}" type="submit" class="btn btn-danger center-block" id="addthisproduct" style="font-weight:bolder;padding:10px 10px 10px 10px;">ADD TO CART</button>
 				</div>
 				
 				</div>

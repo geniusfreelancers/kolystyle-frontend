@@ -310,7 +310,9 @@ public class HomeController {
 		}
 		Category category = product.getCategory();
 		List<Product> productList = productService.findTop12ByCategory(category);
-		
+		if(qtyList.size()<1) {
+			model.addAttribute("noMore", true);
+		}
 		
 		//List<Product> productList = productService.findByCategory(category);
 		model.addAttribute("productList", productList);

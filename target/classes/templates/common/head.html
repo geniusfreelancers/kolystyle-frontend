@@ -90,6 +90,8 @@
 						</form>
                
                 <!--Mini Shopping Cart Start-->
+        <section th:if="!${noCartExist}" class="" ng-app="checkoutApp">
+		<div ng-controller = "miniCartCtrl" ng-init="initCartId(17)">		
                 <section id="cart" class="mini-cart-label">
                     <div class="heading">
                         <!--h4><img width="32" height="32" alt="" src="/image/cart-bg.png"/></h4-->
@@ -100,19 +102,29 @@
                     <div class="content">
                         <div class="mini-cart-info">
                             <table id="cart-item-list">
-                            	
-                                
-                                
+                            	<tr th:attr="ng-repeat = 'cartItem in miniCart.cartItemList'">
+                            	<td><span class="col-md-12">{{cartItem.product.title}}</span><span class="col-md-12">Size: {{cartItem.productSize}} | {{cartItem.qty}} x ${{cartItem.product.ourPrice}}</span></td>
+                            	<td> ${{cartItem.subtotal}}</td>
+                            	</tr>
                             </table>
                         </div>
                         <div class="mini-cart-total">
-                            <table id="mini-cart-total">
-                                
+                        	<div id="" class="col-md-4">
+                        		<br/>
+                        		<a th:href="@{/shoppingCart/cart}" class="btn btn-danger">View Cart</a>
+                        		
+                        	</div>
+                            <div id="" class="col-md-8">
+                                <p><span class="text-left col-xs-8">Subtotal</span><span class="text-right col-xs-4">{{miniCart.grandTotal}}</span></p>
+                                <p><span class="text-left col-xs-8">Discount</span><span class="text-right col-xs-4">{{miniCart.discountedAmount}}</span></p>
+                                <p><span class="text-left col-xs-8">Order total</span><span class="text-right col-xs-4">{{miniCart.orderTotal}}</span></p>
                                
-                            </table>
+                            </div>
                         </div>
                         <div class="checkout" id="mini-cart-checkout"></div>
                     </div>
+                </section>
+                </div>
                 </section>
                 <!--Mini Shopping Cart End-->
                 <div class="clear"></div>

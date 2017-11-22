@@ -39,8 +39,11 @@
 					<div th:if="${notEnoughStock}" class="alert alert-warning col-md-8 col-md-offset-2">
 						Oops, some of the products does't have enough stock. Please update
 						product quantity.</div>
-					<div th:if="${emptyCart}" class="alert alert-danger col-md-8 col-md-offset-2">Oops,
-						your cart is empty. Please add some product to cart.</div>
+					<div th:if="${emptyCart}" class="alert alert-danger col-md-8 col-md-offset-2">
+						<span class="col-md-12">Dear customer,</span>
+						<span class="col-md-12">Your Shopping Bag is unfortunately empty.. </span>
+						<span class="col-md-12">Please add some product to cart.</span>
+					</div>
 						
 						<br/>
 					<div class="row" th:if="${!emptyCart}">

@@ -41,3 +41,23 @@ checkoutApp.controller("checkoutCtrl", function ($scope, $http) {
     };*/
 
 });
+
+
+//Testing Some shitty ideas
+
+
+
+checkoutApp.controller("miniCartCtrl", function ($scope, $http) {
+
+    $scope.refreshCheck = function () {
+        $http.get('/customize/'+$scope.cartId).success(function (data) {
+            $scope.miniCart = data;
+        });
+    };
+
+    $scope.initCartId = function (cartId) {
+        $scope.cartId = cartId;
+        $scope.refreshCheck(cartId);
+    };
+});
+

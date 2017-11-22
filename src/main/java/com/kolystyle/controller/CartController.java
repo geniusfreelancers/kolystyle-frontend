@@ -179,6 +179,7 @@ public class CartController {
        	
 		model.addAttribute("cartItemList",cartItemList);
 		model.addAttribute("shoppingCart",shoppingCart);
+		model.addAttribute("noCartExist",true);
 		
 		return "shoppingCart";
 	}

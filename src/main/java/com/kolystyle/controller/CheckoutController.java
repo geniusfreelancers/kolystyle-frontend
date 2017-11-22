@@ -167,7 +167,7 @@ public class CheckoutController {
 		List<String> stateList = USConstants.listOfUSStatesCode;
 		Collections.sort(stateList);
 		model.addAttribute("stateList", stateList);
-		
+		model.addAttribute("noCartExist",true);
 		return "guestcheckout";
 		
 	}
