@@ -13,9 +13,9 @@
 <form th:action="@{/shoppingCart/addItem}" method="post">
 	<input hidden="hidden" th:field="*{product.id}" th:name="id" th:value="${product.id}"/>
 	<input hidden="hidden" th:id="'id-addingtocart-'+${product.id}" name="idd" th:value="${product.id}"/>
-	<div class="row" style="margin-top:20px;">
+	<div class="row" style="margin-top:0px;">
 	<div class="col-md-3 col-md-offset-1">
-	<a th:href="@{/productshelf}">Back to Product List</a><br/>
+	<a th:href="@{/productshelf}" class="btn btn-default">Back to Product List</a><br/>
 	<img class="img-responsive shelf-product" alt="" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
 	</div>
 	<div class="col-md-7">
@@ -66,7 +66,8 @@
 			<div class="panel panel-default" style="margin-top:20px;">
 				<div class="panel-body">
 				<div class="row">
-				<div class="col-md-6" th:if="!${noMore}">
+				<div class="col-md-8">
+				<div class="col-md-12" th:if="!${noMore}">
 				<span class="col-md-4 text-right">Size: </span>
 				<select name="size" id="size" class="col-md-6">
 				<option th:each="size : ${sizeList}" th:value="${size}" th:text="${size}"></option>
@@ -79,30 +80,37 @@
 				<option th:each="qty : ${qtyList}" th:value="${qty}" th:text="${qty}"></option>
 				</select>
 			</div>
-				<div class="col-md-6">
-				
-				<span>Now: <span style="color:#db3208;font-size:2.2em;">$<span th:text="${product.ourPrice}"></span></span>
+			<div class="col-md-12">
+				<br/>
+				<span>Now: <span style="color:#db3208;font-size:1.7em;">$<span th:text="${product.ourPrice}"></span></span>
 				</span><span>Was: <span style="text-decoration:line-through;">$<span th:text="${product.listPrice}"></span></span></span>
-				<p class="text-center">You save: $<span th:text="${#numbers.formatDecimal((product.listPrice - product.ourPrice),0 , 'COMMA',2,'POINT')}"></span></p>
+				<p class="text-center" style="color:#73dc13;">You save: $<span th:text="${#numbers.formatDecimal((product.listPrice - product.ourPrice),0 , 'COMMA',2,'POINT')}"></span></p>
 			</div>
 			
-		
-				<div class="col-md-12">
-				<div class="col-md-6 text-right">
+			</div>
+			
+			<div class="col-md-4">	
+			<div class="col-md-12 text-center">
 				<br/>
 				<a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class=" center-block addingtowishlist">Add to wishlist <i class="fa fa-heart-o "></i></a>
 				
 				<span th:class="'id-addingtocart-'+${product.id}" id="addedtocart"></span>
-				<span id="serverRespone"></span>
+				
     			
 				</div>
-				<div class="col-md-6">
+		
+				
+				
+				
+				<div class="col-md-12 text-center">
 					<h4 th:if="*{product.inStockNumber&gt;10}" style="color:green">In Stock</h4>
 					<h4 th:if="*{product.inStockNumber&lt;10 and product.inStockNumber&gt;0}" style="color:green">Only <span th:text="${product.inStockNumber}"></span> In Stock</h4>
 					<h4 th:if="*{product.inStockNumber==0}" style="color:darkred;">Unavailable</h4>
-					
+					<span id="serverRespone"></span>
+					<br/><br/>
 					<button th:if="!${noMore}" type="submit" class="btn btn-danger center-block" id="addthisproduct" style="font-weight:bolder;padding:10px 10px 10px 10px;">ADD TO CART</button>
 				</div>
+				
 				
 				</div>
 				</div>

@@ -70,13 +70,13 @@
 					<div class="col-md-8 col-md-offset-2"><hr/>
 						<form th:action="@{/shoppingCart/updateCartItem}" method="post">
 							
-							<div class="col-xs-2">
+							<div class="col-md-2">
 								<a href="/productDetail?id={{cartItem.product.id}}"> <img
 									class="img-responsive product-shelf" style="width:70px;"
 									th:src="#{adminPath}+@{/image/product/{{cartItem.product.id}}/{{cartItem.product.coverImageName}}}" />
 								</a>
 							</div>
-							<div class="col-xs-4">
+							<div class="col-md-4">
 							<div class="cart-product-details">	
 							<a href="/productDetail?id={{cartItem.product.id}}"><h4>{{cartItem.product.title}}</h4></a>
 								<p><span><strong>Size: </strong></span><span>{{cartItem.productSize}}</span></p>
@@ -91,11 +91,11 @@
 								</p>
 								<p th:if="${cartItem.product.inStockNumber==0}"
 									style="color: darkred;">Product Unavailable</p> -->
-									<a href="#" class="text-danger" th:attr="ng-click='removeFromCart(cartItem.id)'" ><i class="fa fa-trash" aria-hidden="true"></i> Remove</a>
+									
 									
 							</div>
 							</div>
-							<div class="col-xs-2">
+							<div class="col-md-2">
 								<h5 class="text-success">
 									<strong>$<span>{{cartItem.product.ourPrice}}</span></strong>
 								</h5>
@@ -104,7 +104,7 @@
 								</h5>
 								
 							</div>
-							<div class="col-xs-2">
+							<div class="col-md-2">
 								<input hidden="hidden" name="id" value="{{cartItem.id}}" /> <input
 									id="{{cartItem.id}}" style="width:70%;" name="qty" step="1"
 									
@@ -114,10 +114,13 @@
 									id="update-item-{{cartItem.id}}" type="submit"
 									class="btn btn-warning btn-xs">Update</button>
 							</div>
-							<div class="col-xs-2">
+							<div class="col-md-2">
 							<p class="text-right"> 
 									<strong>$<span>{{cartItem.product.ourPrice * cartItem.qty}}</span></strong>
 								</p>
+								<br/><br/>
+							<a href="#" class="text-danger" th:attr="ng-click='removeFromCart(cartItem.id)'" ><i class="fa fa-trash" aria-hidden="true"></i> Remove</a>	
+								
 							<!-- <p class="text-right"  th:with="result=${cartItem.product.ourPrice * cartItem.qty}">
 									<strong>$<span th:text="${#numbers.formatDecimal(result, 0, 'COMMA', 2, 'POINT')}" ></span></strong>
 								</p> -->
@@ -163,9 +166,7 @@
 						<!-- Subtotal -->
 						<div class="col-md-10 col-xs-6">
 						<p>
-							<strong>Subtotal 
-							<!-- (<span
-								th:text="${#lists.size(cartItemList)}"></span> items)-->:
+							<strong>Subtotal :
 							</strong> 
 						</p>
 						</div>	
@@ -182,9 +183,9 @@
 							<strong>PROMO</strong> 
 						</p>
 						</div>	
-						<div class="col-md-2 col-xs-6 text-success" th:if="${shoppingCart.discountedAmount}" th:with="result=${shoppingCart.grandTotal - shoppingCart.discountedAmount}">
-							<p><strong> <span>$<span id="discountamount">{{shoppingCart.grandTotal - shoppingCart.discountedAmount}}</span>
-								<input hidden="hidden" name="id" id="discountamounts" th:value="${shoppingCart.grandTotal}" />
+						<div class="col-md-2 col-xs-6 text-success">
+							<p><strong> <span>$<span id="discountamount">{{shoppingCart.discountedAmount}}</span>
+								<input hidden="hidden" name="id" id="discountamounts" th:value="${shoppingCart.discountedAmount}" />
 							
 								</span></strong> 
 						</p>
@@ -196,12 +197,10 @@
 						</p>
 						</div>	
 						<div class="col-md-2 col-xs-6">
-							<p> <span>$<!-- <span id="subtotalamount"
-								th:text="${#numbers.formatDecimal(shoppingCart.shippingCost, 0, 'COMMA', 2, 'POINT')}"></span>
-								 -->
+							<p> <span>$
 								 <span id="shippingcost">{{shoppingCart.shippingCost}}</span>
 								 <input hidden="hidden" name="id" id="subamount" th:value="${shoppingCart.shippingCost}" />
-							
+								<input hidden="hidden" name="id" id="subamount" th:value="${shoppingCart.grandTotal}" />
 								</span> 
 						</p>
 						</div>
@@ -216,7 +215,7 @@
 						<div class="col-md-2 col-xs-6">
 							<p> <span>$<span id="subtotalamount"
 								th:text="${shoppingCart.grandTotal}"></span>
-								<input hidden="hidden" name="id" id="subamount" th:value="${shoppingCart.grandTotal}" />
+								
 							
 								</span>
 						</p>
@@ -230,10 +229,8 @@
 						</p>
 						</div>	
 						<div class="col-md-2 col-xs-6">
-							<p><strong> <span>$<!-- <span id="ordertotal"
-							th:text="${#numbers.formatDecimal(shoppingCart.discountedAmount, 0, 'COMMA', 2, 'POINT')}"
-								></span> -->
-								<span id="ordertotal">{{calOrderTotal()}}</span>
+							<p><strong> <span>$
+								<span id="ordertotal">{{shoppingCart.orderTotal}}</span>
 								<input hidden="hidden" name="id" id="subamount" value="{{calOrderTotal()}}" />
 							
 								</span></strong> 

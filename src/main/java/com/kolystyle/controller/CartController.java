@@ -98,27 +98,28 @@ public class CartController {
 
 			BigDecimal gTotal = shoppingCart.getGrandTotal();
 			BigDecimal promoVal = promoCodes.getPromoValue();
-			BigDecimal gNewTotal = new BigDecimal(0);
+			BigDecimal discountedAmount = new BigDecimal(0);
 			LOG.info("User's Shopping Cart Grand Total is: {}", gTotal);
 			if(promoCodes.getPercentOrDollar().equalsIgnoreCase("dollar")) {
-				gNewTotal = gTotal.subtract(promoVal);
+				discountedAmount = promoVal;
 						//gTotal- promoCodes.getPromoValue();
 				LOG.info("User's applied Coupon Code with dollar value of: {}", promoVal);
-				LOG.info("User's New Shopping Cart Grand Total is: {} after {} dollars discount", gNewTotal,promoVal);
+				LOG.info("User's New Shopping Cart Grand Total is: {} after {} dollars discount", discountedAmount,promoVal);
 			}else {
-				gNewTotal = promoVal.divide(new BigDecimal(100),2);
+				discountedAmount = promoVal.divide(new BigDecimal(100),2);
 				LOG.info("User's applied Coupon Code with percentage value of: {}%", promoCodes.getPromoValue());
-				gNewTotal = gNewTotal.multiply(gTotal);
-				LOG.info("User's applied Coupon Code with percentage value of: {}% and gets $ {} discount", promoVal,gNewTotal);
-				gNewTotal = gTotal.subtract(gNewTotal);
-				LOG.info("User's New Shopping Cart Grand Total is: {} after {} percentage discount", gNewTotal,promoVal);
+				discountedAmount = discountedAmount.multiply(gTotal);
+				LOG.info("User's applied Coupon Code with percentage value of: {}% and gets $ {} discount", promoVal,discountedAmount);
+				//discountedAmount = gTotal.subtract(discountedAmount);
+				LOG.info("User's New Shopping Cart Grand Total is: {} after {} percentage discount", discountedAmount,promoVal);
 			}
-			BigDecimal b = gNewTotal;
-			LOG.info("Converting to BigDecimal {} from Double {}",b, gNewTotal);
+			
+			
 			shoppingCart.setPromoCode(promocode);
 			LOG.info("Promo Code {} is stored in Shopping Cart with Bag ID {}",promocode, shoppingCart.getBagId());
-			shoppingCart.setDiscountedAmount(b);
-			LOG.info("Stored Discounted Amount {} Shopping Cart with Bag ID {} where Grand Total was {}",b,promocode, shoppingCart.getBagId(),shoppingCart.getGrandTotal());
+			shoppingCart.setDiscountedAmount(discountedAmount);
+			LOG.info("Stored Discounted Amount {} Shopping Cart with Bag ID {} where Grand Total was {}",discountedAmount,promocode, shoppingCart.getBagId(),shoppingCart.getGrandTotal());
+			shoppingCart.setOrderTotal(gTotal.add(shoppingCart.getShippingCost()).subtract(discountedAmount));
 			shoppingCartRepository.save(shoppingCart);
 			LOG.info("Shopping Cart is saved and returning promoCodes as JSON");
 
