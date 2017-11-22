@@ -78,3 +78,27 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
     };
 
 });
+
+
+$(function() {
+	$('#addthisproduct').click(
+	        function() {
+	            $.post("/shoppingCart/addItem", {
+	            	id : $('#id').val(),
+	                size : $('#size').val(),
+	                qty : $('#qty').val(),
+	                ajax : 'true'
+	            }, function(data) {
+	                var html = '';
+	                var len = data.length;
+	                if(len != 0){
+	                $('#serverRespone').show();
+	                $('#serverRespone').html('<i class="fa fa-check" aria-hidden="true" style="color: forestgreen"></i> <span style="color: forestgreen;">Added to cart.</span>');	
+	                }else{	
+	                	$('#serverRespone').show();
+		                $('#serverRespone').html('<i class="fa fa-exclamation-circle text-danger" aria-hidden="true"></i> <span class="text-danger">Not Enough Quantity.</span>');	
+		             }                
+	            });
+	            return false;
+	        });
+  });

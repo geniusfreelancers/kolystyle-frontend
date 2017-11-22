@@ -13,7 +13,8 @@
 		th:src="@{/js/jquery.min.js}"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/jquery.validate.js}"></script>
-<script src="https://js.stripe.com/v3/"></script>
+	<script th:src="@{/js/jquery-dateFormat.min.js}"></script>
+<!-- script src="https://js.stripe.com/v3/"></script-->
 <!-- Bootstrap core CSS -->
 <link href="/css/bootstrap.min.css" rel="stylesheet" />
 
@@ -50,7 +51,7 @@
 <div th:fragment="navbar">
         <!--Header Part Start-->
         <header id="header">
-            <div class="htop">
+            <div th:if="!${membersOnly}" class="htop">
             <div id="language"><span
 							th:text="${user}? ${#strings.toUpperCase('Welcome '+user.username)} : 'Welcome Guest'"></span>
 			</div>				
@@ -89,6 +90,8 @@
 						</form>
                
                 <!--Mini Shopping Cart Start-->
+        <section th:if="!${noCartExist}" class="" ng-app="checkoutApp">
+		<div ng-controller = "miniCartCtrl" ng-init="initCartId(17)">		
                 <section id="cart" class="mini-cart-label">
                     <div class="heading">
                         <!--h4><img width="32" height="32" alt="" src="/image/cart-bg.png"/></h4-->
@@ -99,19 +102,29 @@
                     <div class="content">
                         <div class="mini-cart-info">
                             <table id="cart-item-list">
-                            	
-                                
-                                
+                            	<tr th:attr="ng-repeat = 'cartItem in miniCart.cartItemList'">
+                            	<td><span class="col-md-12">{{cartItem.product.title}}</span><span class="col-md-12">Size: {{cartItem.productSize}} | {{cartItem.qty}} x ${{cartItem.product.ourPrice}}</span></td>
+                            	<td> ${{cartItem.subtotal}}</td>
+                            	</tr>
                             </table>
                         </div>
                         <div class="mini-cart-total">
-                            <table id="mini-cart-total">
-                                
+                        	<div id="" class="col-md-4">
+                        		<br/>
+                        		<a th:href="@{/shoppingCart/cart}" class="btn btn-danger">View Cart</a>
+                        		
+                        	</div>
+                            <div id="" class="col-md-8">
+                                <p><span class="text-left col-xs-8">Subtotal</span><span class="text-right col-xs-4">{{miniCart.grandTotal}}</span></p>
+                                <p><span class="text-left col-xs-8">Discount</span><span class="text-right col-xs-4">{{miniCart.discountedAmount}}</span></p>
+                                <p><span class="text-left col-xs-8">Order total</span><span class="text-right col-xs-4">{{miniCart.orderTotal}}</span></p>
                                
-                            </table>
+                            </div>
                         </div>
                         <div class="checkout" id="mini-cart-checkout"></div>
                     </div>
+                </section>
+                </div>
                 </section>
                 <!--Mini Shopping Cart End-->
                 <div class="clear"></div>
@@ -597,8 +610,6 @@
     <script th:src="@{/js/jquery.dcjqaccordion.js}"></script>
     <script th:src="@{/js/custom.js}"></script>
     <script th:src="@{/js/html5.js}"></script>
-    <script th:src="@{/js/paypal.js}"></script>
-    <script th:src="@{/js/silkstripe.js}"></script>
     <script th:src="@{/js/checkout.js}"></script>
     <script th:src="@{/js/check.js}"></script>
     <script th:src="@{/js/validation.js}"></script>

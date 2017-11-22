@@ -3,6 +3,17 @@
             CUSTOM STYLE
 
 ******************************************/
+hr.dark-line {
+    border: 1px solid #eadfdf;
+    margin-top: 5px;
+    margin-bottom: 5px; 
+    width:70%;
+}
+.head-link {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
 .border-all{
 	border:2px solid #dfebed;
 	border-radius:10px;

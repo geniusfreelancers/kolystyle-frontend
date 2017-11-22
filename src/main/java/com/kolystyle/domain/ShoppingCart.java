@@ -38,6 +38,7 @@ public class ShoppingCart {
 	private Date updatedDate;
 	private BigDecimal shippingCost;
 	private BigDecimal orderTotal;
+	private String shippingMethod = "groundShipping";
 	
 	public Long getId() {
 		return id;
@@ -133,6 +134,14 @@ public class ShoppingCart {
 
 	public void setOrderTotal(BigDecimal orderTotal) {
 		this.orderTotal = orderTotal;
+	}
+
+	public String getShippingMethod() {
+		return shippingMethod;
+	}
+
+	public void setShippingMethod(String shippingMethod) {
+		this.shippingMethod = shippingMethod;
 	}
 	
 }

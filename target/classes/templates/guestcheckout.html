@@ -14,7 +14,9 @@
 
 			<div id="container">
 				<div id="content">			
-				
+		<section class="" ng-app="checkoutApp">
+		<div ng-controller = "checkoutCtrl" th:attr="ng-init='initCartId('+${shoppingCart.id}+')'">			
+									
 		<div class="row" style="margin-top: 10px;">
 
 			<form th:action="@{/chargeguest}" method="post" id="payment-form">
@@ -137,15 +139,15 @@
 									<h4>Choose your shipping method:</h4>
 						<div class="radio">
 						<label>
-						<input type="radio" name="shippingMethod" value="groundShipping" checked="checked"/>Ground Shipping<br/>
+						<input type="radio" th:name="shippingMethod" value="groundShipping" ng-click="changeShippingMethod('groundShipping')" th:checked="${groundShipping}"/>Ground Shipping<br/>
 Transit time: 3-6 business days
 						</label>
 						</div>
 						
 						<div class="radio">
 						<label>
-						<input type="radio" name="shippingMethod" value="premiumShipping"/>Premium Shipping
-						<span class="text-right"><strong> $9.00</strong></span><br/>Transit time: 2-3 business days
+						<input type="radio" th:name="shippingMethod" value="premiumShipping" ng-click="changeShippingMethod('premiumShipping')" th:checked="${premiumShipping}"/>Premium Shipping
+						<span class="text-right"><strong> $<span th:text="${siteSetting.premiumShippingCost}"></span></strong></span><br/>Transit time: 2-3 business days
 						</label>
 						
 						</div>
@@ -182,7 +184,7 @@ Transit time: 3-6 business days
  	<label for="amount">
             <span class="input-label">Amount</span>
             <div class="input-wrapper amount-wrapper">
-              <input id="amount" name="amount" type="tel" min="1" placeholder="Amount" value="10" />
+              <input id="amount" name="amount" type="tel" min="1" placeholder="Amount" value="{{checkOut.orderTotal}}" />
             </div>
     </label>
     
@@ -207,7 +209,8 @@ Transit time: 3-6 business days
         postalCode: {
           minlength: 5 // Set the minimum length of the postal code field
         },
-        cvv:true
+        cvv:true,
+        avs:true
       },
     paypal: {
       flow: 'vault'
@@ -282,6 +285,8 @@ Transit time: 3-6 business days
 											th:name="email" required="required"
 											th:value="${shippingAddress.shippingAddressStreet1}" />
 									</div>
+									
+									
 								</div>
 							</div>
 						</div>
@@ -343,30 +348,22 @@ Transit time: 3-6 business days
 							<div class="row">
 								<div class="col-xs-7 text-left">Total before tax:</div>
 								<div class="col-xs-5 text-right">
-									$<span th:text="${shoppingCart.grandTotal}"></span>
+									$<span>{{checkOut.grandTotal}}</span>
 								</div>
 							</div>
 
-							<div class="row">
-								<div class="col-xs-7 text-left">Estimated tax:</div>
-								<div class="col-xs-5 text-right">
-									$<span th:with="tax=${shoppingCart.grandTotal*0.06}"
-											th:text="${#numbers.formatDecimal(tax,0,2)}"></span>
-								</div>
-							</div>
+							
 							<div class="row">
 								<div class="col-xs-7 text-left">Discount:</div>
 								<div class="col-xs-5 text-right text-danger">
-									-$<span>10.00</span>
+									-$<span>{{checkOut.discountedAmount}}</span>
 								</div>
 							</div>
 							
-				<section class="" ng-app="cartApp">
-				<div ng-controller = "cartCtrl" th:attr="ng-init='initCartId('+${shoppingCart.id}+')'">			
 							<div class="row">
-								<div class="col-xs-7 text-left">Shipping:</div>
+								<div class="col-xs-7 text-left">Shipping: <span>{{calShippingCost()}}</span></div>
 								<div class="col-xs-5 text-right text-danger">
-									<span>FREE {{cartItem.product.isbn}}</span>
+									<span>FREE</span>
 								</div>
 							</div>
 							
@@ -374,7 +371,7 @@ Transit time: 3-6 business days
 							<div class="row">
 								<div class="col-xs-7 text-left">
 									<h3 style="color: darkred;">
-										<strong>Order Total: {{cartItem.product.isbn}}</strong>
+										<strong>Order Total: <span>{{checkOut.orderTotal}}</span></strong>
 									</h3>
 								</div>
 								<div class="col-xs-5 text-right">
@@ -386,9 +383,7 @@ Transit time: 3-6 business days
 								</div>
 								
 							</div>
-							
-			</div>
-		</section>				
+			
 							
 							<div class="row">
 								<div class="col-xs-7 text-left">You saved:</div>
@@ -414,7 +409,14 @@ Transit time: 3-6 business days
 				</div>
 			</div>
 			</form>
+			
+			
+			
+			
+			
 		</div>
+		</div>
+		</section>
 		<div class="clear"></div>
 
 				</div>
