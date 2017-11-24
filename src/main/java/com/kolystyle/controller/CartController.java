@@ -69,14 +69,14 @@ public class CartController {
 	@RequestMapping(value="/applyPromoCode", method=RequestMethod.POST)
 	public @ResponseBody 
 	ShoppingCart applyPromoCode(@ModelAttribute("id") String id,
-			@ModelAttribute("promocode") String promocode, 
+			@ModelAttribute("promocode") String couponCode, 
 			Model model,Principal principal, HttpServletRequest request){
 		HttpSession session = request.getSession();
-		if(promocode.isEmpty()){
+		if(couponCode.isEmpty()){
 			model.addAttribute("emptyPromoError",true);
 			return null;
 		}
-		PromoCodes promoCodes = promoCodesService.findByPromoCode(promocode);
+		PromoCodes promoCodes = promoCodesService.findByPromoCode(couponCode);
 		User user = null;
 		ShoppingCart shoppingCart;
 		if(principal != null){
@@ -89,10 +89,10 @@ public class CartController {
 			LOG.info("User is a GUEST with shopping cart id of {} and bag ID of {}", shoppingCart.getId(),shoppingCart.getBagId());
 		}
 		if(promoCodes==null){
-			LOG.info("User entered invalid promo code: {}", promoCodes);
+			LOG.info("User entered invalid promo code: {}", couponCode);
 			return shoppingCart;
 		}else{
-			LOG.info("User entered valid promo code: {} value of {}", promoCodes,promoCodes.getPromoValue());
+			LOG.info("User entered valid promo code: {} value of {}", couponCode,promoCodes.getPromoValue());
 		}
 		
 
@@ -115,14 +115,24 @@ public class CartController {
 			}
 			
 			
-			shoppingCart.setPromoCode(promocode);
-			LOG.info("Promo Code {} is stored in Shopping Cart with Bag ID {}",promocode, shoppingCart.getBagId());
+			shoppingCart.setPromoCode(couponCode);
+			LOG.info("Promo Code {} is stored in Shopping Cart with Bag ID {}",couponCode, shoppingCart.getBagId());
 			shoppingCart.setDiscountedAmount(discountedAmount);
-			LOG.info("Stored Discounted Amount {} Shopping Cart with Bag ID {} where Grand Total was {}",discountedAmount,promocode, shoppingCart.getBagId(),shoppingCart.getGrandTotal());
+			LOG.info("Stored Discounted Amount {} Shopping Cart with Bag ID {} where Grand Total was {}",discountedAmount,couponCode, shoppingCart.getBagId(),shoppingCart.getGrandTotal());
+			//check for shipping cost
+			
 			shoppingCart.setOrderTotal(gTotal.add(shoppingCart.getShippingCost()).subtract(discountedAmount));
 			shoppingCartRepository.save(shoppingCart);
 			LOG.info("Shopping Cart is saved and returning promoCodes as JSON");
 
+		return shoppingCart;
+	}
+	
+	@RequestMapping(value="/removePromoCode/{cartId}", method=RequestMethod.POST)
+	public @ResponseBody 
+	ShoppingCart removePromoCode(@PathVariable(value = "cartId") Long id) {
+		ShoppingCart shoppingCart = shoppingCartRepository.findOne(id);
+		//Need to implement removal part
 		return shoppingCart;
 	}
 	
@@ -174,9 +184,10 @@ public class CartController {
 		if(cartItemList.size()< 1) {
 			model.addAttribute("emptyCart",true);
 		}else {
+			shoppingCartService.updateShoppingCart(shoppingCart);
 			model.addAttribute("emptyCart",false);	
 		}
-       	shoppingCartService.updateShoppingCart(shoppingCart);
+       	
        	
 		model.addAttribute("cartItemList",cartItemList);
 		model.addAttribute("shoppingCart",shoppingCart);
@@ -301,7 +312,14 @@ public class CartController {
         }
 	}
 		//Check this for id being null
-		product = productService.findOne(product.getId());
+		try {
+			product = productService.findOne(product.getId());
+		}catch (NullPointerException  e){
+			model.addAttribute("doesNotExist",true);
+			LOG.info("User is looking to add non existing product with ID {} to cart in {} qty",product.getId(), Integer.parseInt(qty));
+			return null ;
+		}
+		
 		LOG.info("User adding product with ID  {} to cart", product.getId());
 		//Check if product qty is available
 		if(Integer.parseInt(qty) > product.getInStockNumber()){
@@ -356,7 +374,8 @@ public class CartController {
         }
         
      	cartItemService.addProductToCartItem(product,shoppingCart,Integer.parseInt(qty), size);
-		
+     	
+		System.out.println(shoppingCart.getCartItemList());
 		return shoppingCart;
 		
 	}

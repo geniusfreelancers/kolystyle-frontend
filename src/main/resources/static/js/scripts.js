@@ -11,37 +11,34 @@ $(function() {
 	            	promocode : $('#enterPromoCode').val(),
 	                ajax : 'true'
 	            }, function(data) {
-	            	var code = $('#enterPromoCode').val();
-	                var newamount = $('#subamount').val();
 	                var htmls = '';
 	              	var discount = 0;
-	               
-	                if(data){
-	                    htmls += '<p><span>'+data.id+'</span><span>'+data.couponCode+'</span><span>'+data.promoValue+'</span>';
-	                    if(data.percentOrDollar == "dollar"){
-	                    	discount = data.promoValue;
-	                    	newamount = newamount - data.promoValue;
-	                    }else{
-	                    	var updated = data.promoValue;
-	                    	discount = (updated/100)*newamount;
-	                    	newamount = newamount-((updated/100)*newamount);
-	                    }
-	                    
-	                }else{
-	                	htmls += '<p style="color:red">'+code+' is not a valid code</p>';
-	                }
-	                
-	                    
-	                $('#applyPromoError').show();
+	              	var shipping =0;
+	              	var total =0;
+	              	var code = $('#enterPromoCode').val();
+		                if(data.promoCode != null){
+		                	if(data.promoCode == code){
+		                		 $('#applyPromoNow').hide();
+		                		 $('#removePromoNow').show();
+		                		 $("#enterPromoCode").prop("disabled",true);
+		                		htmls += '<p class="text-success"><span>You saved $</span><span>'+data.discountedAmount+'</span> using <span>'+data.promoCode+'</span>';
+		                	
+		                	}else{
+		                		htmls += '<p style="color:red">'+code+' is not a valid code</p>'
+		                	}
+		                	discount = data.discountedAmount;
+		                    shipping = data.shippingCost;
+		                    total = data.orderTotal;
+		                }else{
+		                	htmls += '<p style="color:red">'+code+' is not a valid code</p>';
+		                }
+		                
+		                    
+		            $('#applyPromoError').show();
 	                $('#applyPromoError').html(htmls);
-	                $('#shippingcost').html(data.shippingCost);
-	                $('#discountamount').html((data.grandTotal-data.discountedAmount).toFixed(2));
-	                $('#ordertotal').html(data.shippingCost+data.discountedAmount.toFixed(2));
-	                
-	              //  $('#ordertotal').html(newamount.toFixed(2));
-	              //  $('#enterPromoCode').prop( "disabled", true );
-	                
-	                
+	                $('#shippingcost').html(shipping);
+	                $('#discountamount').html(discount.toFixed(2));
+	                $('#ordertotal').html(total.toFixed(2));
 	                
 	            });
 	            return false;
@@ -170,7 +167,7 @@ $(document).ready(function(){
 			$('#applyPromoNow').css('display','inline-block');
 			}else{
 			$('#applyPromoNow').css('display','none');
-			}
+			}	
 		$('#applyPromoError').css('display','none');
 	});
 	$('#enterPromoCode').on('focusout',function(){
