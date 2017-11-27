@@ -6,6 +6,6 @@ import com.kolystyle.domain.PromoCodes;
 
 public interface PromoCodesRepository extends CrudRepository<PromoCodes, Long> {
 
-	PromoCodes findByCouponCode(String promocode);
+	PromoCodes findByCouponCode(String couponCode);
 
 }

@@ -145,7 +145,9 @@ public class CheckoutController {
         	System.out.println("Bag ID IS MISSING");
         	shoppingCart = shoppingCartService.findCartByBagId(cartId);
         }
-                
+        if(shoppingCart == null) {
+        	return "redirect:/shoppingCart/cart";
+        }
         List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
         SiteSetting siteSetting= siteSettingService.findOne((long) 1);
 		ShippingAddress shippingAddress = new ShippingAddress();

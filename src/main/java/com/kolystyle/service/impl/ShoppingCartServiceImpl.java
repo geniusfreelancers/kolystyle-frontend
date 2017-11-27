@@ -15,6 +15,7 @@ import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.PromoCodes;
 import com.kolystyle.domain.ShoppingCart;
 import com.kolystyle.domain.SiteSetting;
+import com.kolystyle.repository.PromoCodesRepository;
 import com.kolystyle.repository.ShoppingCartRepository;
 import com.kolystyle.service.CartItemService;
 import com.kolystyle.service.ShoppingCartService;
@@ -32,6 +33,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	@Autowired
 	private SiteSettingService siteSettingService;
 
+	@Autowired
+	private PromoCodesRepository promoCodesRepository;
+	
 	public ShoppingCart findCartByBagId(String bagId) {
 		return shoppingCartRepository.findByBagId(bagId);
 	}
@@ -41,7 +45,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	}
 	public ShoppingCart updateShoppingCart(ShoppingCart shoppingCart){
 		BigDecimal cartTotal = new BigDecimal(0);
-		
 		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
 		
 		for(CartItem cartItem : cartItemList){
@@ -52,7 +55,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		}
 		
 		shoppingCart.setGrandTotal(cartTotal);
-		shoppingCart.setOrderTotal(cartTotal.add(shoppingCart.getShippingCost()).subtract(shoppingCart.getDiscountedAmount()));
+		
+		//shoppingCart.setGrandTotal(calculateCartSubTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+		shoppingCart.setDiscountedAmount(calculateDiscountAmount(shoppingCart, promoCodesRepository.findByCouponCode(shoppingCart.getPromoCode())).setScale(2, BigDecimal.ROUND_HALF_UP));
+		shoppingCart.setShippingCost(calculateShippingCost(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+		shoppingCart.setOrderTotal(calculateCartOrderTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+		
+	//	shoppingCart.setOrderTotal(cartTotal.add(shoppingCart.getShippingCost()).subtract(shoppingCart.getDiscountedAmount()));
+	
 		Date addedDate = Calendar.getInstance().getTime();
 		shoppingCart.setUpdatedDate(addedDate);
 		shoppingCartRepository.save(shoppingCart);
@@ -77,40 +87,39 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	
 	public BigDecimal calculateCartSubTotal(ShoppingCart shoppingCart) {
 		List<CartItem> cartItemList = shoppingCart.getCartItemList();
-		BigDecimal cartSubTotal = new BigDecimal(0);
+		BigDecimal cartSubTotal = shoppingCart.getGrandTotal();
 		if(cartItemList != null) {
 			for (CartItem cartItem : cartItemList) {
 				cartSubTotal = cartSubTotal.add(cartItem.getSubtotal());
 			}	
 		}
 		
-		shoppingCart.setGrandTotal(cartSubTotal.setScale(2, BigDecimal.ROUND_HALF_UP));
+		
 		return cartSubTotal;	
 	}
 	
 	public BigDecimal calculateDiscountAmount(ShoppingCart shoppingCart, PromoCodes promoCodes) {
 		BigDecimal gTotal = shoppingCart.getGrandTotal();
-		BigDecimal gNewTotal = new BigDecimal(0);
+		BigDecimal discountAmount = new BigDecimal(0);
 		if (promoCodes != null) {
 		
 		BigDecimal promoVal = promoCodes.getPromoValue();
 		
 		if(promoCodes.getPercentOrDollar().equalsIgnoreCase("dollar")) {
-			gNewTotal = promoVal;
+			discountAmount = promoVal;
 					//gTotal- promoCodes.getPromoValue();
 			LOG.info("User's applied Coupon Code with dollar value of: {}", promoVal);
-			LOG.info("User's New Shopping Cart Grand Total is: {} after {} dollars discount", gNewTotal,promoVal);
+			LOG.info("User's New Shopping Cart Grand Total is: {} after {} dollars discount", discountAmount,promoVal);
 		}else {
-			gNewTotal = promoVal.divide(new BigDecimal(100),2);
+			discountAmount = promoVal.divide(new BigDecimal(100),2);
 			LOG.info("User's applied Coupon Code with percentage value of: {}%", promoCodes.getPromoValue());
-			gNewTotal = gNewTotal.multiply(gTotal);
-			LOG.info("User's applied Coupon Code with percentage value of: {}% and gets $ {} discount", promoVal,gNewTotal);
+			discountAmount = discountAmount.multiply(gTotal);
+			LOG.info("User's applied Coupon Code with percentage value of: {}% and gets $ {} discount", promoVal,discountAmount);
 			//gNewTotal = gTotal.subtract(gNewTotal);
 			//LOG.info("User's New Shopping Cart Grand Total is: {} after {} percentage discount", gNewTotal,promoVal);
 		}	
 		}
-		shoppingCart.setDiscountedAmount(gNewTotal.setScale(2, BigDecimal.ROUND_HALF_UP));
-		return gNewTotal;
+		return discountAmount;
 	}
 	
 	public BigDecimal calculateCartOrderTotal(ShoppingCart shoppingCart) {
@@ -118,8 +127,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		BigDecimal cartDiscountVal = shoppingCart.getDiscountedAmount();
 		BigDecimal shippingCost = shoppingCart.getShippingCost();
 		BigDecimal cartOrderTotal = cartSubTotal.add(shippingCost).subtract(cartDiscountVal);
-		
-		shoppingCart.setOrderTotal(cartOrderTotal.setScale(2, BigDecimal.ROUND_HALF_UP));
 		return cartOrderTotal;	
 	}
 	
@@ -129,14 +136,38 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		BigDecimal discountedAmount = cartSubTotal.subtract(cartDiscountVal);
 		BigDecimal shippingCost = new BigDecimal(0);
 		SiteSetting siteSetting = siteSettingService.findOne((long)1);
-		if (discountedAmount.doubleValue() >= siteSetting.getFreeShippingMin().doubleValue()) {
-			shippingCost = siteSetting.getShippingCost();
+		if (discountedAmount.doubleValue() > siteSetting.getFreeShippingMin().doubleValue()) {
+			if (shoppingCart.getShippingMethod().equalsIgnoreCase("premiumShipping")) {
+				shippingCost = siteSetting.getPremiumShippingCost();
+			}else {
+				shippingCost = new BigDecimal(0);
+			}
+		}else {
+			if (shoppingCart.getShippingMethod().equalsIgnoreCase("premiumShipping")) {
+				shippingCost = siteSetting.getShippingCost().add(siteSetting.getPremiumShippingCost());
+			}else {
+				shippingCost = siteSetting.getShippingCost();
+			}
 		}
-		shoppingCart.setShippingCost(shippingCost.setScale(2, BigDecimal.ROUND_HALF_UP));
+		
+		
 		return shippingCost;	
 	}
 	
 	public PromoCodes checkCouponValidity(PromoCodes promoCodes){
+		//If Active
+		
+		//If started and not expired
+		
+		//Minimum cart value match
+		
+		//Minimum cart item count match
+		
+		//check if product is eligible for discount
+		
+		//usuage count
+		
+		//
 		
 		return promoCodes;
 		

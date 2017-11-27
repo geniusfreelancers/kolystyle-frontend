@@ -69,7 +69,7 @@ public class ShoppingCartController {
 	@Autowired
 	private SiteSettingService siteSettingService;
 	
-	//Apply Promo  Codes 	
+/*	//Apply Promo  Codes 	
 	@RequestMapping(value="/applyPromoCode", method=RequestMethod.POST)
 	public @ResponseBody 
 	PromoCodes applyPromoCode(@ModelAttribute("id") String id,
@@ -126,7 +126,10 @@ public class ShoppingCartController {
 		LOG.info("Shopping Cart is saved and returning promoCodes as JSON");
 
 		return promoCodes;
-	}
+	}*/
+	
+	
+	
 	
 	@RequestMapping("/{cartId}")
     public @ResponseBody
@@ -205,7 +208,7 @@ public class ShoppingCartController {
 	}
 	
 	
-	@RequestMapping(value = "/addItem", method = RequestMethod.PUT)
+	/*@RequestMapping(value = "/addItem", method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void addItem(@ModelAttribute("product") Product product,
 			@ModelAttribute("qty") String qty,
@@ -262,8 +265,8 @@ public class ShoppingCartController {
     			Random rand = new Random();
     			int  newrandom = rand.nextInt(99) + 10;
     			
-    			/*Time Stamp and Random Number for Bag Id so we can always
-    			  have unique bag id within Guest Cart*/
+    			Time Stamp and Random Number for Bag Id so we can always
+    			  have unique bag id within Guest Cart
     			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     			
     			String bagId = newrandom+"KS"+timestamp.getTime();
@@ -288,7 +291,7 @@ public class ShoppingCartController {
         
 		model.addAttribute("addProductSuccess",true);
 		
-	}
+	}*/
 	
 	@RequestMapping("/updateCartItem")
 	public String updateShoppingCart(@ModelAttribute("id") Long cartItemId, @ModelAttribute("qty") int qty,Model model){
@@ -323,69 +326,7 @@ public class ShoppingCartController {
     public void removeCartItem(@PathVariable(value = "productId") Long id){
 		cartItemService.removeCartItem(cartItemService.findById(id));
     }
-	/******
-	 * Making JSON RESPONSE FOR SHOPPING CART TO DISPLAY MINI CART
-	 */
-	/*@RequestMapping(value="/minicart", method=RequestMethod.GET)
-	public @ResponseBody 
-	List<CartItem> miniCart(Model model,Principal principal,HttpServletRequest request){
-		
-		User user = null;
-		
-		HttpSession session = request.getSession();
-		
-		List<CartItem> cartItemList;
-		//User need to log in If wanted to implement Guest Check out need to work on this
-		if(principal != null){
-		ShoppingCart shoppingCart;
-		user= userService.findByUsername(principal.getName());
-		shoppingCart = user.getShoppingCart();
-		
-		cartItemList = cartItemService.findByShoppingCart(shoppingCart);
-		shoppingCartService.updateShoppingCart(shoppingCart);
-		model.addAttribute("cartItemList",cartItemList);
-		model.addAttribute("shoppingCart",shoppingCart);
-		model.addAttribute("userShoppingCart",true);
 
-		}else{
-			GuestShoppingCart guestShoppingCart;
-			// Get Cart from Session.
-       	 guestShoppingCart = (GuestShoppingCart) session.getAttribute("guestShoppingCart");
-       	 
-       	// If null, create it.
-       	if (guestShoppingCart == null) {
-       		guestShoppingCart = new GuestShoppingCart();
-       		String sessionID = session.getId();
-   			guestShoppingCart.setGuestSession(sessionID);
-   			
-   			
-			//To generate random number 99 is max and 10 is min
-			Random rand = new Random();
-			int  newrandom = rand.nextInt(99) + 10;
-			
-			Time Stamp and Random Number for Bag Id so we can always
-			  have unique bag id within Guest Cart
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			
-			String bagId = newrandom+"KS"+timestamp.getTime();
-   			guestShoppingCart.setBagId(bagId);
-   			guestShoppingCartRepository.save(guestShoppingCart);
-           
-       		// And store to Session.
-       		request.getSession().setAttribute("guestShoppingCart",guestShoppingCart);
-       	}
-       	cartItemList = cartItemService.findByGuestShoppingCart(guestShoppingCart);
-       	shoppingCartService.updateGuestShoppingCart(guestShoppingCart);
-       	model.addAttribute("cartItemList",cartItemList);
-		model.addAttribute("guestShoppingCart",guestShoppingCart);
-		model.addAttribute("guestShoppingCartId",guestShoppingCart.getId());
-		model.addAttribute("guestBagId",guestShoppingCart.getBagId());
-		model.addAttribute("guestShoppingCartGrandTotal",guestShoppingCart.getGrandTotal());
-		model.addAttribute("guestShoppingCart",true);
-		}
-		
-		return cartItemList;
-	}*/
 	
 	@ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Illegal request, please verify your payload.")

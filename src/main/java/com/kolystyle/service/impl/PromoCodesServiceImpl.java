@@ -18,8 +18,8 @@ public class PromoCodesServiceImpl implements PromoCodesService {
 	}
 	
 	
-	public PromoCodes findByPromoCode(String promocode){
-		return promoCodesRepository.findByCouponCode(promocode);
+	public PromoCodes findByPromoCode(String couponCode){
+		return promoCodesRepository.findByCouponCode(couponCode);
 	}
 
 }

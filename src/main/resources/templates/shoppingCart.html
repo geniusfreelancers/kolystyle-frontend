@@ -151,6 +151,10 @@
 								<button style="display: none;" 
 									th:id="applyPromoNow" type="submit"
 									class="btn btn-primary btn-md">Apply</button>
+							
+								<a style="display: none;" 
+									th:id="removePromoNow" th:href="@{#}"
+									><i class="fa fa-3x fa-minus-circle text-danger" aria-hidden="true"></i></a>	
 						</div>
 					</div>
 					
@@ -184,7 +188,7 @@
 						</p>
 						</div>	
 						<div class="col-md-2 col-xs-6 text-success">
-							<p><strong> <span>$<span id="discountamount">{{shoppingCart.discountedAmount}}</span>
+							<p><strong> <span>$<span id="discountamount">{{calPromoDiscount()}}</span>
 								<input hidden="hidden" name="id" id="discountamounts" th:value="${shoppingCart.discountedAmount}" />
 							
 								</span></strong> 
@@ -198,7 +202,7 @@
 						</div>	
 						<div class="col-md-2 col-xs-6">
 							<p> <span>$
-								 <span id="shippingcost">{{shoppingCart.shippingCost}}</span>
+								 <span id="shippingcost" th:text="${shoppingCart.shippingCost}">{{calShipping()}}</span>
 								 <input hidden="hidden" name="id" id="subamount" th:value="${shoppingCart.shippingCost}" />
 								<input hidden="hidden" name="id" id="subamount" th:value="${shoppingCart.grandTotal}" />
 								</span> 
@@ -230,7 +234,7 @@
 						</div>	
 						<div class="col-md-2 col-xs-6">
 							<p><strong> <span>$
-								<span id="ordertotal">{{shoppingCart.orderTotal}}</span>
+								<span id="ordertotal">{{calOrderTotal()}}</span>
 								<input hidden="hidden" name="id" id="subamount" value="{{calOrderTotal()}}" />
 							
 								</span></strong> 
