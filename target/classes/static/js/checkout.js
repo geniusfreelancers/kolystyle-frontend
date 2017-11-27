@@ -59,5 +59,15 @@ checkoutApp.controller("miniCartCtrl", function ($scope, $http) {
         $scope.cartId = cartId;
         $scope.refreshCheck(cartId);
     };
+    
+    $scope.showOrNoshow = function () {
+    	var itemList= false;
+    	var itemLists = $scope.miniCart.cartItemList.length;
+        
+        if (itemLists > 0){
+        	itemList = true;
+        }
+        return itemList;
+    };
 });
 
