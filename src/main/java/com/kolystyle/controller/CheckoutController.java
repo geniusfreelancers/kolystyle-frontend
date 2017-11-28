@@ -6,29 +6,23 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.braintreegateway.BraintreeGateway;
-import com.braintreegateway.CreditCard;
-import com.braintreegateway.Customer;
 import com.braintreegateway.Result;
 import com.braintreegateway.Transaction;
 import com.braintreegateway.TransactionRequest;
@@ -37,7 +31,6 @@ import com.braintreegateway.Transaction.Status;
 import com.kolystyle.KolystyleApplication;
 import com.kolystyle.domain.BillingAddress;
 import com.kolystyle.domain.CartItem;
-import com.kolystyle.domain.ChargeRequest;
 import com.kolystyle.domain.Order;
 import com.kolystyle.domain.Payment;
 import com.kolystyle.domain.ShippingAddress;
@@ -47,7 +40,6 @@ import com.kolystyle.domain.User;
 import com.kolystyle.domain.UserBilling;
 import com.kolystyle.domain.UserPayment;
 import com.kolystyle.domain.UserShipping;
-import com.kolystyle.domain.ChargeRequest.Currency;
 import com.kolystyle.repository.OrderRepository;
 import com.kolystyle.service.BillingAddressService;
 import com.kolystyle.service.CartItemService;
@@ -61,8 +53,6 @@ import com.kolystyle.service.UserService;
 import com.kolystyle.service.UserShippingService;
 import com.kolystyle.utility.MailConstructor;
 import com.kolystyle.utility.USConstants;
-import com.stripe.exception.StripeException;
-import com.stripe.model.Charge;
 
 @Controller
 public class CheckoutController {
