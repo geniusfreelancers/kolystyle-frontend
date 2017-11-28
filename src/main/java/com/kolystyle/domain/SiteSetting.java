@@ -15,6 +15,8 @@ public class SiteSetting {
 	private String homeSlide;
 	private BigDecimal premiumShippingCost;
 	
+	private String categoryBanner;
+	
 	public Long getId() {
 		return id;
 	}
@@ -44,6 +46,12 @@ public class SiteSetting {
 	}
 	public void setPremiumShippingCost(BigDecimal premiumShippingCost) {
 		this.premiumShippingCost = premiumShippingCost;
+	}
+	public String getCategoryBanner() {
+		return categoryBanner;
+	}
+	public void setCategoryBanner(String categoryBanner) {
+		this.categoryBanner = categoryBanner;
 	}	
 	
 }

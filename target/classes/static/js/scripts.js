@@ -44,6 +44,51 @@ $(function() {
 	            return false;
 	        });
   });
+
+//Remove Promo
+$(function() {
+	$('#removePromoNow').click(
+	        function() {
+	        	var cart = $('#cartId').val();
+	            $.post("/removePromoCode/", {
+	            	cartId : $('#cartId').val(),
+	            	//promocode : $('#enterPromoCode').val(),
+	                ajax : 'true'
+	            }, function(data) {
+	                var htmls = '';
+	              	var discount = 0;
+	              	var shipping =0;
+	              	var total =0;
+	              	var code = $('#enterPromoCode').val();
+	              	alert ("deleted");
+		                /*if(data.promoCode != null){
+		                	if(data.promoCode == code){
+		                		 $('#applyPromoNow').hide();
+		                		 $('#removePromoNow').show();
+		                		 $("#enterPromoCode").prop("disabled",true);
+		                		htmls += '<p class="text-success"><span>You saved $</span><span>'+data.discountedAmount+'</span> using <span>'+data.promoCode+'</span>';
+		                	
+		                	}else{
+		                		htmls += '<p style="color:red">'+code+' is not a valid code</p>'
+		                	}
+		                	discount = data.discountedAmount;
+		                    shipping = data.shippingCost;
+		                    total = data.orderTotal;
+		                }else{
+		                	htmls += '<p style="color:red">'+code+' is not a valid code</p>';
+		                }*/
+		                
+		                    
+		            $('#applyPromoError').show();
+	                $('#applyPromoError').html(htmls);
+	                $('#shippingcost').html(shipping);
+	                $('#discountamount').html(discount.toFixed(2));
+	                $('#ordertotal').html(total.toFixed(2));
+	                
+	            });
+	            return false;
+	        });
+  });
 //Update Mini Cart Category.
 
 $(function() {
@@ -229,7 +274,33 @@ $(function() {
     });
   });
 
+//Display or hide SIZE dropdown on product details page
+$(document).ready(function(){
+	$(".sizecontainer").hide();
+});
 
+
+$(document).ready(function(){
+	$("#stitching").on('change',function(){
+		var id=this.value;
+		if(this.value != 'unstiched'){	
+			$('.sizecontainer').css('display','block');
+		}else{
+			$('.sizecontainer').css('display','none');
+		}
+	});
+	});
+
+$(document).ready(function(){
+	$("#readytowear").on('change',function(){
+		var id=this.value;
+		if(this.value != 'readytowear'){	
+			$('.sizecontainer').css('display','none');
+		}else{
+			$('.sizecontainer').css('display','block');
+		}
+	});
+	});
 
 /*$(function(){
 	$('#applyPromoNow').click(function(){

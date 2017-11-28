@@ -77,4 +77,8 @@ public class OrderServiceImpl implements OrderService{
 	public List<Order> findByUser(User user){
 		return orderRepository.findByUserId(user.getId());
 	}
+	
+	public List<Order> findAllByOrderDateDesc(){
+		return orderRepository.findAllByOrderByOrderDateDesc();
+	}
 }

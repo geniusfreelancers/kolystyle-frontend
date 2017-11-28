@@ -18,4 +18,5 @@ public interface OrderService {
 	
 	Order findOne(Long id);
 	List<Order> findByUser(User user);
+	List<Order> findAllByOrderDateDesc();
 }

@@ -301,23 +301,64 @@ $(window).ready(function (){
 
 		<div class="row" style="margin-top: 60px;">
 		
-		<div class="col-xs-3">
+		<div class="col-md-3">
 			<!--h3><label for="category">Category</label></h3-->
 			<div class="list-group" id="category">
-			<a th:href="@{/productshelf(category='all')}" th:classappend="${activeAll}? 'active'" class="list-group-item">All</a>
-			<a th:href="@{/searchByCategory(category='Management')}" th:classappend="${activeManagement}? 'active'" class="list-group-item">Management</a>
-			<a th:href="@{/searchByCategory(category='Friction')}" th:classappend="${activeFriction}? 'active'" class="list-group-item">Friction</a>
-			<a th:href="@{/searchByCategory(category='Engineering')}" th:classappend="${activeEngineering}? 'active'" class="list-group-item">Engineering</a>
-			<a th:href="@{/searchByCategory(category='Programming')}" th:classappend="${activeProgramming}? 'active'" class="list-group-item">Programming</a>
-			<a th:href="@{/searchByCategory(category='Arts &amp; Literature')}" th:classappend="${activeArtsLiterature}? 'active'" class="list-group-item">Arts &amp; Literature</a>
+			<a th:href="@{/productshelf(category='all')}" th:classappend="${activeAll}? 'active'" class="list-group-item">Brand</a>
+			<div class="col-md-12 brand">
+				<label><input type="checkbox" value="red"/>Red</label>
+			</div>
+			
+			<a th:href="@{/searchByCategory(category='Friction')}" th:classappend="${activeFriction}? 'active'" class="list-group-item">Fabric</a>
+			<div class="col-md-12 fabric">
+				<label><input type="checkbox" value="red"/>Red</label>
+			</div>
+			<a th:href="@{/searchByCategory(category='Management')}" th:classappend="${activeManagement}? 'active'" class="list-group-item">Type</a>
+			<div class="col-md-12 type">
+				<label><input type="checkbox" value="red"/>Red</label>
+			</div>
+			<a th:href="@{/searchByCategory(category='Management')}" th:classappend="${activeManagement}? 'active'" class="list-group-item">Size</a>
+			<div class="col-md-12 color">
+				<label><input type="checkbox" value="red"/>Red</label>
+			</div>
+			<a th:href="@{/searchByCategory(category='Friction')}" th:classappend="${activeFriction}? 'active'" class="list-group-item">Price</a>
+			<div class="col-md-12 price">
+				<label><input type="checkbox" value="red"/>Red</label>
+			</div>
+			<a th:href="@{/searchByCategory(category='Engineering')}" th:classappend="${activeEngineering}? 'active'" class="list-group-item">Style</a>
+			<div class="col-md-12 style">
+				<label><input type="checkbox" value="red"/>Red</label>
+			</div>
+			<a th:href="@{/searchByCategory(category='Programming')}" th:classappend="${activeProgramming}? 'active'" class="list-group-item">Occasion</a>
+			<div class="col-md-12 occasion">
+				<label><input type="checkbox" value="red"/>Red</label>
+			</div>
+			<a th:href="@{/searchByCategory(category='Friction')}" th:classappend="${activeFriction}? 'active'" class="list-group-item">Work</a>
+			<div class="col-md-12 work">
+				<label><input type="checkbox" value="red"/>Red</label>
+			</div>
+			<a th:href="@{/searchByCategory(category='Arts &amp; Literature')}" th:classappend="${activeArtsLiterature}? 'active'" class="list-group-item">Color</a>
+			<div class="col-md-12 color">
+				<label><input type="checkbox" value="red"/>Red</label>
+				<label><input type="checkbox" value="blue"/>Blue</label>
+				<label><input type="checkbox" value="pink"/>Pink</label>
+				<label><input type="checkbox" value="green"/>Green</label>
 			</div>
 		</div>
-		
-			<div class="col-xs-9">
+		</div>
+			<div class="col-md-9">
 
 				<div th:if="${emptyList}">
 					<h5 style="font-style: italic;">Opps, no result found</h5>
 				</div>
+				<div th:if="${productCategory}" class="content-header">
+					<div class="col-md-12">
+					<img th:src="@{/image/cyber.jpg}" class="img-responsive"/>
+					<span class="categorytitle" th:text="${procategory}"></span>
+					</div>
+				
+				
+				</div><br/><br/>
 				<!-- Each Product Start -->
 	<div class="product-item" id="productList" data-th-each="product : ${productList}">
 				
@@ -343,34 +384,20 @@ $(window).ready(function (){
                                 <div class="btn-others">
                                     <ul>
                                         <li><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
-                                        <li><a href=""><i class="fa fa-exchange"></i></a></li>
+                                        
                                         <li><a href="#" th:id="${product.id}" class="btn-view"><i class="fa fa-expand"></i></a></li>
                                     </ul>
                                 </div>
-                                <!--div class="btn-add-to-cart cart-btn">
-                                < Add to cart >
-                                <form method="post" >
-								<input hidden="hidden" th:id="'id-addingtocart-'+${product.id}" name="id" th:value="${product.id}"/>
-								<input hidden="hidden" id="qty" name="qty" value="1"/>
-	
-								<a href="" th:id="'addingtocart-'+${product.id}" class="cart"><span class="glyphicon glyphicon-shopping-cart"></span>ADD TO CART</a>
-
-								</form>
                                 
-    < Add to cart End >                            
-                                        <! a href="">
-                                            <span class="glyphicon glyphicon-shopping-cart"></span>ADD TO CART
-                                        </a>
-                                </div-->
                             </div>
                         </div>
                         <div class="product-details">
 
                            
-                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}"><h2 th:text="${product.title}"></h2></a></div>
+                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}"><h4 th:text="${product.title}"></h4></a></div>
                             <div class="product-pd">
                                 <div class="product-price">
-								<a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: x-large; color: #db3208;">$<span
+								<a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: large; color: #db3208;">$<span
 												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
 								</div>
                                 <div class="product-discount">
@@ -485,5 +512,12 @@ $(window).ready(function (){
 		});
 	});
 	</script-->
+
+
+    
+ <script th:src="@{/js/facet.js}"></script> 
+  <script th:src="@{/js/jquery.deserialize.js}"></script> 
+  <script th:src="@{/js/jquery.facets.js}"></script>
 </body>
+
 </html>
