@@ -10,7 +10,7 @@
 			<div id="container">
 				<div id="content">
 <div class="row">
-<form th:action="@{/shoppingCart/addItem}" method="post">
+<form  method="post">
 	<input hidden="hidden" th:field="*{product.id}" th:name="id" th:value="${product.id}"/>
 	<input hidden="hidden" th:id="'id-addingtocart-'+${product.id}" name="idd" th:value="${product.id}"/>
 	<div class="row" style="margin-top:0px;">

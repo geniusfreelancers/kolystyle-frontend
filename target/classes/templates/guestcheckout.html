@@ -184,7 +184,7 @@ Transit time: 3-6 business days
  	<label for="amount">
             <span class="input-label">Amount</span>
             <div class="input-wrapper amount-wrapper">
-              <input id="amount" name="amount" type="tel" min="1" placeholder="Amount" value="{{checkOut.orderTotal}}" />
+              <input id="amount" name="amount" type="hidden" min="1" placeholder="Amount" value="{{checkOut.orderTotal}}" />
             </div>
     </label>
     
@@ -234,11 +234,7 @@ Transit time: 3-6 business days
   });
   /*]]>*/
 </script>
- 	<!-- Paypal Amount -->
- 	
- 	<!--button type="submit" class="btn btn-primary" id="rc-paypal-continue">Continue to Paypal</button>
- 	<br/><br/>
- 	<div id="paypal-button"></div-->
+
 
   </div>
 
@@ -361,9 +357,9 @@ Transit time: 3-6 business days
 							</div>
 							
 							<div class="row">
-								<div class="col-xs-7 text-left">Shipping: <span>{{calShippingCost()}}</span></div>
+								<div class="col-xs-7 text-left">Shipping: </div>
 								<div class="col-xs-5 text-right text-danger">
-									<span>FREE</span>
+									<span>{{calShippingCost()}}</span>
 								</div>
 							</div>
 							
@@ -371,14 +367,12 @@ Transit time: 3-6 business days
 							<div class="row">
 								<div class="col-xs-7 text-left">
 									<h3 style="color: darkred;">
-										<strong>Order Total: <span>{{checkOut.orderTotal}}</span></strong>
+										<strong>Order Total: </strong>
 									</h3>
 								</div>
 								<div class="col-xs-5 text-right">
 									<h3>
-										<strong style="color: darkred;">$<span
-											th:with="total=${shoppingCart.grandTotal+shoppingCart.grandTotal*0.06}"
-											th:text="${#numbers.formatDecimal(total,0,2)}"></span></strong>
+										<strong style="color: darkred;">$<span>{{checkOut.orderTotal}}</span></strong>
 									</h3>
 								</div>
 								
@@ -388,7 +382,7 @@ Transit time: 3-6 business days
 							<div class="row">
 								<div class="col-xs-7 text-left">You saved:</div>
 								<div class="col-xs-5 text-right">
-									$<span class="text-alert">10.00</span>
+									$<span class="text-alert">{{calSaving()}}</span>
 								</div>
 							</div>
 				

@@ -19,6 +19,7 @@ import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.repository.CartItemRepository;
 
 import com.kolystyle.repository.ProductToCartItemRepository;
+import com.kolystyle.repository.PromoCodesRepository;
 import com.kolystyle.repository.ShoppingCartRepository;
 import com.kolystyle.service.CartItemService;
 import com.kolystyle.service.PromoCodesService;
@@ -42,8 +43,12 @@ public class CartItemServiceImpl implements CartItemService {
 	
 	@Autowired
 	private SiteSettingService siteSettingService;
+	
 	@Autowired
 	private PromoCodesService promoCodesService;
+	
+	@Autowired
+	private PromoCodesRepository promoCodesRepository;
 	
 	public List<CartItem> findByShoppingCart(ShoppingCart shoppingCart){
 		return cartItemRepository.findByShoppingCart(shoppingCart);
@@ -63,20 +68,24 @@ public class CartItemServiceImpl implements CartItemService {
 	public CartItem addProductToCartItem(Product product,ShoppingCart shoppingCart,int qty,String size){
 		List<CartItem> cartItemList = findByShoppingCart(shoppingCart);
 		PromoCodes promoCodes = promoCodesService.findByPromoCode(shoppingCart.getPromoCode());
+		
 		for(CartItem cartItem : cartItemList){
 			if(product.getId() == cartItem.getProduct().getId()){
 				//Check if product with same size already exist in cart
 				if(cartItem.getProductSize().equalsIgnoreCase(size)) {
 					cartItem.setQty(qty);
-        		
-				//cartItem.setQty(qty);
-				//cartItem.setQty(cartItem.getQty()+qty);
+        			updateCartItem(cartItem);
+						//	cartTotal = cartTotal.add(cartItem.getSubtotal());
+					
+					
+			/*		shoppingCart.setGrandTotal(cartTotal);
 				cartItem.setSubtotal(new BigDecimal(product.getOurPrice()).multiply(new BigDecimal(qty)).setScale(2, BigDecimal.ROUND_HALF_UP));
-				cartItemRepository.save(cartItem);
-				shoppingCartService.calculateCartSubTotal(shoppingCart);
-				shoppingCartService.calculateDiscountAmount(shoppingCart, promoCodes);
-				shoppingCartService.calculateShippingCost(shoppingCart);
-				shoppingCartService.calculateCartOrderTotal(shoppingCart);
+			*/	cartItemRepository.save(cartItem);
+			//	shoppingCartRepository.save(shoppingCart);
+				shoppingCart.setGrandTotal(shoppingCartService.calculateCartSubTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+				shoppingCart.setDiscountedAmount(shoppingCartService.calculateDiscountAmount(shoppingCart, promoCodesRepository.findByCouponCode(shoppingCart.getPromoCode())).setScale(2, BigDecimal.ROUND_HALF_UP));
+				shoppingCart.setShippingCost(shoppingCartService.calculateShippingCost(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+				shoppingCart.setOrderTotal(shoppingCartService.calculateCartOrderTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
 		       	Date addedDate = Calendar.getInstance().getTime();
 				shoppingCart.setUpdatedDate(addedDate);
 		       	shoppingCartRepository.save(shoppingCart);
@@ -94,39 +103,21 @@ public class CartItemServiceImpl implements CartItemService {
 		cartItem.setSubtotal(itemSubTotal);
 		
 		cartItem = cartItemRepository.save(cartItem);
-		
+		updateCartItem(cartItem);
 		ProductToCartItem productToCartItem = new ProductToCartItem();
 		productToCartItem.setProduct(product);
 		productToCartItem.setCartItem(cartItem);
 		productToCartItemRepository.save(productToCartItem);
-		//Set Shipping Cost
-/*		SiteSetting siteSetting= siteSettingService.findOne((long) 1);
-       	
-      	if(shoppingCart.getGrandTotal().doubleValue()>=siteSetting.getFreeShippingMin().doubleValue()) {
-       		if(shoppingCart.getDiscountedAmount() != null) {
-       			if(shoppingCart.getDiscountedAmount().doubleValue()>=siteSetting.getFreeShippingMin().doubleValue()) {
-       				
-       				shoppingCart.setShippingCost(new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP));
-       			}else {
-       				shoppingCart.setShippingCost(siteSetting.getShippingCost().setScale(2, BigDecimal.ROUND_HALF_UP));
-       			}
-       		}else {
-       			shoppingCart.setShippingCost(new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP));
-       		}	
-       	}else {
-       		
-       		shoppingCart.setShippingCost(siteSetting.getShippingCost().setScale(2, BigDecimal.ROUND_HALF_UP));
-       		
-       	}*/
-  //     	shoppingCart.setGrandTotal(shoppingCartService.);
+
 		Date addedDate = Calendar.getInstance().getTime();
 		shoppingCart.setUpdatedDate(addedDate);
 		
        	shoppingCartRepository.save(shoppingCart);
-       	shoppingCartService.calculateCartSubTotal(shoppingCart);
-		shoppingCartService.calculateDiscountAmount(shoppingCart, promoCodes);
-		shoppingCartService.calculateShippingCost(shoppingCart);
-		shoppingCartService.calculateCartOrderTotal(shoppingCart);
+		shoppingCart.setGrandTotal(shoppingCartService.calculateCartSubTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+		shoppingCart.setDiscountedAmount(shoppingCartService.calculateDiscountAmount(shoppingCart, promoCodes).setScale(2, BigDecimal.ROUND_HALF_UP));
+		shoppingCart.setShippingCost(shoppingCartService.calculateShippingCost(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+		shoppingCart.setOrderTotal(shoppingCartService.calculateCartOrderTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+       
 		shoppingCartRepository.save(shoppingCart);
 		return cartItem;
 	}

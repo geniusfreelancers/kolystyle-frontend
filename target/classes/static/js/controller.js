@@ -42,40 +42,57 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
 
 
     $scope.calGrandTotal = function () {
-        var grandTotal = 0;
-
-        for (var i=0; i<$scope.shoppingCart.cartItemList.length; i++){
+        var grandTotal = $scope.shoppingCart.grandTotal;
+       /* for (var i=0; i<$scope.shoppingCart.cartItemList.length; i++){
             grandTotal += $scope.shoppingCart.cartItemList[i].subtotal;
-        }
-
+        }*/
         return grandTotal;
 
     };
     
     $scope.calPromoDiscount = function () {
-        /*var promoDiscount = 0;
-        if($scope.shoppingCart.discountedAmount == null){
-        	promoDiscount = $scope.shoppingCart.grandTotal - $scope.shoppingCart.discountedAmount;
-        }else{
-        	promoDiscount = 'FREE';
+        var promoDiscount = $scope.shoppingCart.discountedAmount;
+    	return promoDiscount;
+
+    };
+    
+    $scope.calShipping = function () {
+        var shippingTotal = $scope.shoppingCart.shippingCost;
+        if (shippingTotal == 0){
+        	shippingTotal = 'FREE';
         }
-        return promoDiscount;*/
-    	return $scope.shoppingCart.discountedAmount;
+        return shippingTotal;
 
     };
     
     $scope.calOrderTotal = function () {
-        var orderTotal = 0;
-       /* if($scope.shoppingCart.discountedAmount =! null){
-        	orderTotal = $scope.shoppingCart.discountedAmount + $scope.shoppingCart.shippingCost;
-        }else{
-        	orderTotal = $scope.calGrandTotal() + $scope.shoppingCart.shippingCost;
-        }*/
-        
-        orderTotal = $scope.calGrandTotal() + $scope.shoppingCart.shippingCost;
+        var orderTotal = $scope.shoppingCart.orderTotal;
         return orderTotal;
 
     };
+    
+    
+    //Promo code logic
+    $scope.applyPromo = function (promoCode) {
+        $http.put('/shoppingCart/applyPromoCode/'+promoCode).success(function () {
+            $(function()
+            {
+                $('#applyPromoError').show();
+                setTimeout(function() {
+                    $('#applyPromoError').fadeOut('fast');
+                }, 3000);
+            });
+        });
+    };
+
+    $scope.removePromo = function () {
+        $http.put('/shoppingCart/removePromoCode/'+$scope.cartId).success(function (data) {
+            $scope.refreshCart();
+        });
+    };
+    
+    
+    
 
 });
 

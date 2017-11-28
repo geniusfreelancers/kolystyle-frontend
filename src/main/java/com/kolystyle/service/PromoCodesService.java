@@ -6,5 +6,5 @@ public interface PromoCodesService {
 	
 	PromoCodes findOne(Long id);
 	
-	PromoCodes findByPromoCode(String promocode);
+	PromoCodes findByPromoCode(String couponCode);
 }
