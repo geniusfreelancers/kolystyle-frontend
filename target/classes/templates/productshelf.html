@@ -305,17 +305,47 @@ $(window).ready(function (){
 			<!--h3><label for="category">Category</label></h3-->
 			<div class="list-group" id="category">
 			<a th:href="@{/productshelf(category='all')}" th:classappend="${activeAll}? 'active'" class="list-group-item">Brand</a>
+			<div class="col-md-12 brand">
+				<label><input type="checkbox" value="red"/>Red</label>
+			</div>
+			
 			<a th:href="@{/searchByCategory(category='Friction')}" th:classappend="${activeFriction}? 'active'" class="list-group-item">Fabric</a>
+			<div class="col-md-12 fabric">
+				<label><input type="checkbox" value="red"/>Red</label>
+			</div>
 			<a th:href="@{/searchByCategory(category='Management')}" th:classappend="${activeManagement}? 'active'" class="list-group-item">Type</a>
+			<div class="col-md-12 type">
+				<label><input type="checkbox" value="red"/>Red</label>
+			</div>
 			<a th:href="@{/searchByCategory(category='Management')}" th:classappend="${activeManagement}? 'active'" class="list-group-item">Size</a>
+			<div class="col-md-12 color">
+				<label><input type="checkbox" value="red"/>Red</label>
+			</div>
 			<a th:href="@{/searchByCategory(category='Friction')}" th:classappend="${activeFriction}? 'active'" class="list-group-item">Price</a>
+			<div class="col-md-12 price">
+				<label><input type="checkbox" value="red"/>Red</label>
+			</div>
 			<a th:href="@{/searchByCategory(category='Engineering')}" th:classappend="${activeEngineering}? 'active'" class="list-group-item">Style</a>
+			<div class="col-md-12 style">
+				<label><input type="checkbox" value="red"/>Red</label>
+			</div>
 			<a th:href="@{/searchByCategory(category='Programming')}" th:classappend="${activeProgramming}? 'active'" class="list-group-item">Occasion</a>
+			<div class="col-md-12 occasion">
+				<label><input type="checkbox" value="red"/>Red</label>
+			</div>
 			<a th:href="@{/searchByCategory(category='Friction')}" th:classappend="${activeFriction}? 'active'" class="list-group-item">Work</a>
+			<div class="col-md-12 work">
+				<label><input type="checkbox" value="red"/>Red</label>
+			</div>
 			<a th:href="@{/searchByCategory(category='Arts &amp; Literature')}" th:classappend="${activeArtsLiterature}? 'active'" class="list-group-item">Color</a>
+			<div class="col-md-12 color">
+				<label><input type="checkbox" value="red"/>Red</label>
+				<label><input type="checkbox" value="blue"/>Blue</label>
+				<label><input type="checkbox" value="pink"/>Pink</label>
+				<label><input type="checkbox" value="green"/>Green</label>
 			</div>
 		</div>
-		
+		</div>
 			<div class="col-md-9">
 
 				<div th:if="${emptyList}">
@@ -364,10 +394,10 @@ $(window).ready(function (){
                         <div class="product-details">
 
                            
-                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}"><h2 th:text="${product.title}"></h2></a></div>
+                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}"><h4 th:text="${product.title}"></h4></a></div>
                             <div class="product-pd">
                                 <div class="product-price">
-								<a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: x-large; color: #db3208;">$<span
+								<a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: large; color: #db3208;">$<span
 												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
 								</div>
                                 <div class="product-discount">
