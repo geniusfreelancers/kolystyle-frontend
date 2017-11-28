@@ -41,20 +41,535 @@
 					</div>
 
 					<!-- Product Categories Start-->
+					<div class="row bg-event">
+						<div class="col-md-12">
+
+							<div class="col-md-12 boxcontent">
+
+								<div class="col-md-4">
+									<a href="/searchByCategory?category=saree"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/designersaree.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Designer Saree</p>
+									</span>
+									</a>
+								</div>
+
+								<div class="col-md-4">
+									<div class="col-md-6">
+									<a href="/searchByCategory?category=salwar"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/redsaree.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Salwar Kameez</p>
+									</span>
+									</a>
+								</div>
+								<div class="col-md-6">
+									<a href="/searchByCategory?category=bottoms"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/bottom.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Bottoms</p>
+									</span>
+									</a>
+								</div>
+								<div class="col-md-6">
+									<a href="/searchByCategory?category=gowns"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/gowns.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Gowns</p>
+									</span>
+									</a>
+								</div>
+								<div class="col-md-6">
+									<a href="/searchByCategory?category=kurtas"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/kurtas.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Kurtas</p>
+									</span>
+									</a>
+								</div>
+							</div>
+
+								
+
+
+								<div class="col-md-4">
+									<a href="/searchByCategory?category=lehenga"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/yellow.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Lehenga</p>
+									</span>
+									</a>
+								</div>
+
+
+
+							</div>
+						</div>
+					</div>
+					<!-- Product Categories End-->
+<style>
+.slick-prev {
+    left: -20px;  
+    position: absolute;
+    top: 38%;
+    color:#cad2d4;
+}
+.slick-next {
+    right: -20px;
+    position: absolute;
+    top: 38%;
+    color:#cad2d4;
+}
+.slick-slide{
+width: 270px;
+}
+</style>
+                <script>
+                $(document).ready(function(){
+                	  $('.featured-content').slick({
+                		  // normal options...
+                		  infinite: true,
+                		  variableWidth: true,
+                		  // the magic
+                		  nextArrow: '<i class="fa fa-chevron-circle-right fa-2x slick-next"></i>',
+  						  prevArrow: '<i class="fa fa-chevron-circle-left fa-2x slick-prev"></i>',
+                		  responsive: [{
+
+                		      breakpoint: 250,
+                		      settings: {
+                		        slidesToShow: 4,
+                		        useTransform:true,
+                		        dots: true,
+                		        mobileFirst: true,
+                		        swipeToSlide: true
+                		      }
+
+                		    }]
+                		  });
+                		});
+                </script>
+										
+					<!-- Featured Product Start-->			
+<section class="box">
+						<div id="featured-title" class="box-heading">Featured</div>
+						<div class="box-content">
+							<div class="box-product">
+								<div class="featured_carousel" id="productList">
+
+
+				<div class="featured-content" data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
+				<div data-th-each="product : ${productList}" th:if="${product.feature == 'featured'}" class="col-md-3 col-sm-6 slide-inner" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-size=${product.size}" >
+
+					 <div class="product-singleArea">
+                    
+                        <div class="product-img">
+                        
+                            <div class="overlay">
+                            <div th:class="'overlay_'+${product.id}">
+                                
+                            </div>
+                            </div>
+                            
+                            <a th:href="@{/productDetail?id=}+${product.id}">
+                                <img class="img-responsive primary_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
+                            <a th:href="@{/productDetail?id=}+${product.id}">
+                                <img class="img-responsive hover_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
+                           <div class="offer-nostock"><span th:text="${product.feature}"></span></div>
+                            <div class="product-cart-area">
+                                <div class="btn-others">
+                                    <ul>
+                                        <li><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
+                                        
+                                        <li><a href="#" th:id="${product.id}" class="btn-view"><i class="fa fa-expand"></i></a></li>
+                                    </ul>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <div class="product-details">
+
+                           
+                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}">
+                            <h4 th:text="${product.title}"></h4></a></div>
+                            <div class="product-pd">
+                                <div class="product-price">
+								<a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: large; color: #db3208;">$<span
+												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
+								</div>
+                                <div class="product-discount">
+                                <span th:class="'id-addingtocart-'+${product.id}" id="addedtocart"></span>
+								<span style="text-decoration: line-through;color:#b3b3b3;">$<span
+												th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
+								</div>
+                            </div>
+                            <div class="product-review" style="display:none;">
+                                <div class="star">
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				
+											
+											</div>
+		
+				
+									</div>
+								
+									
+								</div>
+							</div>
+						</div>
+					</section>
+								
+					
+					
+					<!-- Featured Product End-->
+					
+					<!-- Product Categories Start-->
 					<div class="row">
 						<div class="col-md-12">
 
 							<div class="col-md-12 boxcontent">
 
 								<div class="col-md-4">
-									<a href="/searchByCategory?category=Programming"
+									<a href="/searchByCategory?category=Friction"
 										role="button" class="category_inner"> <img
-										class="zoom_image img-responsive" alt="" src="/image/8.jpg" />
+										class="zoom_image img-responsive" alt="" src="/image/9.jpg" />
 										<span class="info_wrapper">
-											<h4 style="font-weight: normal;">Designer Saree</h4>
+											<p class="category-name">Designer Salwar Suit</p>
 									</span>
 									</a>
 								</div>
+								
+								<div class="col-md-4">
+									<div class="col-md-6">
+									<a href="/searchByCategory?category=Management"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/7.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Designer Anarkali Suit</p>
+									</span>
+									</a>
+								</div>
+								<div class="col-md-6">
+									<a href="/searchByCategory?category=Management"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/7.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Designer Anarkali Suit</p>
+									</span>
+									</a>
+								</div>
+								<div class="col-md-6">
+									<a href="/searchByCategory?category=Management"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/7.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Designer Anarkali Suit</p>
+									</span>
+									</a>
+								</div>
+								<div class="col-md-6">
+									<a href="/searchByCategory?category=Management"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/7.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Designer Anarkali Suit</p>
+									</span>
+									</a>
+								</div>
+							</div>
+
+								<div class="col-md-4">
+									<a href="/searchByCategory?category=Friction"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/9.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Designer Salwar Suit</p>
+									</span>
+									</a>
+								</div>
+
+
+
+							</div>
+						</div>
+					</div>
+					<!-- Product Categories End-->
+					
+					<!-- Product Tab Start-->
+	<section id="product-tab" class="product-tab col-md-12" style="padding-left:0px!important;">
+						<ul class="nav nav-tabs">
+							<li class="active"><a data-toggle="tab" href="#tab-latest" id="latest-title">Latest</a></li>
+							<li><a data-toggle="tab" href="#tab-bestseller" id="best-title">Best Seller</a></li>
+							<li><a data-toggle="tab" href="#tab-special" id="special-title">Special</a></li>
+						</ul>
+
+					
+					<div class="tab-content">
+						<div id="tab-latest" class="tab-pane fade in active">
+							<div class="product-box">
+							
+							
+<div class="featured-content" data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
+<div data-th-each="product : ${productList}" th:if="${product.feature == 'latest'}" class="col-md-3 col-sm-6 slide-inner" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-size=${product.size}" >
+                    <div class="product-singleArea">
+                    
+                        <div class="product-img">
+                        
+                            <div class="overlay">
+                            <div th:class="'overlay_'+${product.id}">
+                                
+                            </div>
+                            </div>
+                            
+                            <a th:href="@{/productDetail?id=}+${product.id}">
+                                <img class="img-responsive primary_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
+                            <a th:href="@{/productDetail?id=}+${product.id}">
+                                <img class="img-responsive hover_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
+                           <div class="offer-nostock"><span th:text="${product.feature}"></span></div>
+                            <div class="product-cart-area">
+                                <div class="btn-others">
+                                    <ul>
+                                        <li><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
+                                        
+                                        <li><a href="#" th:id="${product.id}" class="btn-view"><i class="fa fa-expand"></i></a></li>
+                                    </ul>
+                                </div>
+                                
+
+                            </div>
+                        </div>
+                        <div class="product-details">
+
+                           
+                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}">
+                            <h4 th:text="${product.title}"></h4></a></div>
+                            <div class="product-pd">
+                                <div class="product-price">
+								<a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: large; color: #db3208;">$<span
+												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
+								</div>
+                                <div class="product-discount">
+                                <span th:class="'id-addingtocart-'+${product.id}" id="addedtocart"></span>
+								<span style="text-decoration: line-through;color:#b3b3b3;">$<span
+												th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
+								</div>
+                            </div>
+                            <div class="product-review" style="display:none;">
+                                <div class="star">
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+</div>
+							
+							
+							
+							
+							</div>
+						</div>
+						<div id="tab-bestseller" class="tab-pane fade">
+							<div class="product-box">	
+<div class="featured-content" data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
+<div data-th-each="product : ${productList}" th:if="${product.feature == 'bestseller'}" class="col-md-3 col-sm-6 slide-inner" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-size=${product.size}" >
+                    <div class="product-singleArea">
+                    
+                        <div class="product-img">
+                        
+                            <div class="overlay">
+                            <div th:class="'overlay_'+${product.id}">
+                                
+                            </div>
+                            </div>
+                            
+                            <a th:href="@{/productDetail?id=}+${product.id}">
+                                <img class="img-responsive primary_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
+                            <a th:href="@{/productDetail?id=}+${product.id}">
+                                <img class="img-responsive hover_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
+                           <div class="offer-nostock"><span th:text="${product.feature}"></span></div>
+                            <div class="product-cart-area">
+                                <div class="btn-others">
+                                    <ul>
+                                        <li><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
+                                        
+                                        <li><a href="#" th:id="${product.id}" class="btn-view"><i class="fa fa-expand"></i></a></li>
+                                    </ul>
+                                </div>
+                                
+
+                            </div>
+                        </div>
+                        <div class="product-details">
+
+                           
+                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}">
+                            <h4 th:text="${product.title}"></h4></a></div>
+                            <div class="product-pd">
+                                <div class="product-price">
+								<a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: large; color: #db3208;">$<span
+												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
+								</div>
+                                <div class="product-discount">
+                                <span th:class="'id-addingtocart-'+${product.id}" id="addedtocart"></span>
+								<span style="text-decoration: line-through;color:#b3b3b3;">$<span
+												th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
+								</div>
+                            </div>
+                            <div class="product-review" style="display:none;">
+                                <div class="star">
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+</div>
+							
+							</div>
+						</div>
+						<div id="tab-special" class="tab-pane fade">
+							<div class="product-box">
+							
+<div class="featured-content" data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
+<div data-th-each="product : ${productList}" th:if="${product.feature == 'special'}" class="col-md-3 col-sm-6 slide-inner" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-size=${product.size}" >
+                    <div class="product-singleArea">
+                    
+                        <div class="product-img">
+                        
+                            <div class="overlay">
+                            <div th:class="'overlay_'+${product.id}">
+                                
+                            </div>
+                            </div>
+                            
+                            <a th:href="@{/productDetail?id=}+${product.id}">
+                                <img class="img-responsive primary_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
+                            <a th:href="@{/productDetail?id=}+${product.id}">
+                                <img class="img-responsive hover_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
+                           <div class="offer-nostock"><span th:text="${product.feature}"></span></div>
+                            <div class="product-cart-area">
+                                <div class="btn-others">
+                                    <ul>
+                                        <li><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
+                                        
+                                        <li><a href="#" th:id="${product.id}" class="btn-view"><i class="fa fa-expand"></i></a></li>
+                                    </ul>
+                                </div>
+                                
+
+                            </div>
+                        </div>
+                        <div class="product-details">
+
+                           
+                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}">
+                            <h4 th:text="${product.title}"></h4></a></div>
+                            <div class="product-pd">
+                                <div class="product-price">
+								<a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: large; color: #db3208;">$<span
+												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
+								</div>
+                                <div class="product-discount">
+                                <span th:class="'id-addingtocart-'+${product.id}" id="addedtocart"></span>
+								<span style="text-decoration: line-through;color:#b3b3b3;">$<span
+												th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
+								</div>
+                            </div>
+                            <div class="product-review" style="display:none;">
+                                <div class="star">
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+</div>
+											
+										
+										
+							
+							</div>
+						</div>
+					</div>
+
+</section>
+					
+					
+					<!-- Product Tab End-->
+					
+	<!-- Product Categories Start-->
+					<div class="row">
+						<div class="col-md-12">
+<div class="col-md-12 boxcontent">
+
+								
+
+								<div class="col-md-4">
+									<a href="/searchByCategory?category=lehenga"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/yellow.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Lehenga</p>
+									</span>
+									</a>
+								</div>
+
+								<div class="col-md-4">
+									<a href="/searchByCategory?category=saree"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/designersaree.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Designer Saree</p>
+									</span>
+									</a>
+								</div>
+
+
+								<div class="col-md-4">
+									<a href="/searchByCategory?category=lehenga"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/yellow.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Lehenga</p>
+									</span>
+									</a>
+								</div>
+
+
+
+							</div>
+
+							<div class="col-md-12 boxcontent">
 
 								<div class="col-md-4">
 									<div class="col-md-6">
@@ -62,7 +577,7 @@
 										role="button" class="category_inner"> <img
 										class="zoom_image img-responsive" alt="" src="/image/7.jpg" />
 										<span class="info_wrapper">
-											<h4 style="font-weight: normal;">Designer Anarkali Suit</h4>
+											<p class="category-name">Designer Anarkali Suit</p>
 									</span>
 									</a>
 								</div>
@@ -71,7 +586,7 @@
 										role="button" class="category_inner"> <img
 										class="zoom_image img-responsive" alt="" src="/image/7.jpg" />
 										<span class="info_wrapper">
-											<h4 style="font-weight: normal;">Designer Anarkali Suit</h4>
+											<p class="category-name">Designer Anarkali Suit</p>
 									</span>
 									</a>
 								</div>
@@ -80,7 +595,7 @@
 										role="button" class="category_inner"> <img
 										class="zoom_image img-responsive" alt="" src="/image/7.jpg" />
 										<span class="info_wrapper">
-											<h4 style="font-weight: normal;">Designer Anarkali Suit</h4>
+											<p class="category-name">Designer Anarkali Suit</p>
 									</span>
 									</a>
 								</div>
@@ -89,7 +604,7 @@
 										role="button" class="category_inner"> <img
 										class="zoom_image img-responsive" alt="" src="/image/7.jpg" />
 										<span class="info_wrapper">
-											<h4 style="font-weight: normal;">Designer Anarkali Suit</h4>
+											<p class="category-name">Designer Anarkali Suit</p>
 									</span>
 									</a>
 								</div>
@@ -103,358 +618,58 @@
 										role="button" class="category_inner"> <img
 										class="zoom_image img-responsive" alt="" src="/image/9.jpg" />
 										<span class="info_wrapper">
-											<h4 style="font-weight: normal;">Designer Salwar Suit</h4>
+											<p class="category-name">Designer Salwar Suit</p>
 									</span>
 									</a>
 								</div>
 
-
-
-							</div>
-						</div>
-					</div>
-					<!-- Product Categories End-->
-					
-										
-					<!-- Featured Product Start-->			
-<section class="box">
-						<div id="featured-title" class="box-heading">Featured</div>
-						<div class="box-content">
-							<div class="box-product">
-								<div class="featured_carousel" id="productList">
-
-
-									<ul class="slides slidercontainer">
-									<div class="product-item" data-th-each="product : ${productList}" th:if="${product.feature == 'featured'}">
-											<!---->
-											<li class="col-md-2 col-sm-6 compact-container">
-												<div class="slide-inner">
-													<div class="product-singleArea">
-														<div class="product-img">
-															<div class="overlay"></div>
-															<div class="overlay_product">
-																<!-- div class="addedtocart_product">Added
-																	to cart</div-->
-															</div>
-															<a th:href="@{/productDetail?id=}+${product.id}"> 
-															<img
-																class="img-responsive primary_image shelf-product"
-																th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
-															</a>
-															<a
-																th:href="@{/productDetail?id=}+${product.id}"> 
-																<img
-																class="img-responsive hover_image"
-																th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
-															</a>
-															<div class="offer-nostock">new</div>
-															<div class="product-cart-area">
-																<div class="btn-others">
-																	<ul>
-																		<li><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
-                                        								<li><a href=""><i class="fa fa-exchange"></i></a></li>
-																		<li><a href="detail.html"><i
-																				class="fa fa-expand"></i></a></li>
-																	</ul>
-																</div>
-																<!-- div class="btn-add-to-cart cart-btn">
-																	<form method="post" >
-																	<input hidden="hidden" th:id="'id-addingtocart-'+${product.id}" name="id" th:value="${product.id}"/>
-																	<input hidden="hidden" id="qty" name="qty" value="1"/>
-										
-																	<a href="" th:id="'addingtocart-'+${product.id}" class="cart"><span class="glyphicon glyphicon-shopping-cart"></span>ADD TO CART</a>
-									
-																	</form>
-																</div-->
-															</div>
-														</div>
-														<div class="product-details">
-															<div class="product-title text-center">
-																<a th:href="@{/productDetail?id=}+${product.id}"><h4 th:text="${product.title}"></h4></a>
-															</div>
-															<div class="product-pd">
-																<div class="product-price"><a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: large; color: #db3208;">$<span
-												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
-												</div>
-																<div class="product-discount">
-																<span th:class="'id-addingtocart-'+${product.id}" id="addedtocart"></span>
-																<span style="text-decoration: line-through;color:#b3b3b3;">$<span
-												th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
-												</div>															
-															</div>
-															<div class="product-review" style="display:none;">
-																<div class="star">
-																	<span class="yes"><i class="fa fa-star"></i></span> <span
-																		class="yes"><i class="fa fa-star"></i></span> <span
-																		class="yes"><i class="fa fa-star"></i></span> <span
-																		class="yes"><i class="fa fa-star"></i></span> <span
-																		class="yes"><i class="fa fa-star"></i></span>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</li>
-											</div>
-
-									</ul>
+<div class="col-md-4">
+									<div class="col-md-6">
+									<a href="/searchByCategory?category=Management"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/7.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Designer Anarkali Suit</p>
+									</span>
+									</a>
+								</div>
+								<div class="col-md-6">
+									<a href="/searchByCategory?category=Management"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/7.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Designer Anarkali Suit</p>
+									</span>
+									</a>
+								</div>
+								<div class="col-md-6">
+									<a href="/searchByCategory?category=Management"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/7.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Designer Anarkali Suit</p>
+									</span>
+									</a>
+								</div>
+								<div class="col-md-6">
+									<a href="/searchByCategory?category=Management"
+										role="button" class="category_inner"> <img
+										class="zoom_image img-responsive" alt="" src="/image/7.jpg" />
+										<span class="info_wrapper">
+											<p class="category-name">Designer Anarkali Suit</p>
+									</span>
+									</a>
 								</div>
 							</div>
-						</div>
-					</section>
-								
-					
-					
-					<!-- Featured Product End-->
-					<!-- Product Tab Start-->
-	<section id="product-tab" class="product-tab col-md-12" style="padding-left:0px!important;">
-						<ul class="nav nav-tabs">
-							<li class="active"><a data-toggle="tab" href="#tab-latest" id="latest-title">Latest</a></li>
-							<li><a data-toggle="tab" href="#tab-bestseller" id="best-title">Best Seller</a></li>
-							<li><a data-toggle="tab" href="#tab-special" id="special-title">Special</a></li>
-						</ul>
 
-					
-					<div class="tab-content">
-						<div id="tab-latest" class="tab-pane fade in active">
-							<div class="product-box">
-								<ul class="product-container">
-									<div class="product-item" data-th-each="product : ${productList}" th:if="${product.feature == 'latest'}">
-										
-										
-											<li class="col-md-2 col-sm-6 compact-container">
-												<div class="slide-inner">
-													<div class="product-singleArea">
-														<div class="product-img">
-															<div class="overlay"></div>
-															<div class="overlay_product">
-																<!--div class="addedtocart_product">Added
-																	to cart</div-->
-															</div>
-															<a th:href="@{/productDetail?id=}+${product.id}"> 
-															<img
-																class="img-responsive primary_image shelf-product"
-																th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
-															</a>
-															<a
-																th:href="@{/productDetail?id=}+${product.id}"> 
-																<img
-																class="img-responsive hover_image"
-																th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
-															</a>
-															<div class="offer-nostock">new</div>
-															<div class="product-cart-area">
-																<div class="btn-others">
-																	<ul>
-																		<li><a href=""><i class="fa fa-heart-o"></i></a></li>
-																		<li><a href=""><i class="fa fa-exchange"></i></a></li>
-																		<li><a href="detail.html"><i
-																				class="fa fa-expand"></i></a></li>
-																	</ul>
-																</div>
-																<!--div class="btn-add-to-cart cart-btn">
-																	<a href="">
-																		<span class="glyphicon glyphicon-shopping-cart"></span>ADD
-																		TO CART
-																	</a>
-																</div-->
-															</div>
-														</div>
-														<div class="product-details">
-															<div class="product-title text-center">
-																<a th:href="@{/productDetail?id=}+${product.id}"><h4 th:text="${product.title}"></h4></a>
-															</div>
-															<div class="product-pd">
-																<div class="product-price"><a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: large; color: #db3208;">$<span
-												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
-												</div>
-																<div class="product-discount"><span style="text-decoration: line-through;color:#b3b3b3;">$<span
-												th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
-												</div>															
-															</div>
-															<div class="product-review" style="display:none;">
-																<div class="star">
-																	<span class="yes"><i class="fa fa-star"></i></span> <span
-																		class="yes"><i class="fa fa-star"></i></span> <span
-																		class="yes"><i class="fa fa-star"></i></span> <span
-																		class="yes"><i class="fa fa-star"></i></span> <span
-																		class="yes"><i class="fa fa-star"></i></span>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</li>
-										
-										</div>
-								
-								</ul>
-							
-							</div>
-						</div>
-						<div id="tab-bestseller" class="tab-pane fade">
-							<div class="product-box">
-								<ul class="product-container">
-									<div class="product-item" data-th-each="product : ${productList}" th:if="${product.feature == 'bestseller'}">
-										
-										
-											<li class="col-md-2 col-sm-6 compact-container">
-												<div class="slide-inner">
-													<div class="product-singleArea">
-														<div class="product-img">
-															<div class="overlay"></div>
-															<div class="overlay_product">
-																<!--div class="addedtocart_product">Added
-																	to cart</div-->
-															</div>
-															<a th:href="@{/productDetail?id=}+${product.id}"> 
-															<img
-																class="img-responsive primary_image shelf-product"
-																th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
-															</a>
-															<a
-																th:href="@{/productDetail?id=}+${product.id}"> 
-																<img
-																class="img-responsive hover_image"
-																th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
-															</a>
-															<div class="offer-nostock">new</div>
-															<div class="product-cart-area">
-																<div class="btn-others">
-																	<ul>
-																		<li><a href=""><i class="fa fa-heart-o"></i></a></li>
-																		<li><a href=""><i class="fa fa-exchange"></i></a></li>
-																		<li><a href="detail.html"><i
-																				class="fa fa-expand"></i></a></li>
-																	</ul>
-																</div>
-																<!--div class="btn-add-to-cart cart-btn">
-																	<a href="">
-																		<span class="glyphicon glyphicon-shopping-cart"></span>ADD
-																		TO CART
-																	</a>
-																</div-->
-															</div>
-														</div>
-														<div class="product-details">
-															<div class="product-title text-center">
-																<a th:href="@{/productDetail?id=}+${product.id}"><h4 th:text="${product.title}"></h4></a>
-															</div>
-															<div class="product-pd">
-																<div class="product-price"><a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: large; color: #db3208;">$<span
-												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
-												</div>
-																<div class="product-discount"><span style="text-decoration: line-through;color:#b3b3b3;">$<span
-												th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
-												</div>															
-															</div>
-															<div class="product-review" style="display:none;">
-																<div class="star">
-																	<span class="yes"><i class="fa fa-star"></i></span> <span
-																		class="yes"><i class="fa fa-star"></i></span> <span
-																		class="yes"><i class="fa fa-star"></i></span> <span
-																		class="yes"><i class="fa fa-star"></i></span> <span
-																		class="yes"><i class="fa fa-star"></i></span>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</li>
-										
-										</div>
-								
-								</ul>
-							
-							</div>
-						</div>
-						<div id="tab-special" class="tab-pane fade">
-							<div class="product-box">
-								<ul class="product-container">
-									<div class="product-item" data-th-each="product : ${productList}" th:if="${product.feature == 'special'}">
-										
-										
-											<li class="col-md-2 col-sm-6 compact-container">
-												<div class="slide-inner">
-													<div class="product-singleArea">
-														<div class="product-img">
-															<div class="overlay"></div>
-															<div class="overlay_product">
-																<!--div class="addedtocart_product">Added
-																	to cart</div-->
-															</div>
-															<a th:href="@{/productDetail?id=}+${product.id}"> 
-															<img
-																class="img-responsive primary_image shelf-product"
-																th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
-															</a>
-															<a
-																th:href="@{/productDetail?id=}+${product.id}"> 
-																<img
-																class="img-responsive hover_image"
-																th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
-															</a>
-															<div class="offer-nostock">new</div>
-															<div class="product-cart-area">
-																<div class="btn-others">
-																	<ul>
-																		<li><a href=""><i class="fa fa-heart-o"></i></a></li>
-																		<li><a href=""><i class="fa fa-exchange"></i></a></li>
-																		<li><a href="detail.html"><i
-																				class="fa fa-expand"></i></a></li>
-																	</ul>
-																</div>
-																<!--div class="btn-add-to-cart cart-btn">
-																	<a href="">
-																		<span class="glyphicon glyphicon-shopping-cart"></span>ADD
-																		TO CART
-																	</a>
-																</div-->
-															</div>
-														</div>
-														<div class="product-details">
-															<div class="product-title text-center">
-																<a th:href="@{/productDetail?id=}+${product.id}"><h4 th:text="${product.title}"></h4></a>
-															</div>
-															<div class="product-pd">
-																<div class="product-price"><a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: large; color: #db3208;">$<span
-												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
-												</div>
-																<div class="product-discount"><span style="text-decoration: line-through;color:#b3b3b3;">$<span
-												th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
-												</div>															
-															</div>
-															<div class="product-review" style="display:none;">
-																<div class="star">
-																	<span class="yes"><i class="fa fa-star"></i></span> <span
-																		class="yes"><i class="fa fa-star"></i></span> <span
-																		class="yes"><i class="fa fa-star"></i></span> <span
-																		class="yes"><i class="fa fa-star"></i></span> <span
-																		class="yes"><i class="fa fa-star"></i></span>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</li>
-										
-										</div>
-								
-								</ul>
-							
+
 							</div>
 						</div>
 					</div>
-
-</section>
-					
-					
-					<!-- Product Tab End-->
-					
-					
+					<!-- Product Categories End-->				
 					
 					<!-- Carousel Start-->
-					<section id="carousel">
+					<section id="carousel" class="hideme">
 						<ul class="jcarousel-skin-opencart">
 							<li><a href="#"><img src="/image/product/brand_logo.jpg"
 									alt="brand_logo" title="brand_logo" /></a></li>

@@ -68,17 +68,38 @@
 				<div class="row">
 				<div class="col-md-8">
 				<div class="col-md-12" th:if="!${noMore}">
+				
+				
+				<div class="col-md-12 text-right">
+					<label class="col-md-12"><span class="col-md-4 text-right">Unstiched</span>
+					<span class="col-md-6 text-left">
+					<input name="stitching" id="stitching" value="unstiched" type="radio" checked="checked"/>
+					</span>
+					</label>
+				</div>
+				<div class="col-md-12 text-right">
+					<label class="col-md-12"><span class="col-md-4 text-right">Ready to wear</span>
+					<span class="col-md-6 text-left">
+					<input name="stitching" id="readytowear" value="readytowear" type="radio"/>
+					</span>
+					</label>
+				</div>
+				<div class="sizecontainer">
 				<span class="col-md-4 text-right">Size: </span>
 				<select name="size" id="size" class="col-md-6">
 				<option th:each="size : ${sizeList}" th:value="${size}" th:text="${size}"></option>
 				
 				</select>
-			
-				<br/><br/>
+				
+				</div>
+				
+				<div class="qtycontainer">
+				
 				<span class="col-md-4 text-right">Qty: </span>
 				<select name="qty" id="qty" class="col-md-6">
 				<option th:each="qty : ${qtyList}" th:value="${qty}" th:text="${qty}"></option>
 				</select>
+				</div>
 			</div>
 			<div class="col-md-12">
 				<br/>
@@ -185,28 +206,16 @@
 </div>
 <style>
 .slick-prev {
-    left: -25px;
-    background: rgb(216, 40, 40);    
+    left: -20px;  
     position: absolute;
-    width: 20px;
-    height: 20px;    border: none;
-    outline: none;    transform: translate(0, -50%);
-    cursor: pointer;    padding: 0;
-    -webkit-transform: translate(0, -50%);
-    -ms-transform: translate(0, -50%);    font-size: 0;    top: 50%;
-    line-height: 0;
+    top: 38%;
+    color:#cad2d4;
 }
 .slick-next {
-    right: -25px;
-    background: rgb(216, 40, 40);    
+    right: -20px;
     position: absolute;
-    width: 20px;
-    height: 20px;    border: none;
-    outline: none;    transform: translate(0, -50%);    padding: 0;
-    -webkit-transform: translate(0, -50%);
-    -ms-transform: translate(0, -50%);    top: 50%;
-    cursor: pointer;    font-size: 0;
-    line-height: 0;
+    top: 38%;
+    color:#cad2d4;
 }
 .slick-slide{
 width: 270px;
@@ -219,6 +228,10 @@ width: 270px;
                 		  infinite: true,
                 		  variableWidth: true,
                 		  // the magic
+                		  
+                		  // the magic
+                		  nextArrow: '<i class="fa fa-chevron-circle-right fa-2x slick-next"></i>',
+  						  prevArrow: '<i class="fa fa-chevron-circle-left fa-2x slick-prev"></i>',
                 		  responsive: [{
 
                 		      breakpoint: 250,
@@ -259,23 +272,11 @@ width: 270px;
                                 <div class="btn-others">
                                     <ul>
                                         <li><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
-                                        <li><a href=""><i class="fa fa-exchange"></i></a></li>
+                                        
                                         <li><a href="#" th:id="${product.id}" class="btn-view"><i class="fa fa-expand"></i></a></li>
                                     </ul>
                                 </div>
-                                <!--div class="btn-add-to-cart cart-btn">
-                                <! Add to cart >
-                                <form method="post" >
-								<input hidden="hidden" th:id="'id-addingtocart-'+${product.id}" name="id" th:value="${product.id}"/>
-								<input hidden="hidden" id="qty" name="qty" value="1"/>
-	
-								<a href="" th:id="'addingtocart-'+${product.id}" class="cart"><span class="glyphicon glyphicon-shopping-cart"></span>ADD TO CART</a>
-
-								</form>
-                                
-    <! Add to cart End >                            
-                                      
-                                </div-->
+                               
                             </div>
                         </div>
                         <div class="product-details">
@@ -309,10 +310,67 @@ width: 270px;
 </div>
 
 </div>
-
+<!-- Customer Also Loved -->
 <div class="col-md-12">
 
-<p>customers also loved</p>
+<p class="label-title">customers also loved</p>
+<div class="related-pro" data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
+<div th:each="product : ${brandList}" class="col-md-3 col-sm-6 slide-inner" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-size=${product.size}" >
+                    <div class="product-singleArea">
+                    
+                        <div class="product-img">
+                        
+                            <div class="overlay">
+                            <div th:class="'overlay_'+${product.id}">
+                                
+                            </div>
+                            </div>
+                            
+                            <a th:href="@{/productDetail?id=}+${product.id}">
+                                <img class="img-responsive primary_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
+                            <a th:href="@{/productDetail?id=}+${product.id}">
+                                <img class="img-responsive hover_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
+                           
+                            <div class="product-cart-area">
+                                <div class="btn-others">
+                                    <ul>
+                                        <li><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
+                                        
+                                        <li><a href="#" th:id="${product.id}" class="btn-view"><i class="fa fa-expand"></i></a></li>
+                                    </ul>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <div class="product-details">
+
+                           
+                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}"><h2 th:text="${product.title}"></h2></a></div>
+                            <div class="product-pd">
+                                <div class="product-price">
+								<a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: x-large; color: #db3208;">$<span
+												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
+								</div>
+                                <div class="product-discount">
+                                <span th:class="'id-addingtocart-'+${product.id}" id="addedtocart"></span>
+								<span style="text-decoration: line-through;color:#b3b3b3;">$<span
+												th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
+								</div>
+                            </div>
+                            <div class="product-review" style="display:none;">
+                                <div class="star">
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+</div>
 </div>
 <div class="col-md-12">
 

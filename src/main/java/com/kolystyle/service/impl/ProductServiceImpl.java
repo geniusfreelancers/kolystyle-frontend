@@ -38,6 +38,10 @@ public class ProductServiceImpl implements ProductService{
 		return productRepository.findTop12ByCategory(category);
 	}
 	
+	public List<Product> findTop15ByBrand(String brand){
+		return productRepository.findTop15ByBrand(brand);
+	}
+	
 	public List<Product> findByCategory(Category category){
 		List<Product> productList = productRepository.findByCategory(category);
 		
