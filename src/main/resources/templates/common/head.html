@@ -108,7 +108,8 @@
                             	</tr>
                             </table>
                         </div>
-                        <div class="mini-cart-total">
+                       {{showOrNoshow()}}
+                        <div class="mini-cart-total" ng-if="showOrNoshow()">
                         	<div id="" class="col-md-4">
                         		<br/>
                         		<a th:href="@{/shoppingCart/cart}" class="btn btn-danger">View Cart</a>
