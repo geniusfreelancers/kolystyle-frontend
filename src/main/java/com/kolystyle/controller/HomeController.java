@@ -314,8 +314,16 @@ public class HomeController {
 			model.addAttribute("noMore", true);
 		}
 		
+		String brand = product.getBrand();
+		List<Product> brandList = productService.findTop15ByBrand(brand);
+		if(qtyList.size()<1) {
+			model.addAttribute("noMore", true);
+		}
+		
 		//List<Product> productList = productService.findByCategory(category);
 		model.addAttribute("productList", productList);
+		model.addAttribute("brandList", brandList);
+		
 		System.out.println(productList);
 		model.addAttribute("sizeList", sizeList);
 		model.addAttribute("qtyList", qtyList);

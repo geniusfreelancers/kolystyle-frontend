@@ -512,33 +512,36 @@
 	<div th:fragment="footer">
 	<!--Footer Part Start-->
 <footer id="footer">
+<div class="row">
+	
+</div>
     <div class="fpart-inner">
    
         <div class="column">
             <h3>Information</h3>
             <ul>
                 <li><a th:href="@{/public/about}">About Us</a></li>
+                
                 <li><a th:href="@{/public/delivery}">Delivery Information</a></li>
                 <li><a th:href="@{/public/privacy}">Privacy Policy</a></li>
-                <li><a href="elements.html">Elements</a></li>
+                <li><a th:href="@{/public/terms}">Terms and Conditions</a></li>
             </ul>
         </div>
         <div class="column">
             <h3>Customer Service</h3>
             <ul>
                 <li><a th:href="@{/public/contact}">Contact Us</a></li>
-                <li><a th:href="@{/public/returns}">Returns</a></li>
-                <li><a th:href="@{/public/sitemap}">Site Map</a></li>
+                <li><a th:href="@{/public/faq}">FAQ</a></li>
+                <li><a th:href="@{/public/trackorder}">Track Order</a></li>
+                <li><a th:href="@{/public/returns}">Returns</a></li> 
             </ul>
         </div>
-        <div class="column">
-            <h3>Extras</h3>
-            <ul>
-                <li><a href="#">Brands</a></li>
-                <li><a href="#">Gift Vouchers</a></li>
-                <li><a href="#">Affiliates</a></li>
-                <li><a href="#">Specials</a></li>
-            </ul>
+        <div class="column text-center">
+		    <form><br/>
+			<h4 >SUBSCRIBE AND GET 10% OFF</h4>
+			<input type="text" name="email" id="newsletteremail" class="form-control" placeholder="Enter Email here"/>
+			<br/><button type="submit" class="btn btn-primary">SUBSCRIBE</button>
+			</form>
         </div>
         <div class="column">
             <h3>My Account</h3>
@@ -546,9 +549,10 @@
                 <li><a href="#">My Account</a></li>
                 <li><a href="#">Order History</a></li>
                 <li><a href="#">Wish List</a></li>
-                <li><a href="#">Newsletter</a></li>
+                <li><a th:href="@{/public/sitemap}">Site Map</a></li>
             </ul>
         </div>
+        
         <!-- Contact Details Start-->
         <div class="column">
             <h3>Contact Us</h3>
@@ -561,11 +565,22 @@
                 <li class="email"><a href="mailto:info@contact.com">info@kolystyle.com</a></li>
             </ul>
         </div>
+        
+        
         <!-- Contact Details End-->
         <div class="clear"></div>
         <div id="powered">
             <!-- Payment Images Icon Start-->
-            <div class="payments_types part3"> <img src="/image/payment_paypal.png" alt="paypal" title="PayPal"/> <img src="/image/payment_american.png" alt="american-express" title="American Express"/> <img src="/image/payment_2checkout.png" alt="2checkout" title="2checkout"/> <img src="/image/payment_maestro.png" alt="maestro" title="Maestro"/> <img src="/image/payment_discover.png" alt="discover" title="Discover"/> </div>
+            <div class="payments_types part3 text-icon"> 
+            
+            <i class="fa fa-paypal" aria-hidden="true"></i>
+            <i class="fa fa-cc-amex" aria-hidden="true"></i>
+            <i class="fa fa-cc-visa" aria-hidden="true"></i>
+            <i class="fa fa-cc-mastercard" aria-hidden="true"></i>
+            <i class="fa fa-cc-discover" aria-hidden="true"></i>
+             
+             
+             </div>
             <!-- Payment Images Icon End-->
             <!-- Powered by Text Start-->
             <div class="powered_text part3">
@@ -574,7 +589,19 @@
             </div>
             <!-- Powered by Text End-->
             <!-- Follow Social Icons Start-->
-            <div class="social part3"> <a href="http://facebook.com/harnishdesign" target="_blank"><img src="/image/facebook.png" alt="Facebook" title="Facebook"/></a> <a href="https://twitter.com/#!/harnishdesign" target="_blank"><img src="/image/twitter.png" alt="Twitter" title="Twitter"/> </a> <a href="#" target="_blank"> <img src="/image/googleplus.png" alt="Google+" title="Google+"/> </a> <a href="#" target="_blank"> <img src="/image/pinterest.png" alt="Pinterest" title="Pinterest"/> </a> <a href="#" target="_blank"> <img src="/image/rss.png" alt="RSS" title="RSS"/> </a> <a href="http://www.vimeo.com/#" target="_blank"> <img src="/image/vimeo.png" alt="Vimeo" title="Vimeo"/> </a> </div>
+            <div class="social part3"> 
+            
+            <a href="http://facebook.com/kolystyle" target="_blank">
+            <img src="/image/facebook.png" alt="Facebook" title="Facebook"/></a> 
+            <a href="https://twitter.com/#!/kolystyle" target="_blank">
+            <img src="/image/twitter.png" alt="Twitter" title="Twitter"/> </a>
+            <a href="https://instagram.com/#!/kolystyle" target="_blank">
+            <img src="/image/instagram.png" alt="Twitter" title="Instagram"/> </a>
+             <a href="#" target="_blank"> <img src="/image/googleplus.png" alt="Google+" title="Google+"/> </a>
+              <a href="#" target="_blank"> <img src="/image/pinterest.png" alt="Pinterest" title="Pinterest"/> </a>
+               
+               
+               </div>
             <!-- Follow Social Icons End-->
             <div class="clear"></div>
         </div>

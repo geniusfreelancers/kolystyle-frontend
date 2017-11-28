@@ -51,6 +51,8 @@ public class SearchController {
 			model.addAttribute("emptyList", true);
 			return "productshelf";
 		}
+		model.addAttribute("productCategory",true);
+		model.addAttribute("procategory",category);
 		
 		model.addAttribute("productList",productList);
 		
