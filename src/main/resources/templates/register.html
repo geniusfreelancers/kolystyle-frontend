@@ -19,12 +19,12 @@
         <div class="form-group">
             <label for="firstName">First Name</label>
             <input type="text" class="form-control input-height"
-												name="firstName" id="firstName" />
+												name="firstName" id="firstName" th:value="${user.firstName}" />
         </div>
         <div class="form-group">
             <label for="lastName">Last Name</label>
             <input type="text" class="form-control input-height"
-												name="lastName" id="lastName" />
+												name="lastName" id="lastName" th:value="${user.lastName}" />
         </div>
         
          
@@ -32,7 +32,7 @@
         <div class="form-group">
             <label for="newUsername">Username </label>&nbsp;<span style="color:red;" th:if="${usernameExists}">Username already exists. Choose a different one. </span>
            <input type="text" class="form-control input-height"
-												name="username" id="username" />
+												name="username" id="username" th:value="${user.username}" />
             
         </div>
 </div>
@@ -40,21 +40,21 @@
 	<div class="form-group">
             <label for="email">Email </label>&nbsp;<span style="color:red;" th:if="${emailExists}">Email already exists. Choose a different one. </span> 
             <input required="required" type="email" class="form-control input-height"
-												name="email" id="email" />
+												name="email" id="email" th:value="${user.email}" />
         </div>
         
 
         <div class="form-group">
             <label for="phone">Phone </label>
             <input type="text" class="form-control input-height"
-												name="phone" id="phone" />
+												name="phone" id="phone" th:value="${user.phone}" />
         </div>
 
 
         <div class="form-group">
             <label for="password">Password</label>
             <input type="password" class="form-control input-height"
-								name="password" id="password" />
+								name="password" id="password" th:value="${user.password}" />
             <p class="help-text">Tip: Use uppercase, lowercase and numbers for stronger password.</p>
             <p class="text-success"><i class="fa fa-check-square-o" aria-hidden="true"></i> Must be 7-16 characters</p>
             <p class="text-success"><i class="fa fa-check-square-o" aria-hidden="true"></i> Cannot contain spaces or . , - | \ / = _</p>
