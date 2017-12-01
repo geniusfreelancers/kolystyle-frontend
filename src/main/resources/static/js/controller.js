@@ -96,13 +96,25 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
 
 });
 
+/*if($('input[name=stitching]:checked').val() != "readytowear"){
+	  size : "unstiched";
+}else{
+	  size : $('#size').val();
+},*/
 
 $(function() {
+	var sizes = "";
 	$('#addthisproduct').click(
 	        function() {
+	        	if($('input[name=stitching]:checked').val() != "readytowear"){
+	        		  sizes = "unstiched";
+	        	}else{
+	        		  sizes = $('#size').val();
+	        	}	
+	        	
 	            $.post("/shoppingCart/addItem", {
 	            	id : $('#id').val(),
-	                size : $('#size').val(),
+	            	size : sizes,
 	                qty : $('#qty').val(),
 	                ajax : 'true'
 	            }, function(data) {
