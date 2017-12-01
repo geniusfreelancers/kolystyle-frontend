@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.3.RELEASE</version>
+		<version>1.5.9.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -29,21 +29,23 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-parent</artifactId>
-			<version>1.5.3.RELEASE</version>
+			<version>1.5.9.RELEASE</version>
 			<type>pom</type>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-			<version>1.5.3.RELEASE</version>
+			<version>1.5.9.RELEASE</version>
 		</dependency>
 
+
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<version>1.5.3.RELEASE</version>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-web</artifactId>
+		    <version>1.5.9.RELEASE</version>
 		</dependency>
+
 		
 	<!-- marked the embedded servlet container as provided>
 		<dependency>
@@ -53,31 +55,37 @@
 		</dependency-->
 		
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
-			<version>1.5.3.RELEASE</version>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-jdbc</artifactId>
+		    <version>1.5.9.RELEASE</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-			<version>1.5.3.RELEASE</version>
-		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-			<version>1.5.3.RELEASE</version>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-jpa</artifactId>
+		    <version>1.5.9.RELEASE</version>
 		</dependency>
+
+
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-security</artifactId>
+		    <version>1.5.9.RELEASE</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
+		
 		<dependency>
-			<groupId>org.thymeleaf.extras</groupId>
-			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+		    <groupId>org.thymeleaf.extras</groupId>
+		    <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+		    <version>3.0.2.RELEASE</version>
 		</dependency>
+			
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
@@ -87,6 +95,14 @@
 			<artifactId>mail</artifactId>
 			<version>1.4.7</version>
 		</dependency>
+		
+		<!-- Above dependency can be removed if below javax mail api works -->
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>javax.mail-api</artifactId>
+		    <version>1.6.0</version>
+		</dependency>
+			
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

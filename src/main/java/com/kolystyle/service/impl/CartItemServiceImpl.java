@@ -67,7 +67,7 @@ public class CartItemServiceImpl implements CartItemService {
 	
 	public CartItem addProductToCartItem(Product product,ShoppingCart shoppingCart,int qty,String size){
 		List<CartItem> cartItemList = findByShoppingCart(shoppingCart);
-		PromoCodes promoCodes = promoCodesService.findByPromoCode(shoppingCart.getPromoCode());
+	
 		
 		for(CartItem cartItem : cartItemList){
 			if(product.getId() == cartItem.getProduct().getId()){
@@ -82,12 +82,7 @@ public class CartItemServiceImpl implements CartItemService {
 				cartItem.setSubtotal(new BigDecimal(product.getOurPrice()).multiply(new BigDecimal(qty)).setScale(2, BigDecimal.ROUND_HALF_UP));
 			*/	cartItemRepository.save(cartItem);
 			//	shoppingCartRepository.save(shoppingCart);
-				shoppingCart.setGrandTotal(shoppingCartService.calculateCartSubTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
-				shoppingCart.setDiscountedAmount(shoppingCartService.calculateDiscountAmount(shoppingCart, promoCodesRepository.findByCouponCode(shoppingCart.getPromoCode())).setScale(2, BigDecimal.ROUND_HALF_UP));
-				shoppingCart.setShippingCost(shoppingCartService.calculateShippingCost(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
-				shoppingCart.setOrderTotal(shoppingCartService.calculateCartOrderTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
-		       	Date addedDate = Calendar.getInstance().getTime();
-				shoppingCart.setUpdatedDate(addedDate);
+				
 		       	shoppingCartRepository.save(shoppingCart);
 				return cartItem;
 				}
@@ -109,15 +104,7 @@ public class CartItemServiceImpl implements CartItemService {
 		productToCartItem.setCartItem(cartItem);
 		productToCartItemRepository.save(productToCartItem);
 
-		Date addedDate = Calendar.getInstance().getTime();
-		shoppingCart.setUpdatedDate(addedDate);
-		
-       	shoppingCartRepository.save(shoppingCart);
-		shoppingCart.setGrandTotal(shoppingCartService.calculateCartSubTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
-		shoppingCart.setDiscountedAmount(shoppingCartService.calculateDiscountAmount(shoppingCart, promoCodes).setScale(2, BigDecimal.ROUND_HALF_UP));
-		shoppingCart.setShippingCost(shoppingCartService.calculateShippingCost(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
-		shoppingCart.setOrderTotal(shoppingCartService.calculateCartOrderTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
-       
+      
 		shoppingCartRepository.save(shoppingCart);
 		return cartItem;
 	}
