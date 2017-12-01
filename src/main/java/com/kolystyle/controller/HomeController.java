@@ -105,7 +105,10 @@ public class HomeController {
 		return "index";
 	}
 	
-	
+	@RequestMapping("/result")
+	public String result() {
+		return "result";
+	}
 	
 	 @RequestMapping("/")
 	    public String home(Model model){
