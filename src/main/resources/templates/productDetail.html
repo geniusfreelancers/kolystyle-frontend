@@ -71,21 +71,21 @@
 				
 				
 				<div class="col-md-12 text-right">
-					<label class="col-md-12"><span class="col-md-4 text-right">Unstiched</span>
+					<label class="col-md-12"><span class="col-md-6 text-right">Unstiched</span>
 					<span class="col-md-6 text-left">
 					<input name="stitching" id="stitching" value="unstiched" type="radio" checked="checked"/>
 					</span>
 					</label>
 				</div>
 				<div class="col-md-12 text-right">
-					<label class="col-md-12"><span class="col-md-4 text-right">Ready to wear</span>
+					<label class="col-md-12"><span class="col-md-6 text-right">Ready to wear</span>
 					<span class="col-md-6 text-left">
 					<input name="stitching" id="readytowear" value="readytowear" type="radio"/>
 					</span>
 					</label>
 				</div>
 				<div class="sizecontainer">
-				<span class="col-md-4 text-right">Size: </span>
+				<span class="col-md-6 text-right">Size: </span>
 				<select name="size" id="size" class="col-md-6">
 				<option th:each="size : ${sizeList}" th:value="${size}" th:text="${size}"></option>
 				
@@ -95,7 +95,7 @@
 				
 				<div class="qtycontainer">
 				
-				<span class="col-md-4 text-right">Qty: </span>
+				<span class="col-md-6 text-right">Qty: </span>
 				<select name="qty" id="qty" class="col-md-6">
 				<option th:each="qty : ${qtyList}" th:value="${qty}" th:text="${qty}"></option>
 				</select>
@@ -103,9 +103,9 @@
 			</div>
 			<div class="col-md-12">
 				<br/>
-				<span>Now: <span style="color:#db3208;font-size:1.7em;">$<span th:text="${product.ourPrice}"></span></span>
-				</span><span>Was: <span style="text-decoration:line-through;">$<span th:text="${product.listPrice}"></span></span></span>
-				<p class="text-center" style="color:#73dc13;">You save: $<span th:text="${#numbers.formatDecimal((product.listPrice - product.ourPrice),0 , 'COMMA',2,'POINT')}"></span></p>
+				<span class="col-md-6">Now: <span style="color:#db3208;font-size:1.7em;">$<span th:text="${product.ourPrice}"></span></span>
+				</span><span class="col-md-6">Was: <span style="text-decoration:line-through;">$<span th:text="${product.listPrice}"></span></span></span>
+				<p class="text-center col-md-12" style="color:#73dc13;">You save: $<span th:text="${#numbers.formatDecimal((product.listPrice - product.ourPrice),0 , 'COMMA',2,'POINT')}"></span></p>
 			</div>
 			
 			</div>

@@ -3,6 +3,8 @@ package com.kolystyle.controller;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -338,7 +340,8 @@ public class CartController {
 		return "forward:/productDetail?id="+product.getId();
 		
 	}*/
-	 @RequestMapping("/addItem")
+	 
+	@RequestMapping("/addItem")
 	    public @ResponseBody
 	    ShoppingCart addItem(@ModelAttribute("product") Product product,
 			@ModelAttribute("qty") String qty,
@@ -346,6 +349,7 @@ public class CartController {
 			HttpServletRequest request, HttpServletResponse response, 
 			Model model, 
 			Principal principal){
+		 System.out.println("Size is : "+size);
 		User user = null;
 		ShoppingCart shoppingCart;
 		//Get Browser cookie and Session
@@ -434,7 +438,17 @@ public class CartController {
         }
         
      	cartItemService.addProductToCartItem(product,shoppingCart,Integer.parseInt(qty), size);
-     	
+     	// may not be needed
+     	shoppingCartRepository.save(shoppingCart);
+     	shoppingCart.setGrandTotal(shoppingCartService.calculateCartSubTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+		shoppingCart.setDiscountedAmount(shoppingCartService.calculateDiscountAmount(shoppingCart,promoCodesService.findByPromoCode(shoppingCart.getPromoCode())).setScale(2, BigDecimal.ROUND_HALF_UP));
+		shoppingCart.setShippingCost(shoppingCartService.calculateShippingCost(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+		shoppingCart.setOrderTotal(shoppingCartService.calculateCartOrderTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+
+		Date addedDate = Calendar.getInstance().getTime();
+		shoppingCart.setUpdatedDate(addedDate);
+		
+		shoppingCartRepository.save(shoppingCart);
 		System.out.println(shoppingCart.getCartItemList());
 		return shoppingCart;
 		

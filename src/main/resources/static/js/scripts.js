@@ -335,3 +335,26 @@ $(document).ready(function(){
 	});
 });*/
 
+$(function() {
+	$('#newsletterSubmit').click(
+	        function() {
+	            $.post("/newsletter/add", {
+	            	email : $('#newsletteremail').val(),
+	                ajax : 'true'
+	            }, function(data) {
+	                var htmls = '';
+	              	
+	              	var newemail = $('#newsletteremail').val();
+		                if(data == "success"){
+		                	 $('#newsletterMsg').show();
+	                		htmls += '<p class="text-success">Thank you for suscribing</p>';
+	                	
+		                }else{
+		                	htmls += '<p style="color:red">Something went wrong</p>';
+		                }          
+		        
+	                $('#newsletterMsg').html(htmls); 
+	            });
+	            return false;
+	        });
+  });
