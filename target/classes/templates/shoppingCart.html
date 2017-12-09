@@ -134,6 +134,7 @@
 						<div class="col-md-8 col-md-offset-2">
 						<hr/>
 						<form name="applyPromo" action="/shoppingCart/applyPromo" method="post">
+						<input hidden="hidden" th:name="bagId" id="bagId" th:value="${shoppingCart.bagId}"/>
 						<div class="form-group">
 						<label class="col-md-3 control-label" style="margin-top:5px;" for="promoCode">
 							HAVE A PROMO CODE? </label>
@@ -150,10 +151,10 @@
 						<div class="col-md-5">			
 								<button style="display: none;" 
 									th:id="applyPromoNow" type="submit"
-									class="btn btn-primary btn-md">Apply</button>
+									class="btn btn-primary">Apply</button>
 							
-								<button type="submit" style="display: none;" 
-									th:id="removePromoNow"><i class="fa fa-3x fa-minus-circle text-danger" aria-hidden="true"></i></button>	
+								<button type="submit" style="display: none;" class="btn btn-danger"
+									th:id="removePromoNow">Remove</button>	
 						</div>
 					</div>
 					
