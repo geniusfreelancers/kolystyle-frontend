@@ -31,6 +31,9 @@ $(function() {
 		                    total = data.orderTotal;
 		                }else{
 		                	htmls += '<p style="color:red">'+code+' is not a valid code</p>';
+		                	discount = data.discountedAmount;
+		                    shipping = data.shippingCost;
+		                    total = data.orderTotal;
 		                }
 		                
 		                    
@@ -45,13 +48,24 @@ $(function() {
 	        });
   });
 
+$(document).ready(function(){
+	var code = $('#enterPromoCode').val();
+	if(code !=""){
+		 $('#applyPromoNow').hide();
+		 $('#removePromoNow').show();
+		 $("#enterPromoCode").prop("disabled",true);
+	}
+});
+
 //Remove Promo
 $(function() {
 	$('#removePromoNow').click(
 	        function() {
 	        	var cart = $('#cartId').val();
-	            $.post("/removePromoCode/", {
+	        	var bagId =$('#bagId').val();
+	            $.post("/shoppingCart/removePromoCode/"+cart+"/"+bagId, {
 	            	cartId : $('#cartId').val(),
+	            	bagId : $('#bagId').val(),
 	            	//promocode : $('#enterPromoCode').val(),
 	                ajax : 'true'
 	            }, function(data) {
@@ -60,30 +74,24 @@ $(function() {
 	              	var shipping =0;
 	              	var total =0;
 	              	var code = $('#enterPromoCode').val();
-	              	alert ("deleted");
-		                /*if(data.promoCode != null){
-		                	if(data.promoCode == code){
-		                		 $('#applyPromoNow').hide();
-		                		 $('#removePromoNow').show();
-		                		 $("#enterPromoCode").prop("disabled",true);
-		                		htmls += '<p class="text-success"><span>You saved $</span><span>'+data.discountedAmount+'</span> using <span>'+data.promoCode+'</span>';
-		                	
-		                	}else{
-		                		htmls += '<p style="color:red">'+code+' is not a valid code</p>'
-		                	}
-		                	discount = data.discountedAmount;
-		                    shipping = data.shippingCost;
-		                    total = data.orderTotal;
-		                }else{
-		                	htmls += '<p style="color:red">'+code+' is not a valid code</p>';
-		                }*/
-		                
-		                    
+	              	if($.isEmptyObject(data)){
+	              		
+	              		htmls += '<p style="color:red">Something is not right</p>'
+	              	}else{
+	              		discount = data.discountedAmount;
+	                    shipping = data.shippingCost;
+	                    total = data.orderTotal;
+	              		$('#removePromoNow').hide();
+	              		$("#enterPromoCode").val("");
+	              		$("#enterPromoCode").prop("disabled",false);	
+	              	}
+	                        
 		            $('#applyPromoError').show();
 	                $('#applyPromoError').html(htmls);
 	                $('#shippingcost').html(shipping);
 	                $('#discountamount').html(discount.toFixed(2));
 	                $('#ordertotal').html(total.toFixed(2));
+	                
 	                
 	            });
 	            return false;
@@ -327,3 +335,26 @@ $(document).ready(function(){
 	});
 });*/
 
+$(function() {
+	$('#newsletterSubmit').click(
+	        function() {
+	            $.post("/newsletter/add", {
+	            	email : $('#newsletteremail').val(),
+	                ajax : 'true'
+	            }, function(data) {
+	                var htmls = '';
+	              	
+	              	var newemail = $('#newsletteremail').val();
+		                if(data == "success"){
+		                	 $('#newsletterMsg').show();
+	                		htmls += '<p class="text-success">Thank you for suscribing</p>';
+	                	
+		                }else{
+		                	htmls += '<p style="color:red">Something went wrong</p>';
+		                }          
+		        
+	                $('#newsletterMsg').html(htmls); 
+	            });
+	            return false;
+	        });
+  });

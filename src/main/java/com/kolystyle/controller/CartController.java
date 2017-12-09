@@ -86,15 +86,38 @@ public class CartController {
 			shoppingCart = user.getShoppingCart();
 			LOG.info("User {} is a member with shopping cart id of {} and bag ID of {}", user.getUsername(), shoppingCart.getId(),shoppingCart.getBagId());
 		}else{	
-			// Get Cart from Session.
+			//Get cart from cookie
+			Cookie[] cookies = request.getCookies();
+			boolean foundCookie = false;
+			 String cartBagId = null;
+			 if (cookies != null){
+			int cookieLength = cookies.length;
+			
+	   	 //Check cookie value
+			if (cookieLength >0) {
+	        for(int i = 0; i < cookieLength; i++) { 
+	            Cookie cartID = cookies[i];
+	            if (cartID.getName().equalsIgnoreCase("BagId")) {
+	            	LOG.info("User with Bag Id {} adding product to cart", cartID.getValue());
+	                System.out.println("BagId = " + cartID.getValue());
+	                foundCookie = true;
+	               cartBagId = cartID.getValue();
+	            }
+	        }
+	       
+		}
+			 }
+			 shoppingCart = shoppingCartService.findCartByBagId(cartBagId);
+	/*		// Get Cart from Session.
 			shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
 			LOG.info("User is a GUEST with shopping cart id of {} and bag ID of {}", shoppingCart.getId(),shoppingCart.getBagId());
-		}
+		*/
+			 }
 		if(promoCodes==null){
 			LOG.info("User entered invalid promo code: {}", couponCode);
 			return shoppingCart;
 		}else{
-			LOG.info("User entered valid promo code: {} value of {}", couponCode,promoCodes.getPromoValue());
+			LOG.info("User entered valid promo code: {} value of {} {}", couponCode.toUpperCase(),promoCodes.getPromoValue(),promoCodes.getPercentOrDollar());
 		}
 		
 
@@ -130,12 +153,25 @@ public class CartController {
 		return shoppingCart;
 	}
 	
-	@RequestMapping(value="/removePromoCode/{cartId}", method=RequestMethod.POST)
+	@RequestMapping(value="/removePromoCode/{cartId}/{bagId}", method=RequestMethod.POST)
 	public @ResponseBody 
-	ShoppingCart removePromoCode(@PathVariable(value = "cartId") Long id) {
+	ShoppingCart removePromoCode(@PathVariable(value = "cartId") Long id,@PathVariable(value = "bagId") String bagId) {
 		ShoppingCart shoppingCart = shoppingCartRepository.findOne(id);
-		//Need to implement removal part
-		return shoppingCart;
+		if(shoppingCart.getBagId().equalsIgnoreCase(bagId)) {
+			//Remove Promocode from shopping cart. Reset discount value order total. Shipping Cost
+			BigDecimal gTotal = shoppingCart.getGrandTotal();
+			BigDecimal discountedAmount = new BigDecimal(0);
+			shoppingCart.setPromoCode(null);
+			shoppingCart.setDiscountedAmount(discountedAmount);
+			shoppingCart.setOrderTotal(gTotal.add(shoppingCart.getShippingCost()).subtract(discountedAmount));
+			shoppingCartRepository.save(shoppingCart);
+			
+			return shoppingCart;
+		}else {
+			//Shopping Cart ID and Bag ID mismatched Do something to 
+			return null;
+		}
+		
 	}
 	
 	@RequestMapping("/cart")
@@ -151,11 +187,29 @@ public class CartController {
 		user= userService.findByUsername(principal.getName());
 		shoppingCart = user.getShoppingCart();
 		}else{
+			Cookie[] cookies = request.getCookies();
+			boolean foundCookie = false;
+			 String cartBagId = null;
+			 if (cookies != null){
+			int cookieLength = cookies.length;
 			
-			// Get Cart from Session.
-			shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
+	   	 //Check cookie value
+			if (cookieLength >0) {
+	        for(int i = 0; i < cookieLength; i++) { 
+	            Cookie cartID = cookies[i];
+	            if (cartID.getName().equalsIgnoreCase("BagId")) {
+	            	LOG.info("User with Bag Id {} adding product to cart", cartID.getValue());
+	                System.out.println("BagId = " + cartID.getValue());
+	                foundCookie = true;
+	               cartBagId = cartID.getValue();
+	            }
+	        }
+	       
+		}
+			 }
+			// Get Cart from Session.	shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
 			
-       	 
+			 shoppingCart = shoppingCartService.findCartByBagId(cartBagId);
        	// If null, create it.
        	if (shoppingCart == null) {
        		model.addAttribute("emptyCart",true);
@@ -301,20 +355,7 @@ public class CartController {
 		//Get Browser cookie and Session
 		HttpSession session = request.getSession();
 		LOG.info("User with session Id {} adding product to cart", request.getSession().getId());
-		Cookie[] cookies = request.getCookies();
-		boolean foundCookie = false;
-		int cookieLength = cookies.length;
-   	 //Check cookie value
-		if (cookieLength >0) {
-        for(int i = 0; i < cookieLength; i++) { 
-            Cookie cartID = cookies[i];
-            if (cartID.getName().equals("BagId")) {
-            	LOG.info("User with Bag Id {} adding product to cart", cartID.getValue());
-                System.out.println("BagId = " + cartID.getValue());
-                foundCookie = true;
-            }
-        }
-	}
+		
 		//Check this for id being null
 		try {
 			product = productService.findOne(product.getId());
@@ -338,11 +379,30 @@ public class CartController {
         	LOG.info("User {} is adding product to cart", user.getUsername());
         	shoppingCart = user.getShoppingCart();
         }else{  
+        	Cookie[] cookies = request.getCookies();
+			boolean foundCookie = false;
+			 String cartBagId = null;
+			 if (cookies != null){
+			int cookieLength = cookies.length;
+			
+	   	 //Check cookie value
+			if (cookieLength >0) {
+	        for(int i = 0; i < cookieLength; i++) { 
+	            Cookie cartID = cookies[i];
+	            if (cartID.getName().equalsIgnoreCase("BagId")) {
+	            	LOG.info("User with Bag Id {} adding product to cart", cartID.getValue());
+	                System.out.println("BagId = " + cartID.getValue());
+	                foundCookie = true;
+	               cartBagId = cartID.getValue();
+	            }
+	        }
+	       
+		}
+			 }
         	
         	//Get Cart By Bag Id
-        	
-        	// Get Cart from Session.
-        	 shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
+        	 shoppingCart = shoppingCartService.findCartByBagId(cartBagId);
+        	// Get Cart from Session.  shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
         	 LOG.info("Returning Guest User is adding product to cart");
         	 
         	// If null, create it.

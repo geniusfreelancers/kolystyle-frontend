@@ -2,6 +2,7 @@ package com.kolystyle.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import com.kolystyle.domain.Category;
@@ -22,4 +23,7 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	List<Product> findByBrandContaining(String brand);
 	
 	List<Product> findTop15ByBrand(String brand);
+	
+	@Query("select p from Product p where p.title like ?1 or p.sku like ?1 or p.description like ?1")
+	List<Product> search(String query);
 }

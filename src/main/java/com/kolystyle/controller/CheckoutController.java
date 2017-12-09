@@ -189,7 +189,7 @@ if (cookies != null){
 	if(cok>0) {
     for(int i = 0; i < cookies.length; i++) { 
         Cookie cartID = cookies[i];
-        if (cartID.getName().equals("BagId")) {
+        if (cartID.getName().equalsIgnoreCase("BagId")) {
         	cartId = cartID.getValue();
             System.out.println("BagId = " + cartId);
             foundCookie = true;
@@ -267,7 +267,21 @@ if(shoppingCart==null) {
 //	   		mailSender.send(mailConstructor.constructOrderConfirmationEmail(user,order,Locale.ENGLISH));
 	   		
 	   		shoppingCartService.clearShoppingCart(shoppingCart);
-	   		
+		   	 if (foundCookie) {
+		           /* Cookie cookie1 = new Cookie("BagId",shoppingCart.getBagId());
+		            cookie1.setPath("/");
+		            cookie1.setMaxAge(30*24*60*60);
+		            response.addCookie(cookie1);*/ 
+		            for (Cookie cookie1 : cookies) {
+		            	 if (cookie1.getName().equalsIgnoreCase("BagId")) {
+		                cookie1.setValue("");
+		                cookie1.setPath("/");
+		                cookie1.setMaxAge(0);
+		                response.addCookie(cookie1);
+		                System.out.println("Cookie for BAGID is deleted");
+		            	 }
+		            }
+		        }
 	   		
 	    	   //End of Order placement
 	    	   
