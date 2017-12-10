@@ -80,7 +80,7 @@
 							<div class="cart-product-details">	
 							<a href="/productDetail?id={{cartItem.product.id}}"><h4>{{cartItem.product.title}}</h4></a>
 								<p><span><strong>Size: </strong></span><span>{{cartItem.productSize}}</span></p>
-								<p><span>Web ID: </span><span>{{cartItem.product.isbn}}</span></p>
+								<p><span>Web ID: </span><span>{{cartItem.product.sku}}</span></p>
 								<!-- <p th:if="${cartItem.product.inStockNumber&gt;10}"
 									style="color: green;">In Stock</p>
 								<p
@@ -201,7 +201,7 @@
 						</p>
 						</div>	
 						<div class="col-md-2 col-xs-6">
-							<p> <span>$
+							<p> <span>
 								 <span id="shippingcost" th:text="${shoppingCart.shippingCost}">{{calShipping()}}</span>
 								 <input hidden="hidden" name="id" id="subamount" th:value="${shoppingCart.shippingCost}" />
 								<input hidden="hidden" name="id" id="subamount" th:value="${shoppingCart.grandTotal}" />

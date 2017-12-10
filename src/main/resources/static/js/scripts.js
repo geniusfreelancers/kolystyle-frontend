@@ -21,7 +21,7 @@ $(function() {
 		                		 $('#applyPromoNow').hide();
 		                		 $('#removePromoNow').show();
 		                		 $("#enterPromoCode").prop("disabled",true);
-		                		htmls += '<p class="text-success"><span>You saved $</span><span>'+data.discountedAmount+'</span> using <span>'+data.promoCode+'</span>';
+		                		htmls += '<p class="text-success"><span>You saved $</span><span>'+data.discountedAmount.toFixed(2)+'</span> using <span>'+data.promoCode+'</span>';
 		                	
 		                	}else{
 		                		htmls += '<p style="color:red">'+code+' is not a valid code</p>'
@@ -36,7 +36,11 @@ $(function() {
 		                    total = data.orderTotal;
 		                }
 		                
-		                    
+		               if(shipping == 0){
+		            	   shipping = "FREE";
+		               }else{
+		            	   shipping = "$"+shipping;
+		               }     
 		            $('#applyPromoError').show();
 	                $('#applyPromoError').html(htmls);
 	                $('#shippingcost').html(shipping);
@@ -338,6 +342,9 @@ $(document).ready(function(){
 $(function() {
 	$('#newsletterSubmit').click(
 	        function() {
+	        	var emailadd = $('#newsletteremail').val();
+	        	if (emailadd !=""){
+	    
 	            $.post("/newsletter/add", {
 	            	email : $('#newsletteremail').val(),
 	                ajax : 'true'
@@ -345,16 +352,20 @@ $(function() {
 	                var htmls = '';
 	              	
 	              	var newemail = $('#newsletteremail').val();
-		                if(data == "success"){
-		                	 $('#newsletterMsg').show();
-	                		htmls += '<p class="text-success">Thank you for suscribing</p>';
-	                	
-		                }else{
-		                	htmls += '<p style="color:red">Something went wrong</p>';
-		                }          
-		        
+	              	if($.isEmptyObject(data)){
+	              		htmls += '<p class="text-success">You were already suscribed earlier</p>';
+	              	}else{
+	              		
+                		htmls += '<p class="text-success">Thank you for suscribing</p>';
+	              	}         
+	              	$('#newsletterMsg').show();
 	                $('#newsletterMsg').html(htmls); 
 	            });
+	        }else{
+	        	$('#newsletterMsg').show();
+	        		
+                $('#newsletterMsg').html('<p class="text-danger">Email Address is required</p>'); 
+	        }
 	            return false;
 	        });
   });

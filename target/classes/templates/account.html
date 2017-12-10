@@ -13,40 +13,52 @@
         </div>
         
         <div class="col-md-9 col-sm-9">
+        <div class="col-md-12">
+         	<p class="text-moredanger"><i class="fa fa-user fa-3x" aria-hidden="true"></i> <strong> hi <span th:text="${#strings.toUpperCase(user.username)}"></span>!</strong></p>
+          </div>
+          
+            <div class="col-md-4">
             <div class="col-md-12 border-grey">
                 <h3 class="text-moredanger">my account</h3>
-                <h4>hi <span th:text="${#strings.toUpperCase(user.username)}"></span>!</h4>
+               
                 <div class="col-md-12">
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <i class="fa fa-address-book fa-4x text-moredanger" aria-hidden="true"></i>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-8">
                         <p class="text-moredanger">my profile</p>
-                        <ul>
-                            <li>update your personal information</li>
-                            <li>go green with paperless statements</li>
-                        </ul>
+                        <p>update your personal information</p>
+                        <p>go green with paperless statements</p>
                         <a href="/customer/myprofile">My Profile</a>
                     </div>
 
 
                 </div>
+                </div>
+                </div>
+                
+            <div class="col-md-4">
+            <div class="col-md-12 border-grey">     
+            <h3 class="text-moredanger">my preferences</h3>           
                 <div class="col-md-12">
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <i class="fa fa-envelope fa-4x text-moredanger" aria-hidden="true"></i>
                     </div>
-                    <div class="col-md-10">
-                        <p class="text-moredanger">my preferences</p>
-                        <ul>
-                            <li>Be the first to get savings and offers
-                                when you sign up for Koly's emails and texts</li>
-                        </ul>
+                    <div class="col-md-8">
+                       <p>Be the first to get savings and offers
+                                when you sign up for Koly's emails and texts</p>
                         <a href="#">My Preferences</a>
                     </div>
 
                 </div>
+                 </div>
+                </div>
+                
+            <div class="col-md-4">
+            <div class="col-md-12 border-grey">     
+            <h3 class="text-moredanger">my stats</h3>  
                 <div class="col-md-12">
-                    <h3 class="text-moredanger">my stats</h3>
+                    
                     <div class="col-md-4">
                         <p>Koly's Stars</p>
                         <p>collected</p>
@@ -60,40 +72,46 @@
                         <p>earned</p>
                     </div>
                 </div>
+                
+               </div>
             </div>
-            <div class="col-md-12 border-grey">
+            <div class="col-md-4">
+            <div class="col-md-12 border-grey">  
                 <h3 class="text-moredanger">my wallet</h3>
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <i class="fa fa-briefcase fa-4x text-moredanger" aria-hidden="true"></i>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <p>great news! there is <strong>1 offer</strong> in your wallet. See It Now</p>
                         <p>my wallet is a great new way to store &amp; manage your Koly's offers &amp; payment options online. Check It Out</p>
                     </div>
-                <div class="col-md-4">
+                <div class="col-md-8 col-md-offset-4">
                     <a class="btn btn-default">DEALS &amp; PROMOTIONS</a>
                 </div>
 
-
+				</div>
             </div>
-            <div class="col-md-12 border-grey">
+            <div class="col-md-4">
+            <div class="col-md-12 border-grey">   
                 <h3 class="text-moredanger">my orders</h3>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <i class="fa fa-shopping-bag fa-4x text-moredanger" aria-hidden="true"></i>
                 </div>
-                <div class="col-md-10">
+                <div class="col-md-8">
                     <a href="#">View Order History</a>
                 </div>
-
+				</div>
             </div>
-            <div class="col-md-12 border-grey">
+            <div class="col-md-4">
+            <div class="col-md-12 border-grey">   
                 <h3 class="text-moredanger">my lists</h3>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <i class="fa fa-file-text fa-4x text-moredanger" aria-hidden="true"></i>
                 </div>
-                <div class="col-md-10">
+                <div class="col-md-8">
                     <a href="#"><span th:text="${#strings.toUpperCase(user.username)}"></span> List</a>
                 </div>
+            </div>
             </div>
             <div class="col-md-12">
 
