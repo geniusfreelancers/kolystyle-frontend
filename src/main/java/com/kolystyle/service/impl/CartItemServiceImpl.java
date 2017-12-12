@@ -104,7 +104,7 @@ public class CartItemServiceImpl implements CartItemService {
 		productToCartItem.setCartItem(cartItem);
 		productToCartItemRepository.save(productToCartItem);
 
-      
+		
 		shoppingCartRepository.save(shoppingCart);
 		return cartItem;
 	}

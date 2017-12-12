@@ -126,6 +126,14 @@ public class CartController {
 			BigDecimal promoVal = promoCodes.getPromoValue();
 			BigDecimal discountedAmount = new BigDecimal(0);
 			LOG.info("User's Shopping Cart Grand Total is: {}", gTotal);
+			
+			//check for cart minimum and expiry and start date
+			if(gTotal.compareTo(promoCodes.getCartTotal()) < 0) {
+				LOG.info("User entered valid promo code: {} . But Shopping Cart Total is {} which is less than required Pormo Cart minimum of {} ", couponCode.toUpperCase(),gTotal,promoCodes.getCartTotal());
+				String errors = "Didn't satisfy Promo validation";
+				shoppingCart.setErrors(errors);
+			}else {
+				LOG.info("We can proceed with applying promo code {}. It passes all validation",couponCode.toUpperCase());			
 			if(promoCodes.getPercentOrDollar().equalsIgnoreCase("dollar")) {
 				discountedAmount = promoVal;
 						//gTotal- promoCodes.getPromoValue();
@@ -148,9 +156,13 @@ public class CartController {
 			//check for shipping cost
 			
 			shoppingCart.setOrderTotal(gTotal.add(shoppingCart.getShippingCost()).subtract(discountedAmount));
+			shoppingCart.setErrors(null);
+		//	shoppingCartRepository.save(shoppingCart);
+			LOG.info("Shopping Cart is saved and returning ShoppingCart as JSON");
+			}
+			
+			LOG.info("Promo code not applied because it didn't pass requirenment, Shopping Cart is saving NOW and returned as JSON");
 			shoppingCartRepository.save(shoppingCart);
-			LOG.info("Shopping Cart is saved and returning promoCodes as JSON");
-
 		return shoppingCart;
 	}
 	

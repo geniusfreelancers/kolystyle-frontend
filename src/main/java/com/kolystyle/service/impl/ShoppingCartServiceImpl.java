@@ -55,8 +55,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		}
 		
 		shoppingCart.setGrandTotal(cartTotal);
-		
-		//shoppingCart.setGrandTotal(calculateCartSubTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+		shoppingCartRepository.save(shoppingCart);
+		shoppingCart.setGrandTotal(calculateCartSubTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
 		shoppingCart.setDiscountedAmount(calculateDiscountAmount(shoppingCart, promoCodesRepository.findByCouponCode(shoppingCart.getPromoCode())).setScale(2, BigDecimal.ROUND_HALF_UP));
 		shoppingCart.setShippingCost(calculateShippingCost(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
 		shoppingCart.setOrderTotal(calculateCartOrderTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
@@ -87,7 +87,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	
 	public BigDecimal calculateCartSubTotal(ShoppingCart shoppingCart) {
 		List<CartItem> cartItemList = shoppingCart.getCartItemList();
-		BigDecimal cartSubTotal = shoppingCart.getGrandTotal();
+		
+		/*BigDecimal cartSubTotal = shoppingCart.getGrandTotal();
+		if(cartSubTotal == null) {
+			cartSubTotal = new BigDecimal(0);
+		}*/
+		BigDecimal cartSubTotal = new BigDecimal(0);
+		
 		if(cartItemList != null) {
 			for (CartItem cartItem : cartItemList) {
 				cartSubTotal = cartSubTotal.add(cartItem.getSubtotal());
