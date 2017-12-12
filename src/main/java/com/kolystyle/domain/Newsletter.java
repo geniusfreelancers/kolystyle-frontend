@@ -14,7 +14,7 @@ public class Newsletter {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
-	@Column(name="email", nullable = false, updatable = false)
+	@Column(name="email", nullable = false, unique=true, updatable = false)
 	private String email;
 	private Date enrolledDate;
 	private Date unenrolledDate;
@@ -22,6 +22,12 @@ public class Newsletter {
 	private boolean offers=true;
 	private boolean sent =false;
 	private String lastEmailSent;
+	@Column(nullable=false, length=10)
+	private String verifyToken;
+	@Column(columnDefinition="text")
+	private String reason;
+	private boolean active=true;
+	
 	public Long getId() {
 		return id;
 	}
@@ -69,6 +75,24 @@ public class Newsletter {
 	}
 	public void setLastEmailSent(String lastEmailSent) {
 		this.lastEmailSent = lastEmailSent;
+	}
+	public String getVerifyToken() {
+		return verifyToken;
+	}
+	public void setVerifyToken(String verifyToken) {
+		this.verifyToken = verifyToken;
+	}
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 	
 }

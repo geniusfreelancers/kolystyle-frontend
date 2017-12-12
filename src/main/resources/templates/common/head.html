@@ -51,7 +51,7 @@
 <div th:fragment="navbar">
         <!--Header Part Start-->
         <header id="header">
-            <div th:if="!${membersOnly}" class="htop">
+            <div th:if="!${siteSettings.loginKillSwitch}" class="htop">
             <div id="language"><span
 							th:text="${user}? ${#strings.toUpperCase('Welcome '+user.username)} : 'Welcome Guest'"></span>
 			</div>				
@@ -91,7 +91,7 @@
                
                 <!--Mini Shopping Cart Start-->
         <section th:if="!${noCartExist}" class="" ng-app="checkoutApp">
-		<div ng-controller = "miniCartCtrl" ng-init="initCartId(11)">		
+		<div ng-controller = "miniCartCtrl" ng-init="'initCartId(\'' + ${shoppingCart.id} + '\')'">		
                 <section id="cart" class="mini-cart-label">
                     <div class="heading">
                         <!--h4><img width="32" height="32" alt="" src="/image/cart-bg.png"/></h4-->
@@ -317,7 +317,7 @@
                             </ul>
                         </div>
                     </li>
-                    <li><a>My Account</a>
+                    <li th:if="!${siteSettings.loginKillSwitch}"><a>My Account</a>
                         <div>
                             <ul>
                                 <li><a th:href="@{/customer/account}">My Account</a></li>
@@ -540,13 +540,33 @@
         <div class="column text-center">
 		    <form id="newsletterForm" method="post">
 		    <br/>
-			<h4 >SUBSCRIBE AND GET 10% OFF</h4>
-			<input type="text" name="email" id="newsletteremail" class="form-control" placeholder="Enter Email here"/>
-			<br/><button type="submit" id="newsletterSubmit" class="btn btn-primary">SUBSCRIBE</button><br/>
+			<h4>SUBSCRIBE AND GET 10% OFF</h4>
+			<input th:if="!${removed}" type="text" name="newsletteremail" id="newsletteremail" class="form-control" placeholder="Enter Email here"/>
+			<br/>
 			<p id="newsletterMsg"></p>
+			<button th:if="!${removed}" type="submit" id="newsletterSubmit" class="btn btn-primary">SUBSCRIBE</button>
+			
 			</form>
+			<script>
+			$().ready(function(){
+				$("#newsletterForm").validate({
+			        rules: {
+			        	newsletteremail: {
+			                required: true,
+			                email:true
+			            }
+			        },
+			        messages:{
+			        	
+			        	newsletteremail: {
+			                required: "Email Required",
+			            }
+			        }
+			    });
+			});
+			</script>
         </div>
-        <div class="column">
+        <div class="column" th:if="!${siteSettings.loginKillSwitch}">
             <h3>My Account</h3>
             <ul>
                 <li><a href="#">My Account</a></li>
@@ -556,16 +576,27 @@
             </ul>
         </div>
         
+        <div class="column" th:if="${siteSettings.loginKillSwitch}">
+            <h3>My Order</h3>
+            <ul>
+                <li><a href="#">Order Status</a></li>
+                <li><a href="#">Returns Status</a></li>
+                <li><a th:href="@{/public/sitemap}">Site Map</a></li>
+            </ul>
+        </div>
         <!-- Contact Details Start-->
         <div class="column">
             <h3>Contact Us</h3>
+            
             <ul>
-                <li class="address">3050 E Livingston Ave,</li>
-                <li class="address">Suite 27</li>
-                <li class="address">Columbus OH - 43227</li>
-                <li class="mobile">+1 718-101-5085</li>
-                <li class="fax">+1 718-101-5086</li>
-                <li class="email"><a href="mailto:info@contact.com">info@kolystyle.com</a></li>
+                <li class="address"><span th:text="${siteSettings.storeAddress1}"></span>,</li>
+                <li class="address"><span th:text="${siteSettings.storeAddress2}"></span></li>
+                <li class="address"><span th:text="${siteSettings.storeAddressCity}"></span> 
+                <span th:text="${siteSettings.storeAddressState}"></span> - 
+                <span th:text="${siteSettings.storeAddressZip}"></span></li>
+                <li class="mobile"><span th:text="${siteSettings.storePhone}"></span></li>
+                <li class="fax"><span th:text="${siteSettings.storeFax}"></span></li>
+                <li class="email"><a th:href="'mailto:'+${siteSettings.storeInfoEmail}"><span th:text="${siteSettings.storeInfoEmail}"></span></a></li>
             </ul>
         </div>
         

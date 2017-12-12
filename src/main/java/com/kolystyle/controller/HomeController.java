@@ -34,11 +34,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kolystyle.service.SiteSettingService;
 import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.Category;
 import com.kolystyle.domain.Order;
 import com.kolystyle.domain.Product;
 import com.kolystyle.domain.ShoppingCart;
+import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.domain.User;
 import com.kolystyle.domain.UserBilling;
 import com.kolystyle.domain.UserPayment;
@@ -72,6 +74,9 @@ public class HomeController {
 	private UserService userService;
 
 	@Autowired
+	private SiteSettingService siteSettingService;
+	
+	@Autowired
 	private UserSecurityService userSecurityService;
 	
 	@Autowired
@@ -96,12 +101,16 @@ public class HomeController {
 	private CartItemRepository cartItemRepository;
 	
 	@RequestMapping("/thankyou")
-	public String thankyou() {
+	public String thankyou(Model model) {
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
 		return "thankyou";
 	}
 	
 	@RequestMapping("/index")
-	public String index() {
+	public String index(Model model) {
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
 		return "index";
 	}
 	
@@ -116,7 +125,8 @@ public class HomeController {
 	        model.addAttribute("productList",productList);
 	      //  model.addAttribute("searchCondition", searchCondition);
 	        
-	        
+	        SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
 	        return "home";
 	    }
 
@@ -126,6 +136,11 @@ public class HomeController {
 		HttpSession session = request.getSession();
         String sessionID = session.getId();
         model.addAttribute("sessionID",sessionID);
+        SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
+        if(siteSettings.isLoginKillSwitch()) {
+        	return "redirect:/guestcheckout";
+        }
 		if(error != null){
             model.addAttribute("invalid",true);
         }
@@ -163,7 +178,8 @@ public class HomeController {
 				userDetails.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		User user = userService.findByUsername(username);
-
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
 		model.addAttribute("user", user);
 		return "account";	
 	}
@@ -177,6 +193,8 @@ public class HomeController {
         User user = new User();
         model.addAttribute("sessionID",sessionID);
         model.addAttribute("user",user);
+        SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
 		return "register";
 	}
 	
@@ -185,13 +203,16 @@ public class HomeController {
 	public String registerPost(HttpServletRequest request,
 			@ModelAttribute("user") User user,
 			Model model, HttpServletResponse response) throws Exception {
-
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
 		if (userService.findByUsername(user.getUsername()) != null) {
 			model.addAttribute("usernameExists", true);
+			model.addAttribute("siteSettings",siteSettings);
 			return "register";
 		}
 		if (userService.findByEmail(user.getEmail()) != null) {
 			model.addAttribute("emailExists", true);
+			
+	        model.addAttribute("siteSettings",siteSettings);
 			return "register";
 		}
 
@@ -247,7 +268,7 @@ public class HomeController {
 	//	mailSender.send(email);
 		model.addAttribute("emailSent", "true");
 	//	model.addAttribute("orderList", user.getOrderList());
-		
+		  model.addAttribute("siteSettings",siteSettings);
 		return "myAccount";
 	}
 	
@@ -270,7 +291,8 @@ public class HomeController {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		model.addAttribute("user", user);
 		model.addAttribute("classActiveEdit", true);
-		
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
 		return "myProfile";
 	}
 	
@@ -287,7 +309,8 @@ public class HomeController {
 		List<Product> productList = productService.findAll();
 		model.addAttribute("productList",productList);
 		model.addAttribute("activeAll",true);
-		
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
 		return "productshelf";
 	}
 	
@@ -304,7 +327,8 @@ public class HomeController {
 		List<String> sizeList = Arrays.asList(availableSize.split("\\s*,\\s*"));
 		
 		model.addAttribute("product", product);
-		
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
 		//List<Integer> qtyList = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
 		int qtly = product.getInStockNumber();
 		List<Integer> qtyList = new ArrayList<Integer>();
@@ -337,7 +361,9 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/forgotpassword")
-	public String forgotpassword() {
+	public String forgotpassword(Model model) {
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
 		return "forgotpassword";
 	}
 	
@@ -365,6 +391,8 @@ public class HomeController {
 	//Uncomment to send email to user for password reset
 		//	mailSender.send(newEmail);
 		model.addAttribute("forgetPasswordEmailSent", "true");
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
 		return "forgotpassword";
 	}
 	
@@ -464,7 +492,8 @@ public class HomeController {
 		model.addAttribute("listOfCreditCards", true);
 		model.addAttribute("classActiveBilling", true);
 		model.addAttribute("listOfShippingAddresses", true);
-		
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
 		return "myProfile";
 	}
 
@@ -479,7 +508,8 @@ public class HomeController {
 		model.addAttribute("listOfCreditCards", true);
 		model.addAttribute("classActiveShipping", true);
 		model.addAttribute("listOfShippingAddresses", true);
-		
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
 		return "myProfile";
 	}
 	
@@ -504,7 +534,8 @@ public class HomeController {
 		model.addAttribute("userPaymentList", user.getUserPaymentList());
 		model.addAttribute("userShippinglist", user.getUserShippingList());
 		model.addAttribute("orderList", user.getOrderList());
-		
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
 		return "myProfile";
 	}
 	
@@ -523,7 +554,8 @@ public class HomeController {
 		model.addAttribute("classActiveBilling", true);
 		model.addAttribute("listOfShippingAddresses", true);
 		model.addAttribute("orderList", user.getOrderList());
-		
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
 		return "myProfile";
 	}
 	
@@ -593,7 +625,8 @@ public class HomeController {
 			model.addAttribute("userPaymentList", user.getUserPaymentList());
 			model.addAttribute("userShippinglist", user.getUserShippingList());
 			model.addAttribute("orderList", user.getOrderList());
-			
+			 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+		        model.addAttribute("siteSettings",siteSettings);
 			return "myProfile";
 		}
 	}
@@ -640,7 +673,8 @@ public class HomeController {
 		model.addAttribute("userPaymentList", user.getUserPaymentList());
 		model.addAttribute("userShippinglist", user.getUserShippingList());
 		model.addAttribute("orderList", user.getOrderList());
-		
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
 		return "myProfile";
 	}
 	
@@ -676,7 +710,8 @@ public class HomeController {
 			model.addAttribute("listOfCreditCards", true);
 			model.addAttribute("classActiveBilling", true);
 			model.addAttribute("listOfShippingAddresses", true);
-			
+			 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+		        model.addAttribute("siteSettings",siteSettings);
 			model.addAttribute("userPaymentList", user.getUserPaymentList());
 			model.addAttribute("userShippinglist", user.getUserShippingList());
 			model.addAttribute("orderList", user.getOrderList());
@@ -705,7 +740,8 @@ public class HomeController {
 			model.addAttribute("userPaymentList", user.getUserPaymentList());
 			model.addAttribute("userShippinglist", user.getUserShippingList());
 			model.addAttribute("orderList", user.getOrderList());
-			
+			 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+		        model.addAttribute("siteSettings",siteSettings);
 			return "myProfile";
 		}
 	}
@@ -727,7 +763,8 @@ public class HomeController {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		model.addAttribute("user", user);
 		model.addAttribute("classActiveEdit", true);
-		
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
 		return "myProfile";
 	}
 	
@@ -773,7 +810,8 @@ public class HomeController {
 		mailSender.send(email);
 		model.addAttribute("emailSent", "true");
 		model.addAttribute("orderList", user.getOrderList());
-		
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
 		return "myAccount";
 	}
 
@@ -811,7 +849,8 @@ public class HomeController {
 			model.addAttribute("listOfCreditCards", true);
 			model.addAttribute("displayOrderDetail", true);
 			
-
+			 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+		        model.addAttribute("siteSettings",siteSettings);
 			
 			return "myProfile";
 		}

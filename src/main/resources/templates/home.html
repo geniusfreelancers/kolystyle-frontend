@@ -240,7 +240,7 @@ width: 270px;
                             <div class="product-cart-area">
                                 <div class="btn-others">
                                     <ul>
-                                        <li><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
+                                        <li th:if="!${siteSettings.loginKillSwitch}"><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
                                         
                                         <li><a href="#" th:id="${product.id}" class="btn-view"><i class="fa fa-expand"></i></a></li>
                                     </ul>
@@ -399,7 +399,7 @@ width: 270px;
                             <div class="product-cart-area">
                                 <div class="btn-others">
                                     <ul>
-                                        <li><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
+                                        <li th:if="!${siteSettings.loginKillSwitch}"><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
                                         
                                         <li><a href="#" th:id="${product.id}" class="btn-view"><i class="fa fa-expand"></i></a></li>
                                     </ul>
@@ -466,7 +466,7 @@ width: 270px;
                             <div class="product-cart-area">
                                 <div class="btn-others">
                                     <ul>
-                                        <li><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
+                                        <li th:if="!${siteSettings.loginKillSwitch}"><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
                                         
                                         <li><a href="#" th:id="${product.id}" class="btn-view"><i class="fa fa-expand"></i></a></li>
                                     </ul>
@@ -531,7 +531,7 @@ width: 270px;
                             <div class="product-cart-area">
                                 <div class="btn-others">
                                     <ul>
-                                        <li><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
+                                        <li th:if="!${siteSettings.loginKillSwitch}"><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
                                         
                                         <li><a href="#" th:id="${product.id}" class="btn-view"><i class="fa fa-expand"></i></a></li>
                                     </ul>

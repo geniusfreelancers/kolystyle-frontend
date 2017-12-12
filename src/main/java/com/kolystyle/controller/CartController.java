@@ -58,7 +58,8 @@ public class CartController {
 	
 	@Autowired
 	private ProductService productService;
-	
+	@Autowired
+	private SiteSettingService siteSettingService;
 	@Autowired
 	private ShoppingCartRepository shoppingCartRepository;
 	
@@ -176,7 +177,8 @@ public class CartController {
 	
 	@RequestMapping("/cart")
 	public String shoppingCart(Model model,Principal principal,HttpServletRequest request){
-		
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
 		User user = null;
 		ShoppingCart shoppingCart;
 		HttpSession session = request.getSession();
@@ -440,6 +442,7 @@ public class CartController {
      	cartItemService.addProductToCartItem(product,shoppingCart,Integer.parseInt(qty), size);
      	// may not be needed
      	shoppingCartRepository.save(shoppingCart);
+     	//need to fix some issue for null pointer here
      	shoppingCart.setGrandTotal(shoppingCartService.calculateCartSubTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
 		shoppingCart.setDiscountedAmount(shoppingCartService.calculateDiscountAmount(shoppingCart,promoCodesService.findByPromoCode(shoppingCart.getPromoCode())).setScale(2, BigDecimal.ROUND_HALF_UP));
 		shoppingCart.setShippingCost(shoppingCartService.calculateShippingCost(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
