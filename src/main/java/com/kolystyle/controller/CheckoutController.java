@@ -112,6 +112,8 @@ public class CheckoutController {
 	
 	@RequestMapping("/guestcheckout")
 	public String guestcheckout(HttpServletRequest request,HttpServletResponse response,Model model ) {
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
 		HttpSession session = request.getSession();
 		ShoppingCart shoppingCart;
 		Cookie[] cookies = request.getCookies();
@@ -306,6 +308,8 @@ if(shoppingCart==null) {
 	   public String getThankYou(@PathVariable String transactionId, @PathVariable Long orderId, Model model) {
 	       Transaction transaction;
 	       Order order;
+	       SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
 	       try {
 	           transaction = gateway.transaction().find(transactionId);
 	           order = orderService.findOne(orderId);
@@ -361,6 +365,8 @@ if(shoppingCart==null) {
 			@RequestParam(value="missingRequiredField", required=false) boolean missingRequiredField,
 			Model model, Principal principal
 			){
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
 		User user = userService.findByUsername(principal.getName());
 		
 		if(cartId != user.getShoppingCart().getId()){
@@ -444,6 +450,8 @@ if(shoppingCart==null) {
 			@RequestParam("userShippingId") Long userShippingId,
 			Principal principal, Model model
 			){
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
 		User user = userService.findByUsername(principal.getName());
 		UserShipping userShipping = userShippingService.findById(userShippingId);
 		
@@ -490,6 +498,8 @@ if(shoppingCart==null) {
 	
 	@RequestMapping("/setPaymentMethod")
 	public String setPaymentMethod(@RequestParam("userPaymentId") Long userPaymentId, Principal principal, Model model){
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
 		User user = userService.findByUsername(principal.getName());
 		UserPayment userPayment = userPaymentService.findById(userPaymentId);
 		UserBilling userBilling = userPayment.getUserBilling();

@@ -15,8 +15,7 @@
 		
 		<div class="col-md-10 col-md-offset-1">
 		<h1 class="uppercase" th:text="${staticpage.title}"></h1>
-		<p th:text="${staticpage.maincontent}"></p>
-		<p>Page ID:  <span th:text="${staticpage.id}"></span></p>
+		<div class="col-md-12" th:utext="${staticpage.maincontent}"></div>
 		</div>
 		
 

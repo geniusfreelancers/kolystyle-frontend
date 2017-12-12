@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kolystyle.domain.Category;
 import com.kolystyle.domain.Product;
+import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.domain.User;
 import com.kolystyle.service.CategoryService;
 import com.kolystyle.service.ProductService;
+import com.kolystyle.service.SiteSettingService;
 import com.kolystyle.service.UserService;
 
 @Controller
@@ -27,12 +29,16 @@ public class SearchController {
 	private ProductService productService;
 	
 	@Autowired
+	private SiteSettingService siteSettingService;
+	
+	@Autowired
 	private CategoryService categoryService;
 
 	@RequestMapping("/searchByCategory")
 	public String searchByCategory(@RequestParam("category") String category,
 			Model model, Principal principal){
-		
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
 		if(principal != null){
 			String username = principal.getName();
 			User user = userService.findByUsername(username);
@@ -49,6 +55,7 @@ public class SearchController {
 		
 		if(productList.isEmpty()){
 			model.addAttribute("emptyList", true);
+			 
 			return "productshelf";
 		}
 		model.addAttribute("productCategory",true);
@@ -61,7 +68,8 @@ public class SearchController {
 	
 	@RequestMapping("/searchProduct")
 	public String searchProduct(@ModelAttribute("keyword") String keyword, Principal principal, Model model){
-		
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+		  model.addAttribute("siteSettings",siteSettings);
 		if(principal != null){
 			String username = principal.getName();
 			User user = userService.findByUsername(username);
@@ -75,6 +83,8 @@ public class SearchController {
 		}
 		if (productList.size()==1) {
 			model.addAttribute("product",productList);
+			
+		      
 			return "redirect:/productDetail?id="+productList.get(0).getId();
 		}
 		model.addAttribute("productList",productList);
@@ -86,7 +96,8 @@ public class SearchController {
 			@RequestParam("subCategory") String subCategory,
 			@RequestParam("mainsubCategory") String mainsubCategory,
 			Model model, Principal principal){
-		
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
 		if(principal != null){
 			String username = principal.getName();
 			User user = userService.findByUsername(username);

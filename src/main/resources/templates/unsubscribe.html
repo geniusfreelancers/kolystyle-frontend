@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/head :: common-head" />
+<body>
+	<div class="wrapper-box">
+		<div class="main-wrapper">
+
+			<div th:replace="common/head :: navbar" />
+
+			<div id="container-wrapper">
+				
+
+<div class="row">
+		<div class="col-md-10 col-md-offset-1" th:if="${removed}">
+				<div class="col-md-12 alert alert-success text-center">
+					<h3><span>We have removed your email address from our mailing list.</span></h3>
+				</div>
+				<div class="col-md-12">
+					<h3>We're sorry to see you go.</h3>
+					<p><span class="text-danger"><strong>Was this a mistake?</strong></span><br/> 
+					<span>Did you received one of our emails from a friend (<span class="text-success" th:text="${newsletter.email}"></span>), 
+					and you clicked the unsubscribe link not realizing you were in fact 
+					unsubscribing your friend from this list?<br/> If this was a mistake, 
+					you can re-subscribe just by clicking the SUBSCRIBE button below</span></p>
+					 <form id="newsletterForm" method="post">
+						 <input type="hidden" name="newsletteremail" th:value="${newsletter.email}" id="newsletteremail" class="form-control" placeholder="Enter Email here"/>
+						
+						<p id="newsletterMsg"></p>
+						<button type="submit" id="newsletterSubmit" class="btn btn-primary">SUBSCRIBE</button>
+						
+					</form>
+					
+					
+					<p><br/><span>For questions or comments, please contact us at:</span> <br/>
+					<span><a href="mailto:support@kolystyle.com">support@kolystyle.com</a></span></p>
+				</div>
+		</div>
+		<div th:if="${token}" class="col-md-10 col-md-offset-1">
+			<h1 class="uppercase">Unsubscribe</h1>
+			<h3>We are sorry to see you go!</h3>
+			<p><strong><span>Email: </span><span class="text-primary" th:text="${email}"></span></strong></p>
+			<p><strong>Please let us know why you are unsubscribing:</strong></p>
+			 
+			<form method="POST" th:action="@{/newsletter/remove/}+${newsletter.email}+'/'+${newsletter.verifyToken}">
+				<label><input type="radio" name="reason" id="reason" value="a" checked="checked"/> I receive too many emails from Koly Style.</label><br/>
+				<label><input type="radio" name="reason" id="reason" value="b"/> I never signed up for this mailing list.</label><br/>
+				<label><input type="radio" name="reason" id="reason" value="c"/> I no longer want to receive these emails</label><br/>
+				<label><input type="radio" name="reason" id="reason" value="d"/> The emails are inappropriate.</label><br/>
+				<label><input type="radio" name="reason" id="reason" value="e"/> I am not comfortable shopping with Koly Style.</label><br/>
+				<label><input type="radio" name="reason" id="reason" value="f"/> Other (Please explain below)</label>
+				<br/>
+				<textarea name="otherreason"></textarea>
+				<br/>
+				<button type="submit" class="btn btn-default" id="removeMeNow">Unsubscribe</button>
+			</form>
+			<p>Thank you for being a part of Koly Style.</p>
+		</div>
+		<div th:if="${forged}" class="col-md-10 col-md-offset-1">
+			<p>Oops! something you are trying is not right</p>
+		</div>
+
+</div>
+
+	
+					<div class="clear"></div>
+				
+
+				<script th:src="@{/js/controller.js}"></script>
+
+				<!-- end of container -->
+				<div th:replace="common/head :: footer" />
+
+				<div th:replace="common/head :: body-bottom-scripts" />
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>

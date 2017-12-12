@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class USConstants {
+
 	
 	public final static String US = "US";
 	
@@ -67,4 +68,16 @@ public class USConstants {
 	
 	public final static List<String> listOfUSStatesCode = new ArrayList<>(mapOfUSStates.keySet());
 	public final static List<String> listOfUSStatesName = new ArrayList<>(mapOfUSStates.values());
+	
+
+	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	public static String randomAlphaNumeric(int count) {
+	StringBuilder builder = new StringBuilder();
+	while (count-- != 0) {
+	int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
+	builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+	}
+	return builder.toString();
+	}
+	
 }
