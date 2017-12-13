@@ -20,6 +20,7 @@ public class PromoCodes {
 	private BigDecimal cartTotal;
 	private int cartItemQty;
 	private int promoUseCount;
+	private int promoUsedCount;
 	
 	//Either Specific User or All
 	private String promoType;
@@ -113,6 +114,14 @@ public class PromoCodes {
 
 	public void setPromoStatus(boolean promoStatus) {
 		this.promoStatus = promoStatus;
+	}
+
+	public int getPromoUsedCount() {
+		return promoUsedCount;
+	}
+
+	public void setPromoUsedCount(int promoUsedCount) {
+		this.promoUsedCount = promoUsedCount;
 	}
 	
 	
