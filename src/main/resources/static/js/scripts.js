@@ -15,13 +15,13 @@ $(function() {
 	              	var discount = 0;
 	              	var shipping =0;
 	              	var total =0;
-	              	var code = $('#enterPromoCode').val();
+	              	var code = $('#enterPromoCode').val().trim();
 		                if(data.promoCode != null && data.errors == null){
-		                	if(data.promoCode == code){
+		                	if(data.promoCode == code.trim()){
 		                		 $('#applyPromoNow').hide();
 		                		 $('#removePromoNow').show();
 		                		 $("#enterPromoCode").prop("disabled",true);
-		                		htmls += '<p class="text-success"><span>You saved $</span><span>'+data.discountedAmount.toFixed(2)+'</span> using <span>'+data.promoCode+'</span>';
+		                		htmls += '<p class="text-success"><span>You saved $</span><span>'+data.discountedAmount.toFixed(2)+'</span> using promo code <span>'+data.promoCode.toUpperCase()+'</span>';
 		                	
 		                	}else{
 		                		htmls += '<p style="color:red">'+data.errors+' is not a valid code</p>'
@@ -80,7 +80,7 @@ $(function() {
 	              	var code = $('#enterPromoCode').val();
 	              	if($.isEmptyObject(data)){
 	              		
-	              		htmls += '<p style="color:red">Something is not right</p>'
+	              		htmls += '<p style="color:red">Something went wrong please reload this page and try again</p>'
 	              	}else{
 	              		discount = data.discountedAmount;
 	                    shipping = data.shippingCost;
