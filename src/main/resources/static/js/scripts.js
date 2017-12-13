@@ -16,7 +16,7 @@ $(function() {
 	              	var shipping =0;
 	              	var total =0;
 	              	var code = $('#enterPromoCode').val();
-		                if(data.promoCode != null){
+		                if(data.promoCode != null && data.errors == null){
 		                	if(data.promoCode == code){
 		                		 $('#applyPromoNow').hide();
 		                		 $('#removePromoNow').show();
@@ -24,13 +24,13 @@ $(function() {
 		                		htmls += '<p class="text-success"><span>You saved $</span><span>'+data.discountedAmount.toFixed(2)+'</span> using <span>'+data.promoCode+'</span>';
 		                	
 		                	}else{
-		                		htmls += '<p style="color:red">'+code+' is not a valid code</p>'
+		                		htmls += '<p style="color:red">'+data.errors+' is not a valid code</p>'
 		                	}
 		                	discount = data.discountedAmount;
 		                    shipping = data.shippingCost;
 		                    total = data.orderTotal;
 		                }else{
-		                	htmls += '<p style="color:red">'+code+' is not a valid code</p>';
+		                	htmls += '<p style="color:red">'+data.errors+'</p>';
 		                	discount = data.discountedAmount;
 		                    shipping = data.shippingCost;
 		                    total = data.orderTotal;
