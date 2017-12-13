@@ -75,10 +75,12 @@ public class CartController {
 	ShoppingCart applyPromoCode(@ModelAttribute("id") String id,
 			@ModelAttribute("promocode") String couponCode, 
 			Model model,Principal principal, HttpServletRequest request){
-		HttpSession session = request.getSession();
+	//	HttpSession session = request.getSession();
 		if(couponCode.isEmpty()){
 			model.addAttribute("emptyPromoError",true);
 			return null;
+		}else {
+			couponCode = couponCode.trim();
 		}
 		PromoCodes promoCodes = promoCodesService.findByPromoCode(couponCode);
 		User user = null;
@@ -110,10 +112,7 @@ public class CartController {
 		}
 			 }
 			 shoppingCart = shoppingCartService.findCartByBagId(cartBagId);
-	/*		// Get Cart from Session.
-			shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
-			LOG.info("User is a GUEST with shopping cart id of {} and bag ID of {}", shoppingCart.getId(),shoppingCart.getBagId());
-		*/
+
 			 }
 		String errors = null; 
 		if(promoCodes==null){
@@ -184,13 +183,16 @@ public class CartController {
 			BigDecimal gTotal = shoppingCart.getGrandTotal();
 			BigDecimal discountedAmount = new BigDecimal(0);
 			shoppingCart.setPromoCode(null);
+			shoppingCart.setErrors(null);
 			shoppingCart.setDiscountedAmount(discountedAmount);
 			shoppingCart.setOrderTotal(gTotal.add(shoppingCart.getShippingCost()).subtract(discountedAmount));
+			
 			shoppingCartRepository.save(shoppingCart);
 			
 			return shoppingCart;
 		}else {
 			//Shopping Cart ID and Bag ID mismatched Do something to 
+			LOG.info("Unusual promo code removal is triggred for Cart with ID : {}",shoppingCart.getId());
 			return null;
 		}
 		
