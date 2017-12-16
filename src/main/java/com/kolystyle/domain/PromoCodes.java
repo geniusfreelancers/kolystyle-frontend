@@ -3,6 +3,7 @@ package com.kolystyle.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,6 +33,9 @@ public class PromoCodes {
 	
 	private boolean promoStatus;
 
+	@Column(columnDefinition="text")
+	private String couponPolicy;
+	
 	public Long getId() {
 		return id;
 	}
@@ -158,6 +162,14 @@ public class PromoCodes {
 
 	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+
+	public String getCouponPolicy() {
+		return couponPolicy;
+	}
+
+	public void setCouponPolicy(String couponPolicy) {
+		this.couponPolicy = couponPolicy;
 	}
 	
 	

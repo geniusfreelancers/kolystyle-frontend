@@ -20,8 +20,61 @@
 }
 </style>
 <div class="col-md-10 col-md-offset-1">
+<div th:if="!${success}" class="col-md-6 col-md-offset-3 border-all">
+		<div class="col-md-12 wishlist-main-wrapper search-order-container">
+                    <!--Search order row-->
+                    <div class="col-md-12 search-order-container padding-tb-10">
+                    
 
-<div class="col-md-12 border-all">
+ 									<div class="alert alert-danger" th:if="${incorrectEmail}">
+										<span>Order Number and Email did not match</span>
+									</div>
+								<div class="alert alert-danger" th:if="${notfound}">
+										<span>Order cannot be found</span>
+									</div>
+                    
+				<form id="searchOrderForm" th:action="@{/public/track}" method="post">
+                            <div class="col-md-12">					   
+                                <div class="form-group">
+                                <label for="orderid">look up an order by order number:</label> 
+                                <input type="text" id="id" name="id" th:value="${order.id}" required="required" placeholder="ORDER NUMBER" class="form-control"/>
+                                <p style="color:#828282;"><i class="fa fa-info-circle" aria-hidden="true"></i>
+                                	It's at the top of your Order Confirmation email or on the invoice that came with your shipment.
+                                </p>
+                                </div>
+                            
+                            </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="orderemail">verify email address:</label>
+                                <input type="text" name="orderEmail" required="required" id="orderEmail" th:value="${order.orderEmail}" class="form-control"/>
+                            </div>
+                            <input type="submit" value="TRACK ORDER" class="btn btn-danger"/>
+						</div>
+					</form>
+<script>
+    $( "#searchOrderForm" ).validate({
+        rules: {
+        	id: "required",
+        	orderEmail: {
+                required: true,
+                email:true
+            }
+        },
+        messages:{
+        	id: "Order Number is Required",
+        	orderEmail: {
+                required: "Email associated with Order is Required",
+            }
+        }
+    });
+</script>					
+
+                        </div>
+                    </div>
+</div>
+
+<div th:if="${success}" class="col-md-12 border-all">
 <div class="col-md-6">
 	<h3><i class="fa fa-check" aria-hidden="true" style="color:limegreen;"></i> 
 	Thank you for your order #<span th:text="${order.id}"></span></h3>
@@ -31,7 +84,6 @@
 </div>
 <br/><br/>
 <div class="col-md-12">
-	<p class="text-success head-link"><i class="fa fa-check-square-o" aria-hidden="true"></i> You'll receive an email with tracking information when your item ships.</p>
 </div>
 <div class="col-md-6">
 <p><strong>Order #</strong>	<span th:text="${order.id}"></span></p>
@@ -98,7 +150,7 @@
 </div>
 </div>
 <br/><br/>
-<div class="row">
+<div class="row" th:if="${success}">
 <div class="col-md-10 col-md-offset-1">
 
 <div class="panel panel-primary">
@@ -155,7 +207,7 @@
 				</div>
 </div>
 </div>
-<div class="row">
+<div class="row" th:if="${success}">
 <div class="col-md-10 col-md-offset-1">
 <div class="col-md-4 order-summary">
 <p><strong>Order summary</strong></p>
