@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.env.Environment;
 
 import com.braintreegateway.BraintreeGateway;
 import com.kolystyle.domain.User;
@@ -25,17 +26,36 @@ public class KolystyleApplication implements CommandLineRunner {
 	@Autowired
 	private UserService userService;
 	
+	
 	public static void main(String[] args) {
 		String PATH = "src/main/resources/";
 	    
 		String folderName =  PATH.concat(DEFAULT_CONFIG_FILENAME);
+		System.out.println(folderName);
 		
 		File configFile = new File(folderName);
+		System.out.println(configFile);
         try {
+        	
+        	/*gateway = new BraintreeGateway(
+          		  "sandbox",
+          		  "hw92n9y8n4f4mqmj",
+          		  "87ztjfwf97f9587k",
+          		  "2333de127f1aedd0af27b84f7f2f4dcd"
+          		);
+        	System.out.println("Braintree API used From hardcode value Env");*/
             if(configFile.exists() && !configFile.isDirectory()) {
                 gateway = BraintreeGatewayFactory.fromConfigFile(configFile);
+            	/*gateway = new BraintreeGateway(
+            			  Environment.SANDBOX,
+            			  "your_merchant_id",
+            			  "your_public_key",
+            			  "your_private_key"
+            			);*/
+                System.out.println("Braintree API use From Config File");
             } else {
                 gateway = BraintreeGatewayFactory.fromConfigMapping(System.getenv());
+                System.out.println("Braintree API use From System Env");
             }
         } catch (NullPointerException e) {
             System.err.println("Could not load Braintree configuration from config file or system environment.");

@@ -14,7 +14,7 @@ public class SiteSetting {
 	private BigDecimal shippingCost;
 	private String homeSlide;
 	private BigDecimal premiumShippingCost;
-	
+	private String siteLogo;
 	private String categoryBanner;
 	private String storeAddress1;
 	private String storeAddress2;
@@ -57,6 +57,13 @@ public class SiteSetting {
 	}
 	public void setPremiumShippingCost(BigDecimal premiumShippingCost) {
 		this.premiumShippingCost = premiumShippingCost;
+	}
+	
+	public String getSiteLogo() {
+		return siteLogo;
+	}
+	public void setSiteLogo(String siteLogo) {
+		this.siteLogo = siteLogo;
 	}
 	public String getCategoryBanner() {
 		return categoryBanner;
