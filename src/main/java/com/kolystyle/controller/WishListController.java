@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kolystyle.domain.ListItem;
 import com.kolystyle.domain.Product;
+import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.domain.User;
 import com.kolystyle.domain.WishList;
 import com.kolystyle.service.ListItemService;
 import com.kolystyle.service.ProductService;
+import com.kolystyle.service.SiteSettingService;
 import com.kolystyle.service.UserService;
 import com.kolystyle.service.WishListService;
 import com.kolystyle.service.impl.UserSecurityService;
@@ -37,9 +39,13 @@ public class WishListController {
 	private WishListService wishListService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private SiteSettingService siteSettingService;
 	
 	@RequestMapping("/wishlist")
 	public String wishList(Model model,Principal principal){
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
 		User user= userService.findByUsername(principal.getName());
 		//User need to log in If wanted to implement Guest Check out need to work on this
 		if(user != null){
@@ -133,6 +139,8 @@ public class WishListController {
 	}*/
 	@RequestMapping("/addtolist")
 	public String productDetail(@PathParam("id") Long id, Model model, Principal principal) {
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
 		if(principal != null){
 			String username = principal.getName();
 			User user = userService.findByUsername(username);
@@ -155,6 +163,7 @@ public class WishListController {
 	
 	@RequestMapping("/removeListItem")
 	public String removeListItem(@RequestParam("id") Long id){
+		
 		listItemService.removeListItem(listItemService.findById(id));
 		
 		return "forward:/customer/wishlist";
