@@ -3,6 +3,7 @@ package com.kolystyle.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +21,11 @@ public class PromoCodes {
 	private BigDecimal cartTotal;
 	private int cartItemQty;
 	private int promoUseCount;
+	private int promoUsedCount;
+	private String addedBy;
+	private Date addedOn;
+	private String updatedBy;
+	private Date updatedOn;
 	
 	//Either Specific User or All
 	private String promoType;
@@ -27,6 +33,9 @@ public class PromoCodes {
 	
 	private boolean promoStatus;
 
+	@Column(columnDefinition="text")
+	private String couponPolicy;
+	
 	public Long getId() {
 		return id;
 	}
@@ -114,6 +123,55 @@ public class PromoCodes {
 	public void setPromoStatus(boolean promoStatus) {
 		this.promoStatus = promoStatus;
 	}
+
+	public int getPromoUsedCount() {
+		return promoUsedCount;
+	}
+
+	public void setPromoUsedCount(int promoUsedCount) {
+		this.promoUsedCount = promoUsedCount;
+	}
+
+	public String getAddedBy() {
+		return addedBy;
+	}
+
+	public void setAddedBy(String addedBy) {
+		this.addedBy = addedBy;
+	}
+
+	public Date getAddedOn() {
+		return addedOn;
+	}
+
+	public void setAddedOn(Date addedOn) {
+		this.addedOn = addedOn;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
+	}
+
+	public String getCouponPolicy() {
+		return couponPolicy;
+	}
+
+	public void setCouponPolicy(String couponPolicy) {
+		this.couponPolicy = couponPolicy;
+	}
+	
 	
 	
 }

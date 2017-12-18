@@ -3,6 +3,7 @@ package com.kolystyle.controller;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -74,10 +75,12 @@ public class CartController {
 	ShoppingCart applyPromoCode(@ModelAttribute("id") String id,
 			@ModelAttribute("promocode") String couponCode, 
 			Model model,Principal principal, HttpServletRequest request){
-		HttpSession session = request.getSession();
+	//	HttpSession session = request.getSession();
 		if(couponCode.isEmpty()){
 			model.addAttribute("emptyPromoError",true);
 			return null;
+		}else {
+			couponCode = couponCode.trim();
 		}
 		PromoCodes promoCodes = promoCodesService.findByPromoCode(couponCode);
 		User user = null;
@@ -109,29 +112,34 @@ public class CartController {
 		}
 			 }
 			 shoppingCart = shoppingCartService.findCartByBagId(cartBagId);
-	/*		// Get Cart from Session.
-			shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
-			LOG.info("User is a GUEST with shopping cart id of {} and bag ID of {}", shoppingCart.getId(),shoppingCart.getBagId());
-		*/
+
 			 }
+		String errors = null; 
 		if(promoCodes==null){
-			LOG.info("User entered invalid promo code: {}", couponCode);
-			return shoppingCart;
+			LOG.info("User entered invalid promo code: {}", couponCode.toUpperCase());
+			errors = "The promo code "+couponCode.toUpperCase()+" you entered is invalid.";
 		}else{
 			LOG.info("User entered valid promo code: {} value of {} {}", couponCode.toUpperCase(),promoCodes.getPromoValue(),promoCodes.getPercentOrDollar());
-		}
-		
-
 			BigDecimal gTotal = shoppingCart.getGrandTotal();
 			BigDecimal promoVal = promoCodes.getPromoValue();
 			BigDecimal discountedAmount = new BigDecimal(0);
 			LOG.info("User's Shopping Cart Grand Total is: {}", gTotal);
 			
+			Date start = promoCodes.getStartDate();
+	        Date expiry = promoCodes.getExpiryDate();
+	        Date today = Calendar.getInstance().getTime();
 			//check for cart minimum and expiry and start date
-			if(gTotal.compareTo(promoCodes.getCartTotal()) < 0) {
+	        if(!promoCodes.isPromoStatus()){
+				errors = "Promo code "+couponCode.toUpperCase()+" not active";
+			}else if(gTotal.compareTo(promoCodes.getCartTotal()) < 0) {
 				LOG.info("User entered valid promo code: {} . But Shopping Cart Total is {} which is less than required Pormo Cart minimum of {} ", couponCode.toUpperCase(),gTotal,promoCodes.getCartTotal());
-				String errors = "Didn't satisfy Promo validation";
-				shoppingCart.setErrors(errors);
+				errors = "Subtotal must be $"+promoCodes.getCartTotal()+" or above to apply promo code "+couponCode.toUpperCase();
+			}else if(promoCodes.getPromoUsedCount() >= promoCodes.getPromoUseCount()){
+				errors = "Promo code "+couponCode.toUpperCase()+" is not available anymore";
+			}else if(start.after(today)) {
+				errors = "Promo code "+couponCode.toUpperCase()+" can be used on or after "+new SimpleDateFormat("MM-dd-yyyy").format(promoCodes.getStartDate());
+			}else if(expiry.before(today)) {
+				errors = "Promo code "+couponCode.toUpperCase()+" expired on "+new SimpleDateFormat("MM-dd-yyyy").format(promoCodes.getExpiryDate());
 			}else {
 				LOG.info("We can proceed with applying promo code {}. It passes all validation",couponCode.toUpperCase());			
 			if(promoCodes.getPercentOrDollar().equalsIgnoreCase("dollar")) {
@@ -156,11 +164,11 @@ public class CartController {
 			//check for shipping cost
 			
 			shoppingCart.setOrderTotal(gTotal.add(shoppingCart.getShippingCost()).subtract(discountedAmount));
-			shoppingCart.setErrors(null);
-		//	shoppingCartRepository.save(shoppingCart);
+
 			LOG.info("Shopping Cart is saved and returning ShoppingCart as JSON");
 			}
-			
+		}
+			shoppingCart.setErrors(errors);
 			LOG.info("Promo code not applied because it didn't pass requirenment, Shopping Cart is saving NOW and returned as JSON");
 			shoppingCartRepository.save(shoppingCart);
 		return shoppingCart;
@@ -175,13 +183,16 @@ public class CartController {
 			BigDecimal gTotal = shoppingCart.getGrandTotal();
 			BigDecimal discountedAmount = new BigDecimal(0);
 			shoppingCart.setPromoCode(null);
+			shoppingCart.setErrors(null);
 			shoppingCart.setDiscountedAmount(discountedAmount);
 			shoppingCart.setOrderTotal(gTotal.add(shoppingCart.getShippingCost()).subtract(discountedAmount));
+			
 			shoppingCartRepository.save(shoppingCart);
 			
 			return shoppingCart;
 		}else {
 			//Shopping Cart ID and Bag ID mismatched Do something to 
+			LOG.info("Unusual promo code removal is triggred for Cart with ID : {}",shoppingCart.getId());
 			return null;
 		}
 		

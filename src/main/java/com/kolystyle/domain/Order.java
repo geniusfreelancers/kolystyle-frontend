@@ -14,6 +14,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.kolystyle.domain.BillingAddress;
+import com.kolystyle.domain.CartItem;
+import com.kolystyle.domain.OrderLog;
+import com.kolystyle.domain.Payment;
+import com.kolystyle.domain.ShippingAddress;
+import com.kolystyle.domain.User;
+
 @Entity
 @Table(name="user_order")
 public class Order {
@@ -36,10 +43,14 @@ public class Order {
 	private BigDecimal discount;
 	private BigDecimal shippingCost;
 	private BigDecimal orderTotal;
-	
+	private String shippingCarrier;
+	private String trackingNumber;
 	
 	@OneToMany(mappedBy = "order", cascade=CascadeType.ALL)
 	private List<CartItem> cartItemList;
+	
+	@OneToMany(mappedBy = "order", cascade=CascadeType.ALL)
+	private List<OrderLog> orderLogList;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	private ShippingAddress shippingAddress;
@@ -123,6 +134,14 @@ public class Order {
 
 	public void setCartItemList(List<CartItem> cartItemList) {
 		this.cartItemList = cartItemList;
+	}
+
+	public List<OrderLog> getOrderLogList() {
+		return orderLogList;
+	}
+
+	public void setOrderLogList(List<OrderLog> orderLogList) {
+		this.orderLogList = orderLogList;
 	}
 
 	public Payment getPayment() {
@@ -220,9 +239,22 @@ public class Order {
 	public void setShippingCost(BigDecimal shippingCost) {
 		this.shippingCost = shippingCost;
 	}
-	
-	
-	
+
+	public String getShippingCarrier() {
+		return shippingCarrier;
+	}
+
+	public void setShippingCarrier(String shippingCarrier) {
+		this.shippingCarrier = shippingCarrier;
+	}
+
+	public String getTrackingNumber() {
+		return trackingNumber;
+	}
+
+	public void setTrackingNumber(String trackingNumber) {
+		this.trackingNumber = trackingNumber;
+	}
 	
 	
 }

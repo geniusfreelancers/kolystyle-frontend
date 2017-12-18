@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import javax.servlet.http.Cookie;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,7 +34,9 @@ import com.kolystyle.KolystyleApplication;
 import com.kolystyle.domain.BillingAddress;
 import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.Order;
+import com.kolystyle.domain.OrderLog;
 import com.kolystyle.domain.Payment;
+import com.kolystyle.domain.PromoCodes;
 import com.kolystyle.domain.ShippingAddress;
 import com.kolystyle.domain.ShoppingCart;
 import com.kolystyle.domain.SiteSetting;
@@ -40,11 +44,15 @@ import com.kolystyle.domain.User;
 import com.kolystyle.domain.UserBilling;
 import com.kolystyle.domain.UserPayment;
 import com.kolystyle.domain.UserShipping;
+import com.kolystyle.repository.OrderLogRepository;
 import com.kolystyle.repository.OrderRepository;
+import com.kolystyle.repository.PromoCodesRepository;
 import com.kolystyle.service.BillingAddressService;
 import com.kolystyle.service.CartItemService;
+import com.kolystyle.service.OrderLogService;
 import com.kolystyle.service.OrderService;
 import com.kolystyle.service.PaymentService;
+import com.kolystyle.service.PromoCodesService;
 import com.kolystyle.service.ShippingAddressService;
 import com.kolystyle.service.ShoppingCartService;
 import com.kolystyle.service.SiteSettingService;
@@ -78,6 +86,8 @@ public class CheckoutController {
 	@Autowired
 	private OrderRepository orderRepository;
 	@Autowired
+	private OrderLogRepository orderLogRepository;
+	@Autowired
 	private ShoppingCartService shoppingCartService;
 	
 	@Autowired
@@ -103,6 +113,14 @@ public class CheckoutController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private OrderLogService orderLogService;
+	
+	@Autowired
+	private PromoCodesService promoCodesService;
+	@Autowired
+	private PromoCodesRepository promoCodesRepository;
 	
 	@Autowired
 	private JavaMailSender mailSender;
@@ -198,10 +216,10 @@ if (cookies != null){
         }}
 	}
 }
-shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
+shoppingCart = shoppingCartService.findCartByBagId(cartId);
 if(shoppingCart==null) {
 	System.out.println("Bag ID IS MISSING");
-	shoppingCart = shoppingCartService.findCartByBagId(cartId);
+	return "redirect:/guestcheckout?missingRequiredField=true";
 }
 		
 		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
@@ -259,15 +277,31 @@ if(shoppingCart==null) {
 	    	Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, shippingMethod, user,email,phoneNumber);
 	   		order.setPaymentType(transaction.getPaymentInstrumentType());
 	   		order.setPaymentConfirm(transaction.getId());
-	    	order.setOrderTotal(new BigDecimal(amount));
+	    	order.setOrderTotal(decimalAmount);
 	   		order.setPromocodeApplied(shoppingCart.getPromoCode());
 	   		order.setShippingCost(shoppingCart.getShippingCost());
 	   		order.setOrderType(shoppingCart.getCartType());
 	   		order.setOrderSubtotal(shoppingCart.getGrandTotal());
 	   		order.setDiscount(shoppingCart.getDiscountedAmount());
 	   		orderRepository.save(order);
+	   		OrderLog orderLog = new OrderLog();
+	   		orderLog.setOrder(order);
+	   		orderLog.setUpdatedBy("Guest User");
+	   		orderLog.setUpdatedDate(Calendar.getInstance().getTime());
+	   		orderLog.setProcessingStatus("created");
+	   		orderLog.setUserReason("User placed an order using website");
+	   		orderLogRepository.save(orderLog);
 //	   		mailSender.send(mailConstructor.constructOrderConfirmationEmail(user,order,Locale.ENGLISH));
-	   		
+	   		OrderLog orderLog2 = new OrderLog();
+	   		orderLog2.setOrder(order);
+	   		orderLog2.setUpdatedBy("System");
+	   		orderLog2.setUpdatedDate(Calendar.getInstance().getTime());
+	   		orderLog2.setProcessingStatus("created");
+	   		orderLog2.setUserReason("Confirmation Email sent to customer");
+	   		orderLogRepository.save(orderLog2);
+	   		PromoCodes promoCodes = promoCodesService.findByPromoCode(shoppingCart.getPromoCode());
+	   		promoCodes.setPromoUsedCount(promoCodes.getPromoUsedCount()+1);
+	   		promoCodesRepository.save(promoCodes);
 	   		shoppingCartService.clearShoppingCart(shoppingCart);
 		   	 if (foundCookie) {
 		           /* Cookie cookie1 = new Cookie("BagId",shoppingCart.getBagId());
@@ -312,6 +346,7 @@ if(shoppingCart==null) {
 	        model.addAttribute("siteSettings",siteSettings);
 	       try {
 	           transaction = gateway.transaction().find(transactionId);
+	           
 	           order = orderService.findOne(orderId);
 	       } catch (Exception e) {
 	           System.out.println("Exception: " + e);
@@ -544,9 +579,93 @@ if(shoppingCart==null) {
 			
 			return "checkout";
 			//return "form";
-		}
+		}	
+	}
+	
+	@RequestMapping(value = "/public/track")
+	public String trackOrder(HttpServletRequest request,HttpServletResponse response,Model model ) {
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
+        Order order = new Order();
+        model.addAttribute("order",order);
+		model.addAttribute("success",false);
+		model.addAttribute("noCartExist",true);
 		
+		return "track";
 		
 	}
+	
+	@RequestMapping(value = "/public/track", method = RequestMethod.POST)
+	   public String orderDetailsPage(@ModelAttribute("order") Order order, Model model) {
+			SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
+	        String email = order.getOrderEmail();
+	       Transaction transaction;
+	       try {
+	    	   order = orderService.findOne(order.getId());
+	    	   if(order.getOrderEmail().equalsIgnoreCase(email)) {
+	    		   model.addAttribute("incorrectEmail",false);
+	    	   }else {
+	    		   model.addAttribute("success",false);
+	    		   model.addAttribute("notfound",false);
+	    		   model.addAttribute("incorrectEmail",true);
+	    		   return "track";
+	    	   }
+	    	   String transactionId = order.getPaymentConfirm();
+	           transaction = gateway.transaction().find(transactionId);
+	          
+	       } catch (Exception e) {
+	           System.out.println("Exception: " + e);
+	           model.addAttribute("success",false);
+	           model.addAttribute("notfound",true);
+	           return "track";
+	       }
+
+	       model.addAttribute("isSuccess", Arrays.asList(TRANSACTION_SUCCESS_STATUSES).contains(transaction.getStatus()));
+	       model.addAttribute("transaction", transaction);
+	   		LocalDate today = LocalDate.now();
+	   		LocalDate estimatedDeliveryDate;
+	   		
+	   		if(order.getShippingMethod().equals("groundShipping")){
+	   			estimatedDeliveryDate = today.plusDays(5);
+	   		}else{
+	   			estimatedDeliveryDate = today.plusDays(3);
+	   		}
+	   		if(transaction.getPaymentInstrumentType().equals("paypal_account")){
+	        	   model.addAttribute("paypalMethod",true);
+		   			 
+		   		}else{
+		   			model.addAttribute("creditMethod",true);
+		   		}
+	   		int currentStatus = 1;
+	   		if(order.getOrderStatus().equalsIgnoreCase("created")) {
+	   			currentStatus = 2;
+	   		}else if (order.getOrderStatus().equalsIgnoreCase("processing")) {
+	   			currentStatus = 3;
+	   		}else if (order.getOrderStatus().equalsIgnoreCase("shipped")) {
+	   			currentStatus = 4;
+	   		}else if (order.getOrderStatus().equalsIgnoreCase("intransit")) {
+	   			currentStatus = 5;
+	   		}else if (order.getOrderStatus().equalsIgnoreCase("delivered")) {
+	   			currentStatus = 6;
+	   		}else {
+	   			currentStatus = 2;
+	   		}
+	   		model.addAttribute("estimatedDeliveryDate",estimatedDeliveryDate);
+	   		model.addAttribute("order",order);
+	   		model.addAttribute("currentStatus",currentStatus);
+	   		model.addAttribute("cartItemList", order.getCartItemList());
+	   		List<OrderLog> orderLogList = orderLogService.findByOrderByOrderByIdDesc(order);
+	   		if(orderLogList.isEmpty()) {
+	   			model.addAttribute("emptyLog",true);
+	   		}else {
+	   			model.addAttribute("emptyLog",false);
+	   			model.addAttribute("orderLogList",orderLogList);
+	   		}
+	   		model.addAttribute("success",true);
+	   		model.addAttribute("incorrectEmail",false);
+	   		model.addAttribute("notfound",false);
+	   		return "track";
+	   }
 	
 }
