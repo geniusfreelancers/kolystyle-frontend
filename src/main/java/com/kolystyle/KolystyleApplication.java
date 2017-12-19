@@ -26,16 +26,15 @@ public class KolystyleApplication implements CommandLineRunner {
 	private UserService userService;
 	
 	public static void main(String[] args) {
-		String PATH = "src/main/resources/";
-	    
-		String folderName =  PATH.concat(DEFAULT_CONFIG_FILENAME);
 		
-		File configFile = new File(folderName);
+		File configFile = new File(DEFAULT_CONFIG_FILENAME);
         try {
             if(configFile.exists() && !configFile.isDirectory()) {
                 gateway = BraintreeGatewayFactory.fromConfigFile(configFile);
+                System.out.println("Braintree configuration from config file loaded");
             } else {
                 gateway = BraintreeGatewayFactory.fromConfigMapping(System.getenv());
+                System.out.println("Braintree configuration from SYSTEM ENVIRONMENT loaded");
             }
         } catch (NullPointerException e) {
             System.err.println("Could not load Braintree configuration from config file or system environment.");
