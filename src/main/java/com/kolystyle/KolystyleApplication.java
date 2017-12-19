@@ -28,13 +28,18 @@ public class KolystyleApplication implements CommandLineRunner {
 	
 	
 	public static void main(String[] args) {
-		String PATH = "src/main/resources/";
+
+/*		String PATH = "src/main/resources/";
 	    
 		String folderName =  PATH.concat(DEFAULT_CONFIG_FILENAME);
 		System.out.println(folderName);
 		
 		File configFile = new File(folderName);
 		System.out.println(configFile);
+*/
+		
+		File configFile = new File(DEFAULT_CONFIG_FILENAME);
+
         try {
         	
         	/*gateway = new BraintreeGateway(
@@ -46,16 +51,12 @@ public class KolystyleApplication implements CommandLineRunner {
         	System.out.println("Braintree API used From hardcode value Env");*/
             if(configFile.exists() && !configFile.isDirectory()) {
                 gateway = BraintreeGatewayFactory.fromConfigFile(configFile);
-            	/*gateway = new BraintreeGateway(
-            			  Environment.SANDBOX,
-            			  "your_merchant_id",
-            			  "your_public_key",
-            			  "your_private_key"
-            			);*/
+
                 System.out.println("Braintree API use From Config File");
             } else {
                 gateway = BraintreeGatewayFactory.fromConfigMapping(System.getenv());
-                System.out.println("Braintree API use From System Env");
+                System.out.println("Braintree configuration from SYSTEM ENVIRONMENT loaded");
+
             }
         } catch (NullPointerException e) {
             System.err.println("Could not load Braintree configuration from config file or system environment.");
