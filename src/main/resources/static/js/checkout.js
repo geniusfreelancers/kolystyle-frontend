@@ -57,10 +57,35 @@ checkoutApp.controller("checkoutCtrl", function ($scope, $http) {
 
 
 //Testing Some shitty ideas
-
-
-
 checkoutApp.controller("miniCartCtrl", function ($scope, $http) {
+
+    $scope.refreshCheck = function () {
+        $http.get('/customize/minicart').success(function (data) {
+            $scope.miniCart = data;
+        });
+    };
+
+    $scope.initCartId = function () {
+        $scope.refreshCheck();
+    };
+    
+    $scope.showOrNoshow = function () {
+    	var itemList= false;
+    	if ( $scope.miniCart==null){
+    		console.log("No data");
+    	}else{
+    	var itemLists = $scope.miniCart.cartItemList.length;
+        
+        if (itemLists > 0){
+        	itemList = true;
+        }
+    	}
+        return itemList;
+    };
+});
+
+
+/*checkoutApp.controller("miniCartCtrl", function ($scope, $http) {
 
     $scope.refreshCheck = function () {
         $http.get('/customize/'+$scope.cartId).success(function (data) {
@@ -82,5 +107,5 @@ checkoutApp.controller("miniCartCtrl", function ($scope, $http) {
         }
         return itemList;
     };
-});
+});*/
 

@@ -132,29 +132,11 @@ public class CheckoutController {
 	public String guestcheckout(HttpServletRequest request,HttpServletResponse response,Model model ) {
 		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
-		HttpSession session = request.getSession();
 		ShoppingCart shoppingCart;
-		Cookie[] cookies = request.getCookies();
-		String cartId = "";
-		boolean foundCookie = false;
-   	 	//Check cookie value
-		if (cookies != null){
-			int cok=cookies.length;
-			if(cok>0) {
-	        for(int i = 0; i < cookies.length; i++) { 
-	            Cookie cartID = cookies[i];
-	            if (cartID.getName().equals("BagId")) {
-	            	cartId = cartID.getValue();
-	                System.out.println("BagId = " + cartId);
-	                foundCookie = true;
-	            }}
-			}
-		}
-        shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
-        if(shoppingCart==null) {
-        	System.out.println("Bag ID IS MISSING");
-        	shoppingCart = shoppingCartService.findCartByBagId(cartId);
-        }
+		
+		shoppingCart = shoppingCartService.findCartByCookie(request);
+		System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
+		
         if(shoppingCart == null) {
         	return "redirect:/shoppingCart/cart";
         }
@@ -198,25 +180,16 @@ public class CheckoutController {
         
 //Save in DB
 User user = null;
-HttpSession session = request.getSession();
 ShoppingCart shoppingCart;
 Cookie[] cookies = request.getCookies();
-String cartId = "";
+
 boolean foundCookie = false;
-	//Check cookie value
-if (cookies != null){
-	int cok=cookies.length;
-	if(cok>0) {
-    for(int i = 0; i < cookies.length; i++) { 
-        Cookie cartID = cookies[i];
-        if (cartID.getName().equalsIgnoreCase("BagId")) {
-        	cartId = cartID.getValue();
-            System.out.println("BagId = " + cartId);
-            foundCookie = true;
-        }}
-	}
+
+shoppingCart = shoppingCartService.findCartByCookie(request);
+System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
+if(shoppingCart!=null) {
+	foundCookie = true;
 }
-shoppingCart = shoppingCartService.findCartByBagId(cartId);
 if(shoppingCart==null) {
 	System.out.println("Bag ID IS MISSING");
 	return "redirect:/guestcheckout?missingRequiredField=true";
