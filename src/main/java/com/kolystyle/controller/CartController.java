@@ -90,29 +90,9 @@ public class CartController {
 			shoppingCart = user.getShoppingCart();
 			LOG.info("User {} is a member with shopping cart id of {} and bag ID of {}", user.getUsername(), shoppingCart.getId(),shoppingCart.getBagId());
 		}else{	
-			//Get cart from cookie
-			Cookie[] cookies = request.getCookies();
-			boolean foundCookie = false;
-			 String cartBagId = null;
-			 if (cookies != null){
-			int cookieLength = cookies.length;
 			
-	   	 //Check cookie value
-			if (cookieLength >0) {
-	        for(int i = 0; i < cookieLength; i++) { 
-	            Cookie cartID = cookies[i];
-	            if (cartID.getName().equalsIgnoreCase("BagId")) {
-	            	LOG.info("User with Bag Id {} adding product to cart", cartID.getValue());
-	                System.out.println("BagId = " + cartID.getValue());
-	                foundCookie = true;
-	               cartBagId = cartID.getValue();
-	            }
-	        }
-	       
-		}
-			 }
-			 shoppingCart = shoppingCartService.findCartByBagId(cartBagId);
-
+			shoppingCart = shoppingCartService.findCartByCookie(request);
+			System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
 			 }
 		String errors = null; 
 		if(promoCodes==null){
@@ -204,7 +184,6 @@ public class CartController {
         model.addAttribute("siteSettings",siteSettings);
 		User user = null;
 		ShoppingCart shoppingCart;
-		HttpSession session = request.getSession();
 		
 		//User need to log in If wanted to implement Guest Check out need to work on this
 		if(principal != null){
@@ -212,52 +191,14 @@ public class CartController {
 		user= userService.findByUsername(principal.getName());
 		shoppingCart = user.getShoppingCart();
 		}else{
-			Cookie[] cookies = request.getCookies();
-			boolean foundCookie = false;
-			 String cartBagId = null;
-			 if (cookies != null){
-			int cookieLength = cookies.length;
-			
-	   	 //Check cookie value
-			if (cookieLength >0) {
-	        for(int i = 0; i < cookieLength; i++) { 
-	            Cookie cartID = cookies[i];
-	            if (cartID.getName().equalsIgnoreCase("BagId")) {
-	            	LOG.info("User with Bag Id {} adding product to cart", cartID.getValue());
-	                System.out.println("BagId = " + cartID.getValue());
-	                foundCookie = true;
-	               cartBagId = cartID.getValue();
-	            }
-	        }
-	       
-		}
-			 }
-			// Get Cart from Session.	shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
-			
-			 shoppingCart = shoppingCartService.findCartByBagId(cartBagId);
-       	// If null, create it.
+
+			shoppingCart = shoppingCartService.findCartByCookie(request);
+			System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
+       
        	if (shoppingCart == null) {
        		model.addAttribute("emptyCart",true);
        		return "shoppingCart";
-/*//       		shoppingCart = new ShoppingCart();
-//       		String sessionID = session.getId();
-//       		shoppingCart.setSessionId(sessionID);
-//   			
-//   			
-//			//To generate random number 99 is max and 10 is min
-//			Random rand = new Random();
-//			int  newrandom = rand.nextInt(99) + 10;
-//			
-//		//	Time Stamp and Random Number for Bag Id so we can always
-//			//  have unique bag id within Guest Cart
-//			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//			
-//			String bagId = newrandom+"KS"+timestamp.getTime();
-//			shoppingCart.setBagId(bagId);
-//			shoppingCartRepository.save(shoppingCart);
-*/           
-       		// And store to Session.
-   //    		request.getSession().setAttribute("ShoppingCart",shoppingCart);
+
        	}
        	
 		}
@@ -404,31 +345,14 @@ public class CartController {
         	LOG.info("User {} is adding product to cart", user.getUsername());
         	shoppingCart = user.getShoppingCart();
         }else{  
-        	Cookie[] cookies = request.getCookies();
-			boolean foundCookie = false;
-			 String cartBagId = null;
-			 if (cookies != null){
-			int cookieLength = cookies.length;
-			
-	   	 //Check cookie value
-			if (cookieLength >0) {
-	        for(int i = 0; i < cookieLength; i++) { 
-	            Cookie cartID = cookies[i];
-	            if (cartID.getName().equalsIgnoreCase("BagId")) {
-	            	LOG.info("User with Bag Id {} adding product to cart", cartID.getValue());
-	                System.out.println("BagId = " + cartID.getValue());
-	                foundCookie = true;
-	               cartBagId = cartID.getValue();
-	            }
-	        }
-	       
-		}
-			 }
-        	
-        	//Get Cart By Bag Id
-        	 shoppingCart = shoppingCartService.findCartByBagId(cartBagId);
-        	// Get Cart from Session.  shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
+        	boolean foundCookie = false;
+
+        	 shoppingCart = shoppingCartService.findCartByCookie(request);
+        	 System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
         	 LOG.info("Returning Guest User is adding product to cart");
+        	 if (shoppingCart != null) {
+        		 foundCookie = true;
+        	 }
         	 
         	// If null, create it.
         	if (shoppingCart == null) {

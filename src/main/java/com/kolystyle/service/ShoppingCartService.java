@@ -3,6 +3,8 @@ package com.kolystyle.service;
 
 import java.math.BigDecimal;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.kolystyle.domain.PromoCodes;
 import com.kolystyle.domain.ShoppingCart;
 
@@ -17,6 +19,8 @@ public interface ShoppingCartService {
 	BigDecimal calculateCartOrderTotal(ShoppingCart shoppingCart); 
 	BigDecimal calculateShippingCost(ShoppingCart shoppingCart);
 	PromoCodes checkCouponValidity(PromoCodes promoCodes);
+	ShoppingCart findCartByCookie( HttpServletRequest request);
+	
 /*	GuestShoppingCart updateGuestShoppingCart(GuestShoppingCart guestShoppingCart);
 	
 	GuestShoppingCart findByGuestShoppingCartId(String id);*/
