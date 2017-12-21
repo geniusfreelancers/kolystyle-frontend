@@ -76,6 +76,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
                         <a id="loginlink" sec:authorize="isAnonymous()" th:href="@{/userlogin}">LOGIN / REGISTER</a>
                         <a id="accountlink" sec:authorize="isAuthenticated()" th:href="@{/customer/account}">MY ACCOUNT</a>
                         <a id="logoutlink" sec:authorize="isAuthenticated()" th:href="@{/logout}">LOGOUT</a>
+                        
                    		<a href="/customer/wishlist" id="wishlist-total">Wish List</a>
                     	<a id="checkout-link" th:href="@{/shoppingCart/cart}">Checkout</a>
 

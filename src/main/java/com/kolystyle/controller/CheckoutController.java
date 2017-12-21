@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -64,7 +66,7 @@ import com.kolystyle.utility.USConstants;
 
 @Controller
 public class CheckoutController {
-	
+	private static final Logger LOG = LoggerFactory.getLogger(CheckoutController.class);
 	private BraintreeGateway gateway = KolystyleApplication.gateway;
 
     private Status[] TRANSACTION_SUCCESS_STATUSES = new Status[] {
@@ -145,16 +147,14 @@ public class CheckoutController {
 	            Cookie cartID = cookies[i];
 	            if (cartID.getName().equals("BagId")) {
 	            	cartId = cartID.getValue();
-	                System.out.println("BagId = " + cartId);
+	            	LOG.info("Bag ID {} IS FOUND FROM COOKIE",cartId);
 	                foundCookie = true;
 	            }}
 			}
 		}
-        shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
-        if(shoppingCart==null) {
-        	System.out.println("Bag ID IS MISSING");
-        	shoppingCart = shoppingCartService.findCartByBagId(cartId);
-        }
+		LOG.info("Bag ID {} IS FOUND",cartId);
+		shoppingCart = shoppingCartService.findCartByBagId(cartId);
+		
         if(shoppingCart == null) {
         	return "redirect:/shoppingCart/cart";
         }
@@ -168,7 +168,17 @@ public class CheckoutController {
 		}else {
 			model.addAttribute("groundShipping",true);
 		}
-		String clientToken = gateway.clientToken().generate();
+		String clientToken;
+		 try {
+			 clientToken = gateway.clientToken().generate();
+			 LOG.info("Client token {} for paypal generated",clientToken);
+	       } catch (Exception e) {
+	           System.out.println("Exception: " + e);
+	           
+	           return "badRequestPage";
+	       }
+		
+		System.out.println("ClientToken: "+clientToken);
 		model.addAttribute("siteSetting", siteSetting);
 		model.addAttribute("clientToken", clientToken);
 		model.addAttribute("shippingAddress",shippingAddress);

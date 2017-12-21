@@ -163,6 +163,8 @@ public class HomeController {
 	@RequestMapping("/login")
 	public String loginPost(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout",
             required = false) String logout,Model model, @ModelAttribute("username") String username) {
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
 		if(error != null){
             model.addAttribute("invalid",true);
             return "myAccount";
@@ -178,8 +180,6 @@ public class HomeController {
 				userDetails.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		User user = userService.findByUsername(username);
-		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
-        model.addAttribute("siteSettings",siteSettings);
 		model.addAttribute("user", user);
 		return "account";	
 	}
@@ -272,11 +272,11 @@ public class HomeController {
 		return "myAccount";
 	}
 	
-	
-	
 	@RequestMapping("/verifyregister")
 	public String verifyregister(Locale locale, @RequestParam("token") String token, Model model) {
 		PasswordResetToken passToken = userService.getPasswordResetToken(token);
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
 		if (passToken == null) {
 			String message = "Invalid Token.";
 			model.addAttribute("message", message);
@@ -291,8 +291,6 @@ public class HomeController {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		model.addAttribute("user", user);
 		model.addAttribute("classActiveEdit", true);
-		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
-	        model.addAttribute("siteSettings",siteSettings);
 		return "myProfile";
 	}
 	
