@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -64,7 +66,7 @@ import com.kolystyle.utility.USConstants;
 
 @Controller
 public class CheckoutController {
-	
+	private static final Logger LOG = LoggerFactory.getLogger(CheckoutController.class);
 	private BraintreeGateway gateway = KolystyleApplication.gateway;
 
     private Status[] TRANSACTION_SUCCESS_STATUSES = new Status[] {
@@ -133,9 +135,11 @@ public class CheckoutController {
 		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
 		ShoppingCart shoppingCart;
+
 		
 		shoppingCart = shoppingCartService.findCartByCookie(request);
 		System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
+
 		
         if(shoppingCart == null) {
         	return "redirect:/shoppingCart/cart";
@@ -150,7 +154,17 @@ public class CheckoutController {
 		}else {
 			model.addAttribute("groundShipping",true);
 		}
-		String clientToken = gateway.clientToken().generate();
+		String clientToken;
+		 try {
+			 clientToken = gateway.clientToken().generate();
+			 LOG.info("Client token {} for paypal generated",clientToken);
+	       } catch (Exception e) {
+	           System.out.println("Exception: " + e);
+	           
+	           return "badRequestPage";
+	       }
+		
+		System.out.println("ClientToken: "+clientToken);
 		model.addAttribute("siteSetting", siteSetting);
 		model.addAttribute("clientToken", clientToken);
 		model.addAttribute("shippingAddress",shippingAddress);
