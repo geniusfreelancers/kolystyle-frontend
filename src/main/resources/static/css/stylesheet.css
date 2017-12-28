@@ -3,6 +3,18 @@
             CUSTOM STYLE
 
 ******************************************/
+.hover_effect{
+	opacity:1;
+}
+.hover_effect:hover{
+	border: 2px solid white;
+    border-radius: 200px;
+}
+.bg-special{
+	background:url(/image/woo.png) 0 0 repeat; 
+	/* background:#efe8dc; */
+	background:#ed3546;
+}
 .categorytitle {
     color: #ffffff;
     font-size: 2em;
@@ -124,7 +136,7 @@ hr.dark-line {
 .info_wrapper {
     display: block;
     text-align: center;
-    top: -50px;
+    /* top: -50px; */
     position: relative;
     transition: bottom 400ms;
     color: #ffffff;
