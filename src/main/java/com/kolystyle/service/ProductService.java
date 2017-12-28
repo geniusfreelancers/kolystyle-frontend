@@ -11,7 +11,7 @@ public interface ProductService {
 	List<Product> findAll();
 	
 	Product findOne(Long id);
-	 
+	List<Product> findAllByOrderByIdDesc();
 	List<Product> findByCategory(Category category);
 	List<Product> findTop12ByCategory(Category category);
 	
