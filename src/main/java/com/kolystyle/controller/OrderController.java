@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @Controller
 @RequestMapping("/customize")
@@ -29,11 +31,18 @@ public class OrderController {
 	@Autowired
 	private ShoppingCartRepository shoppingCartRepository;
 
-    @RequestMapping("/{cartId}")
+    @RequestMapping("/minicart")
     public @ResponseBody
-    ShoppingCart getCartById(@PathVariable(value = "cartId") int cartId){
-    	ShoppingCart shoppingCart = shoppingCartRepository.findOne(new Long(cartId));
-    	return shoppingCart;
+    ShoppingCart getCartById(HttpServletRequest request){
+    	ShoppingCart shoppingCart = shoppingCartService.findCartByCookie(request);
+    	if(shoppingCart == null) {
+    		return shoppingCart;
+    	}else {
+    		System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
+        	//ShoppingCart shoppingCart = shoppingCartRepository.findOne(new Long(cartId));
+        	return shoppingCart;
+    	}
+		
     }
 
     

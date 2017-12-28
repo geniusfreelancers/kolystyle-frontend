@@ -95,7 +95,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
                
                 <!--Mini Shopping Cart Start-->
         <section th:if="!${noCartExist}" class="" ng-app="checkoutApp">
-		<div ng-controller = "miniCartCtrl" ng-init="'initCartId(\'' + ${shoppingCart.id} + '\')'">		
+		<div ng-controller = "miniCartCtrl" ng-init="initCartId()">		
+		<!-- ng-init="'initCartId(\'' + ${shoppingCart.id} + '\')'" -->
                 <section id="cart" class="mini-cart-label">
                     <div class="heading">
                         <!--h4><img width="32" height="32" alt="" src="/image/cart-bg.png"/></h4-->
@@ -122,6 +123,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
                             <div id="" class="col-md-8">
                                 <p><span class="text-left col-xs-8">Subtotal</span><span class="text-right col-xs-4">{{miniCart.grandTotal}}</span></p>
                                 <p><span class="text-left col-xs-8">Discount</span><span class="text-right col-xs-4">{{miniCart.discountedAmount}}</span></p>
+                                <p><span class="text-left col-xs-8">Shipping</span><span class="text-right col-xs-4">{{miniCart.shippingCost}}</span></p>
                                 <p><span class="text-left col-xs-8">Order total</span><span class="text-right col-xs-4">{{miniCart.orderTotal}}</span></p>
                                
                             </div>

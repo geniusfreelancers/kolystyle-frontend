@@ -5,6 +5,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -176,6 +179,37 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		//
 		
 		return promoCodes;
+		
+	}
+
+
+	public ShoppingCart findCartByCookie(HttpServletRequest request) {
+		ShoppingCart shoppingCart = null;
+		//Get cart from cookie
+		Cookie[] cookies = request.getCookies();
+		boolean foundCookie = false;
+		 String cartBagId = null;
+		 if (cookies != null){
+		int cookieLength = cookies.length;
+		
+   	 //Check cookie value
+		if (cookieLength >0) {
+        for(int i = 0; i < cookieLength; i++) { 
+            Cookie cartID = cookies[i];
+            if (cartID.getName().equalsIgnoreCase("BagId")) {
+            	LOG.info("User with Bag Id {} adding product to cart", cartID.getValue());
+                System.out.println("BagId = " + cartID.getValue());
+                foundCookie = true;
+               cartBagId = cartID.getValue();
+            }
+        }
+       
+	}}
+		 if (cartBagId==null) {
+			 return shoppingCart;
+		 }else {
+			 return shoppingCartRepository.findByBagId(cartBagId);
+		 }
 		
 	}
 	
