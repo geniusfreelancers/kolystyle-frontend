@@ -304,7 +304,7 @@ public class HomeController {
 			model.addAttribute("user", user);
 		}
 		
-		List<Product> productList = productService.findAll();
+		List<Product> productList = productService.findAllByOrderByIdDesc();
 		model.addAttribute("productList",productList);
 		model.addAttribute("activeAll",true);
 		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
