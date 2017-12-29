@@ -3,6 +3,13 @@
             CUSTOM STYLE
 
 ******************************************/
+.promo-bg{
+	background:url(/image/woo.png) 0 0 repeat; 
+}
+.promo-background{
+	background: black;
+}
+
 .hover_effect{
 	opacity:1;
 }
