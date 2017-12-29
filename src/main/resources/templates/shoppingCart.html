@@ -68,8 +68,8 @@
 					<!-- ***************************Display Products in Cart***************************************** -->
 					<div class="row" th:attr="ng-repeat = 'cartItem in shoppingCart.cartItemList'">
 					<div class="col-md-8 col-md-offset-2"><hr/>
-						<form th:action="@{/shoppingCart/updateCartItem}" method="post">
-							
+						<!-- form th:action="@{/shoppingCart/updateCartItem}" method="post"-->
+						<form method="post">	
 							<div class="col-md-2">
 								<a href="/productDetail?id={{cartItem.product.id}}"> <img
 									class="img-responsive product-shelf" style="width:70px;"
@@ -110,9 +110,13 @@
 									
 									class="form-control cartItemQty" value="{{cartItem.qty}}" type="number" />
 								<br/>
-								<button style="display: none;"
+								
+								 
+								 
+								<!--  style="display: none;" -->
+								<button th:attr="ng-click='updateCartItem(cartItem.id)'" 
 									id="update-item-{{cartItem.id}}" type="submit"
-									class="btn btn-warning btn-xs">Update</button>
+									class="btn btn-warning btn-xs updateCartitem">Update</button>
 							</div>
 							<div class="col-md-2">
 							<p class="text-right"> 

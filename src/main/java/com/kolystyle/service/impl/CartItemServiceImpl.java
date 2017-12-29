@@ -22,6 +22,7 @@ import com.kolystyle.repository.ProductToCartItemRepository;
 import com.kolystyle.repository.PromoCodesRepository;
 import com.kolystyle.repository.ShoppingCartRepository;
 import com.kolystyle.service.CartItemService;
+import com.kolystyle.service.ProductToCartItemService;
 import com.kolystyle.service.PromoCodesService;
 import com.kolystyle.service.ShoppingCartService;
 import com.kolystyle.service.SiteSettingService;
@@ -34,7 +35,8 @@ public class CartItemServiceImpl implements CartItemService {
 	
 	@Autowired
 	private ProductToCartItemRepository productToCartItemRepository;
-	
+	@Autowired
+	private ProductToCartItemService productToCartItemService;
 	@Autowired
 	private ShoppingCartService shoppingCartService;
 	
@@ -144,7 +146,7 @@ public class CartItemServiceImpl implements CartItemService {
 	}
 	
 	public void removeCartItem(CartItem cartItem){
-		productToCartItemRepository.deleteByCartItem(cartItem);
+		productToCartItemService.deleteByCartItem(cartItem);
 		cartItemRepository.delete(cartItem);	
 	}
 	

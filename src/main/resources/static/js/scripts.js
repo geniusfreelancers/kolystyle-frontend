@@ -197,6 +197,7 @@ function enableButton(){
 $(document).ready(function(){
 	$("#saveNow").hide();
 });
+
 $(document).ready(function(){
 $(".cartItemQty").on('change',function(){
 	var id=this.id;
@@ -207,6 +208,22 @@ $(".cartItemQty").on('change',function(){
 	}
 });
 });
+
+
+
+/*//testing
+$(function(){
+$(".updateCartitem").click(function(){
+	var id=this.id;
+	if(this.value!=''){
+	$('#update-item-'+id).css('display','inline-block');
+	console.log(id);
+	}else{
+	$('#update-item-'+id).css('display','none');
+	console.log('no-work');
+	}
+});
+});*/
 
 $(document).ready(function(){
 $("#theSameAsShippingAddress").on('click',checkBillingAddress);

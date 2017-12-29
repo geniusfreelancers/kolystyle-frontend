@@ -33,10 +33,27 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
             });
         });
     };
-
-    $scope.removeFromCart = function (productId) {
-        $http.put('/rest/cart/remove/'+productId).success(function (data) {
+    ////
+    $scope.updateCartItem = function (cartItemId) {
+    	var qty = $('#'+cartItemId).val();
+        $http.put('/shoppingCart/updateCartItem/'+cartItemId+'/'+qty).success(function () {
+        	 $scope.refreshCart();
+        	 $scope.calGrandTotal();
+             $scope.calPromoDiscount();
+             $scope.calShipping();
+             $scope.calOrderTotal();
+        });
+    };
+////
+    $scope.removeFromCart = function (cartItemId) {
+    	
+        $http.post('/rest/cart/remove/'+cartItemId).success(function (data) {
             $scope.refreshCart();
+            $scope.calGrandTotal();
+            $scope.calPromoDiscount();
+            $scope.calShipping();
+            $scope.calOrderTotal();
+            
         });
     };
 

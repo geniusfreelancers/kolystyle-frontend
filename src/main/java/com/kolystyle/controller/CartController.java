@@ -404,28 +404,35 @@ public class CartController {
 		
 	}
 	
-	@RequestMapping("/updateCartItem")
-	public String updateShoppingCart(@ModelAttribute("id") Long cartItemId, @ModelAttribute("qty") int qty,Model model){
+	@RequestMapping(value="/updateCartItem/{cartItemId}/{qty}", method = RequestMethod.PUT)
+	public  @ResponseBody
+    ShoppingCart updateShoppingCart(@PathVariable(value = "cartItemId") Long cartItemId, 
+			@PathVariable(value = "qty") int qty,Model model){
 		CartItem cartItem = cartItemService.findById(cartItemId);
-		
+		//need to change logic to return error message from db
 		if(qty < 1 ){
 			//model.addAttribute("notEnoughStock",true);
 			cartItemService.removeCartItem(cartItem);
-			return "forward:/shoppingCart/cart";
+			
+			return null;
 		}
 		
 		if(qty > cartItem.getProduct().getInStockNumber()){
 			model.addAttribute("notEnoughStock",true);
-			return "forward:/shoppingCart/cart";
+			return null;
 			}
 		
 		
 		cartItem.setQty(qty);
+		//check to see if subtotal promo shipping and total is updated as well NEED TO UPDATE
 		cartItemService.updateCartItem(cartItem);
+		ShoppingCart shoppingCart = cartItem.getShoppingCart();
 		
-		return "forward:/shoppingCart/cart";
+		return shoppingCart;
 		
 	}
+	
+
 	
 	@RequestMapping("/removeItem")
 	public String removeItem(@RequestParam("id") Long id){

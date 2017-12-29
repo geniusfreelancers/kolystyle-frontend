@@ -8,5 +8,5 @@ import com.kolystyle.domain.ProductToCartItem;
 @Transactional
 public interface ProductToCartItemRepository extends CrudRepository<ProductToCartItem, Long> {
 
-	void deleteByCartItem(CartItem cartItem);
+	ProductToCartItem findByCartItem(CartItem cartItem);
 }
