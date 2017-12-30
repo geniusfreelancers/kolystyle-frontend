@@ -3,6 +3,9 @@
             CUSTOM STYLE
 
 ******************************************/
+.braintree-upper-container{
+	z-index:0!important;
+}
 
 .spinnerspin {
      width: 100%;

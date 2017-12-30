@@ -3,7 +3,7 @@
  */
 //Apply Promo
 //Add New Category
-$(function() {
+/*$(function() {
 	$('#applyPromoNow').click(
 	        function() {
 	        	
@@ -58,7 +58,7 @@ $(function() {
 	            });
 	            return false;
 	        });
-  });
+  });*/
 
 $(document).ready(function(){
 	var code = $('#enterPromoCode').val();
@@ -70,8 +70,9 @@ $(document).ready(function(){
 });
 
 //Remove Promo
-$(function() {
+/*$(function() {
 	$('#removePromoNow').click(
+			
 	        function() {
 	        	var cart = $('#cartId').val();
 	        	var bagId =$('#bagId').val();
@@ -98,7 +99,7 @@ $(function() {
 	              		$("#enterPromoCode").prop("disabled",false);	
 	              	}
 	                        
-		            $('#applyPromoError').show();
+		            $('.applyPromoError').show();
 	                $('#applyPromoError').html(htmls);
 	                $('#shippingcost').html(shipping);
 	                $('#discountamount').html(discount.toFixed(2));
@@ -108,7 +109,7 @@ $(function() {
 	            });
 	            return false;
 	        });
-  });
+  });*/
 //Update Mini Cart Category.
 
 $(function() {
@@ -250,7 +251,7 @@ $(document).ready(function(){
 			}else{
 			$('#applyPromoNow').css('display','none');
 			}	
-		$('#applyPromoError').css('display','none');
+		   $('#applyPromoError').css('display','none');
 	});
 	$('#enterPromoCode').on('focusout',function(){
 		
@@ -259,6 +260,7 @@ $(document).ready(function(){
 			}else{
 			$('#applyPromoNow').css('display','none');
 			}
+		$('#applyPromoError').css('display','none');
 	});
 	
 	

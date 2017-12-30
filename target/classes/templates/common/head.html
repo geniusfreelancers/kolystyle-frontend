@@ -110,7 +110,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
                         <div class="mini-cart-info">
                             <table id="cart-item-list">
                             	<tr th:attr="ng-repeat = 'cartItem in miniCart.cartItemList'">
-                            	<!--td><img class="img-responsive primary_image" th:src="#{adminPath}+@{/image/product/}+${cartItem.product.id}+'/'+${cartItem.product.coverImageName}" alt="{{cartItem.title}}" /></td-->
+                            	<td><img
+									class="img-responsive product-shelf" style="width:70px;"
+									th:src="#{adminPath}+@{/image/product/{{cartItem.product.id}}/{{cartItem.product.coverImageName}}}" /></td>
                             	<td><span class="col-md-12">{{cartItem.product.title}}</span><span class="col-md-12">Size: {{cartItem.productSize}} | {{cartItem.qty}} x ${{cartItem.product.ourPrice}}</span></td>
                             	<td> ${{cartItem.subtotal}}</td>
                             	</tr>

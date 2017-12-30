@@ -73,10 +73,15 @@ public class ShoppingCartController {
 	
 	@RequestMapping("/{cartId}")
     public @ResponseBody
-    ShoppingCart getCartById(@PathVariable(value = "cartId") int cartId){
-        return shoppingCartRepository.findOne((long) cartId);
+    ShoppingCart getCartById(@PathVariable(value = "cartId") Long cartId,HttpServletRequest request){
+		ShoppingCart shoppingCart = shoppingCartService.findCartByCookie(request);
+		System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
+		if(shoppingCart.getId() == cartId) {
+			 return shoppingCart;
+		}
+        return null;
     }
-	@RequestMapping("/cart")
+	/*@RequestMapping("/cart")
 	public String shoppingCart(Model model,Principal principal,HttpServletRequest request){
 		
 		User user = null;
@@ -145,7 +150,7 @@ public class ShoppingCartController {
 		model.addAttribute("shoppingCart",shoppingCart);
 		
 		return "shoppingCart";
-	}
+	}*/
 	
 	
 	/*@RequestMapping(value = "/addItem", method = RequestMethod.PUT)

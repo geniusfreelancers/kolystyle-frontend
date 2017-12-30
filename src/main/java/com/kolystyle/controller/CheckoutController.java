@@ -287,8 +287,10 @@ if(shoppingCart==null) {
 	   		orderLog2.setUserReason("Confirmation Email sent to customer");
 	   		orderLogRepository.save(orderLog2);
 	   		PromoCodes promoCodes = promoCodesService.findByPromoCode(shoppingCart.getPromoCode());
-	   		promoCodes.setPromoUsedCount(promoCodes.getPromoUsedCount()+1);
-	   		promoCodesRepository.save(promoCodes);
+	   		if(promoCodes != null) {
+	   			promoCodes.setPromoUsedCount(promoCodes.getPromoUsedCount()+1);
+	   			promoCodesRepository.save(promoCodes);
+	   		}
 	   		shoppingCartService.clearShoppingCart(shoppingCart);
 		   	 if (foundCookie) {
 		           /* Cookie cookie1 = new Cookie("BagId",shoppingCart.getBagId());

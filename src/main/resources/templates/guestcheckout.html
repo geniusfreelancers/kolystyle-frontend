@@ -7,6 +7,7 @@
 <script src="https://js.braintreegateway.com/web/3.25.0/js/client.min.js"></script>
 <script src="https://js.braintreegateway.com/web/3.25.0/js/paypal-checkout.min.js"></script>
 <script src="/js/demo.js"></script>
+<div class="spinnerspin">
 	<div class="wrapper-box">
 		<div class="main-wrapper">
 
@@ -46,7 +47,7 @@
 								<div class="panel-body">
 									<div class="row">
 										
-										<div class="col-xs-6">
+										<div class="col-md-6">
 									<div class="form-group">
 
 										<label for="firstName">* First Name</label> <input type="text"
@@ -56,7 +57,7 @@
 											th:value="${shippingAddress.firstName}" />
 									</div>
 									</div>
-									<div class="col-xs-6">
+									<div class="col-md-6">
 									<div class="form-group">
 
 										<label for="lastName">* Last Name</label> <input type="text"
@@ -307,34 +308,33 @@ Transit time: 3-6 business days
 						</div>
 						
 						<!-- Display products in cart -->
-						<div class="row" th:each="cartItem : ${cartItemList}">
+						<div class="row" th:attr="ng-repeat = 'cartItem in checkOut.cartItemList'">
 						
 						<hr/>
 						<div class="col-xs-2">
-						<a th:href="@{/productDetail(id=${cartItem.product.id})}">
-						<img class="img-responsive shelf-product" th:src="#{adminPath}+@{/image/product/}+${cartItem.product.id}+'/'+${cartItem.product.coverImageName}" style="width:70px;" />
+						<a th:href="@{/productDetail?id={{cartItem.product.id}}}">
+						<img class="img-responsive shelf-product" th:src="#{adminPath}+@{/image/product/{{cartItem.product.id}}/{{cartItem.product.coverImageName}}}" style="width:70px;" />
 						</a>
 						</div>
 						<div class="col-xs-4">
 							<div style="margin-left:50px;">	
-							<a th:href="@{/productDetail?id=}+${cartItem.product.id}"><h4 th:text="${cartItem.product.title}"></h4></a>
-								<span>Size: </span><span th:text="${cartItem.productSize}"></span> | <span>Web ID: </span><span th:text="${cartItem.product.sku}"></span>
+							<a th:href="@{/productDetail?id={{cartItem.product.id}}}"><h4>{{cartItem.product.title}}</h4></a>
+								<span>Size: </span><span>{{cartItem.productSize}}</span> | <span>Web ID: </span><span>{{cartItem.product.sku}}</span>
 							</div>
 							</div>
 							<div class="col-xs-2">
 								<h5 style="color: #db3208; font-size: large;">
-									$<span th:text="${cartItem.product.ourPrice}"
-										th:style="${cartItem.product.inStockNumber}==0? 'text-decoration: line-through' : ''"></span>
+									$<span>{{cartItem.product.ourPrice}}</span>
 								</h5>
 								
 							</div>
 							<div class="col-xs-2">
-								<h5 style="font-size:large" th:text="${cartItem.qty}"></h5>
+								<h5 style="font-size:large">{{cartItem.qty}}</h5>
 							</div>
 							<div class="col-xs-2">
 							
-							<h5 class="text-primary text-right" style="font-size: large;"  th:with="result=${cartItem.product.ourPrice * cartItem.qty}">
-									$<span th:text="${#numbers.formatDecimal(result, 0, 'COMMA', 2, 'POINT')}" ></span>
+							<h5 class="text-primary text-right" style="font-size: large;">
+									$<span>{{(cartItem.product.ourPrice * cartItem.qty).toFixed(2)}}</span>
 								</h5>
 							</div>
 					
@@ -342,24 +342,24 @@ Transit time: 3-6 business days
 						<hr/>
 			
 							<div class="row">
-								<div class="col-xs-7 text-left">Total before tax:</div>
+								<div class="col-xs-7 text-left">Subtotal :</div>
 								<div class="col-xs-5 text-right">
-									$<span>{{checkOut.grandTotal}}</span>
+									$<span>{{checkOut.grandTotal.toFixed(2)}}</span>
 								</div>
 							</div>
 
 							
 							<div class="row">
-								<div class="col-xs-7 text-left">Discount:</div>
+								<div class="col-xs-7 text-left">Discount :</div>
 								<div class="col-xs-5 text-right text-danger">
-									-$<span>{{checkOut.discountedAmount}}</span>
+									-$<span>{{checkOut.discountedAmount.toFixed(2)}}</span>
 								</div>
 							</div>
 							
 							<div class="row">
-								<div class="col-xs-7 text-left">Shipping: </div>
-								<div class="col-xs-5 text-right text-danger">
-									<span>{{calShippingCost()}}</span>
+								<div class="col-xs-7 text-left">Shipping : </div>
+								<div class="col-xs-5 text-right text-success">
+									<span>{{checkOut.shippingCost}}</span>
 								</div>
 							</div>
 							
@@ -367,12 +367,12 @@ Transit time: 3-6 business days
 							<div class="row">
 								<div class="col-xs-7 text-left">
 									<h3 style="color: darkred;">
-										<strong>Order Total: </strong>
+										<strong>Order Total : </strong>
 									</h3>
 								</div>
 								<div class="col-xs-5 text-right">
 									<h3>
-										<strong style="color: darkred;">$<span>{{checkOut.orderTotal}}</span></strong>
+										<strong style="color: darkred;">$<span>{{checkOut.orderTotal.toFixed(2)}}</span></strong>
 									</h3>
 								</div>
 								
@@ -382,7 +382,7 @@ Transit time: 3-6 business days
 							<div class="row">
 								<div class="col-xs-7 text-left">You saved:</div>
 								<div class="col-xs-5 text-right">
-									$<span class="text-alert">{{calSaving()}}</span>
+									$<span class="text-alert">{{checkOut.errors.toFixed(2)}}</span>
 								</div>
 							</div>
 				
@@ -425,6 +425,6 @@ Transit time: 3-6 business days
 		</div>
 
 	</div>
-
+</div>
 </body>
 </html>
