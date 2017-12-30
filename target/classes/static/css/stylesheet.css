@@ -3,6 +3,25 @@
             CUSTOM STYLE
 
 ******************************************/
+
+.spinnerspin {
+     width: 100%;
+  height: auto;
+  background-color: #cdcdcd;
+  text-align: center;
+  color: #666666;
+}
+.cart-over {
+    position: relative;
+    overflow: hidden;
+}
+/* .spinnerspin {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: black url(spinner.gif) center center no-repeat;
+    opacity: .5;
+} */
 .promo-bg{
 	background:url(/image/woo.png) 0 0 repeat; 
 }

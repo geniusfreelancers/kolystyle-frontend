@@ -6,6 +6,11 @@
 $(function() {
 	$('#applyPromoNow').click(
 	        function() {
+	        	
+	        	$('.spinnerspin').ploading({
+	        	    action: 'show', 
+	        	    spinner: 'wave'
+	        	  })
 	            $.post("/shoppingCart/applyPromoCode", {
 	            	id : $('#cartId').val(),
 	            	promocode : $('#enterPromoCode').val(),
@@ -40,7 +45,10 @@ $(function() {
 		            	   shipping = "FREE";
 		               }else{
 		            	   shipping = "$"+shipping;
-		               }     
+		               } 
+		           	$('.spinnerspin').ploading({
+		        	    action: 'hide'
+		        })   
 		            $('#applyPromoError').show();
 	                $('#applyPromoError').html(htmls);
 	                $('#shippingcost').html(shipping);

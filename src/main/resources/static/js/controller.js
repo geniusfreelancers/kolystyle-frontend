@@ -35,13 +35,22 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
     };
     ////
     $scope.updateCartItem = function (cartItemId) {
+    	$('.updateCartitem').hide();
+    	$('.spinnerspin').ploading({
+    	    action: 'show', 
+    	    spinner: 'wave'
+    	  })
     	var qty = $('#'+cartItemId).val();
         $http.put('/shoppingCart/updateCartItem/'+cartItemId+'/'+qty).success(function () {
-        	 $scope.refreshCart();
+        	 
         	 $scope.calGrandTotal();
              $scope.calPromoDiscount();
              $scope.calShipping();
              $scope.calOrderTotal();
+             $('.updateCartitem').show();
+             $('.spinnerspin').ploading({
+            	    action: 'hide'
+            })
         });
     };
 ////
@@ -91,7 +100,14 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
     
     //Promo code logic
     $scope.applyPromo = function (promoCode) {
+    	$('.spinnerspin').ploading({
+    	    action: 'show', 
+    	    spinner: 'wave'
+    	  })
         $http.put('/shoppingCart/applyPromoCode/'+promoCode).success(function () {
+        	$('.spinnerspin').ploading({
+        	    action: 'hide'
+        })
             $(function()
             {
                 $('#applyPromoError').show();
@@ -99,6 +115,7 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
                     $('#applyPromoError').fadeOut('fast');
                 }, 3000);
             });
+            
         });
     };
 
