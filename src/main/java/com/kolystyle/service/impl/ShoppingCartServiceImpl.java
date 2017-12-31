@@ -53,16 +53,20 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		//May need to check for maximum qty order for same item
 		for(CartItem cartItem : cartItemList){
 			if(cartItem.getProduct().getInStockNumber() > 0){
-				cartItemService.updateCartItem(cartItem);
+				//cartItemService.updateCartItem(cartItem);
+			
 				cartTotal = cartTotal.add(cartItem.getSubtotal());
 			}
 		}
 		
 		shoppingCart.setGrandTotal(cartTotal);
 		shoppingCartRepository.save(shoppingCart);
-		shoppingCart.setGrandTotal(calculateCartSubTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+	//	shoppingCart.setGrandTotal(calculateCartSubTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+	//	shoppingCartRepository.save(shoppingCart);
 		shoppingCart.setDiscountedAmount(calculateDiscountAmount(shoppingCart, promoCodesRepository.findByCouponCode(shoppingCart.getPromoCode())).setScale(2, BigDecimal.ROUND_HALF_UP));
+		shoppingCartRepository.save(shoppingCart);
 		shoppingCart.setShippingCost(calculateShippingCost(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+		shoppingCartRepository.save(shoppingCart);
 		shoppingCart.setOrderTotal(calculateCartOrderTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
 		
 	//	shoppingCart.setOrderTotal(cartTotal.add(shoppingCart.getShippingCost()).subtract(shoppingCart.getDiscountedAmount()));
