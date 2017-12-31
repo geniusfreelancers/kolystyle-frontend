@@ -9,6 +9,7 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
     $scope.refreshCart = function () {
         $http.get('/rest/cart/'+$scope.cartId).success(function (data) {
             $scope.shoppingCart = data;
+            $scope.shoppingCart.shippingCost = $scope.calShipping(data);
         });
     };
 
@@ -33,30 +34,38 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
             });
         });
     };
-
-    $scope.removeFromCart = function (productId) {
-        $http.put('/rest/cart/remove/'+productId).success(function (data) {
-            $scope.refreshCart();
+    ////
+    $scope.updateCartItem = function (cartItemId) {
+    	$('.updateCartitem').hide();
+    	$('.spinnerspin').ploading({
+    	    action: 'show', 
+    	    spinner: 'wave'
+    	  })
+    	var qty = $('#'+cartItemId).val();
+        $http.put('/shoppingCart/updateCartItem/'+cartItemId+'/'+qty).success(function (data) {
+        	$scope.shoppingCart = data;
+        	 $scope.shoppingCart.shippingCost = $scope.calShipping(data);
+             $('.updateCartitem').show();
+             $('.spinnerspin').ploading({
+            	    action: 'hide'
+            })
+        });
+    };
+////
+    $scope.removeFromCart = function (cartItemId) {
+    	
+        $http.post('/rest/cart/remove/'+cartItemId).success(function (data) {
+        	$scope.shoppingCart = data;
+       	 	$scope.shoppingCart.shippingCost = $scope.calShipping(data);
+            
         });
     };
 
 
-    $scope.calGrandTotal = function () {
-        var grandTotal = $scope.shoppingCart.grandTotal;
-       /* for (var i=0; i<$scope.shoppingCart.cartItemList.length; i++){
-            grandTotal += $scope.shoppingCart.cartItemList[i].subtotal;
-        }*/
-        return grandTotal;
-
-    };
+   
     
-    $scope.calPromoDiscount = function () {
-        var promoDiscount = $scope.shoppingCart.discountedAmount;
-    	return promoDiscount;
-
-    };
-    
-    $scope.calShipping = function () {
+    $scope.calShipping = function (data) {
+    	$scope.shoppingCart = data;
         var shippingTotal = $scope.shoppingCart.shippingCost;
         if (shippingTotal == 0){
         	shippingTotal = 'FREE';
@@ -65,29 +74,70 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
 
     };
     
-    $scope.calOrderTotal = function () {
-        var orderTotal = $scope.shoppingCart.orderTotal;
-        return orderTotal;
-
-    };
+   
     
     
     //Promo code logic
-    $scope.applyPromo = function (promoCode) {
-        $http.put('/shoppingCart/applyPromoCode/'+promoCode).success(function () {
-            $(function()
-            {
-                $('#applyPromoError').show();
-                setTimeout(function() {
-                    $('#applyPromoError').fadeOut('fast');
-                }, 3000);
-            });
-        });
+    $scope.applyPromo = function () {
+    	
+    	  var id = $('#cartId').val();
+	      var promocode = $('#enterPromoCode').val();
+	      if(promocode ==""){
+	    	  	$('#applyPromoError').hide();
+				$('.applyPromoError').html("Please enter a valid promo code");
+				//$('#applyPromoError').css('display','inline-block');
+			}else{
+				$('.applyPromoError').html("");
+				$('.spinnerspin').ploading({
+		    	    action: 'show', 
+		    	    spinner: 'wave'
+		    	  })
+		        $http.put('/shoppingCart/applyPromoCode/'+id+'/'+promocode,{ ajax : 'true'}).success(function (data) {
+		        	$scope.shoppingCart = data;
+		        	$scope.shoppingCart.shippingCost = $scope.calShipping(data);
+		        	 if($scope.shoppingCart.errors == null){
+		        		 $('.applyPromoError').html('<p class="text-success"><span>You saved $</span><span>'+$scope.shoppingCart.discountedAmount.toFixed(2)+'</span> using promo code <span>'+$scope.shoppingCart.promoCode.toUpperCase()+'</span>');
+		        		 $('#applyPromoNow').hide();
+                		 $('#removePromoNow').show();
+		        		 $("#enterPromoCode").prop("disabled",true);
+		        	 }
+		        	$('.spinnerspin').ploading({
+		        	    action: 'hide'
+		        })
+		        $('#applyPromoError').show();
+		           /* $(function()
+		            {
+		            //    $('#applyPromoError').show();
+		                setTimeout(function() {
+		                    $('#applyPromoError').fadeOut('fast');
+		                }, 3000);
+		            });*/
+		        	
+		            
+		        });
+    }
     };
 
     $scope.removePromo = function () {
-        $http.put('/shoppingCart/removePromoCode/'+$scope.cartId).success(function (data) {
-            $scope.refreshCart();
+    	var cart = $('#cartId').val();
+    	var bagId =$('#bagId').val();
+    	$('.applyPromoError').html("");
+		$('.spinnerspin').ploading({
+    	    action: 'show', 
+    	    spinner: 'wave'
+    	  })
+        $http.post('/shoppingCart/removePromoCode/'+cart+'/'+bagId).success(function (data) {
+        	$scope.shoppingCart = data;
+        	$scope.shoppingCart.shippingCost = $scope.calShipping(data);
+        	$("#enterPromoCode").val("");
+        	$("#enterPromoCode").prop("disabled",false);
+        	$('#removePromoNow').hide();
+        	$('#applyPromoNow').show();
+        	$('.spinnerspin').ploading({
+        	    action: 'hide'
+        	})
+   		 	
+          //  $scope.refreshCart();
         });
     };
     

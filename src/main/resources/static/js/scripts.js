@@ -3,9 +3,14 @@
  */
 //Apply Promo
 //Add New Category
-$(function() {
+/*$(function() {
 	$('#applyPromoNow').click(
 	        function() {
+	        	
+	        	$('.spinnerspin').ploading({
+	        	    action: 'show', 
+	        	    spinner: 'wave'
+	        	  })
 	            $.post("/shoppingCart/applyPromoCode", {
 	            	id : $('#cartId').val(),
 	            	promocode : $('#enterPromoCode').val(),
@@ -40,7 +45,10 @@ $(function() {
 		            	   shipping = "FREE";
 		               }else{
 		            	   shipping = "$"+shipping;
-		               }     
+		               } 
+		           	$('.spinnerspin').ploading({
+		        	    action: 'hide'
+		        })   
 		            $('#applyPromoError').show();
 	                $('#applyPromoError').html(htmls);
 	                $('#shippingcost').html(shipping);
@@ -50,7 +58,7 @@ $(function() {
 	            });
 	            return false;
 	        });
-  });
+  });*/
 
 $(document).ready(function(){
 	var code = $('#enterPromoCode').val();
@@ -62,8 +70,9 @@ $(document).ready(function(){
 });
 
 //Remove Promo
-$(function() {
+/*$(function() {
 	$('#removePromoNow').click(
+			
 	        function() {
 	        	var cart = $('#cartId').val();
 	        	var bagId =$('#bagId').val();
@@ -90,7 +99,7 @@ $(function() {
 	              		$("#enterPromoCode").prop("disabled",false);	
 	              	}
 	                        
-		            $('#applyPromoError').show();
+		            $('.applyPromoError').show();
 	                $('#applyPromoError').html(htmls);
 	                $('#shippingcost').html(shipping);
 	                $('#discountamount').html(discount.toFixed(2));
@@ -100,7 +109,7 @@ $(function() {
 	            });
 	            return false;
 	        });
-  });
+  });*/
 //Update Mini Cart Category.
 
 $(function() {
@@ -197,6 +206,7 @@ function enableButton(){
 $(document).ready(function(){
 	$("#saveNow").hide();
 });
+
 $(document).ready(function(){
 $(".cartItemQty").on('change',function(){
 	var id=this.id;
@@ -207,6 +217,22 @@ $(".cartItemQty").on('change',function(){
 	}
 });
 });
+
+
+
+/*//testing
+$(function(){
+$(".updateCartitem").click(function(){
+	var id=this.id;
+	if(this.value!=''){
+	$('#update-item-'+id).css('display','inline-block');
+	console.log(id);
+	}else{
+	$('#update-item-'+id).css('display','none');
+	console.log('no-work');
+	}
+});
+});*/
 
 $(document).ready(function(){
 $("#theSameAsShippingAddress").on('click',checkBillingAddress);
@@ -225,7 +251,7 @@ $(document).ready(function(){
 			}else{
 			$('#applyPromoNow').css('display','none');
 			}	
-		$('#applyPromoError').css('display','none');
+		   $('#applyPromoError').css('display','none');
 	});
 	$('#enterPromoCode').on('focusout',function(){
 		
@@ -234,6 +260,7 @@ $(document).ready(function(){
 			}else{
 			$('#applyPromoNow').css('display','none');
 			}
+		$('#applyPromoError').css('display','none');
 	});
 	
 	

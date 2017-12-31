@@ -50,6 +50,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		BigDecimal cartTotal = new BigDecimal(0);
 		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
 		
+		//May need to check for maximum qty order for same item
 		for(CartItem cartItem : cartItemList){
 			if(cartItem.getProduct().getInStockNumber() > 0){
 				cartItemService.updateCartItem(cartItem);

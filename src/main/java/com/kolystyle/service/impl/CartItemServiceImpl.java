@@ -1,8 +1,6 @@
 package com.kolystyle.service.impl;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +11,14 @@ import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.Order;
 import com.kolystyle.domain.Product;
 import com.kolystyle.domain.ProductToCartItem;
-import com.kolystyle.domain.PromoCodes;
 import com.kolystyle.domain.ShoppingCart;
-import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.repository.CartItemRepository;
 
 import com.kolystyle.repository.ProductToCartItemRepository;
 import com.kolystyle.repository.PromoCodesRepository;
 import com.kolystyle.repository.ShoppingCartRepository;
 import com.kolystyle.service.CartItemService;
+import com.kolystyle.service.ProductToCartItemService;
 import com.kolystyle.service.PromoCodesService;
 import com.kolystyle.service.ShoppingCartService;
 import com.kolystyle.service.SiteSettingService;
@@ -34,7 +31,8 @@ public class CartItemServiceImpl implements CartItemService {
 	
 	@Autowired
 	private ProductToCartItemRepository productToCartItemRepository;
-	
+	@Autowired
+	private ProductToCartItemService productToCartItemService;
 	@Autowired
 	private ShoppingCartService shoppingCartService;
 	
@@ -144,7 +142,7 @@ public class CartItemServiceImpl implements CartItemService {
 	}
 	
 	public void removeCartItem(CartItem cartItem){
-		productToCartItemRepository.deleteByCartItem(cartItem);
+		productToCartItemService.deleteByCartItem(cartItem);
 		cartItemRepository.delete(cartItem);	
 	}
 	

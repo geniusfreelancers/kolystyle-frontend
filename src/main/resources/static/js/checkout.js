@@ -7,7 +7,9 @@ var checkoutApp = angular.module("checkoutApp", []);
 checkoutApp.controller("checkoutCtrl", function ($scope, $http) {
 
     $scope.refreshCheck = function () {
-        $http.get('/customize/'+$scope.cartId).success(function (data) {
+        $http.get('/customize/minicart').success(function (data) {
+        	data.errors = $scope.calSaving(data);
+        	data.shippingCost = $scope.calShippingCost(data);
             $scope.checkOut = data;
         });
     };
@@ -19,22 +21,36 @@ checkoutApp.controller("checkoutCtrl", function ($scope, $http) {
 
 
     $scope.changeShippingMethod = function (shippingMethod) {
+    	$('.spinnerspin').ploading({
+    	    action: 'show', 
+    	    spinner: 'wave'
+    	  })
         $http.put('/customize/add/'+shippingMethod+'/'+$scope.cartId).success(function (data) {
-            $scope.refreshCheck();
+        	data.errors = $scope.calSaving(data);
+        	data.shippingCost = $scope.calShippingCost(data);
+            $scope.checkOut = data;
+            $('.spinnerspin').ploading({
+        	    action: 'hide'
+            })
         });
     };
 
 
-    $scope.calShippingCost = function () {
+    $scope.calShippingCost = function (data) {
+    	data.errors = $scope.calSaving(data);
+        $scope.checkOut = data;
         var shippingCost = $scope.checkOut.shippingCost;
         
         if (shippingCost == 0){
         	shippingCost = 'FREE';
+        }else{
+        	shippingCost = "$"+shippingCost;
         }
         return shippingCost;
     };
     
-    $scope.calSaving = function () {
+    $scope.calSaving = function (data) {
+    	$scope.checkOut = data;
     	var saving = 0;
     	var listPrice = 0;
     	var ourPrice =0;

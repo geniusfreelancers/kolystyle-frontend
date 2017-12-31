@@ -70,10 +70,9 @@ public class CartController {
 
 	
 	//Apply Promo  Codes 	
-	@RequestMapping(value="/applyPromoCode", method=RequestMethod.POST)
+	@RequestMapping(value="/applyPromoCode/{id}/{promocode}",  method = RequestMethod.PUT)
 	public @ResponseBody 
-	ShoppingCart applyPromoCode(@ModelAttribute("id") String id,
-			@ModelAttribute("promocode") String couponCode, 
+	ShoppingCart applyPromoCode(@PathVariable(value = "id") String id, @PathVariable(value = "promocode") String couponCode,
 			Model model,Principal principal, HttpServletRequest request){
 	//	HttpSession session = request.getSession();
 		if(couponCode.isEmpty()){
@@ -151,7 +150,9 @@ public class CartController {
 			shoppingCart.setErrors(errors);
 			LOG.info("Promo code not applied because it didn't pass requirenment, Shopping Cart is saving NOW and returned as JSON");
 			shoppingCartRepository.save(shoppingCart);
-		return shoppingCart;
+			return	shoppingCartService.updateShoppingCart(shoppingCart);
+			//ShoppingCart newshoppingCart = shoppingCartService.findCartByCookie(request);
+		//return newshoppingCart;
 	}
 	
 	@RequestMapping(value="/removePromoCode/{cartId}/{bagId}", method=RequestMethod.POST)
@@ -168,8 +169,9 @@ public class CartController {
 			shoppingCart.setOrderTotal(gTotal.add(shoppingCart.getShippingCost()).subtract(discountedAmount));
 			
 			shoppingCartRepository.save(shoppingCart);
-			
-			return shoppingCart;
+			return shoppingCartService.updateShoppingCart(shoppingCart);
+			//ShoppingCart newshoppingCart = shoppingCartRepository.findOne(id);
+			//return newshoppingCart;
 		}else {
 			//Shopping Cart ID and Bag ID mismatched Do something to 
 			LOG.info("Unusual promo code removal is triggred for Cart with ID : {}",shoppingCart.getId());
@@ -184,7 +186,7 @@ public class CartController {
         model.addAttribute("siteSettings",siteSettings);
 		User user = null;
 		ShoppingCart shoppingCart;
-		
+		List<CartItem> cartItemList = null;
 		//User need to log in If wanted to implement Guest Check out need to work on this
 		if(principal != null){
 		
@@ -194,18 +196,14 @@ public class CartController {
 
 			shoppingCart = shoppingCartService.findCartByCookie(request);
 			System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
-       
-       	if (shoppingCart == null) {
-       		model.addAttribute("emptyCart",true);
-       		return "shoppingCart";
-
-       	}
-       	
 		}
-		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
-		if(cartItemList.size()< 1) {
-			model.addAttribute("emptyCart",true);
-		}else {
+       	if (shoppingCart == null || shoppingCart.getCartItemList().size() < 1) {
+       		model.addAttribute("emptyCart",true);
+       		
+
+       	}else {
+       		cartItemList = cartItemService.findByShoppingCart(shoppingCart);
+       	
 			shoppingCartService.updateShoppingCart(shoppingCart);
 			model.addAttribute("emptyCart",false);	
 		}
@@ -404,28 +402,32 @@ public class CartController {
 		
 	}
 	
-	@RequestMapping("/updateCartItem")
-	public String updateShoppingCart(@ModelAttribute("id") Long cartItemId, @ModelAttribute("qty") int qty,Model model){
+	@RequestMapping(value="/updateCartItem/{cartItemId}/{qty}", method = RequestMethod.PUT)
+	public  @ResponseBody
+    ShoppingCart updateShoppingCart(@PathVariable(value = "cartItemId") Long cartItemId, 
+			@PathVariable(value = "qty") int qty,Model model){
 		CartItem cartItem = cartItemService.findById(cartItemId);
-		
+		ShoppingCart shoppingCart = cartItem.getShoppingCart();
+		Long shoppingCartId = shoppingCart.getId();
+		//need to change logic to return error message from db
 		if(qty < 1 ){
 			//model.addAttribute("notEnoughStock",true);
 			cartItemService.removeCartItem(cartItem);
-			return "forward:/shoppingCart/cart";
-		}
-		
-		if(qty > cartItem.getProduct().getInStockNumber()){
+		}else if(qty > cartItem.getProduct().getInStockNumber()) {
 			model.addAttribute("notEnoughStock",true);
-			return "forward:/shoppingCart/cart";
-			}
-		
-		
-		cartItem.setQty(qty);
-		cartItemService.updateCartItem(cartItem);
-		
-		return "forward:/shoppingCart/cart";
+		}else {
+			cartItem.setQty(qty);
+			//check to see if subtotal promo shipping and total is updated as well NEED TO UPDATE
+			cartItemService.updateCartItem(cartItem);
+			shoppingCartService.updateShoppingCart(shoppingCart);
+		}
+		shoppingCartRepository.save(shoppingCart);
+		return shoppingCartRepository.findOne(shoppingCartId);
+		//return shoppingCart;
 		
 	}
+	
+
 	
 	@RequestMapping("/removeItem")
 	public String removeItem(@RequestParam("id") Long id){

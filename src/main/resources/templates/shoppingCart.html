@@ -2,13 +2,15 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="common/head :: common-head" />
 <body>
+	<div class="spinnerspin">
 	<div class="wrapper-box">
 		<div class="main-wrapper">
 
 			<div th:replace="common/head :: navbar" />
 
 			<div id="container">
-				<div id="content">
+				<div id="content cart-over">
+			
 			
 
 		<div class="row" style="margin-top: 10px;">
@@ -68,8 +70,8 @@
 					<!-- ***************************Display Products in Cart***************************************** -->
 					<div class="row" th:attr="ng-repeat = 'cartItem in shoppingCart.cartItemList'">
 					<div class="col-md-8 col-md-offset-2"><hr/>
-						<form th:action="@{/shoppingCart/updateCartItem}" method="post">
-							
+						<!-- form th:action="@{/shoppingCart/updateCartItem}" method="post"-->
+						<form method="post">	
 							<div class="col-md-2">
 								<a href="/productDetail?id={{cartItem.product.id}}"> <img
 									class="img-responsive product-shelf" style="width:70px;"
@@ -110,20 +112,25 @@
 									
 									class="form-control cartItemQty" value="{{cartItem.qty}}" type="number" />
 								<br/>
-								<button style="display: none;"
+								
+								 
+								 
+								<!--  style="display: none;" -->
+								<button th:attr="ng-click='updateCartItem(cartItem.id)'" 
 									id="update-item-{{cartItem.id}}" type="submit"
-									class="btn btn-warning btn-xs">Update</button>
+									class="btn btn-warning btn-xs updateCartitem">Update</button>
 							</div>
 							<div class="col-md-2">
 							<p class="text-right"> 
-									<strong>$<span>{{cartItem.product.ourPrice * cartItem.qty}}</span></strong>
+									<strong>$<span>{{(cartItem.product.ourPrice * cartItem.qty).toFixed(2)}}</span></strong>
 								</p>
 								<br/><br/>
+							
+							
+							</div>
+							<div class="col-md-10 col-md-offset-2">
 							<a href="#" class="text-danger" th:attr="ng-click='removeFromCart(cartItem.id)'" ><i class="fa fa-trash" aria-hidden="true"></i> Remove</a>	
 								
-							<!-- <p class="text-right"  th:with="result=${cartItem.product.ourPrice * cartItem.qty}">
-									<strong>$<span th:text="${#numbers.formatDecimal(result, 0, 'COMMA', 2, 'POINT')}" ></span></strong>
-								</p> -->
 							</div>
 						</form>
 						
@@ -133,7 +140,7 @@
 						
 						<div class="col-md-8 col-md-offset-2">
 						<hr/>
-						<form name="applyPromo" action="/shoppingCart/applyPromo" method="post">
+						
 						<input hidden="hidden" th:name="bagId" id="bagId" th:value="${shoppingCart.bagId}"/>
 						<div class="form-group">
 						<label class="col-md-3 control-label" style="margin-top:5px;" for="promoCode">
@@ -146,21 +153,22 @@
 									class="form-control promoCode" value="" th:type="text"/>
 									
 									<!-- Coupon you applied is not valid th:if="${invalidPromoError}"-->
-									<p id="applyPromoError"></p>
+									<p id="applyPromoError">{{shoppingCart.errors}}</p>
+									<p class="applyPromoError text-danger"></p>
 						</div>
 						<div class="col-md-5">			
-								<button style="display: none;" 
-									th:id="applyPromoNow" type="submit"
+								<button style="display:none;" 
+									th:id="applyPromoNow" th:attr="ng-click='applyPromo()'"  type="submit"
 									class="btn btn-primary">Apply</button>
 							
-								<button type="submit" style="display: none;" class="btn btn-danger"
+								<button type="submit" style="display: none;" class="btn btn-danger" th:attr="ng-click='removePromo()'"
 									th:id="removePromoNow">Remove</button>	
 						</div>
 					</div>
 					
 					
 							
-						</form>
+						
 						
 						</div>
 						</div>
@@ -175,7 +183,7 @@
 						</p>
 						</div>	
 						<div class="col-md-2 col-xs-6">
-							<p><strong> <span>$<span id="subtotalamount">{{calGrandTotal()}}</span>
+							<p><strong> <span>$<span id="subtotalamount">{{shoppingCart.grandTotal}}</span>
 								<input hidden="hidden" name="id" id="subamount" value="{{calGrandTotal()}}" />
 							
 								</span></strong> 
@@ -188,8 +196,8 @@
 						</p>
 						</div>	
 						<div class="col-md-2 col-xs-6 text-success">
-							<p><strong> <span>$<span id="discountamount">{{calPromoDiscount()}}</span>
-								<input hidden="hidden" name="id" id="discountamounts" th:value="${shoppingCart.discountedAmount}" />
+							<p><strong> <span>- $<span id="discountamount">{{shoppingCart.discountedAmount}}</span>
+								<input hidden="hidden" name="id" id="discountamounts" value="{{shoppingCart.discountedAmount}}" />
 							
 								</span></strong> 
 						</p>
@@ -202,9 +210,9 @@
 						</div>	
 						<div class="col-md-2 col-xs-6">
 							<p> <span>
-								 <span id="shippingcost" th:text="${shoppingCart.shippingCost}">{{calShipping()}}</span>
-								 <input hidden="hidden" name="id" id="subamount" th:value="${shoppingCart.shippingCost}" />
-								<input hidden="hidden" name="id" id="subamount" th:value="${shoppingCart.grandTotal}" />
+								 <span id="shippingcost">{{shoppingCart.shippingCost}}</span>
+								 <!-- <input hidden="hidden" name="id" id="subamount" th:value="${shoppingCart.shippingCost}" />
+								<input hidden="hidden" name="id" id="subamount" th:value="${shoppingCart.grandTotal}" /> -->
 								</span> 
 						</p>
 						</div>
@@ -234,8 +242,8 @@
 						</div>	
 						<div class="col-md-2 col-xs-6">
 							<p><strong> <span>$
-								<span id="ordertotal">{{calOrderTotal()}}</span>
-								<input hidden="hidden" name="id" id="subamount" value="{{calOrderTotal()}}" />
+								<span id="ordertotal">{{shoppingCart.orderTotal}}</span>
+								<input hidden="hidden" name="id" id="subamount" value="{{shoppingCart.orderTotal}}" />
 							
 								</span></strong> 
 						</p>
@@ -281,6 +289,6 @@
 		</div>
 
 	</div>
-
+</div>
 </body>
 </html>

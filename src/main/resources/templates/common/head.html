@@ -46,6 +46,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 <link href='//fonts.googleapis.com/css?family=&v1' rel='stylesheet' type='text/css'-->
 
 
+<link rel="stylesheet" th:href="@{/css/p-loading.min.css}" />
 
 <link rel="icon" href="/image/logo-icon.png" />
 </head>
@@ -109,7 +110,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
                         <div class="mini-cart-info">
                             <table id="cart-item-list">
                             	<tr th:attr="ng-repeat = 'cartItem in miniCart.cartItemList'">
-                            	<!--td><img class="img-responsive primary_image" th:src="#{adminPath}+@{/image/product/}+${cartItem.product.id}+'/'+${cartItem.product.coverImageName}" alt="{{cartItem.title}}" /></td-->
+                            	<td><img
+									class="img-responsive product-shelf" style="width:70px;"
+									th:src="#{adminPath}+@{/image/product/{{cartItem.product.id}}/{{cartItem.product.coverImageName}}}" /></td>
                             	<td><span class="col-md-12">{{cartItem.product.title}}</span><span class="col-md-12">Size: {{cartItem.productSize}} | {{cartItem.qty}} x ${{cartItem.product.ourPrice}}</span></td>
                             	<td> ${{cartItem.subtotal}}</td>
                             	</tr>
@@ -678,6 +681,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
     <script th:src="@{/js/check.js}"></script>
     <script th:src="@{/js/validation.js}"></script>
     <script src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
+    <!-- P-Loading JS -->
+	<script th:src="@{/js/p-loading.min.js}"></script>
     
 	</div>
 </body>

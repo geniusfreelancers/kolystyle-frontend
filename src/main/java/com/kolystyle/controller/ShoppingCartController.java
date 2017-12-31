@@ -69,74 +69,19 @@ public class ShoppingCartController {
 	@Autowired
 	private SiteSettingService siteSettingService;
 	
-/*	//Apply Promo  Codes 	
-	@RequestMapping(value="/applyPromoCode", method=RequestMethod.POST)
-	public @ResponseBody 
-	PromoCodes applyPromoCode(@ModelAttribute("id") String id,
-			@ModelAttribute("promocode") String promocode, 
-			Model model,Principal principal, HttpServletRequest request){
-		HttpSession session = request.getSession();
-		if(promocode.isEmpty()){
-			model.addAttribute("emptyPromoError",true);
-			return null;
-		}
-		PromoCodes promoCodes = promoCodesService.findByPromoCode(promocode);
-		User user = null;
-		ShoppingCart shoppingCart;
-		if(promoCodes==null){
-			LOG.info("User entered invalid promo code: {}", promoCodes);
-			return promoCodes;
-		}else{
-			LOG.info("User entered valid promo code: {} value of {}", promoCodes,promoCodes.getPromoValue());
-		}
-		if(principal != null){
-			user= userService.findByUsername(principal.getName());
-			shoppingCart = user.getShoppingCart();
-			LOG.info("User {} is a member with shopping cart id of {} and bag ID of {}", user.getUsername(), shoppingCart.getId(),shoppingCart.getBagId());
-		}else{	
-			// Get Cart from Session.
-			shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
-			LOG.info("User is a GUEST with shopping cart id of {} and bag ID of {}", shoppingCart.getId(),shoppingCart.getBagId());
-		}
-
-		BigDecimal gTotal = shoppingCart.getGrandTotal();
-		BigDecimal promoVal = promoCodes.getPromoValue();
-		BigDecimal gNewTotal = new BigDecimal(0);
-		LOG.info("User's Shopping Cart Grand Total is: {}", gTotal);
-		if(promoCodes.getPercentOrDollar().equalsIgnoreCase("dollar")) {
-			gNewTotal = gTotal.subtract(promoVal);
-					//gTotal- promoCodes.getPromoValue();
-			LOG.info("User's applied Coupon Code with dollar value of: {}", promoVal);
-			LOG.info("User's New Shopping Cart Grand Total is: {} after {} dollars discount", gNewTotal,promoVal);
-		}else {
-			gNewTotal = promoVal.divide(new BigDecimal(100),2);
-			LOG.info("User's applied Coupon Code with percentage value of: {}%", promoCodes.getPromoValue());
-			gNewTotal = gNewTotal.multiply(gTotal);
-			LOG.info("User's applied Coupon Code with percentage value of: {}% and gets $ {} discount", promoVal,gNewTotal);
-			gNewTotal = gTotal.subtract(gNewTotal);
-			LOG.info("User's New Shopping Cart Grand Total is: {} after {} percentage discount", gNewTotal,promoVal);
-		}
-		BigDecimal b = gNewTotal;
-		LOG.info("Converting to BigDecimal {} from Double {}",b, gNewTotal);
-		shoppingCart.setPromoCode(promocode);
-		LOG.info("Promo Code {} is stored in Shopping Cart with Bag ID {}",promocode, shoppingCart.getBagId());
-		shoppingCart.setDiscountedAmount(b);
-		LOG.info("Stored Discounted Amount {} Shopping Cart with Bag ID {} where Grand Total was {}",b,promocode, shoppingCart.getBagId(),shoppingCart.getGrandTotal());
-		shoppingCartRepository.save(shoppingCart);
-		LOG.info("Shopping Cart is saved and returning promoCodes as JSON");
-
-		return promoCodes;
-	}*/
-	
-	
 	
 	
 	@RequestMapping("/{cartId}")
     public @ResponseBody
-    ShoppingCart getCartById(@PathVariable(value = "cartId") int cartId){
-        return shoppingCartRepository.findOne((long) cartId);
+    ShoppingCart getCartById(@PathVariable(value = "cartId") Long cartId,HttpServletRequest request){
+		ShoppingCart shoppingCart = shoppingCartService.findCartByCookie(request);
+		System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
+		if(shoppingCart.getId() == cartId) {
+			 return shoppingCart;
+		}
+        return null;
     }
-	@RequestMapping("/cart")
+	/*@RequestMapping("/cart")
 	public String shoppingCart(Model model,Principal principal,HttpServletRequest request){
 		
 		User user = null;
@@ -205,7 +150,7 @@ public class ShoppingCartController {
 		model.addAttribute("shoppingCart",shoppingCart);
 		
 		return "shoppingCart";
-	}
+	}*/
 	
 	
 	/*@RequestMapping(value = "/addItem", method = RequestMethod.PUT)
@@ -293,40 +238,24 @@ public class ShoppingCartController {
 		
 	}*/
 	
-	@RequestMapping("/updateCartItem")
-	public String updateShoppingCart(@ModelAttribute("id") Long cartItemId, @ModelAttribute("qty") int qty,Model model){
-		CartItem cartItem = cartItemService.findById(cartItemId);
-		
-		if(qty < 1 ){
-			//model.addAttribute("notEnoughStock",true);
-			cartItemService.removeCartItem(cartItem);
-			return "forward:/shoppingCart/cart";
-		}
-		
-		if(qty > cartItem.getProduct().getInStockNumber()){
-			model.addAttribute("notEnoughStock",true);
-			return "forward:/shoppingCart/cart";
-			}
-		
-		
-		cartItem.setQty(qty);
-		cartItemService.updateCartItem(cartItem);
-		
-		return "forward:/shoppingCart/cart";
-		
-	}
+
 	@RequestMapping(value= "/removeItem", method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void removeItem(@RequestParam("id") Long id){
 		cartItemService.removeCartItem(cartItemService.findById(id));
 	}
 	
-	@RequestMapping(value = "/remove/{productId}", method = RequestMethod.PUT)
+	/*@RequestMapping(value = "/remove/{productId}", method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void removeCartItem(@PathVariable(value = "productId") Long id){
 		cartItemService.removeCartItem(cartItemService.findById(id));
-    }
+    }*/
 
+	@RequestMapping(value = "/remove/{cartItemId}", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void removeCartItems(@PathVariable(value = "cartItemId") Long id){
+		cartItemService.removeCartItem(cartItemService.findById(id));
+    }
 	
 	@ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Illegal request, please verify your payload.")
