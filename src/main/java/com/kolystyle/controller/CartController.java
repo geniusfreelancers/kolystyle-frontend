@@ -407,26 +407,23 @@ public class CartController {
     ShoppingCart updateShoppingCart(@PathVariable(value = "cartItemId") Long cartItemId, 
 			@PathVariable(value = "qty") int qty,Model model){
 		CartItem cartItem = cartItemService.findById(cartItemId);
+		ShoppingCart shoppingCart = cartItem.getShoppingCart();
+		Long shoppingCartId = shoppingCart.getId();
 		//need to change logic to return error message from db
 		if(qty < 1 ){
 			//model.addAttribute("notEnoughStock",true);
 			cartItemService.removeCartItem(cartItem);
-			
-			return null;
-		}
-		
-		if(qty > cartItem.getProduct().getInStockNumber()){
+		}else if(qty > cartItem.getProduct().getInStockNumber()) {
 			model.addAttribute("notEnoughStock",true);
-			return null;
-			}
-		
-		
-		cartItem.setQty(qty);
-		//check to see if subtotal promo shipping and total is updated as well NEED TO UPDATE
-		cartItemService.updateCartItem(cartItem);
-		ShoppingCart shoppingCart = cartItem.getShoppingCart();
-		shoppingCartService.updateShoppingCart(shoppingCart);
-		return shoppingCart;
+		}else {
+			cartItem.setQty(qty);
+			//check to see if subtotal promo shipping and total is updated as well NEED TO UPDATE
+			cartItemService.updateCartItem(cartItem);
+			shoppingCartService.updateShoppingCart(shoppingCart);
+		}
+		shoppingCartRepository.save(shoppingCart);
+		return shoppingCartRepository.findOne(shoppingCartId);
+		//return shoppingCart;
 		
 	}
 	

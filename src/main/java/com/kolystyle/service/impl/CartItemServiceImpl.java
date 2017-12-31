@@ -1,8 +1,6 @@
 package com.kolystyle.service.impl;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +11,7 @@ import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.Order;
 import com.kolystyle.domain.Product;
 import com.kolystyle.domain.ProductToCartItem;
-import com.kolystyle.domain.PromoCodes;
 import com.kolystyle.domain.ShoppingCart;
-import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.repository.CartItemRepository;
 
 import com.kolystyle.repository.ProductToCartItemRepository;
