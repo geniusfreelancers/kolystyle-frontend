@@ -142,8 +142,9 @@ public class CartItemServiceImpl implements CartItemService {
 	}
 	
 	public void removeCartItem(CartItem cartItem){
+		cartItemRepository.deleteById(cartItem.getId());
 		productToCartItemService.deleteByCartItem(cartItem);
-		cartItemRepository.delete(cartItem);	
+		//cartItemRepository.delete(cartItem.getId());
 	}
 	
 	public CartItem save(CartItem cartItem){
