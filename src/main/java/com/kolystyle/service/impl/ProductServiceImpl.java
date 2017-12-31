@@ -35,11 +35,11 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	public List<Product> findTop12ByCategory(Category category){
-		return productRepository.findTop12ByCategory(category);
+		return productRepository.findTop12ByCategoryOrderByIdDesc(category);
 	}
 	
 	public List<Product> findTop15ByBrand(String brand){
-		return productRepository.findTop15ByBrand(brand);
+		return productRepository.findTop15ByBrandOrderByIdDesc(brand);
 	}
 	
 	public List<Product> findByCategory(Category category){

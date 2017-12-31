@@ -2,12 +2,15 @@ package com.kolystyle.controller;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
@@ -45,10 +48,12 @@ import com.kolystyle.domain.User;
 import com.kolystyle.domain.UserBilling;
 import com.kolystyle.domain.UserPayment;
 import com.kolystyle.domain.UserShipping;
+import com.kolystyle.domain.ViewedRecently;
 import com.kolystyle.domain.security.PasswordResetToken;
 import com.kolystyle.domain.security.Role;
 import com.kolystyle.domain.security.UserRole;
 import com.kolystyle.repository.CartItemRepository;
+import com.kolystyle.repository.ViewedRecentlyRepository;
 import com.kolystyle.service.CartItemService;
 import com.kolystyle.service.OrderService;
 import com.kolystyle.service.ProductService;
@@ -56,6 +61,7 @@ import com.kolystyle.service.ShoppingCartService;
 import com.kolystyle.service.UserPaymentService;
 import com.kolystyle.service.UserService;
 import com.kolystyle.service.UserShippingService;
+import com.kolystyle.service.ViewedRecentlyService;
 import com.kolystyle.service.impl.UserSecurityService;
 import com.kolystyle.utility.MailConstructor;
 import com.kolystyle.utility.SecurityUtility;
@@ -96,7 +102,10 @@ public class HomeController {
 	
 	@Autowired
 	private OrderService orderService;
-	
+	@Autowired
+	private ViewedRecentlyService viewedRecentlyService;
+	@Autowired
+	private ViewedRecentlyRepository viewedRecentlyRepository;
 	@Autowired
 	private CartItemRepository cartItemRepository;
 	
@@ -107,7 +116,7 @@ public class HomeController {
 		return "thankyou";
 	}
 	
-	@RequestMapping("/index")
+/*	@RequestMapping("/index")
 	public String index(Model model) {
 		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
@@ -117,7 +126,7 @@ public class HomeController {
 	@RequestMapping("/result")
 	public String result() {
 		return "result";
-	}
+	}*/
 	
 	 @RequestMapping("/")
 	    public String home(Model model){
@@ -139,7 +148,7 @@ public class HomeController {
         SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
         if(siteSettings.isLoginKillSwitch()) {
-        	return "redirect:/guestcheckout";
+        	return "redirect:/cart/guestcheckout";
         }
 		if(error != null){
             model.addAttribute("invalid",true);
@@ -313,7 +322,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/productDetail")
-	public String productDetail(@PathParam("id") Long id, Model model, Principal principal) {
+	public String productDetail(@PathParam("id") Long id, Model model, Principal principal,HttpServletRequest request,HttpServletResponse response) {
 		if(principal != null){
 			String username = principal.getName();
 			User user = userService.findByUsername(username);
@@ -321,6 +330,127 @@ public class HomeController {
 		}
 		
 		Product product = productService.findOne(id);
+		if(product == null) {
+			return "redirect:/productshelf";
+		}else {
+			/*Get bagId and or cookieValue and find product id if exist else
+			set cookie with value and create new ViewedRecently object */
+			
+			
+			Cookie[] cookies = request.getCookies();
+			boolean foundCookie = false;
+			boolean foundBagId =false;
+			String bagId = null;
+			String cookieValue = null;
+			 if (cookies != null){
+			int cookieLength = cookies.length;
+			
+	   	 //Check cookie value
+			if (cookieLength >0) {
+	        for(int i = 0; i < cookieLength; i++) { 
+	            Cookie cartID = cookies[i];
+	            if (cartID.getName().equalsIgnoreCase("BagId")) {
+	                System.out.println("BagId = " + cartID.getValue());
+	                foundBagId = true;
+	                bagId = cartID.getValue();
+	            }
+	            if (cartID.getName().equalsIgnoreCase("CookieValue")) {
+	                System.out.println("CookieValue = " + cartID.getValue());
+	                foundCookie = true;
+	                cookieValue = cartID.getValue();
+	            }
+	            
+	        }
+	       
+			}}	
+		if (!foundCookie) {
+			ViewedRecently viewedRecently = viewedRecentlyService.findByBagId(bagId);
+			if(viewedRecently == null) {
+				viewedRecently = new ViewedRecently();
+				
+			}		
+				Random rand = new Random();
+    			int  newrandom = rand.nextInt(99) + 10;
+    			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    			cookieValue = newrandom+"PRO"+timestamp.getTime();
+				viewedRecently.setCookieValue(cookieValue);
+				viewedRecently.setBagId(bagId);
+				
+				String alreadyInList = viewedRecently.getProductList();
+				if(alreadyInList != null) {
+					alreadyInList = alreadyInList+","+id.toString();
+				}else {
+					alreadyInList = id.toString();
+				}
+				List<String> sizeList = Arrays.asList(alreadyInList.split("\\s*,\\s*"));
+				String inList = "";
+				int count = 1;
+				for(String size : sizeList) {
+					if(size.equalsIgnoreCase(id.toString()) ) {
+						if(count == 1) {
+							inList += id.toString();
+						}else {
+							inList += ","+size+","+id.toString();
+						}
+					}else {
+						
+						if(count == 1) {
+							inList += id.toString();
+						}else {
+							inList += ","+size+","+id.toString();
+						}
+						
+					}
+					count++;
+				}
+				viewedRecently.setProductList(inList);
+				List<String> viewedRecentlyList = Arrays.asList(inList.split("\\s*,\\s*"));
+				List<Product> viewedProduct = new ArrayList<Product>();
+				for(String recent : viewedRecentlyList) {
+					viewedProduct.add(productService.findOne(new Long(recent)));
+				}
+				
+				viewedRecently.setUpdatedDate(Calendar.getInstance().getTime());
+				viewedRecentlyRepository.save(viewedRecently);
+				model.addAttribute("viewedRecently",viewedProduct);
+    	            Cookie cookie1 = new Cookie("CookieValue",cookieValue);
+    	            cookie1.setPath("/");
+    	            cookie1.setMaxAge(30*24*60*60);
+    	            response.addCookie(cookie1); 
+		}else {
+			ViewedRecently viewedRecently = viewedRecentlyService.findByCookieValue(cookieValue);
+			String alreadyInList = viewedRecently.getProductList();
+			if(alreadyInList != null) {
+				alreadyInList = alreadyInList+","+id.toString();
+			}else {
+				alreadyInList = id.toString();
+			}
+			List<String> sizeList = Arrays.asList(alreadyInList.split("\\s*,\\s*"));
+			
+			String inList = id.toString();
+			int count = 1;
+			for(String size : sizeList) {
+				if(size.equalsIgnoreCase(id.toString()) ) {
+					 
+				}else {
+					
+						inList = inList+","+size;
+					
+				}
+				count++;
+			}
+			viewedRecently.setProductList(inList);
+			List<String> viewedRecentlyList = Arrays.asList(inList.split("\\s*,\\s*"));
+			List<Product> viewedProduct = new ArrayList<Product>();
+			for(String recent : viewedRecentlyList) {
+				viewedProduct.add(productService.findOne(new Long(recent)));
+			}
+			viewedRecently.setUpdatedDate(Calendar.getInstance().getTime());
+			viewedRecentlyRepository.save(viewedRecently);
+			model.addAttribute("viewedRecently",viewedProduct);
+		}
+		
+		}
 		String availableSize = product.getSize();
 		List<String> sizeList = Arrays.asList(availableSize.split("\\s*,\\s*"));
 		

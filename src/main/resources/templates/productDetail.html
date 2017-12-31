@@ -374,7 +374,65 @@ width: 270px;
 </div>
 <div class="col-md-12">
 
-<p>Recently viewed items</p>
+<p class="label-title">Recently viewed items</p>
+
+<div class="related-pro" data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
+<div th:each="product : ${viewedRecently}" class="col-md-3 col-sm-6 slide-inner" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-size=${product.size}" >
+                    <div class="product-singleArea">
+                    
+                        <div class="product-img">
+                        
+                            <div class="overlay">
+                            <div th:class="'overlay_'+${product.id}">
+                                
+                            </div>
+                            </div>
+                            
+                            <a th:href="@{/productDetail?id=}+${product.id}">
+                                <img class="img-responsive primary_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
+                            <a th:href="@{/productDetail?id=}+${product.id}">
+                                <img class="img-responsive hover_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
+                           
+                            <div class="product-cart-area">
+                                <div class="btn-others">
+                                    <ul>
+                                        <li th:if="!${siteSettings.loginKillSwitch}"><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
+                                        
+                                        <li><a href="#" th:id="${product.id}" class="btn-view"><i class="fa fa-expand"></i></a></li>
+                                    </ul>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <div class="product-details">
+
+                           
+                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}"><h2 th:text="${product.title}"></h2></a></div>
+                            <div class="product-pd">
+                                <div class="product-price">
+								<a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: x-large; color: #db3208;">$<span
+												th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a>
+								</div>
+                                <div class="product-discount">
+                                <span th:class="'id-addingtocart-'+${product.id}" id="addedtocart"></span>
+								<span style="text-decoration: line-through;color:#b3b3b3;">$<span
+												th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
+								</div>
+                            </div>
+                            <div class="product-review" style="display:none;">
+                                <div class="star">
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                    <span class="yes"><i class="fa fa-star"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+</div>
 </div>
 </div>
 <script th:src="@{/js/controller.js}"></script>

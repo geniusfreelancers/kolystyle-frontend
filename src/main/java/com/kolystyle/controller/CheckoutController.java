@@ -130,7 +130,7 @@ public class CheckoutController {
 	@Autowired
 	private MailConstructor mailConstructor;
 	
-	@RequestMapping("/guestcheckout")
+	@RequestMapping("/cart/guestcheckout")
 	public String guestcheckout(HttpServletRequest request,HttpServletResponse response,Model model ) {
 		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
@@ -206,7 +206,7 @@ if(shoppingCart!=null) {
 }
 if(shoppingCart==null) {
 	System.out.println("Bag ID IS MISSING");
-	return "redirect:/guestcheckout?missingRequiredField=true";
+	return "redirect:/cart/guestcheckout?missingRequiredField=true";
 }
 		
 		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
@@ -215,7 +215,7 @@ if(shoppingCart==null) {
 				   shippingAddress.getShippingAddressCity().isEmpty() ||
 				   shippingAddress.getShippingAddressState().isEmpty() ||
 				   shippingAddress.getShippingAddressZipcode().isEmpty()) {
-			return "redirect:/checkout?id="+shoppingCart.getId()+"&missingRequiredField=true";
+			return "redirect:/cart/guestcheckout?missingRequiredField=true";
 		}
 /*		if(billingSameAsShipping.equals("true")){
 			billingAddress.setBillingAddressStreet1(shippingAddress.getShippingAddressStreet1());
@@ -244,7 +244,7 @@ if(shoppingCart==null) {
 	           decimalAmount = new BigDecimal(amount);
 	       } catch (NumberFormatException e) {
 	           redirectAttributes.addFlashAttribute("errorDetails", "Error: 81503: Amount is an invalid format.");
-	           return "redirect:checkouts";
+	           return "redirect:/cart/guestcheckout?missingRequiredField=true";
 	       }
 
 	       TransactionRequest reequest = new TransactionRequest()
@@ -322,7 +322,7 @@ if(shoppingCart==null) {
 	              errorString += "Error: " + error.getCode() + ": " + error.getMessage() + "\n";
 	           }
 	           redirectAttributes.addFlashAttribute("errorDetails", errorString);
-	           return "redirect:guestcheckout";
+	           return "redirect:/cart/guestcheckout";
 	       }
      
     }
