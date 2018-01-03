@@ -20,6 +20,8 @@ public interface ShoppingCartService {
 	BigDecimal calculateShippingCost(ShoppingCart shoppingCart);
 	PromoCodes checkCouponValidity(PromoCodes promoCodes);
 	ShoppingCart findCartByCookie( HttpServletRequest request);
+
+	int cartItemCount(ShoppingCart shoppingCart);
 	
 /*	GuestShoppingCart updateGuestShoppingCart(GuestShoppingCart guestShoppingCart);
 	

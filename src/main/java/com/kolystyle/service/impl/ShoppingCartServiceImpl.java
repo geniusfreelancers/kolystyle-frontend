@@ -186,7 +186,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		return promoCodes;
 		
 	}
-
+	public int cartItemCount(ShoppingCart shoppingCart) {
+		List<CartItem> cartItemList = shoppingCart.getCartItemList();
+		int itemCount = 0;
+		for (CartItem cartItem : cartItemList) {
+			itemCount = itemCount+cartItem.getQty();
+		}
+		return itemCount;
+	}
 
 	public ShoppingCart findCartByCookie(HttpServletRequest request) {
 		ShoppingCart shoppingCart = null;
