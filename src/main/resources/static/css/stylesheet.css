@@ -3,12 +3,45 @@
             CUSTOM STYLE
 
 ******************************************/
+<<<<<<< HEAD
 .brandlist li{
 	
 	
 	list-style:none;
 }
 
+=======
+.uup{
+	top:45px!important;
+}
+.discount-digit {
+    z-index: 999;
+    position: absolute;
+    top: 5px;
+    right: 18px;
+}
+.icon_text_right {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    z-index: 2;
+    color: #ffffff;
+    font-size: 1.3em;
+    font-weight: bold;
+   /*  background:url(/image/icons/discount.png) center center no-repeat; */
+}
+.icon_image_right {
+    position: absolute;
+    right:0;
+    width: 100px!important;
+    height: 100px!important;
+}
+.icon_image {
+    position: absolute;
+    width: 100px!important;
+    height: 100px!important;
+}
+>>>>>>> 860bd139d148bbaeee84bb608b019f150040d79e
 .braintree-upper-container{
 	z-index:0!important;
 }

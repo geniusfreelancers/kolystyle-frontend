@@ -123,6 +123,8 @@ public class CartController {
 				errors = "Promo code "+couponCode.toUpperCase()+" can be used on or after "+new SimpleDateFormat("MM-dd-yyyy").format(promoCodes.getStartDate());
 			}else if(expiry.before(today)) {
 				errors = "Promo code "+couponCode.toUpperCase()+" expired on "+new SimpleDateFormat("MM-dd-yyyy").format(promoCodes.getExpiryDate());
+			}else if(promoCodes.getCartItemQty() > shoppingCartService.cartItemCount(shoppingCart)) {
+				errors = "Minimum "+promoCodes.getCartItemQty()+" items required to use "+couponCode.toUpperCase();
 			}else {
 				LOG.info("We can proceed with applying promo code {}. It passes all validation",couponCode.toUpperCase());			
 			if(promoCodes.getPercentOrDollar().equalsIgnoreCase("dollar")) {
