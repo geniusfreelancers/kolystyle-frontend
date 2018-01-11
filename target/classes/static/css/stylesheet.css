@@ -3,6 +3,12 @@
             CUSTOM STYLE
 
 ******************************************/
+.brandlist li{
+	
+	
+	list-style:none;
+}
+
 .braintree-upper-container{
 	z-index:0!important;
 }
