@@ -3,6 +3,14 @@
             CUSTOM STYLE
 
 ******************************************/
+<<<<<<< HEAD
+.brandlist li{
+	
+	
+	list-style:none;
+}
+
+=======
 .uup{
 	top:45px!important;
 }
@@ -33,6 +41,7 @@
     width: 100px!important;
     height: 100px!important;
 }
+>>>>>>> 860bd139d148bbaeee84bb608b019f150040d79e
 .braintree-upper-container{
 	z-index:0!important;
 }

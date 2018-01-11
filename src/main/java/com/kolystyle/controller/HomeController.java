@@ -303,7 +303,9 @@ public class HomeController {
 		return "myProfile";
 	}
 	
-	
+	public static boolean useList(String[] arr, String targetValue) {
+		return Arrays.asList(arr).contains(targetValue);
+	}
 	
 	@RequestMapping("/productshelf")
 	public String productshelf(Model model, Principal principal, Pageable page) {
@@ -315,6 +317,60 @@ public class HomeController {
 		
 		List<Product> productList = productService.findAllByOrderByIdDesc();
 		model.addAttribute("productList",productList);
+		
+		List<String> brandList = new ArrayList<String>();
+		List<String> fabricList = new ArrayList<String>();
+		List<String> typeList = new ArrayList<String>();
+		List<String> sizeList = new ArrayList<String>();
+		List<String> priceList = new ArrayList<String>();
+		List<String> styleList = new ArrayList<String>();
+		List<String> occasionList = new ArrayList<String>();
+		List<String> workList = new ArrayList<String>();
+		List<String> colorList = new ArrayList<String>();
+		for(Product product : productList) {
+			if(brandList.contains(product.getBrand())) {
+					
+			}else {
+				brandList.add(product.getBrand());
+			}
+			if(typeList.contains(product.getCategory().getCategoryName())) {
+				
+			}else {
+				typeList.add(product.getCategory().getCategoryName());
+			}
+			if(brandList.contains(product.getBrand())) {
+				
+			}else {
+				brandList.add(product.getBrand());
+			}
+			if(brandList.contains(product.getBrand())) {
+				
+			}else {
+				brandList.add(product.getBrand());
+			}
+			if(brandList.contains(product.getBrand())) {
+				
+			}else {
+				brandList.add(product.getBrand());
+			}
+			if(brandList.contains(product.getBrand())) {
+				
+			}else {
+				brandList.add(product.getBrand());
+			}
+			if(brandList.contains(product.getBrand())) {
+				
+			}else {
+				brandList.add(product.getBrand());
+			}
+			if(brandList.contains(product.getBrand())) {
+				
+			}else {
+				brandList.add(product.getBrand());
+			}
+		}
+		model.addAttribute("brandList",brandList);
+		model.addAttribute("typeList",typeList);
 		model.addAttribute("activeAll",true);
 		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
 	        model.addAttribute("siteSettings",siteSettings);
