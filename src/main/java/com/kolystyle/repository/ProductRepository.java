@@ -16,13 +16,12 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	List<Product> findAllByOrderByIdDesc();
 	List<Product> findByTitleContaining(String title);
 
-	List<Product> findTop12ByCategory(Category category);
-
+	List<Product> findTop12ByCategoryOrderByIdDesc(Category category);
 	List<Product> findBySku(String sku);
 
 	List<Product> findByBrandContaining(String brand);
 	
-	List<Product> findTop15ByBrand(String brand);
+	List<Product> findTop15ByBrandOrderByIdDesc(String brand);
 	
 	@Query("select p from Product p where p.title like ?1 or p.sku like ?1 or p.description like ?1")
 	List<Product> search(String query);

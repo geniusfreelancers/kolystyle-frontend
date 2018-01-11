@@ -183,7 +183,7 @@
 						</p>
 						</div>	
 						<div class="col-md-2 col-xs-6">
-							<p><strong> <span>$<span id="subtotalamount">{{shoppingCart.grandTotal}}</span>
+							<p><strong> <span>$<span id="subtotalamount">{{shoppingCart.grandTotal.toFixed(2)}}</span>
 								<input hidden="hidden" name="id" id="subamount" value="{{calGrandTotal()}}" />
 							
 								</span></strong> 
@@ -196,7 +196,7 @@
 						</p>
 						</div>	
 						<div class="col-md-2 col-xs-6 text-success">
-							<p><strong> <span>- $<span id="discountamount">{{shoppingCart.discountedAmount}}</span>
+							<p><strong> <span>- $<span id="discountamount">{{shoppingCart.discountedAmount.toFixed(2)}}</span>
 								<input hidden="hidden" name="id" id="discountamounts" value="{{shoppingCart.discountedAmount}}" />
 							
 								</span></strong> 
@@ -242,8 +242,8 @@
 						</div>	
 						<div class="col-md-2 col-xs-6">
 							<p><strong> <span>$
-								<span id="ordertotal">{{shoppingCart.orderTotal}}</span>
-								<input hidden="hidden" name="id" id="subamount" value="{{shoppingCart.orderTotal}}" />
+								<span id="ordertotal">{{shoppingCart.orderTotal.toFixed(2)}}</span>
+								<input hidden="hidden" name="id" id="subamount" value="{{shoppingCart.orderTotal.toFixed(2)}}" />
 							
 								</span></strong> 
 						</p>

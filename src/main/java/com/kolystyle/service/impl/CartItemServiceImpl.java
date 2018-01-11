@@ -57,7 +57,7 @@ public class CartItemServiceImpl implements CartItemService {
 		
 		bigDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
 		cartItem.setSubtotal(bigDecimal);
-		
+		//Check problem here
 		cartItemRepository.save(cartItem);
 		
 		return cartItem;		
@@ -72,7 +72,8 @@ public class CartItemServiceImpl implements CartItemService {
 				//Check if product with same size already exist in cart
 				if(cartItem.getProductSize().equalsIgnoreCase(size)) {
 					cartItem.setQty(qty);
-        			updateCartItem(cartItem);
+					cartItem.setSubtotal(new BigDecimal(product.getOurPrice()).multiply(new BigDecimal(qty)).setScale(2, BigDecimal.ROUND_HALF_UP));
+        			//updateCartItem(cartItem);
 						//	cartTotal = cartTotal.add(cartItem.getSubtotal());
 					
 					
@@ -95,8 +96,8 @@ public class CartItemServiceImpl implements CartItemService {
 		BigDecimal itemSubTotal = new BigDecimal(product.getOurPrice()).multiply(new BigDecimal(qty)).setScale(2, BigDecimal.ROUND_HALF_UP);
 		cartItem.setSubtotal(itemSubTotal);
 		
-		cartItem = cartItemRepository.save(cartItem);
-		updateCartItem(cartItem);
+		cartItemRepository.save(cartItem);
+		//updateCartItem(cartItem);
 		ProductToCartItem productToCartItem = new ProductToCartItem();
 		productToCartItem.setProduct(product);
 		productToCartItem.setCartItem(cartItem);
@@ -142,8 +143,10 @@ public class CartItemServiceImpl implements CartItemService {
 	}
 	
 	public void removeCartItem(CartItem cartItem){
+		
 		productToCartItemService.deleteByCartItem(cartItem);
-		cartItemRepository.delete(cartItem);	
+		cartItemRepository.deleteById(cartItem.getId());
+		//cartItemRepository.delete(cartItem.getId());
 	}
 	
 	public CartItem save(CartItem cartItem){

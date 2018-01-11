@@ -34,6 +34,7 @@ import com.kolystyle.domain.PromoCodes;
 import com.kolystyle.domain.ShoppingCart;
 import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.domain.User;
+import com.kolystyle.repository.CartItemRepository;
 import com.kolystyle.repository.ShoppingCartRepository;
 import com.kolystyle.service.CartItemService;
 import com.kolystyle.service.ProductService;
@@ -53,7 +54,8 @@ public class ShoppingCartController {
 	
 	@Autowired
 	private CartItemService cartItemService;
-
+	@Autowired
+	private CartItemRepository cartItemRepository;
 	@Autowired
 	private ShoppingCartService shoppingCartService;
 	
@@ -254,7 +256,8 @@ public class ShoppingCartController {
 	@RequestMapping(value = "/remove/{cartItemId}", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void removeCartItems(@PathVariable(value = "cartItemId") Long id){
-		cartItemService.removeCartItem(cartItemService.findById(id));
+		cartItemService.removeCartItem(cartItemRepository.findOne(id));
+		//findById(id)
     }
 	
 	@ExceptionHandler(IllegalArgumentException.class)

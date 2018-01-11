@@ -34,6 +34,7 @@ import com.kolystyle.domain.PromoCodes;
 import com.kolystyle.domain.ShoppingCart;
 import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.domain.User;
+import com.kolystyle.repository.CartItemRepository;
 import com.kolystyle.repository.ShoppingCartRepository;
 import com.kolystyle.service.CartItemService;
 import com.kolystyle.service.ProductService;
@@ -53,6 +54,9 @@ public class CartController {
 	
 	@Autowired
 	private CartItemService cartItemService;
+	
+	@Autowired
+	private CartItemRepository cartItemRepository;
 
 	@Autowired
 	private ShoppingCartService shoppingCartService;
@@ -119,6 +123,8 @@ public class CartController {
 				errors = "Promo code "+couponCode.toUpperCase()+" can be used on or after "+new SimpleDateFormat("MM-dd-yyyy").format(promoCodes.getStartDate());
 			}else if(expiry.before(today)) {
 				errors = "Promo code "+couponCode.toUpperCase()+" expired on "+new SimpleDateFormat("MM-dd-yyyy").format(promoCodes.getExpiryDate());
+			}else if(promoCodes.getCartItemQty() > shoppingCartService.cartItemCount(shoppingCart)) {
+				errors = "Minimum "+promoCodes.getCartItemQty()+" items required to use "+couponCode.toUpperCase();
 			}else {
 				LOG.info("We can proceed with applying promo code {}. It passes all validation",couponCode.toUpperCase());			
 			if(promoCodes.getPercentOrDollar().equalsIgnoreCase("dollar")) {
@@ -383,21 +389,23 @@ public class CartController {
 
         	}
         }
-        
-     	cartItemService.addProductToCartItem(product,shoppingCart,Integer.parseInt(qty), size);
+        CartItem cartItem = cartItemService.addProductToCartItem(product,shoppingCart,Integer.parseInt(qty), size);
+     	cartItemRepository.save(cartItem);
      	// may not be needed
-     	shoppingCartRepository.save(shoppingCart);
+     //	shoppingCartRepository.save(shoppingCart);
      	//need to fix some issue for null pointer here
-     	shoppingCart.setGrandTotal(shoppingCartService.calculateCartSubTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+     	/*shoppingCart.setGrandTotal(shoppingCartService.calculateCartSubTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
 		shoppingCart.setDiscountedAmount(shoppingCartService.calculateDiscountAmount(shoppingCart,promoCodesService.findByPromoCode(shoppingCart.getPromoCode())).setScale(2, BigDecimal.ROUND_HALF_UP));
 		shoppingCart.setShippingCost(shoppingCartService.calculateShippingCost(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
-		shoppingCart.setOrderTotal(shoppingCartService.calculateCartOrderTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
+		shoppingCart.setOrderTotal(shoppingCartService.calculateCartOrderTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));*/
 
 		Date addedDate = Calendar.getInstance().getTime();
 		shoppingCart.setUpdatedDate(addedDate);
 		
 		shoppingCartRepository.save(shoppingCart);
-		System.out.println(shoppingCart.getCartItemList());
+		shoppingCartService.updateShoppingCart(shoppingCart);
+		shoppingCartRepository.save(shoppingCart);
+		System.out.println("CartList="+shoppingCart.getCartItemList());
 		return shoppingCart;
 		
 	}
@@ -429,12 +437,12 @@ public class CartController {
 	
 
 	
-	@RequestMapping("/removeItem")
+	/*@RequestMapping("/removeItem")
 	public String removeItem(@RequestParam("id") Long id){
 		cartItemService.removeCartItem(cartItemService.findById(id));
 		
 		return "forward:/shoppingCart/cart";
-	}
+	}*/
 	/******
 	 * Making JSON RESPONSE FOR SHOPPING CART TO DISPLAY MINI CART
 	 */
