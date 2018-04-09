@@ -138,7 +138,7 @@ public class StripeCheckout {
 	    }
 	
 	    @RequestMapping(value = "/guest/checkout", method = RequestMethod.POST)
-	    public String checkout(HttpServletRequest request,HttpServletResponse response,@RequestParam("phoneNumber") String phoneNumber, @RequestParam("email") String email,
+	    public String checkout(HttpServletRequest request,HttpServletResponse response,
 	    		Model model, @ModelAttribute("shippingAddress") ShippingAddress shippingAddress,
 				@ModelAttribute("shippingMethod") String shippingMethod,
 				Principal principal) {

@@ -17,7 +17,12 @@
 				
 									
 		<div class="row" style="margin-top: 10px;">
-		
+		<div class="col-md-12">
+			<p th:text="${shoppingCart.id}"></p>
+			<p th:text="${shoppingCart.bagId}"></p>
+			<p th:text="${shoppingCart.shippingAddress.ShippingEmail}"></p>
+		</div>
+		<div class="col-md-12">
 				<form action='/guest/charge' method='POST' id='checkout-form'>
 		    <input type='hidden' th:value='${amount}' name='amount' />
 		    <label>Price:<span th:text='${amount/100}' /></label>
@@ -37,7 +42,7 @@
 		   </script>
 		</form>
 		
-
+</div>
 			
 			
 			
