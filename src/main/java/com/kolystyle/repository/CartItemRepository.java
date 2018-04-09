@@ -10,7 +10,7 @@ import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.Order;
 import com.kolystyle.domain.ShoppingCart;
 
-@Transactional
+//@Transactional
 public interface CartItemRepository extends CrudRepository<CartItem, Long> {
 
 	List<CartItem> findByShoppingCart(ShoppingCart shoppingCart);

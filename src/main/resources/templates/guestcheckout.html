@@ -200,7 +200,8 @@ Transit time: 3-6 business days
 <script th:inline="javascript">
   /*<![CDATA[*/
   var form = document.querySelector('#payment-form');
-  var client_token = [[${clientToken}]];
+ // var client_token = [[${clientToken}]];
+  var client_token = "sandbox_c7y79kg8_pdqt6nyrzthmy3jh";
   braintree.dropin.create({
     authorization: client_token,
     // container: '#dropin-container',

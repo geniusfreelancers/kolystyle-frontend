@@ -254,11 +254,18 @@ public class ShoppingCartController {
     }*/
 
 	@RequestMapping(value = "/remove/{cartItemId}", method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void removeCartItems(@PathVariable(value = "cartItemId") Long id){
-		cartItemService.removeCartItem(cartItemRepository.findOne(id));
+//    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public @ResponseBody ShoppingCart removeCartItems(@PathVariable(value = "cartItemId") Long id){
+		CartItem cartItem = cartItemRepository.findOne(id);
+		Long cartId = cartItem.getShoppingCart().getId();
+		cartItemService.removeCartItem(cartItem);
+		ShoppingCart shoppingCart = shoppingCartRepository.findOne(cartId);
+		return shoppingCart;
 		//findById(id)
     }
+	
+
+	
 	
 	@ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Illegal request, please verify your payload.")

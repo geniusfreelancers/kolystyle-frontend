@@ -16,7 +16,6 @@ import javax.persistence.Transient;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kolystyle.domain.Category;
-import com.kolystyle.domain.ProductToCartItem;
 import com.kolystyle.domain.SubCategory;
 import com.kolystyle.domain.SubSubCategory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -50,6 +49,7 @@ public class Product {
 	private int inStockNumber;
 
 	private String coverImageName;
+	private String productImageName;
 	private String feature;
 	private String size;
 	@ManyToOne
@@ -69,9 +69,9 @@ public class Product {
 	@Transient
 	private List<MultipartFile> productImage;
 	
-	@OneToMany(mappedBy="product")
+	/*@OneToMany(mappedBy="product")
 	@JsonIgnore
-	private List<ProductToCartItem> productToCartItemList;
+	private List<ProductToCartItem> productToCartItemList;*/
 
 	public Long getId() {
 		return id;
@@ -225,6 +225,14 @@ public class Product {
 		this.coverImageName = coverImageName;
 	}
 
+	public String getProductImageName() {
+		return productImageName;
+	}
+
+	public void setProductImageName(String productImageName) {
+		this.productImageName = productImageName;
+	}
+
 	public String getFeature() {
 		return feature;
 	}
@@ -274,13 +282,13 @@ public class Product {
 		this.productImage = productImage;
 	}
 
-	public List<ProductToCartItem> getProductToCartItemList() {
+/*	public List<ProductToCartItem> getProductToCartItemList() {
 		return productToCartItemList;
 	}
 
 	public void setProductToCartItemList(List<ProductToCartItem> productToCartItemList) {
 		this.productToCartItemList = productToCartItemList;
-	}
+	}*/
 
 	
 

@@ -1,4 +1,4 @@
-package com.kolystyle.domain;
+/*package com.kolystyle.domain;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -24,9 +24,9 @@ public class ProductToCartItem {
 	private Product product;
 	
 	
-	@ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="cart_item_id")
-	@JsonIgnore
+//	@JsonIgnore
 	private CartItem cartItem;
 	
 	public Long getId() {
@@ -57,3 +57,4 @@ public class ProductToCartItem {
 	
 	
 }
+*/

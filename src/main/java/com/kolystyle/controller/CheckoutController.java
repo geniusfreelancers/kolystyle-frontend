@@ -155,7 +155,7 @@ public class CheckoutController {
 		}else {
 			model.addAttribute("groundShipping",true);
 		}
-		String clientToken;
+		/*String clientToken;
 		 try {
 			 ClientTokenRequest clientTokenRequest = new ClientTokenRequest()
 					    .customerId(null);
@@ -169,8 +169,9 @@ public class CheckoutController {
 	       }
 		
 		System.out.println("ClientToken: "+clientToken);
+		
+		model.addAttribute("clientToken", clientToken);*/
 		model.addAttribute("siteSetting", siteSetting);
-		model.addAttribute("clientToken", clientToken);
 		model.addAttribute("shippingAddress",shippingAddress);
 		model.addAttribute("payment",payment);
 		model.addAttribute("billingAddress",billingAddress);
