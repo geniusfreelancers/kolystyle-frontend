@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/head :: common-head" />
+<body>
+<!-- Load the required components. -->
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script src="https://js.braintreegateway.com/web/3.25.0/js/client.min.js"></script>
+<script src="https://js.braintreegateway.com/web/3.25.0/js/paypal-checkout.min.js"></script>
+<div class="spinnerspin">
+	<div class="wrapper-box">
+		<div class="main-wrapper">
+
+			<div th:replace="common/head :: navbar" />
+
+			<div id="container">
+				<div id="content">			
+				
+									
+		<div class="row" style="margin-top: 10px;">
+		
+				<form action='/guest/charge' method='POST' id='checkout-form'>
+		    <input type='hidden' th:value='${amount}' name='amount' />
+		    <label>Price:<span th:text='${amount/100}' /></label>
+		    <!-- NOTE: data-key/data-amount/data-currency will be rendered by Thymeleaf -->
+		    <script
+		       src='https://checkout.stripe.com/checkout.js'
+		       class='stripe-button'
+		       th:attr='data-key=${stripePublicKey}, 
+		         data-amount=${amount}, 
+		         data-currency=${currency}'
+		       data-name='Koly Style'
+		       data-description='Secure Payment Form'
+		       data-image
+		         ='http://localhost:8089/adminportal/image/koly-logo.png'
+		       data-locale='auto'
+		       data-zip-code='true'>
+		   </script>
+		</form>
+		
+
+			
+			
+			
+			
+			
+			
+		</div>
+		
+		
+		<div class="clear"></div>
+
+				</div>
+
+				<script th:src="@{/js/controller.js}"></script>
+				
+				<!-- end of container -->
+				<div th:replace="common/head :: footer" />
+
+				<div th:replace="common/head :: body-bottom-scripts" />
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<script src="/js/demo.js"></script>
+</body>
+</html>

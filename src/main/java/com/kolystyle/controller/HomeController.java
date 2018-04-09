@@ -337,7 +337,7 @@ public class HomeController {
 			set cookie with value and create new ViewedRecently object */
 			
 			
-			Cookie[] cookies = request.getCookies();
+			/*Cookie[] cookies = request.getCookies();
 			boolean foundCookie = false;
 			boolean foundBagId =false;
 			String bagId = null;
@@ -419,6 +419,7 @@ public class HomeController {
     	            response.addCookie(cookie1); 
 		}else {
 			ViewedRecently viewedRecently = viewedRecentlyService.findByCookieValue(cookieValue);
+			
 			String alreadyInList = viewedRecently.getProductList();
 			if(alreadyInList != null) {
 				alreadyInList = alreadyInList+","+id.toString();
@@ -448,8 +449,8 @@ public class HomeController {
 			viewedRecently.setUpdatedDate(Calendar.getInstance().getTime());
 			viewedRecentlyRepository.save(viewedRecently);
 			model.addAttribute("viewedRecently",viewedProduct);
-		}
-		
+		}*/
+			model.addAttribute("viewedRecently",null);
 		}
 		String availableSize = product.getSize();
 		List<String> sizeList = Arrays.asList(availableSize.split("\\s*,\\s*"));

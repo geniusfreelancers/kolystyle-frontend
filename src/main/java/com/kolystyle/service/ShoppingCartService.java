@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import javax.servlet.http.HttpServletRequest;
 
 import com.kolystyle.domain.PromoCodes;
+import com.kolystyle.domain.ShippingAddress;
 import com.kolystyle.domain.ShoppingCart;
 
 public interface ShoppingCartService {
@@ -22,6 +23,8 @@ public interface ShoppingCartService {
 	ShoppingCart findCartByCookie( HttpServletRequest request);
 
 	int cartItemCount(ShoppingCart shoppingCart);
+
+	String updateOrderInfo(ShoppingCart shoppingCart,ShippingAddress shippingAddress,String shippingMethod);
 	
 /*	GuestShoppingCart updateGuestShoppingCart(GuestShoppingCart guestShoppingCart);
 	

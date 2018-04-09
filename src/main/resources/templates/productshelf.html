@@ -366,7 +366,7 @@ $(window).ready(function (){
 				
   <div class="col-md-4 col-sm-6 slide-inner" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-size=${product.size}" >
                     <div class="product-singleArea">
-                    
+                     <a th:href="@{/productDetail?id=}+${product.id}">
                         <div class="product-img">
                         
                             <div class="overlay">
@@ -391,6 +391,7 @@ $(window).ready(function (){
                                 
                             </div>
                         </div>
+                        </a>
                         <div class="product-details">
 
                            

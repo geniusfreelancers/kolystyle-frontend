@@ -1,4 +1,17 @@
-function Demo(config){
+'use strict';
+
+(function () {
+  var amount = document.querySelector('#amount');
+  var amountLabel = document.querySelector('label[for="amount"]');
+
+  amount.addEventListener('focus', function () {
+    amountLabel.className = 'has-focus';
+  }, false);
+  amount.addEventListener('blur', function () {
+    amountLabel.className = '';
+  }, false);
+})();
+/*function Demo(config){
   this.config = config;
   this.config.development = config.development || false;
 
@@ -78,4 +91,4 @@ Demo.prototype.notify = function(status){
       }, 310);
     }, delay);
   }, 10);
-};
+};*/

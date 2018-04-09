@@ -22,9 +22,36 @@ public class ShippingAddress {
 	private String ShippingAddressState;
 	private String ShippingAddressCountry;
 	private String ShippingAddressZipcode;
+	private String ShippingEmail;
+	private String ShippingPhone;
 	
 	
+	public String getShippingEmail() {
+		return ShippingEmail;
+	}
 
+	public void setShippingEmail(String shippingEmail) {
+		ShippingEmail = shippingEmail;
+	}
+
+	public String getShippingPhone() {
+		return ShippingPhone;
+	}
+
+	public void setShippingPhone(String shippingPhone) {
+		ShippingPhone = shippingPhone;
+	}
+
+	public ShoppingCart getShoppingCart() {
+		return shoppingCart;
+	}
+
+	public void setShoppingCart(ShoppingCart shoppingCart) {
+		this.shoppingCart = shoppingCart;
+	}
+
+	@OneToOne
+	private ShoppingCart shoppingCart;
 
 	@OneToOne
 	private Order order;

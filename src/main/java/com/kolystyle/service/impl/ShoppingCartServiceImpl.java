@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.kolystyle.controller.ShoppingCartController;
 import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.PromoCodes;
+import com.kolystyle.domain.ShippingAddress;
 import com.kolystyle.domain.ShoppingCart;
 import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.repository.PromoCodesRepository;
@@ -78,6 +79,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		return shoppingCart;
 	}
 	
+	public String updateOrderInfo(ShoppingCart shoppingCart,ShippingAddress shippingAddress,String shippingMethod) {
+		//shippingAddress.setShoppingCart(shoppingCart);
+		shoppingCart.setShippingMethod(shippingMethod);
+		shoppingCart.setShippingAddress(shippingAddress);
+		shoppingCartRepository.save(shoppingCart);
+		return "added";
+	}
 	
 	public void clearShoppingCart(ShoppingCart shoppingCart){
 		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);

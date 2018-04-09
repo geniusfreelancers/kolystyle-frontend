@@ -41,6 +41,17 @@ public class ShoppingCart {
 	private String shippingMethod = "groundShipping";
 	private String errors;
 	
+	@OneToOne(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+	private ShippingAddress shippingAddress;
+	
+	public ShippingAddress getShippingAddress() {
+		return shippingAddress;
+	}
+
+	public void setShippingAddress(ShippingAddress shippingAddress) {
+		this.shippingAddress = shippingAddress;
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -20,14 +20,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.braintreegateway.Transaction;
 import com.kolystyle.domain.Newsletter;
 import com.kolystyle.domain.Order;
+import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.repository.NewsletterRepository;
 import com.kolystyle.service.NewsletterService;
+import com.kolystyle.service.SiteSettingService;
 import com.kolystyle.service.UserService;
 import com.kolystyle.utility.USConstants;
 
 @Controller
 @RequestMapping("/newsletter")
 public class SubscribeController {
+	
 	@Autowired
 	private UserService userService;
 	
@@ -35,11 +38,16 @@ public class SubscribeController {
 	private NewsletterService newsletterService;
 	
 	@Autowired
+	private SiteSettingService siteSettingService;
+	
+	@Autowired
 	private NewsletterRepository newsletterRepository;
 	
 	//Newsletter Subscription
 	@RequestMapping(value="/add", method=RequestMethod.POST)
     public  @ResponseBody  Newsletter addSuscriber(@ModelAttribute("email") String email, Principal principal, Model model){
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
 		Newsletter newsletter;
 		if(email != null) {
 			newsletter = newsletterService.findByEmail(email);
@@ -78,6 +86,8 @@ public class SubscribeController {
 	//Newsletter Removal or Unsubscription GET
 	@RequestMapping(value="/remove/{email}/{token}", method=RequestMethod.GET)
 	public String removeSubscriber(@PathVariable String email,@PathVariable String token, Model model) {
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
 		Newsletter newsletter = newsletterService.findByEmail(email);
 		if(newsletter != null && token.length() == 10) {
 			if(newsletter.getVerifyToken().equalsIgnoreCase(token) && newsletter.isActive()) {
@@ -99,6 +109,8 @@ public class SubscribeController {
 	//Newsletter Removal or Unsubscription POST
 	@RequestMapping(value="/remove/{email}/{token}", method=RequestMethod.POST)
 	public String removeSubscriberPOST(@ModelAttribute("reason") String reason,@ModelAttribute("otherreason") String otherreason,@PathVariable String email,@PathVariable String token, Model model) {
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
 		Newsletter newsletter = newsletterService.findByEmail(email);
 		if(newsletter != null) {
 			if(newsletter.getVerifyToken().equalsIgnoreCase(token)) {
@@ -128,7 +140,9 @@ public class SubscribeController {
 	
 	 @RequestMapping(value = "/removed/{email}/{token}")
 	 public String getRemoved(@PathVariable String email, @PathVariable String token, Model model) {
-		 	Newsletter newsletter;
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	     model.addAttribute("siteSettings",siteSettings);	
+		 Newsletter newsletter;
 	       try {
 	    	   newsletter = newsletterService.findByEmail(email);
 	       } catch (Exception e) {

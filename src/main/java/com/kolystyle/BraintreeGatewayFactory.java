@@ -33,12 +33,7 @@ public class BraintreeGatewayFactory {
             try { inputStream.close(); }
             catch (IOException e) { System.err.println("Exception: " + e); }
         }
-        System.out.println(new BraintreeGateway(
-                properties.getProperty("BT_ENVIRONMENT"),
-                properties.getProperty("BT_MERCHANT_ID"),
-                properties.getProperty("BT_PUBLIC_KEY"),
-                properties.getProperty("BT_PRIVATE_KEY")
-            ));	
+
         return new BraintreeGateway(
             properties.getProperty("BT_ENVIRONMENT"),
             properties.getProperty("BT_MERCHANT_ID"),

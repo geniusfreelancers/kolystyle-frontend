@@ -67,7 +67,7 @@ import com.kolystyle.utility.USConstants;
 @Controller
 public class CheckoutController {
 	private static final Logger LOG = LoggerFactory.getLogger(CheckoutController.class);
-	private BraintreeGateway gateway = KolystyleApplication.gateway;
+	/*private BraintreeGateway gateway = KolystyleApplication.gateway;*/
 
     private Status[] TRANSACTION_SUCCESS_STATUSES = new Status[] {
        Transaction.Status.AUTHORIZED,
@@ -130,7 +130,7 @@ public class CheckoutController {
 	@Autowired
 	private MailConstructor mailConstructor;
 	
-	@RequestMapping("/cart/guestcheckout")
+/*	@RequestMapping("/cart/guestcheckout")
 	public String guestcheckout(HttpServletRequest request,HttpServletResponse response,Model model ) {
 		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
@@ -178,9 +178,9 @@ public class CheckoutController {
 		model.addAttribute("noCartExist",true);
 		return "guestcheckout";
 		
-	}
+	}*/
 	
-	@RequestMapping(value = "/chargeguest", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/chargeguest", method = RequestMethod.POST)
     public String charge(HttpServletRequest request,HttpServletResponse response,
     		@RequestParam("amount") String amount, @RequestParam("payment_method_nonce") String nonce, 
     		@RequestParam("phoneNumber") String phoneNumber, @RequestParam("email") String email,
@@ -217,16 +217,16 @@ if(shoppingCart==null) {
 				   shippingAddress.getShippingAddressZipcode().isEmpty()) {
 			return "redirect:/cart/guestcheckout?missingRequiredField=true";
 		}
-/*		if(billingSameAsShipping.equals("true")){
+		if(billingSameAsShipping.equals("true")){
 			billingAddress.setBillingAddressStreet1(shippingAddress.getShippingAddressStreet1());
 			billingAddress.setBillingAddressStreet2(shippingAddress.getShippingAddressStreet2());
 			billingAddress.setBillingAddressCity(shippingAddress.getShippingAddressCity());
 			billingAddress.setBillingAddressState(shippingAddress.getShippingAddressState());
 			billingAddress.setBillingAddressCountry(shippingAddress.getShippingAddressCountry());
 			billingAddress.setBillingAddressZipcode(shippingAddress.getShippingAddressZipcode());
-		}*/
+		}
 		
-		/*if(payment.getCardNumber().isEmpty() ||
+		if(payment.getCardNumber().isEmpty() ||
 		   payment.getCvc() == 0 ||
 		   billingAddress.getBillingAddressStreet1().isEmpty() ||
 		   billingAddress.getBillingAddressCity().isEmpty() ||
@@ -234,7 +234,7 @@ if(shoppingCart==null) {
 		   billingAddress.getBillingAddressName().isEmpty() ||
 		   billingAddress.getBillingAddressZipcode().isEmpty()){
 			return "redirect:/checkout?id="+shoppingCart.getId()+"&missingRequiredField=true";
-		}*/
+		}
 	
 		
 		
@@ -293,10 +293,10 @@ if(shoppingCart==null) {
 	   		}
 	   		shoppingCartService.clearShoppingCart(shoppingCart);
 		   	 if (foundCookie) {
-		           /* Cookie cookie1 = new Cookie("BagId",shoppingCart.getBagId());
+		            Cookie cookie1 = new Cookie("BagId",shoppingCart.getBagId());
 		            cookie1.setPath("/");
 		            cookie1.setMaxAge(30*24*60*60);
-		            response.addCookie(cookie1);*/ 
+		            response.addCookie(cookie1); 
 		            for (Cookie cookie1 : cookies) {
 		            	 if (cookie1.getName().equalsIgnoreCase("BagId")) {
 		                cookie1.setValue("");
@@ -379,7 +379,7 @@ if(shoppingCart==null) {
 
 	       return "thankyou";
 	   }
-	
+	*/
 	
 	
 	
@@ -584,7 +584,7 @@ if(shoppingCart==null) {
 		
 	}
 	
-	@RequestMapping(value = "/public/track", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/public/track", method = RequestMethod.POST)
 	   public String orderDetailsPage(@ModelAttribute("order") Order order, Model model) {
 			SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
 	        model.addAttribute("siteSettings",siteSettings);
@@ -655,6 +655,6 @@ if(shoppingCart==null) {
 	   		model.addAttribute("incorrectEmail",false);
 	   		model.addAttribute("notfound",false);
 	   		return "track";
-	   }
+	   }*/
 	
 }
