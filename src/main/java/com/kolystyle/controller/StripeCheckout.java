@@ -203,7 +203,12 @@ public class StripeCheckout {
         }
         List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
         SiteSetting siteSetting= siteSettingService.findOne((long) 1);
-		ShippingAddress shippingAddress = new ShippingAddress();
+		ShippingAddress shippingAddress = shoppingCart.getShippingAddress();
+		if (shippingAddress == null) {
+			shippingAddress = new ShippingAddress();
+		}
+				
+				
 		/*BillingAddress billingAddress = new BillingAddress();
 		Payment payment = new Payment();
 		model.addAttribute("payment",payment);*/
