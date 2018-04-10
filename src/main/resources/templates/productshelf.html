@@ -305,45 +305,45 @@ $(window).ready(function (){
 			<!--h3><label for="category">Category</label></h3-->
 			<div class="list-group" id="category">
 			<a th:href="@{/productshelf(category='all')}" th:classappend="${activeAll}? 'active'" class="list-group-item">Brand</a>
-			<div class="col-md-12 brand">
-				<label><input type="checkbox" value="red"/>Red</label>
-			</div>
+			
+			
+				<ul class="brandlist row">
+						<li class="brandname col-md-6" data-th-each="brand : ${brandList}"><label><input type="checkbox" th:value="${brand}"  th:text="${brand}"/></label></li>			
+				</ul>
+			
 			
 			<a th:href="@{/searchByCategory(category='Friction')}" th:classappend="${activeFriction}? 'active'" class="list-group-item">Fabric</a>
-			<div class="col-md-12 fabric">
-				<label><input type="checkbox" value="red"/>Red</label>
-			</div>
+				<ul class="brandlist row">
+						<li class="brandname col-md-6" data-th-each="brand : ${brandList}"><label><input type="checkbox" th:value="${brand}"  th:text="${brand}"/></label></li>			
+				</ul>
 			<a th:href="@{/searchByCategory(category='Management')}" th:classappend="${activeManagement}? 'active'" class="list-group-item">Type</a>
-			<div class="col-md-12 type">
-				<label><input type="checkbox" value="red"/>Red</label>
-			</div>
+				<ul class="brandlist row">
+						<li class="brandname col-md-6" data-th-each="type : ${typeList}"><label><input type="checkbox" th:value="${type}"  th:text="${type}"/></label></li>			
+				</ul>
 			<a th:href="@{/searchByCategory(category='Management')}" th:classappend="${activeManagement}? 'active'" class="list-group-item">Size</a>
-			<div class="col-md-12 color">
-				<label><input type="checkbox" value="red"/>Red</label>
-			</div>
-			<a th:href="@{/searchByCategory(category='Friction')}" th:classappend="${activeFriction}? 'active'" class="list-group-item">Price</a>
-			<div class="col-md-12 price">
-				<label><input type="checkbox" value="red"/>Red</label>
-			</div>
+				<ul class="brandlist row">
+						<li class="brandname col-md-6" data-th-each="brand : ${brandList}"><label><input type="checkbox" th:value="${brand}"  th:text="${brand}"/></label></li>			
+				</ul>
+			<a href="" class="list-group-item">Price</a>
+				<ul class="brandlist row">
+						<li class="brandname col-md-6" data-th-each="brand : ${brandList}"><label><input type="checkbox" th:value="${brand}"  th:text="${brand}"/></label></li>			
+				</ul>
 			<a th:href="@{/searchByCategory(category='Engineering')}" th:classappend="${activeEngineering}? 'active'" class="list-group-item">Style</a>
-			<div class="col-md-12 style">
-				<label><input type="checkbox" value="red"/>Red</label>
-			</div>
+				<ul class="brandlist row">
+						<li class="brandname col-md-6" data-th-each="brand : ${brandList}"><label><input type="checkbox" th:value="${brand}"  th:text="${brand}"/></label></li>			
+				</ul>
 			<a th:href="@{/searchByCategory(category='Programming')}" th:classappend="${activeProgramming}? 'active'" class="list-group-item">Occasion</a>
-			<div class="col-md-12 occasion">
-				<label><input type="checkbox" value="red"/>Red</label>
-			</div>
+				<ul class="brandlist row">
+						<li class="brandname col-md-6" data-th-each="brand : ${brandList}"><label><input type="checkbox" th:value="${brand}"  th:text="${brand}"/></label></li>			
+				</ul>
 			<a th:href="@{/searchByCategory(category='Friction')}" th:classappend="${activeFriction}? 'active'" class="list-group-item">Work</a>
-			<div class="col-md-12 work">
-				<label><input type="checkbox" value="red"/>Red</label>
-			</div>
+				<ul class="brandlist row">
+						<li class="brandname col-md-6" data-th-each="brand : ${brandList}"><label><input type="checkbox" th:value="${brand}"  th:text="${brand}"/></label></li>			
+				</ul>
 			<a th:href="@{/searchByCategory(category='Arts &amp; Literature')}" th:classappend="${activeArtsLiterature}? 'active'" class="list-group-item">Color</a>
-			<div class="col-md-12 color">
-				<label><input type="checkbox" value="red"/>Red</label>
-				<label><input type="checkbox" value="blue"/>Blue</label>
-				<label><input type="checkbox" value="pink"/>Pink</label>
-				<label><input type="checkbox" value="green"/>Green</label>
-			</div>
+				<ul class="brandlist row">
+						<li class="brandname col-md-6" data-th-each="brand : ${brandList}"><label><input type="checkbox" th:value="${brand}"  th:text="${brand}"/></label></li>			
+				</ul>
 		</div>
 		</div>
 			<div class="col-md-9">
@@ -512,13 +512,13 @@ $(window).ready(function (){
 			}, 200);
 		});
 	});
-	</script-->
+	</script>
 
 
     
  <script th:src="@{/js/facet.js}"></script> 
   <script th:src="@{/js/jquery.deserialize.js}"></script> 
-  <script th:src="@{/js/jquery.facets.js}"></script>
+  <script th:src="@{/js/jquery.facets.js}"></script-->
 </body>
 
 </html>

@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.braintreegateway.BraintreeGateway;
+import com.braintreegateway.ClientTokenRequest;
 import com.braintreegateway.Result;
 import com.braintreegateway.Transaction;
 import com.braintreegateway.TransactionRequest;
@@ -156,7 +157,10 @@ public class CheckoutController {
 		}
 		String clientToken;
 		 try {
-			 clientToken = gateway.clientToken().generate();
+			 ClientTokenRequest clientTokenRequest = new ClientTokenRequest()
+					    .customerId(null);
+					 clientToken = gateway.clientToken().generate(clientTokenRequest);
+		//	 clientToken = gateway.clientToken().generate();
 			 LOG.info("Client token {} for paypal generated",clientToken);
 	       } catch (Exception e) {
 	           System.out.println("Exception: " + e);

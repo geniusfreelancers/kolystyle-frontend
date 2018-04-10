@@ -17,13 +17,181 @@
 				
 									
 		<div class="row" style="margin-top: 10px;">
-		<div class="col-md-12">
-			<p th:text="${shoppingCart.id}"></p>
-			<p th:text="${shoppingCart.bagId}"></p>
-			<p th:text="${shoppingCart.shippingAddress.ShippingEmail}"></p>
+		
+		
+		
+				<div class="col-md-8">
+				<div class="panel-group" id="accordion">
+					<div class="col-md-12">
+					<!-- Contact Information -->
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a class="" data-toggle="collapse" data-parent="#accordion"
+										href="#customerInfo">SHIPPING TO</a>	
+									<a class="pull-right" href="/cart/guestcheckout">Edit</a>	
+								</h4>
+								
+							</div>
+							<div id="customerInfo" class="panel-collapse collapse in"
+								th:classappend="${classActiveCustomer}? 'in'">
+								<div class="panel-body">
+								
+										<p><span th:text="${shoppingCart.shippingAddress.firstName}"></span> 
+										<span th:text="${shoppingCart.shippingAddress.lastName}"></span></p>
+										<p th:text="${shoppingCart.shippingAddress.ShippingAddressStreet1}"></p>
+										<p th:text="${shoppingCart.shippingAddress.ShippingAddressStreet2}"></p>
+										<p><span th:text="${shoppingCart.shippingAddress.ShippingAddressCity}"></span>, 
+										<span th:text="${shoppingCart.shippingAddress.ShippingAddressState}"></span> - 
+										<span th:text="${shoppingCart.shippingAddress.ShippingAddressZipcode}"></span></p>
+										<p><i class="fa fa-envelope"></i> <span th:text="${shoppingCart.shippingAddress.ShippingEmail}"></span></p>
+										<p><i class="fa fa-phone"></i> <span th:text="${shoppingCart.shippingAddress.ShippingPhone}"></span></p>
+
+										<p><span>Shipping Method: </span> <span th:text="${shoppingCart.shippingMethod}"></span></p>
+									
+								</div>
+							</div>
+						</div>
+					
+					</div>
+		
+		
+	</div>
+	
+								<div class="col-md-12">
+					<div class="panel panel-default">
+					<div class="panel-heading">
+							<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="#reviewItems">Review Items</a>
+							<a class="pull-right" href="/shoppingCart/cart">Update Products</a>	
+							</h4>
+						</div>
+					<div id="reviewItems" class="panel-collapse collapse in">
+					<div class="panel-body">
+						
+						
+						<div class="row">
+						<div class="col-xs-6"><h4>Products</h4></div>
+						<div class="col-xs-2"><h4>Price</h4></div>
+						<div class="col-xs-2"><h4>Qty</h4></div>
+						<div class="col-xs-2 text-right"><h4>Amount</h4></div>
+						</div>
+						
+						<!-- Display products in cart -->
+						<div class="row" data-th-each="cartItem : ${shoppingCart.cartItemList}">
+						
+						<hr/>
+						<div class="col-xs-2">
+						<a th:href="@{/productDetail?id=}+${cartItem.product.id}">
+						<img class="img-responsive shelf-product" th:src="#{adminPath}+@{/image/product/}+${cartItem.product.id}+'/'+${cartItem.product.coverImageName}" th:attr="alt=${cartItem.product.title}" style="width:70px;" />
+						</a>
+						</div>
+						<div class="col-xs-4">
+							<div style="margin-left:50px;">	
+							<a th:href="@{/productDetail?id=}+${cartItem.product.id}"><h4 th:text="${cartItem.product.title}"></h4></a>
+								<span>Size: </span><span th:text="${cartItem.productSize}"></span><br/><span>Web ID: </span><span th:text="${cartItem.product.sku}"></span>
+							</div>
+							</div>
+							<div class="col-xs-2">
+								<h5 style="color: #db3208; font-size: large;">
+									$<span th:text="${cartItem.product.ourPrice}"></span>
+								</h5>
+								
+							</div>
+							<div class="col-xs-2">
+								<h5 style="font-size:large" th:text="${cartItem.qty}"></h5>
+							</div>
+							<div class="col-xs-2">
+							
+
+							
+							<h5 class="text-primary text-right" style="font-size: large;">
+									$<span th:with="result=${cartItem.product.ourPrice * cartItem.qty}" th:text="${#numbers.formatDecimal(result, 0 , 'COMMA', 2, 'POINT')}"></span>
+								</h5>
+							</div>
+					
+						</div>
+						<hr/>
+
+						</div>
+						</div>
+					</div>
+				</div>
 		</div>
-		<div class="col-md-12">
-				<form action='/guest/charge' method='POST' id='checkout-form'>
+		
+
+		
+		
+		<div class="col-md-4">
+		
+		<div class="panel-group" id="accordion">
+								<div class="col-md-12">
+					<!-- Contact Information -->
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a class="" data-toggle="collapse" data-parent="#accordion"
+										href="#customerInfo">ORDER SUMMARY</a>	
+									<a class="pull-right" href="/cart/guestcheckout">Edit</a>	
+								</h4>
+								
+							</div>
+							<div id="customerInfo" class="panel-collapse collapse in"
+								th:classappend="${classActiveCustomer}? 'in'">
+								<div class="panel-body">
+								
+										
+										
+										<div class="row">
+								<div class="col-xs-7 text-left">Subtotal :</div>
+								<div class="col-xs-5 text-right">
+									$<span th:text="${shoppingCart.grandTotal}"></span>
+								</div>
+							</div>
+
+							
+							<div class="row">
+								<div class="col-xs-7 text-left">Discount :</div>
+								<div class="col-xs-5 text-right text-danger">
+									-$<span  th:text="${shoppingCart.discountedAmount}"></span>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-xs-7 text-left">Shipping : </div>
+								<div class="col-xs-5 text-right text-success">
+									<span  th:text="${shoppingCart.shippingCost}"></span>
+								</div>
+							</div>
+							
+							
+							<div class="row">
+								<div class="col-xs-7 text-left">
+									<h3 style="color: darkred;">
+										<strong>Order Total : </strong>
+									</h3>
+								</div>
+								<div class="col-xs-5 text-right">
+									<h3>
+										<strong style="color: darkred;">$<span th:text="${shoppingCart.orderTotal}"></span></strong>
+									</h3>
+								</div>
+								
+							</div>
+										
+									
+								</div>
+							</div>
+						</div>
+					
+					</div>
+		
+		
+	</div>
+		
+		
+		
+			<form action='/guest/charge' method='POST' id='checkout-form'>
 		    <input type='hidden' th:value='${amount}' name='amount' />
 		    <label>Price:<span th:text='${amount/100}' /></label>
 		    <!-- NOTE: data-key/data-amount/data-currency will be rendered by Thymeleaf -->
@@ -34,7 +202,7 @@
 		         data-amount=${amount}, 
 		         data-currency=${currency}'
 		       data-name='Koly Style'
-		       data-description='Secure Payment Form'
+		       data-description='Clicking Pay Button will finalize order'
 		       data-image
 		         ='http://localhost:8089/adminportal/image/koly-logo.png'
 		       data-locale='auto'

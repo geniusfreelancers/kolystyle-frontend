@@ -1,7 +1,7 @@
 package com.kolystyle.controller;
 
 import java.util.Collections;
-
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 
@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -119,10 +120,10 @@ public class StripeCheckout {
 	    private String stripePublicKey;
 	    
 	    @RequestMapping(value = "/guest/charge", method = RequestMethod.POST)
-	    public String charge(ChargeRequest chargeRequest, Model model)
+	    public String charge(ChargeRequest chargeRequest, Model model )
 	      throws StripeException {
 	        chargeRequest.setDescription("Example charge");
-	        chargeRequest.setCurrency(Currency.EUR);
+	        chargeRequest.setCurrency(Currency.USD);
 	        Charge charge = paymentsService.charge(chargeRequest);
 	        model.addAttribute("id", charge.getId());
 	        model.addAttribute("status", charge.getStatus());
@@ -177,11 +178,12 @@ public class StripeCheckout {
 	        		if(status == "added") {
 	        			
 	        		}
+	        		BigDecimal amount = (shoppingCart.getOrderTotal()).multiply(new BigDecimal(100));
 	       ///////////////////////////// 		
 	        model.addAttribute("shoppingCart", shoppingCart);
 	        model.addAttribute("amount", 50 * 100); // in cents
 	        model.addAttribute("stripePublicKey", stripePublicKey);
-	        model.addAttribute("currency", ChargeRequest.Currency.EUR);
+	        model.addAttribute("currency", ChargeRequest.Currency.USD);
 	        return "payment";
 	    }
 	
