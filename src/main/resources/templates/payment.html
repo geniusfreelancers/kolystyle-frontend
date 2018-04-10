@@ -132,7 +132,6 @@
 								<h4 class="panel-title">
 									<a class="" data-toggle="collapse" data-parent="#accordion"
 										href="#customerInfo">ORDER SUMMARY</a>	
-									<a class="pull-right" href="/cart/guestcheckout">Edit</a>	
 								</h4>
 								
 							</div>
@@ -200,12 +199,17 @@
 		       class='stripe-button'
 		       th:attr='data-key=${stripePublicKey}, 
 		         data-amount=${amount}, 
-		         data-currency=${currency}'
+		         data-currency=${currency},
+		         data-email=${shoppingCart.shippingAddress.ShippingEmail}'
 		       data-name='Koly Style'
 		       data-description='Clicking Pay Button will finalize order'
 		       data-image
 		         ='http://localhost:8089/adminportal/image/koly-logo.png'
 		       data-locale='auto'
+		       data-billing-address='true'
+		       data-label='Pay with Credit Card'
+		       data-allow-remember-me='false'
+		       data-panel-label='Pay'
 		       data-zip-code='true'>
 		   </script>
 		</form>

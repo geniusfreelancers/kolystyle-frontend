@@ -179,9 +179,10 @@ public class StripeCheckout {
 	        			
 	        		}
 	        		BigDecimal amount = (shoppingCart.getOrderTotal()).multiply(new BigDecimal(100));
+	        		Double finalamount = amount.doubleValue();
 	       ///////////////////////////// 		
 	        model.addAttribute("shoppingCart", shoppingCart);
-	        model.addAttribute("amount", 50 * 100); // in cents
+	        model.addAttribute("amount", 100 * 100); // in cents
 	        model.addAttribute("stripePublicKey", stripePublicKey);
 	        model.addAttribute("currency", ChargeRequest.Currency.USD);
 	        return "payment";
