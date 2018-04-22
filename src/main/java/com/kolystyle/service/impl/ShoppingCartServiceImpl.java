@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kolystyle.controller.ShoppingCartController;
 import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.PromoCodes;
 import com.kolystyle.domain.ShippingAddress;

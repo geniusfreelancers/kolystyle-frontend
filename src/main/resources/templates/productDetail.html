@@ -128,6 +128,8 @@
 					<h4 th:if="*{product.inStockNumber&lt;10 and product.inStockNumber&gt;0}" style="color:green">Only <span th:text="${product.inStockNumber}"></span> In Stock</h4>
 					<h4 th:if="*{product.inStockNumber==0}" style="color:darkred;">Unavailable</h4>
 					<span id="serverRespone"></span>
+					<br/>
+					<span id="serverRespones"></span>
 					<br/><br/>
 					<button th:if="!${noMore}" type="submit" class="btn btn-danger center-block" id="addthisproduct" style="font-weight:bolder;padding:10px 10px 10px 10px;">ADD TO CART</button>
 				</div>

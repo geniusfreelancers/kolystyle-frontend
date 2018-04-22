@@ -8,6 +8,7 @@ import com.kolystyle.domain.Payment;
 import com.kolystyle.domain.ShippingAddress;
 import com.kolystyle.domain.ShoppingCart;
 import com.kolystyle.domain.User;
+import com.stripe.model.Charge;
 
 public interface OrderService {
 	
@@ -19,4 +20,5 @@ public interface OrderService {
 	Order findOne(Long id);
 	List<Order> findByUser(User user);
 	List<Order> findAllByOrderDateDesc();
+	Order createNewOrder(ShoppingCart shoppingCart,User user, Charge charge);
 }
