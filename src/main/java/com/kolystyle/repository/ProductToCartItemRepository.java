@@ -1,4 +1,4 @@
-package com.kolystyle.repository;
+/*package com.kolystyle.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,3 +11,4 @@ public interface ProductToCartItemRepository extends CrudRepository<ProductToCar
 	ProductToCartItem findByCartItem(CartItem cartItem);
 	void deleteByCartItem(CartItem cartItem);
 }
+*/

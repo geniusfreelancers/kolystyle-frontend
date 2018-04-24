@@ -10,15 +10,12 @@ import com.kolystyle.domain.CartItem;
 
 import com.kolystyle.domain.Order;
 import com.kolystyle.domain.Product;
-import com.kolystyle.domain.ProductToCartItem;
 import com.kolystyle.domain.ShoppingCart;
 import com.kolystyle.repository.CartItemRepository;
 
-import com.kolystyle.repository.ProductToCartItemRepository;
 import com.kolystyle.repository.PromoCodesRepository;
 import com.kolystyle.repository.ShoppingCartRepository;
 import com.kolystyle.service.CartItemService;
-import com.kolystyle.service.ProductToCartItemService;
 import com.kolystyle.service.PromoCodesService;
 import com.kolystyle.service.ShoppingCartService;
 import com.kolystyle.service.SiteSettingService;
@@ -29,10 +26,10 @@ public class CartItemServiceImpl implements CartItemService {
 	@Autowired
 	private CartItemRepository cartItemRepository;
 	
-	@Autowired
+	/*@Autowired
 	private ProductToCartItemRepository productToCartItemRepository;
 	@Autowired
-	private ProductToCartItemService productToCartItemService;
+	private ProductToCartItemService productToCartItemService;*/
 	@Autowired
 	private ShoppingCartService shoppingCartService;
 	
@@ -98,10 +95,10 @@ public class CartItemServiceImpl implements CartItemService {
 		
 		cartItemRepository.save(cartItem);
 		//updateCartItem(cartItem);
-		ProductToCartItem productToCartItem = new ProductToCartItem();
+		/*ProductToCartItem productToCartItem = new ProductToCartItem();
 		productToCartItem.setProduct(product);
 		productToCartItem.setCartItem(cartItem);
-		productToCartItemRepository.save(productToCartItem);
+		productToCartItemRepository.save(productToCartItem);*/
 
 		
 		shoppingCartRepository.save(shoppingCart);
@@ -140,6 +137,10 @@ public class CartItemServiceImpl implements CartItemService {
 	
 	public CartItem findById(Long id){
 		return cartItemRepository.findOne(id);
+	}
+	
+	public void removeOne(Long id){
+		cartItemRepository.delete(id);
 	}
 	
 	public void removeCartItem(CartItem cartItem){

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.ShoppingCart;
 import com.kolystyle.repository.CartItemRepository;
 import com.kolystyle.repository.ShoppingCartRepository;
@@ -234,10 +235,20 @@ public class ShoppingCartController {
 		cartItemService.removeCartItem(cartItemService.findById(id));
     }*/
 
-	@RequestMapping(value = "/remove/{cartItemId}", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/remove/{cartItemId}", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void removeCartItems(@PathVariable(value = "cartItemId") Long id){
 		cartItemService.removeCartItem(cartItemRepository.findOne(id));
+		//findById(id)
+    }*/
+	@RequestMapping(value = "/remove/{cartItemId}", method = RequestMethod.POST)
+    public @ResponseBody ShoppingCart removeCartItems(@PathVariable(value = "cartItemId") Long id){
+		CartItem cartItem = cartItemRepository.findOne(id);
+		cartItemService.removeOne(id);
+	//	cartItemService.removeCartItem(cartItemRepository.findOne(id));
+		
+		ShoppingCart shoppingCart = cartItem.getShoppingCart();
+		return shoppingCart;
 		//findById(id)
     }
 	

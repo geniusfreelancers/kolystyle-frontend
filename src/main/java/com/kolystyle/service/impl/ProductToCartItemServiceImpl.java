@@ -1,4 +1,4 @@
-package com.kolystyle.service.impl;
+/*package com.kolystyle.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,11 @@ public class ProductToCartItemServiceImpl implements ProductToCartItemService{
 	
 	public void deleteByCartItem(CartItem cartItem) {
 		productToCartItemRepository.deleteByCartItem(cartItem);
-		/*ProductToCartItem productToCartItem = productToCartItemRepository.findByCartItem(cartItem);
-		productToCartItemRepository.delete(productToCartItem);*/
+		ProductToCartItem productToCartItem = productToCartItemRepository.findByCartItem(cartItem);
+		productToCartItemRepository.delete(productToCartItem);
 		
 	}
 
 	
 }
+*/

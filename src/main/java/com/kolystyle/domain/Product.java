@@ -3,6 +3,7 @@ package com.kolystyle.domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +17,6 @@ import javax.persistence.Transient;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kolystyle.domain.Category;
-import com.kolystyle.domain.ProductToCartItem;
 import com.kolystyle.domain.SubCategory;
 import com.kolystyle.domain.SubSubCategory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -62,6 +62,11 @@ public class Product {
 	@JoinColumn(name="sub_sub_category_id")
 	private SubSubCategory mainSubCategory;
 	
+	@OneToMany(cascade= CascadeType.ALL, mappedBy = "product")
+	@JsonIgnore
+	private List<ProductAttribute> productAttribute;
+	
+	
 	/*@OneToMany(mappedBy="newProduct")
 	@JsonIgnore
 	private List<CategoryList> categoryList;*/
@@ -69,9 +74,13 @@ public class Product {
 	@Transient
 	private List<MultipartFile> productImage;
 	
+	/*@OneToMany(mappedBy="product")
+	@JsonIgnore
+	private List<ProductToCartItem> productToCartItemList;*/
+	
 	@OneToMany(mappedBy="product")
 	@JsonIgnore
-	private List<ProductToCartItem> productToCartItemList;
+	private List<CartItem> cartItemList;
 
 	public Long getId() {
 		return id;
@@ -274,12 +283,29 @@ public class Product {
 		this.productImage = productImage;
 	}
 
-	public List<ProductToCartItem> getProductToCartItemList() {
+/*	public List<ProductToCartItem> getProductToCartItemList() {
 		return productToCartItemList;
 	}
 
 	public void setProductToCartItemList(List<ProductToCartItem> productToCartItemList) {
 		this.productToCartItemList = productToCartItemList;
+	}*/
+	
+
+	public List<ProductAttribute> getProductAttribute() {
+		return productAttribute;
+	}
+
+	public List<CartItem> getCartItemList() {
+		return cartItemList;
+	}
+
+	public void setCartItemList(List<CartItem> cartItemList) {
+		this.cartItemList = cartItemList;
+	}
+
+	public void setProductAttribute(List<ProductAttribute> productAttribute) {
+		this.productAttribute = productAttribute;
 	}
 
 	

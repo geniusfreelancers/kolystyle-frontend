@@ -1,4 +1,4 @@
-package com.kolystyle.domain;
+/*package com.kolystyle.domain;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -55,3 +55,4 @@ public class ProductToCartItem {
 	
 	
 }
+*/

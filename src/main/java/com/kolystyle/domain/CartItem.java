@@ -25,13 +25,17 @@ public class CartItem {
 	private int qty;
 	private BigDecimal subtotal;
 	private String productSize;
-	@OneToOne
+	/*@OneToOne
+	private Product product;*/
+	
+	@ManyToOne
+	@JoinColumn(name="product_id")
 	private Product product;
 	
 	
-	@OneToMany( cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+/*	@OneToMany( cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "cartItem")
 	@JsonIgnore
-	private List<ProductToCartItem> productToCartItemList;
+	private List<ProductToCartItem> productToCartItemList;*/
 
 
 	@ManyToOne
@@ -83,13 +87,13 @@ public class CartItem {
 		this.product = product;
 	}
 
-	public List<ProductToCartItem> getProductToCartItemList() {
+/*	public List<ProductToCartItem> getProductToCartItemList() {
 		return productToCartItemList;
 	}
 
 	public void setProductToCartItemList(List<ProductToCartItem> productToCartItemList) {
 		this.productToCartItemList = productToCartItemList;
-	}
+	}*/
 
 	public ShoppingCart getShoppingCart() {
 		return shoppingCart;

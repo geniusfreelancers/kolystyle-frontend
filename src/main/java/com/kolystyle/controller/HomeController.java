@@ -36,6 +36,8 @@ import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.Category;
 import com.kolystyle.domain.Order;
 import com.kolystyle.domain.Product;
+import com.kolystyle.domain.ProductAttr;
+import com.kolystyle.domain.ProductAttribute;
 import com.kolystyle.domain.ShoppingCart;
 import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.domain.User;
@@ -46,6 +48,7 @@ import com.kolystyle.domain.security.PasswordResetToken;
 import com.kolystyle.domain.security.Role;
 import com.kolystyle.domain.security.UserRole;
 import com.kolystyle.repository.CartItemRepository;
+import com.kolystyle.repository.ProductAttrRepository;
 import com.kolystyle.repository.ViewedRecentlyRepository;
 import com.kolystyle.service.CartItemService;
 import com.kolystyle.service.OrderService;
@@ -62,6 +65,9 @@ import com.kolystyle.utility.USConstants;
 
 @Controller
 public class HomeController {
+	
+	@Autowired
+	private ProductAttrRepository productAttrRepository;
 
 	@Autowired
 	private JavaMailSender mailSender;
@@ -311,6 +317,8 @@ public class HomeController {
 		List<Product> productList = productService.findAllByOrderByIdDesc();
 		model.addAttribute("productList",productList);
 		
+		List<ProductAttr> productAttrLis = (List<ProductAttr>) productAttrRepository.findAll();
+		
 		List<String> brandList = new ArrayList<String>();
 		List<String> fabricList = new ArrayList<String>();
 		List<String> typeList = new ArrayList<String>();
@@ -320,7 +328,18 @@ public class HomeController {
 		List<String> occasionList = new ArrayList<String>();
 		List<String> workList = new ArrayList<String>();
 		List<String> colorList = new ArrayList<String>();
+		List<ProductAttribute> productAttributeList = new ArrayList<ProductAttribute>();
 		for(Product product : productList) {
+			
+			
+			for(ProductAttr productAtt : productAttrLis ) {
+				
+				productAttributeList.addAll(productAtt.getProductAttribute());
+				/*for(ProductAttribute productAttribute : productAttributeList ) {
+				}*/
+			}
+			
+			
 			if(brandList.contains(product.getBrand())) {
 					
 			}else {
@@ -336,10 +355,10 @@ public class HomeController {
 			}else {
 				typeList.add(product.getCategory().getCategoryName());
 			}
-			if(fabricList.contains(product.getBrand())) {
+			if(fabricList.contains(product.getGender())) {
 				
 			}else {
-				fabricList.add(product.getBrand());
+				fabricList.add(product.getGender());
 			}
 			if(priceList.contains(product.getBrand())) {
 				
@@ -367,6 +386,8 @@ public class HomeController {
 				colorList.add(product.getBrand());
 			}
 		}
+		model.addAttribute("productAttributeList",productAttributeList);
+		model.addAttribute("productAttributeLis",productAttrLis);
 		model.addAttribute("brandList",brandList);
 		model.addAttribute("typeList",typeList);
 		model.addAttribute("sizeList",sizeList);
