@@ -1,21 +1,16 @@
 package com.kolystyle.controller;
 
-import java.math.BigDecimal;
 import java.security.Principal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -29,7 +24,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,17 +36,19 @@ import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.Category;
 import com.kolystyle.domain.Order;
 import com.kolystyle.domain.Product;
+import com.kolystyle.domain.ProductAttr;
+import com.kolystyle.domain.ProductAttribute;
 import com.kolystyle.domain.ShoppingCart;
 import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.domain.User;
 import com.kolystyle.domain.UserBilling;
 import com.kolystyle.domain.UserPayment;
 import com.kolystyle.domain.UserShipping;
-import com.kolystyle.domain.ViewedRecently;
 import com.kolystyle.domain.security.PasswordResetToken;
 import com.kolystyle.domain.security.Role;
 import com.kolystyle.domain.security.UserRole;
 import com.kolystyle.repository.CartItemRepository;
+import com.kolystyle.repository.ProductAttrRepository;
 import com.kolystyle.repository.ViewedRecentlyRepository;
 import com.kolystyle.service.CartItemService;
 import com.kolystyle.service.OrderService;
@@ -69,6 +65,9 @@ import com.kolystyle.utility.USConstants;
 
 @Controller
 public class HomeController {
+	
+	@Autowired
+	private ProductAttrRepository productAttrRepository;
 
 	@Autowired
 	private JavaMailSender mailSender;
@@ -318,6 +317,8 @@ public class HomeController {
 		List<Product> productList = productService.findAllByOrderByIdDesc();
 		model.addAttribute("productList",productList);
 		
+		List<ProductAttr> productAttrLis = (List<ProductAttr>) productAttrRepository.findAll();
+		
 		List<String> brandList = new ArrayList<String>();
 		List<String> fabricList = new ArrayList<String>();
 		List<String> typeList = new ArrayList<String>();
@@ -327,50 +328,75 @@ public class HomeController {
 		List<String> occasionList = new ArrayList<String>();
 		List<String> workList = new ArrayList<String>();
 		List<String> colorList = new ArrayList<String>();
+		List<ProductAttribute> productAttributeList = new ArrayList<ProductAttribute>();
 		for(Product product : productList) {
+			
+			
+			for(ProductAttr productAtt : productAttrLis ) {
+				
+				productAttributeList.addAll(productAtt.getProductAttribute());
+				/*for(ProductAttribute productAttribute : productAttributeList ) {
+				}*/
+			}
+			
+			
 			if(brandList.contains(product.getBrand())) {
 					
 			}else {
 				brandList.add(product.getBrand());
+			}
+			if(sizeList.contains(product.getBrand())) {
+				
+			}else {
+				sizeList.add(product.getBrand());
 			}
 			if(typeList.contains(product.getCategory().getCategoryName())) {
 				
 			}else {
 				typeList.add(product.getCategory().getCategoryName());
 			}
-			if(brandList.contains(product.getBrand())) {
+			if(fabricList.contains(product.getGender())) {
 				
 			}else {
-				brandList.add(product.getBrand());
+				fabricList.add(product.getGender());
 			}
-			if(brandList.contains(product.getBrand())) {
+			if(priceList.contains(product.getBrand())) {
 				
 			}else {
-				brandList.add(product.getBrand());
+				priceList.add(product.getBrand());
 			}
-			if(brandList.contains(product.getBrand())) {
+			if(styleList.contains(product.getBrand())) {
 				
 			}else {
-				brandList.add(product.getBrand());
+				styleList.add(product.getBrand());
 			}
-			if(brandList.contains(product.getBrand())) {
+			if(occasionList.contains(product.getBrand())) {
 				
 			}else {
-				brandList.add(product.getBrand());
+				occasionList.add(product.getBrand());
 			}
-			if(brandList.contains(product.getBrand())) {
+			if(workList.contains(product.getBrand())) {
 				
 			}else {
-				brandList.add(product.getBrand());
+				workList.add(product.getBrand());
 			}
-			if(brandList.contains(product.getBrand())) {
+			if(colorList.contains(product.getBrand())) {
 				
 			}else {
-				brandList.add(product.getBrand());
+				colorList.add(product.getBrand());
 			}
 		}
+		model.addAttribute("productAttributeList",productAttributeList);
+		model.addAttribute("productAttributeLis",productAttrLis);
 		model.addAttribute("brandList",brandList);
 		model.addAttribute("typeList",typeList);
+		model.addAttribute("sizeList",sizeList);
+		model.addAttribute("fabricList",fabricList);
+		model.addAttribute("priceList",priceList);
+		model.addAttribute("styleList",styleList);
+		model.addAttribute("occasionList",occasionList);
+		model.addAttribute("workList",workList);
+		model.addAttribute("colorList",colorList);
 		model.addAttribute("activeAll",true);
 		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
 	        model.addAttribute("siteSettings",siteSettings);

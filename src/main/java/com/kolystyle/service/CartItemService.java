@@ -20,6 +20,7 @@ public interface CartItemService {
 	CartItem updateCartItem(CartItem cartItem);
 	
 	CartItem findById(Long id);
+	void removeOne(Long id);
 	
 	void removeCartItem(CartItem cartItem);
 	

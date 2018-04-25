@@ -1,16 +1,10 @@
 package com.kolystyle.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kolystyle.domain.Order;
-import com.kolystyle.domain.OrderLog;
 import com.kolystyle.domain.ViewedRecently;
-import com.kolystyle.repository.OrderLogRepository;
 import com.kolystyle.repository.ViewedRecentlyRepository;
-import com.kolystyle.service.OrderLogService;
 import com.kolystyle.service.ViewedRecentlyService;
 
 @Service

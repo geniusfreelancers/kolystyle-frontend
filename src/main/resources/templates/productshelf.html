@@ -314,19 +314,19 @@ $(window).ready(function (){
 			
 			<a th:href="@{/searchByCategory(category='Friction')}" th:classappend="${activeFriction}? 'active'" class="list-group-item">Fabric</a>
 				<ul class="brandlist row">
-						<li class="brandname col-md-6" data-th-each="brand : ${brandList}"><label><input type="checkbox" th:value="${brand}"  th:text="${brand}"/></label></li>			
+						<li class="brandname col-md-6" data-th-each="type : ${typeList}"><label><input type="checkbox" th:value="${type}"  th:text="${type}"/></label></li>			
 				</ul>
 			<a th:href="@{/searchByCategory(category='Management')}" th:classappend="${activeManagement}? 'active'" class="list-group-item">Type</a>
 				<ul class="brandlist row">
-						<li class="brandname col-md-6" data-th-each="type : ${typeList}"><label><input type="checkbox" th:value="${type}"  th:text="${type}"/></label></li>			
+						<li class="brandname col-md-6" data-th-each="fabric : ${fabricList}"><label><input type="checkbox" th:value="${fabric}"  th:text="${fabric}"/></label></li>			
 				</ul>
 			<a th:href="@{/searchByCategory(category='Management')}" th:classappend="${activeManagement}? 'active'" class="list-group-item">Size</a>
 				<ul class="brandlist row">
-						<li class="brandname col-md-6" data-th-each="brand : ${brandList}"><label><input type="checkbox" th:value="${brand}"  th:text="${brand}"/></label></li>			
+						<li class="brandname col-md-6" data-th-each="productAttribute : ${productAttributeLis}"><label><input type="checkbox" th:value="${productAttribute}"  th:text="${productAttribute.attribute}"/></label></li>			
 				</ul>
 			<a href="" class="list-group-item">Price</a>
 				<ul class="brandlist row">
-						<li class="brandname col-md-6" data-th-each="brand : ${brandList}"><label><input type="checkbox" th:value="${brand}"  th:text="${brand}"/></label></li>			
+						<li class="brandname col-md-6" data-th-each="productAttr : ${productAttributeList}"><label><input type="checkbox" th:value="${productAttr}"  th:text="${productAttr.valueString}"/></label></li>			
 				</ul>
 			<a th:href="@{/searchByCategory(category='Engineering')}" th:classappend="${activeEngineering}? 'active'" class="list-group-item">Style</a>
 				<ul class="brandlist row">

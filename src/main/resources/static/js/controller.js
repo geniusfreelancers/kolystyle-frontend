@@ -173,10 +173,14 @@ $(function() {
 	                if(len != 0){
 	                $('#serverRespone').show();
 	                $('#serverRespone').html('<i class="fa fa-check" aria-hidden="true" style="color: forestgreen"></i> <span style="color: forestgreen;">Added to cart.</span>');	
+	                $('#serverRespones').show();
+	                $('#serverRespones').html('<span><a style="color:red;" href="shoppingCart/cart">View cart</a></span>');	
+	                
 	                }else{	
 	                	$('#serverRespone').show();
 		                $('#serverRespone').html('<i class="fa fa-exclamation-circle text-danger" aria-hidden="true"></i> <span class="text-danger">Not Enough Quantity.</span>');	
-		             }                
+		                $('#serverRespones').hide();
+	                }                
 	            });
 	            return false;
 	        });

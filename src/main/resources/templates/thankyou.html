@@ -47,7 +47,7 @@
 </div>
 <div class="col-md-4">
 <p>Paypal Response: <span th:text="${transaction.getId()}"></span></p>
-<p>Paypal Response: <span th:text="${transaction.getPaymentInstrumentType()}"></span></p>
+<p>Paypal Response: <span th:text="${creditMethod}"></span></p>
 <p><strong>Shipping Method:</strong> <span th:text="${order.shippingMethod}"></span></p>
 <p><strong>Shipping address</strong></p>
 <p><span th:text="${order.shippingAddress.firstName}"></span> <span th:text="${order.shippingAddress.lastName}"></span></p>
@@ -170,7 +170,7 @@
 <p><strong>Payment type</strong></p>
 <div th:if="${creditMethod}">
 	<!--span th:text="${transaction.getCreditCard().getCardType()}"></span-->Ending in
-	<strong><span th:text="${transaction.getCreditCard().getLast4()}"></span></strong>
+	<strong><!-- span th:text="${transaction.last4}"></span--></strong>
 </div>
 <div th:if="${paypalMethod}">
 	<span><i class="fa fa-paypal" aria-hidden="true"></i> Paypal</span>	

@@ -1,8 +1,10 @@
 package com.kolystyle.controller;
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,22 +17,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
-import com.braintreegateway.BraintreeGateway;
-import com.braintreegateway.Transaction;
-import com.braintreegateway.Transaction.Status;
-import com.kolystyle.KolystyleApplication;
 import com.kolystyle.domain.BillingAddress;
 import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.ChargeRequest;
 import com.kolystyle.domain.ChargeRequest.Currency;
+import com.kolystyle.domain.Order;
+import com.kolystyle.domain.OrderLog;
 import com.kolystyle.domain.Payment;
+import com.kolystyle.domain.PromoCodes;
 import com.kolystyle.domain.ShippingAddress;
 import com.kolystyle.domain.ShoppingCart;
 import com.kolystyle.domain.SiteSetting;
@@ -63,9 +63,9 @@ public class StripeCheckout {
 	/*private BraintreeGateway gateway = KolystyleApplication.gateway;*/
 
    
-	private ShippingAddress shippingAddress = new ShippingAddress();
+/*	private ShippingAddress shippingAddress = new ShippingAddress();
 	private BillingAddress billingAddress = new BillingAddress();
-	private Payment payment = new Payment();
+	private Payment payment = new Payment();*/
 
 	@Autowired
 	private UserService userService;
@@ -120,16 +120,94 @@ public class StripeCheckout {
 	    private String stripePublicKey;
 	    
 	    @RequestMapping(value = "/guest/charge", method = RequestMethod.POST)
-	    public String charge(ChargeRequest chargeRequest, Model model )
+	    public String charge(ChargeRequest chargeRequest, Model model ,HttpServletRequest request,HttpServletResponse response)
 	      throws StripeException {
+	    	//Save in DB
+        	User user = null;
+        	ShoppingCart shoppingCart;
+        	Cookie[] cookies = request.getCookies();
+
+        	boolean foundCookie = false;
+
+        	shoppingCart = shoppingCartService.findCartByCookie(request);
+        	System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
+        	if(shoppingCart!=null) {
+        		foundCookie = true;
+        	}
+        	if(shoppingCart==null) {
+        		System.out.println("Bag ID IS MISSING");
+        		return "redirect:/cart/guestcheckout?missingRequiredField=true";
+        	}
+        			
+        	List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
+        	model.addAttribute("cartItemList",cartItemList);
 	        chargeRequest.setDescription("Example charge");
 	        chargeRequest.setCurrency(Currency.USD);
 	        Charge charge = paymentsService.charge(chargeRequest);
-	        model.addAttribute("id", charge.getId());
+	        Order order = null;
+	        System.out.println(charge.getStatus());
+	        if(charge.getStatus().equalsIgnoreCase("succeeded")) {
+	        	
+	        	
+	        	
+	        	// Do all order placement stuff after paypal success
+
+	        	order = orderService.createNewOrder(shoppingCart,user, charge);
+		    	//Order order = orderService.createOrder(shoppingCart, shoppingCart.getShippingAddress(), billingAddress, payment, shoppingCart, user,email,phoneNumber);
+		   		order.setPaymentType("credit_card");
+		   		order.setPaymentConfirm(charge.getId());
+		    	order.setOrderTotal(shoppingCart.getOrderTotal());
+		   		order.setPromocodeApplied(shoppingCart.getPromoCode());
+		   		order.setShippingCost(shoppingCart.getShippingCost());
+		   		order.setOrderType(shoppingCart.getCartType());
+		   		order.setOrderSubtotal(shoppingCart.getGrandTotal());
+		   		order.setDiscount(shoppingCart.getDiscountedAmount());
+		   		orderRepository.save(order);
+		   		OrderLog orderLog = new OrderLog();
+		   		orderLog.setOrder(order);
+		   		orderLog.setUpdatedBy("Guest User");
+		   		orderLog.setUpdatedDate(Calendar.getInstance().getTime());
+		   		orderLog.setProcessingStatus("created");
+		   		orderLog.setUserReason("User placed an order using website");
+		   		orderLogRepository.save(orderLog);
+//		   		mailSender.send(mailConstructor.constructOrderConfirmationEmail(user,order,Locale.ENGLISH));
+		   		OrderLog orderLog2 = new OrderLog();
+		   		orderLog2.setOrder(order);
+		   		orderLog2.setUpdatedBy("System");
+		   		orderLog2.setUpdatedDate(Calendar.getInstance().getTime());
+		   		orderLog2.setProcessingStatus("created");
+		   		orderLog2.setUserReason("Confirmation Email sent to customer");
+		   		orderLogRepository.save(orderLog2);
+		   		PromoCodes promoCodes = promoCodesService.findByPromoCode(shoppingCart.getPromoCode());
+		   		if(promoCodes != null) {
+		   			promoCodes.setPromoUsedCount(promoCodes.getPromoUsedCount()+1);
+		   			promoCodesRepository.save(promoCodes);
+		   		}
+		   		shoppingCartService.clearShoppingCart(shoppingCart);
+			   	 if (foundCookie) {
+			            Cookie cookie1 = new Cookie("BagId",shoppingCart.getBagId());
+			            cookie1.setPath("/");
+			            cookie1.setMaxAge(30*24*60*60);
+			            response.addCookie(cookie1); 
+			            for (Cookie cookie11 : cookies) {
+			            	 if (cookie11.getName().equalsIgnoreCase("BagId")) {
+			                cookie11.setValue("");
+			                cookie11.setPath("/");
+			                cookie11.setMaxAge(0);
+			                response.addCookie(cookie11);
+			                System.out.println("Cookie for BAGID is deleted");
+			            	 }
+			            }
+			        }
+		   		
+		    	   //End of Order placement*/
+	        }
+	      /*  model.addAttribute("id", charge.getId());
 	        model.addAttribute("status", charge.getStatus());
 	        model.addAttribute("chargeId", charge.getId());
-	        model.addAttribute("balance_transaction", charge.getBalanceTransaction());
-	        return "striperesult";
+	        model.addAttribute("balance_transaction", charge.getBalanceTransaction());*/
+	        return "redirect:/thankyou/" + charge.getId() +"/"+order.getId();   
+	      //  return "striperesult";
 	    }
 	 
 	    @ExceptionHandler(StripeException.class)
@@ -137,6 +215,56 @@ public class StripeCheckout {
 	        model.addAttribute("error", ex.getMessage());
 	        return "striperesult";
 	    }
+	    
+	    @RequestMapping(value = "/thankyou/{transactionId}/{orderId}")
+		   public String getThankYou(@PathVariable String transactionId, @PathVariable Long orderId, Model model) {
+		       Charge charge;
+		       Order order;
+		       SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+		        model.addAttribute("siteSettings",siteSettings);
+		       try {
+		    	   charge = Charge.retrieve(transactionId);
+		           order = orderService.findOne(orderId);
+		       } catch (Exception e) {
+		           System.out.println("Exception: " + e);
+		           return "badRequestPage";
+		       }
+
+		       model.addAttribute("isSuccess", charge.getStatus());
+		       
+		       model.addAttribute("transaction", charge);
+		   		LocalDate today = LocalDate.now();
+		   		LocalDate estimatedDeliveryDate;
+		   		
+		   		if(order.getShippingMethod().equals("groundShipping")){
+		   			estimatedDeliveryDate = today.plusDays(5);
+		   		}else{
+		   			estimatedDeliveryDate = today.plusDays(3);
+		   		}
+		   		
+			   			model.addAttribute("creditMethod",true);
+			   		
+		   		int currentStatus = 1;
+		   		if(order.getOrderStatus().equalsIgnoreCase("created")) {
+		   			currentStatus = 2;
+		   		}else if (order.getOrderStatus().equalsIgnoreCase("processing")) {
+		   			currentStatus = 3;
+		   		}else if (order.getOrderStatus().equalsIgnoreCase("shipped")) {
+		   			currentStatus = 4;
+		   		}else if (order.getOrderStatus().equalsIgnoreCase("intransit")) {
+		   			currentStatus = 5;
+		   		}else if (order.getOrderStatus().equalsIgnoreCase("delivered")) {
+		   			currentStatus = 6;
+		   		}else {
+		   			currentStatus = 2;
+		   		}
+		   		model.addAttribute("estimatedDeliveryDate",estimatedDeliveryDate);
+		   		model.addAttribute("order",order);
+		   		model.addAttribute("currentStatus",currentStatus);
+		   		model.addAttribute("cartItemList", order.getCartItemList());
+
+		       return "thankyou";
+		   }
 	
 	    @RequestMapping(value = "/guest/checkout", method = RequestMethod.POST)
 	    public String checkout(HttpServletRequest request,HttpServletResponse response,

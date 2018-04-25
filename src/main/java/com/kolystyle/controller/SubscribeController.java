@@ -1,13 +1,8 @@
 package com.kolystyle.controller;
 
 import java.security.Principal;
-import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
-import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.braintreegateway.Transaction;
 import com.kolystyle.domain.Newsletter;
-import com.kolystyle.domain.Order;
 import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.repository.NewsletterRepository;
 import com.kolystyle.service.NewsletterService;

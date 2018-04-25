@@ -2,7 +2,6 @@ package com.kolystyle.controller;
 
 import java.security.Principal;
 import java.util.Calendar;
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kolystyle.domain.Category;
 import com.kolystyle.domain.Product;
 import com.kolystyle.domain.SearchLog;
-import com.kolystyle.domain.ShoppingCart;
 import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.domain.User;
 import com.kolystyle.repository.SearchLogRepository;

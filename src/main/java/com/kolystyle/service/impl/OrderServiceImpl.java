@@ -17,6 +17,7 @@ import com.kolystyle.domain.User;
 import com.kolystyle.repository.OrderRepository;
 import com.kolystyle.service.CartItemService;
 import com.kolystyle.service.OrderService;
+import com.stripe.model.Charge;
 
 @Service
 public class OrderServiceImpl implements OrderService{
@@ -63,6 +64,44 @@ public class OrderServiceImpl implements OrderService{
 		order = orderRepository.save(order);
 		
 		return order;
+	}
+	
+	public Order createNewOrder(ShoppingCart shoppingCart,User user, Charge charge) {
+		Order order = new Order();
+		ShippingAddress shippingAddress = shoppingCart.getShippingAddress();
+
+		Payment payment = new Payment();
+		String shippingMethod = shoppingCart.getShippingMethod();
+		String email = shoppingCart.getShippingAddress().getShippingEmail();
+		String phone = shoppingCart.getShippingAddress().getShippingPhone();
+		BillingAddress billingAddress = new BillingAddress();
+		order.setBillingAddress(billingAddress);
+		order.setOrderStatus("created");
+		order.setPayment(payment);
+		order.setShippingAddress(shippingAddress);
+		order.setShippingMethod(shippingMethod);
+		String orderEmail = email;
+		String orderPhone = phone;
+		
+		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
+		
+		for(CartItem cartItem : cartItemList){
+			Product product = cartItem.getProduct();
+			cartItem.setOrder(order);
+			product.setInStockNumber(product.getInStockNumber() - cartItem.getQty());
+		}
+		order.setOrderEmail(orderEmail);
+		order.setOrderPhone(orderPhone);
+		order.setCartItemList(cartItemList);
+		order.setOrderDate(Calendar.getInstance().getTime());
+		order.setOrderTotal(shoppingCart.getGrandTotal());
+		shippingAddress.setOrder(order);
+		billingAddress.setOrder(order);
+		payment.setOrder(order);
+		order.setUser(user);
+		order = orderRepository.save(order);
+		return order;
+		
 	}
 
 /*	public synchronized Order createGuestOrder(ShoppingCart shoppingCart, ShippingAddress shippingAddress, BillingAddress billingAddress,
