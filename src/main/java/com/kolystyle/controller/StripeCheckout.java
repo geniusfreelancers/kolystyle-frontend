@@ -206,7 +206,7 @@ public class StripeCheckout {
 	        model.addAttribute("status", charge.getStatus());
 	        model.addAttribute("chargeId", charge.getId());
 	        model.addAttribute("balance_transaction", charge.getBalanceTransaction());*/
-	        return "redirect:thankyou/" + charge.getId() +"/"+order.getId();   
+	        return "redirect:/thankyou/" + charge.getId() +"/"+order.getId();   
 	      //  return "striperesult";
 	    }
 	 
@@ -231,6 +231,7 @@ public class StripeCheckout {
 		       }
 
 		       model.addAttribute("isSuccess", charge.getStatus());
+		       
 		       model.addAttribute("transaction", charge);
 		   		LocalDate today = LocalDate.now();
 		   		LocalDate estimatedDeliveryDate;
