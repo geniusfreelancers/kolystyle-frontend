@@ -1,6 +1,8 @@
 package com.kolystyle.controller;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -11,13 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.braintreegateway.Transaction;
 import com.braintreegateway.Transaction.Status;
 import com.kolystyle.domain.BillingAddress;
 import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.Order;
+import com.kolystyle.domain.OrderLog;
 import com.kolystyle.domain.Payment;
 import com.kolystyle.domain.ShippingAddress;
 import com.kolystyle.domain.ShoppingCart;
@@ -43,6 +48,7 @@ import com.kolystyle.service.UserService;
 import com.kolystyle.service.UserShippingService;
 import com.kolystyle.utility.MailConstructor;
 import com.kolystyle.utility.USConstants;
+import com.stripe.model.Charge;
 
 @Controller
 public class CheckoutController {
@@ -567,12 +573,12 @@ if(shoppingCart==null) {
 		
 	}
 	
-	/*@RequestMapping(value = "/public/track", method = RequestMethod.POST)
+	@RequestMapping(value = "/public/track", method = RequestMethod.POST)
 	   public String orderDetailsPage(@ModelAttribute("order") Order order, Model model) {
 			SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
 	        model.addAttribute("siteSettings",siteSettings);
 	        String email = order.getOrderEmail();
-	       Transaction transaction;
+	       Charge transaction;
 	       try {
 	    	   order = orderService.findOne(order.getId());
 	    	   if(order.getOrderEmail().equalsIgnoreCase(email)) {
@@ -584,7 +590,8 @@ if(shoppingCart==null) {
 	    		   return "track";
 	    	   }
 	    	   String transactionId = order.getPaymentConfirm();
-	           transaction = gateway.transaction().find(transactionId);
+	          // transaction = gateway.transaction().find(transactionId);
+	    	   transaction = Charge.retrieve(transactionId);
 	          
 	       } catch (Exception e) {
 	           System.out.println("Exception: " + e);
@@ -603,7 +610,7 @@ if(shoppingCart==null) {
 	   		}else{
 	   			estimatedDeliveryDate = today.plusDays(3);
 	   		}
-	   		if(transaction.getPaymentInstrumentType().equals("paypal_account")){
+	   		if(order.getPaymentType().equals("paypal_account")){
 	        	   model.addAttribute("paypalMethod",true);
 		   			 
 		   		}else{
@@ -638,6 +645,6 @@ if(shoppingCart==null) {
 	   		model.addAttribute("incorrectEmail",false);
 	   		model.addAttribute("notfound",false);
 	   		return "track";
-	   }*/
+	   }
 	
 }
