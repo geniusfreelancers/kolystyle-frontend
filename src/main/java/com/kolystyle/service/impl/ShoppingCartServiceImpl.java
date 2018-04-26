@@ -170,6 +170,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 				shippingCost = siteSetting.getShippingCost();
 			}
 		}
+		if(shoppingCart.getGrandTotal().doubleValue() < 0.01) {
+			shippingCost = new BigDecimal(0);
+		}
 		
 		
 		return shippingCost;	

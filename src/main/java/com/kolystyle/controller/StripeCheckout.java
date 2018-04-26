@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -154,7 +155,9 @@ public class StripeCheckout {
 
 	        	order = orderService.createNewOrder(shoppingCart,user, charge);
 		    	//Order order = orderService.createOrder(shoppingCart, shoppingCart.getShippingAddress(), billingAddress, payment, shoppingCart, user,email,phoneNumber);
-		   		order.setPaymentType("credit_card");
+		   		order.setCustomerFname(shoppingCart.getShippingAddress().getFirstName());
+		   		order.setCustomerLname(shoppingCart.getShippingAddress().getLastName());
+	        	order.setPaymentType("credit_card");
 		   		order.setPaymentConfirm(charge.getId());
 		    	order.setOrderTotal(shoppingCart.getOrderTotal());
 		   		order.setPromocodeApplied(shoppingCart.getPromoCode());
@@ -170,7 +173,8 @@ public class StripeCheckout {
 		   		orderLog.setProcessingStatus("created");
 		   		orderLog.setUserReason("User placed an order using website");
 		   		orderLogRepository.save(orderLog);
-//		   		mailSender.send(mailConstructor.constructOrderConfirmationEmail(user,order,Locale.ENGLISH));
+		   		//Sending Confirmation Email to customer
+		   		mailSender.send(mailConstructor.constructGuestOrderConfirmationEmail(order,Locale.ENGLISH));
 		   		OrderLog orderLog2 = new OrderLog();
 		   		orderLog2.setOrder(order);
 		   		orderLog2.setUpdatedBy("System");
@@ -307,10 +311,10 @@ public class StripeCheckout {
 	        			
 	        		}
 	        		BigDecimal amount = (shoppingCart.getOrderTotal()).multiply(new BigDecimal(100));
-	        		Double finalamount = amount.doubleValue();
+	        		int finalamount = amount.intValue();
 	       ///////////////////////////// 		
 	        model.addAttribute("shoppingCart", shoppingCart);
-	        model.addAttribute("amount", 100 * 100); // in cents
+	        model.addAttribute("amount", finalamount); // in cents
 	        model.addAttribute("stripePublicKey", stripePublicKey);
 	        model.addAttribute("currency", ChargeRequest.Currency.USD);
 	        return "payment";
@@ -327,7 +331,7 @@ public class StripeCheckout {
 		System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
 
 		
-        if(shoppingCart == null) {
+        if(shoppingCart == null || shoppingCart.getCartItemList().size() < 1) {
         	return "redirect:/shoppingCart/cart";
         }
         List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);

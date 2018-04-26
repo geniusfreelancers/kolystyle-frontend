@@ -29,6 +29,8 @@ public class Order {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	private Date orderDate;
+	private String customerFname;
+	private String customerLname;
 	private Date shippingDate;
 	private String shippingMethod;
 	private String orderStatus;
@@ -78,6 +80,22 @@ public class Order {
 
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
+	}
+
+	public String getCustomerFname() {
+		return customerFname;
+	}
+
+	public void setCustomerFname(String customerFname) {
+		this.customerFname = customerFname;
+	}
+
+	public String getCustomerLname() {
+		return customerLname;
+	}
+
+	public void setCustomerLname(String customerLname) {
+		this.customerLname = customerLname;
 	}
 
 	public Date getShippingDate() {

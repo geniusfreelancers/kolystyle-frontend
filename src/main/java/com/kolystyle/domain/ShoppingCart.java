@@ -22,7 +22,8 @@ public class ShoppingCart {
 	private BigDecimal GrandTotal;
 	
 	
-	@OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//	@OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "shoppingCart",cascade=CascadeType.ALL,fetch=FetchType.LAZY,orphanRemoval=true)
 	private List<CartItem> cartItemList;
 	
 	@OneToOne(cascade = CascadeType.ALL)

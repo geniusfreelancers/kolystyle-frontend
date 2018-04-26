@@ -427,6 +427,7 @@ public class CartController {
 			shoppingCartService.updateShoppingCart(shoppingCart);
 		}
 		shoppingCartRepository.save(shoppingCart);
+		shoppingCartService.updateShoppingCart(shoppingCart);
 		return shoppingCartRepository.findOne(shoppingCartId);
 		//return shoppingCart;
 		

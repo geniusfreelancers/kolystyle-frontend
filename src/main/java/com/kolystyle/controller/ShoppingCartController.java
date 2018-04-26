@@ -244,10 +244,12 @@ public class ShoppingCartController {
 	@RequestMapping(value = "/remove/{cartItemId}", method = RequestMethod.POST)
     public @ResponseBody ShoppingCart removeCartItems(@PathVariable(value = "cartItemId") Long id){
 		CartItem cartItem = cartItemRepository.findOne(id);
-		cartItemService.removeOne(id);
+		cartItemRepository.delete(cartItem);
+	//	cartItemService.removeOne(id);
 	//	cartItemService.removeCartItem(cartItemRepository.findOne(id));
 		
 		ShoppingCart shoppingCart = cartItem.getShoppingCart();
+		shoppingCart = shoppingCartService.updateShoppingCart(shoppingCart);
 		return shoppingCart;
 		//findById(id)
     }
