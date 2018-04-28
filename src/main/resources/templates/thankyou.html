@@ -168,8 +168,8 @@
 <div class="col-md-4 payment-type">
 <p><strong>Payment type</strong></p>
 <div th:if="${creditMethod}">
-	<!--span th:text="${transaction.getCreditCard().getCardType()}"></span-->Ending in
-	<strong><!-- span th:text="${transaction.last4}"></span--></strong>
+	<span th:text="${transaction.source.brand}"></span> Ending in
+	<strong><span th:text="${transaction.source.last4}"></span></strong>
 </div>
 <div th:if="${paypalMethod}">
 	<span><i class="fa fa-paypal" aria-hidden="true"></i> Paypal</span>	
@@ -177,6 +177,7 @@
 </div>
 <div th:if="${creditMethod}" class="col-md-4 billing-address">
 <p><strong>Billing address</strong></p>
+<p><span th:text="${transaction.source.funding}"></span></p>
 <p><span th:text="${order.billingAddress.BillingAddressStreet1}"></span></p>
 <p><span th:text="${order.billingAddress.BillingAddressStreet2}"></span></p>
 <p><span th:text="${order.billingAddress.BillingAddressCity}"></span>, 

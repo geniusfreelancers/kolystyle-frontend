@@ -84,11 +84,13 @@ public class OrderServiceImpl implements OrderService{
 		String orderPhone = phone;
 		
 		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
+			
 		
 		for(CartItem cartItem : cartItemList){
 			Product product = cartItem.getProduct();
 			cartItem.setOrder(order);
 			product.setInStockNumber(product.getInStockNumber() - cartItem.getQty());
+			product.setSoldItems(product.getSoldItems()+cartItem.getQty());
 		}
 		order.setOrderEmail(orderEmail);
 		order.setOrderPhone(orderPhone);

@@ -49,7 +49,9 @@ public class Product {
 	private String shippingAndReturnPolicy;
 	private int inStockNumber;
 
+	private int soldItems=0;
 	private String coverImageName;
+	private String productImagesName;
 	private String feature;
 	private String size;
 	@ManyToOne
@@ -226,12 +228,28 @@ public class Product {
 		this.inStockNumber = inStockNumber;
 	}
 
+	public int getSoldItems() {
+		return soldItems;
+	}
+
+	public void setSoldItems(int soldItems) {
+		this.soldItems = soldItems;
+	}
+
 	public String getCoverImageName() {
 		return coverImageName;
 	}
 
 	public void setCoverImageName(String coverImageName) {
 		this.coverImageName = coverImageName;
+	}
+
+	public String getProductImagesName() {
+		return productImagesName;
+	}
+
+	public void setProductImagesName(String productImagesName) {
+		this.productImagesName = productImagesName;
 	}
 
 	public String getFeature() {

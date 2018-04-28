@@ -31,6 +31,7 @@ import com.kolystyle.domain.ChargeRequest.Currency;
 import com.kolystyle.domain.Order;
 import com.kolystyle.domain.OrderLog;
 import com.kolystyle.domain.Payment;
+import com.kolystyle.domain.Product;
 import com.kolystyle.domain.PromoCodes;
 import com.kolystyle.domain.ShippingAddress;
 import com.kolystyle.domain.ShoppingCart;
@@ -38,6 +39,7 @@ import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.domain.User;
 import com.kolystyle.repository.OrderLogRepository;
 import com.kolystyle.repository.OrderRepository;
+import com.kolystyle.repository.ProductRepository;
 import com.kolystyle.repository.PromoCodesRepository;
 import com.kolystyle.service.BillingAddressService;
 import com.kolystyle.service.CartItemService;
@@ -72,6 +74,9 @@ public class StripeCheckout {
 	private UserService userService;
 	@Autowired
 	private OrderRepository orderRepository;
+	
+	@Autowired
+	private ProductRepository productRepository;
 	@Autowired
 	private OrderLogRepository orderLogRepository;
 	@Autowired
@@ -142,7 +147,7 @@ public class StripeCheckout {
         			
         	List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
         	model.addAttribute("cartItemList",cartItemList);
-	        chargeRequest.setDescription("Example charge");
+	        chargeRequest.setDescription(shoppingCart.getBagId());
 	        chargeRequest.setCurrency(Currency.USD);
 	        Charge charge = paymentsService.charge(chargeRequest);
 	        Order order = null;
@@ -174,7 +179,7 @@ public class StripeCheckout {
 		   		orderLog.setUserReason("User placed an order using website");
 		   		orderLogRepository.save(orderLog);
 		   		//Sending Confirmation Email to customer
-		   		mailSender.send(mailConstructor.constructGuestOrderConfirmationEmail(order,Locale.ENGLISH));
+		   	//	mailSender.send(mailConstructor.constructGuestOrderConfirmationEmail(order,Locale.ENGLISH));
 		   		OrderLog orderLog2 = new OrderLog();
 		   		orderLog2.setOrder(order);
 		   		orderLog2.setUpdatedBy("System");
@@ -210,6 +215,7 @@ public class StripeCheckout {
 	        model.addAttribute("status", charge.getStatus());
 	        model.addAttribute("chargeId", charge.getId());
 	        model.addAttribute("balance_transaction", charge.getBalanceTransaction());*/
+	 
 	        return "redirect:/thankyou/" + charge.getId() +"/"+order.getId();   
 	      //  return "striperesult";
 	    }
@@ -229,6 +235,7 @@ public class StripeCheckout {
 		       try {
 		    	   charge = Charge.retrieve(transactionId);
 		           order = orderService.findOne(orderId);
+		           
 		       } catch (Exception e) {
 		           System.out.println("Exception: " + e);
 		           return "badRequestPage";
@@ -317,6 +324,7 @@ public class StripeCheckout {
 	        model.addAttribute("amount", finalamount); // in cents
 	        model.addAttribute("stripePublicKey", stripePublicKey);
 	        model.addAttribute("currency", ChargeRequest.Currency.USD);
+	        model.addAttribute("noCartExist",true);
 	        return "payment";
 	    }
 	

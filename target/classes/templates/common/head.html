@@ -17,6 +17,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/jquery.validate.js}"></script>
 	<script th:src="@{/js/jquery-dateFormat.min.js}"></script>
+	<!-- Image Magnifier for product details page -->
+	<script th:src="@{/js/blowup.min.js}"></script>
+
 <!-- script src="https://js.stripe.com/v3/"></script-->
 <!-- Bootstrap core CSS -->
 <link href="/css/bootstrap.min.css" rel="stylesheet" />
@@ -295,7 +298,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
                         </div>
                     </li>
                    
-                    <li><a id="gownsLink" href="">GOWNS</a>
+                    <li><a id="gownsLink" href="/searchByCategory?category=gowns">GOWNS</a>
                         <div class="custom_block dropped_menu">
                             <ul>
                                 <li>
@@ -311,7 +314,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
                             </ul>
                         </div>
                     </li>
-                    <li><a id="jewelryLink" href="">JEWELRY</a>
+                    <li><a id="jewelryLink" href="/searchByCategory?category=jewellery">JEWELRY</a>
                         <div class="custom_block dropped_menu">
                             <ul>
                                 <li>
@@ -340,10 +343,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
                     <li><a id="infoLink">Information</a>
                         <div>
                             <ul>
-                                <li><a id="aboutLink" href="about-us.html">About Us</a></li>
-                                <li><a id="deliveryLink" href="about-us.html">Delivery Information</a></li>
-                                <li><a id="privacyLink" href="about-us.html">Privacy Policy</a></li>
-                                <li><a id="elementLink" href="elements.html">Elements</a></li>
+                                <li><a id="aboutLink" th:href="@{/public/about}">About Us</a></li>
+		                                <li><a id="deliveryLink" th:href="@{/public/delivery}">Delivery Information</a></li>
+		                                <li><a id="privacyLink" th:href="@{/public/privacy}">Privacy Policy</a></li>
+		                                <li><a id="elementLink" th:href="@{/public/terms}">Terms &amp; Conditions</a></li>
                             </ul>
                         </div>
                     </li>
@@ -392,7 +395,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
                                     </ul>
                                 </div>
                             </div>
-                            <div class="column"> <a id="gownsLink" href="">Gowns</a>
+                            <div class="column"> <a id="gownsLink" th:href="@{/searchByCategory?category=gowns}">Gowns</a>
                                 <div>
                                     <ul>
                                         <li><a href="category.html">Men (1)</a></li>
@@ -404,7 +407,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
                                     </ul>
                                 </div>
                             </div>
-                            <div class="column"> <a id="jewelryLink" href="">JEWELRY</a>
+                            <div class="column"> <a id="jewelryLink" href="/searchByCategory?category=jewellery">JEWELRY</a>
                                 <div>
                                     <ul>
                                         <li><a href="category.html">Toys Kids (0)</a></li>
@@ -429,10 +432,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
                             <div class="column"> <a id="infoLink">Information</a>
                                 <div>
                                     <ul>
-		                                <li><a id="aboutLink" href="about-us.html">About Us</a></li>
-		                                <li><a id="deliveryLink" href="about-us.html">Delivery Information</a></li>
-		                                <li><a id="privacyLink" href="about-us.html">Privacy Policy</a></li>
-		                                <li><a id="elementLink" href="elements.html">Elements</a></li>
+		                                <li><a id="aboutLink" th:href="@{/public/about}">About Us</a></li>
+		                                <li><a id="deliveryLink" th:href="@{/public/delivery}">Delivery Information</a></li>
+		                                <li><a id="privacyLink" th:href="@{/public/privacy}">Privacy Policy</a></li>
+		                                <li><a id="elementLink" th:href="@{/public/terms}">Terms &amp; Conditions</a></li>
 		                            </ul>
                                 </div>
                             </div>
@@ -585,8 +588,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
         <div class="column" th:if="${siteSettings.loginKillSwitch}">
             <h3>My Order</h3>
             <ul>
-                <li><a href="#">Order Status</a></li>
-                <li><a href="#">Returns Status</a></li>
+                <li><a href="/public/track">Order Status</a></li>
+                <li><a href="/public/track">Returns Status</a></li>
                 <li><a th:href="@{/public/sitemap}">Site Map</a></li>
             </ul>
         </div>
@@ -613,7 +616,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
             <!-- Payment Images Icon Start-->
             <div class="payments_types part3 text-icon"> 
             
-            <i class="fa fa-paypal" aria-hidden="true"></i>
+            <i class="fa fa-paypal hide-me" aria-hidden="true"></i>
             <i class="fa fa-cc-amex" aria-hidden="true"></i>
             <i class="fa fa-cc-visa" aria-hidden="true"></i>
             <i class="fa fa-cc-mastercard" aria-hidden="true"></i>
@@ -624,7 +627,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
             <!-- Payment Images Icon End-->
             <!-- Powered by Text Start-->
             <div class="powered_text part3">
-                <p>&copy; 2017 Koly Style. All Rights Reserved.<br />
+                <p>&copy; 2018 Koly Style. All Rights Reserved.<br />
                     Developed By <a target="_blank" href="http://www.geniusfreelancers.com">GeniusFreelancers</a></p>
             </div>
             <!-- Powered by Text End-->

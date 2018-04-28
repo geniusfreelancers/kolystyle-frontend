@@ -536,7 +536,8 @@ public class HomeController {
 		}
 		String availableSize = product.getSize();
 		List<String> sizeList = Arrays.asList(availableSize.split("\\s*,\\s*"));
-		
+		String productImages = product.getProductImagesName();
+		List<String> productImagesList = Arrays.asList(productImages.split("\\s*,\\s*"));
 		model.addAttribute("product", product);
 		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
 	        model.addAttribute("siteSettings",siteSettings);
@@ -564,6 +565,7 @@ public class HomeController {
 		
 		System.out.println(productList);
 		model.addAttribute("sizeList", sizeList);
+		model.addAttribute("productImagesList", productImagesList);
 		model.addAttribute("qtyList", qtyList);
 		model.addAttribute("qty", 1);
 		

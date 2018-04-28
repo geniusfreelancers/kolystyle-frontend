@@ -166,12 +166,12 @@
 							
 							<div class="row">
 								<div class="col-xs-7 text-left">
-									<h3 style="color: darkred;">
+									<h3 class="order-total-text" style="color: darkred;">
 										<strong>Order Total : </strong>
 									</h3>
 								</div>
 								<div class="col-xs-5 text-right">
-									<h3>
+									<h3 class="order-total-text">
 										<strong style="color: darkred;">$<span th:text="${shoppingCart.orderTotal}"></span></strong>
 									</h3>
 								</div>
@@ -192,7 +192,7 @@
 		
 			<form action='/guest/charge' method='POST' id='checkout-form'>
 		    <input type='hidden' th:value='${amount}' name='amount' />
-		    <label>Price:<span th:text='${amount/100}' /></label>
+		    
 		    <!-- NOTE: data-key/data-amount/data-currency will be rendered by Thymeleaf -->
 		    <script
 		       src='https://checkout.stripe.com/checkout.js'
@@ -200,11 +200,12 @@
 		       th:attr='data-key=${stripePublicKey}, 
 		         data-amount=${amount}, 
 		         data-currency=${currency},
+		         data-image
+		         =#{adminPath}+@{/image/loggo.png},
 		         data-email=${shoppingCart.shippingAddress.ShippingEmail}'
 		       data-name='Koly Style'
 		       data-description='Clicking Pay Button will finalize order'
-		       data-image
-		         ='http://localhost:8089/adminportal/image/koly-logo.png'
+		       
 		       data-locale='auto'
 		       data-billing-address='true'
 		       data-label='Pay with Credit Card'

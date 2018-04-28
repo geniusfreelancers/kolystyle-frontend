@@ -15,8 +15,111 @@
 	<input hidden="hidden" th:id="'id-addingtocart-'+${product.id}" name="idd" th:value="${product.id}"/>
 	<div class="row" style="margin-top:0px;">
 	<div class="col-md-3 col-md-offset-1">
-	<a th:href="@{/productshelf}" class="btn btn-default">Back to Product List</a><br/>
-	<img class="img-responsive shelf-product" alt="" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/>
+	<a th:href="@{/productshelf}" class="btn btn-default"><i class="fas fa-chevron-left"></i> Back to Shop</a><br/><br/>
+	<!--img class="img-responsive shelf-product" alt="" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/-->
+	<img class="img-responsive shelf-product" alt="" src="http://paulkr.github.io/blowup.js/demo/img/waldo.jpg"/>
+	
+	<img class="img-responsive thumbnail-product" th:each="productImage : ${productImagesList}" src="http://paulkr.github.io/blowup.js/demo/img/waldo.jpg"/>
+	
+	<!-- Start Image Switcher -->
+	<style>
+	img#main {
+	border: 1px #ccc solid;
+	padding: 2px;
+	margin: 10px;
+}
+nav {
+	display: none;
+	margin: 0 10px;
+}
+nav a {
+	border: 1px #ccc solid;
+	padding: 2px 2px 0;
+	display: block;
+	float: left;
+	margin: 2px;
+	-webkit-transition: all .3s ease-in-out;
+	-moz-transition: all .3s ease-in-out;	
+	transition: all .3s ease-in-out;		
+}
+nav a:first-child {
+	margin-left: 0;
+}
+nav a:hover {
+	-webkit-transform: scale(1.1);
+	-moz-transform: scale(1.1);	
+	transform: scale(1.1);				
+}
+nav a.active {
+	background: #FEFFC0;
+	border-color: #ECD95C;
+}
+	</style>
+	<aside class="preview">
+		<img alt="Alt title of image" id="main" src="http://dabrook.org/examples/labs/product-image-switcher/images/shoe-inside.png" />
+	<nav>
+		<a class="thumbnail-product" th:each="productImage : ${productImagesList}" th:href="@{/image/product/}+${productImage}"><img class="img-responsive" alt="Side of the shoe" th:src="@{/image/product/}+${productImage}"/></a>
+	</nav>
+	</aside>
+
+<script>
+$(document).ready(function() {
+	$("aside.preview nav").show();
+	var previewImg = $("img#main");
+	$("a:first").addClass("active");
+	$("nav a img").click(function(){
+		var link = $(this).parent();	
+		var linkHref = link.attr("href");			
+		var linkAlt = link.attr("alt");			
+		if( $(link).hasClass("active") == false)
+		{
+			$("a").removeClass("active");
+			link.addClass("active");											
+			$(previewImg).animate({
+				opacity: 0.8,
+			}, 300, function() {
+				previewImg.attr("src", linkHref);
+				previewImg.attr("alt", linkAlt);				
+				$(this).animate({
+					opacity: 1,
+					}, 300
+				);							
+			});			
+		}
+		return false;
+	});
+	$("input").click(function(){
+		$("p.more").fadeIn("slow");
+	})
+});
+</script>
+<script>
+	$(document).ready(function () {
+		$("#main").blowup({
+			background:"#000000",
+			"round":false,
+			"width" : 250,
+		    "height" : 250
+			});
+	})
+	
+
+</script>
+	<!-- End Image Switcher -->
+	
+	<script>
+	$(document).ready(function () {
+		$(".shelf-product").blowup({
+			background:"#000000",
+			"round":false,
+			"width" : 250,
+		    "height" : 250
+			});
+	})
+	
+
+</script>
+	
 	</div>
 	<div class="col-md-7">
 	
@@ -38,6 +141,9 @@
                     <span><b>SKU:</b></span> <span th:text="${product.sku}"></span><br />
                  	
                  	<span><b>Extra Promo:</b></span> <span th:text="${product.extraPromo}"></span><br />
+                 	
+                 	<span class="text-primary"><b>Sold:</b></span>
+				       <b><span th:text="${product.soldItems}"></span></b> Sold
                  	
                  	
                  	
@@ -438,6 +544,7 @@ width: 270px;
 </div>
 </div>
 <script th:src="@{/js/controller.js}"></script>
+
 
 				<!-- end of container -->
 				<div th:replace="common/head :: footer" />

@@ -4,6 +4,25 @@ body {
 .page-top{
 	
 }
+.hide-me{
+	display:none!important;
+}
+.boxcontent{
+	margin-bottom:10px;
+}
+button.stripe-button-el {
+    margin: 15px;
+    float: right;
+}
+.order-total-text{
+	font-size:20px!important;
+}
+.thumbnail-product {
+    width: 31%;
+    margin: 1%;
+    float: left;
+    height: auto;
+}
 .section-headline{
 	font-family:'Times New Roman', Times, serif;
 	font-size:24px;
