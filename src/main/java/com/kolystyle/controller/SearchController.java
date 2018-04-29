@@ -62,7 +62,8 @@ public class SearchController {
 		
 		model.addAttribute("classActiveCategory", true);
 		Category thiscategory = categoryService.findCategoryBySlug(category);
-		List<Product> productList = productService.findByCategory(thiscategory);
+	//	List<Product> productList = productService.findByCategory(thiscategory);
+		List<Product> productList = productService.findByCategoryByOrderByIdDesc(thiscategory);
 		
 		if(productList.isEmpty()){
 			model.addAttribute("emptyList", true);

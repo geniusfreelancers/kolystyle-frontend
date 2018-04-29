@@ -126,4 +126,7 @@ public class ProductServiceImpl implements ProductService{
 		return productRepository.findAllByOrderByIdDesc();
 	}
 	
+	public List<Product> findByCategoryByOrderByIdDesc(Category category){
+		return productRepository.findByCategoryOrderByIdDesc(category);
+	}
 }

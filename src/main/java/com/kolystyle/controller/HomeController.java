@@ -129,10 +129,13 @@ public class HomeController {
 	
 	 @RequestMapping("/")
 	    public String home(Model model){
-	        List<Product> productList = productService.findAll();
+		 	List<Product> productList = productService.findAllByOrderByIdDesc();
 	        model.addAttribute("productList",productList);
 	      //  model.addAttribute("searchCondition", searchCondition);
-	        
+	        //Featured
+	        //Latest
+	        //BestSeller
+	        //Special
 	        SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
 	        model.addAttribute("siteSettings",siteSettings);
 	        return "home";

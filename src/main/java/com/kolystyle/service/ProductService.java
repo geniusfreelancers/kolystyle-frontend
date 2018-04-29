@@ -16,7 +16,7 @@ public interface ProductService {
 	List<Product> findTop12ByCategory(Category category);
 	
 	List<Product> findBySubCategory(Category category, String subCategory, String mainSubCategory);
-	
+	List<Product> findByCategoryByOrderByIdDesc(Category category);
 	List<Product> blurrySearch(String title);
 	List<Product> findTop15ByBrand(String brand);
 }

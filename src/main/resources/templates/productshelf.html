@@ -299,9 +299,9 @@ $(window).ready(function (){
 			<div id="container">
 				<div id="content">
 
-		<div class="row" style="margin-top: 60px;">
-		
-		<div class="col-md-3">
+		<div class="row" style="margin-top: 10px;">
+		<h3 class="text-center hide-me">SHOP: <span class="category-title" th:text="${procategory}"></span></h3>
+		<div class="col-md-3 hide-me">
 			<!--h3><label for="category">Category</label></h3-->
 			<div class="list-group" id="category">
 			<a th:href="@{/productshelf(category='all')}" th:classappend="${activeAll}? 'active'" class="list-group-item">Brand</a>
@@ -346,15 +346,15 @@ $(window).ready(function (){
 				</ul>
 		</div>
 		</div>
-			<div class="col-md-9">
+			<div class="col-md-12">
 
 				<div th:if="${emptyList}">
 					<h5 style="font-style: italic;">Opps, no result found</h5>
 				</div>
 				<div th:if="${productCategory}" class="content-header">
 					<div class="col-md-12">
-					<img th:src="@{/image/cyber.jpg}" class="img-responsive"/>
-					<span class="categorytitle" th:text="${procategory}"></span>
+					<img th:src="@{/image/cyber.jpg}" class="img-responsive" style="margin-bottom:10px;"/>
+					
 					</div>
 				
 				
@@ -364,7 +364,7 @@ $(window).ready(function (){
 				
 				
 				
-  <div class="col-md-4 col-sm-6 slide-inner" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-size=${product.size}" >
+  <div class="col-md-3 col-sm-6 slide-inner" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-size=${product.size}" >
                     <div class="product-singleArea">
                      <a th:href="@{/productDetail?id=}+${product.id}">
                         <div class="product-img">
@@ -380,7 +380,7 @@ $(window).ready(function (){
                             <a th:href="@{/productDetail?id=}+${product.id}">
                                 <img class="img-responsive hover_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
                            
-                            <div class="product-cart-area">
+                            <div class="product-cart-area hide-me">
                                 <div class="btn-others">
                                     <ul>
                                         <li th:if="!${siteSettings.loginKillSwitch}"><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
@@ -395,7 +395,7 @@ $(window).ready(function (){
                         <div class="product-details">
 
                            
-                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}"><h4 th:text="${product.title}"></h4></a></div>
+                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}"><span class="product-names" th:text="${product.title}"></span></a></div>
                             <div class="product-pd">
                                 <div class="product-price">
 								<a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: large; color: #db3208;">$<span
