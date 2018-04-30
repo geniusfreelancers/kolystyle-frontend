@@ -1,12 +1,15 @@
 package com.kolystyle.controller;
 
 import java.security.Principal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
@@ -44,6 +47,7 @@ import com.kolystyle.domain.User;
 import com.kolystyle.domain.UserBilling;
 import com.kolystyle.domain.UserPayment;
 import com.kolystyle.domain.UserShipping;
+import com.kolystyle.domain.ViewedRecently;
 import com.kolystyle.domain.security.PasswordResetToken;
 import com.kolystyle.domain.security.Role;
 import com.kolystyle.domain.security.UserRole;
@@ -421,8 +425,8 @@ public class HomeController {
 			/*Get bagId and or cookieValue and find product id if exist else
 			set cookie with value and create new ViewedRecently object */
 			
-			
-			/*Cookie[] cookies = request.getCookies();
+			ViewedRecently viewedRecently = null;
+			Cookie[] cookies = request.getCookies();
 			boolean foundCookie = false;
 			boolean foundBagId =false;
 			String bagId = null;
@@ -449,7 +453,7 @@ public class HomeController {
 	       
 			}}	
 		if (!foundCookie) {
-			ViewedRecently viewedRecently = viewedRecentlyService.findByBagId(bagId);
+			 viewedRecently = viewedRecentlyService.findByBagId(bagId);
 			if(viewedRecently == null) {
 				viewedRecently = new ViewedRecently();
 				
@@ -503,7 +507,10 @@ public class HomeController {
     	            cookie1.setMaxAge(30*24*60*60);
     	            response.addCookie(cookie1); 
 		}else {
-			ViewedRecently viewedRecently = viewedRecentlyService.findByCookieValue(cookieValue);
+			 viewedRecently = viewedRecentlyService.findByCookieValue(cookieValue);
+			//Just testing need to change accordingly to match requiremnet
+			 if(viewedRecently != null) {
+				
 			
 			String alreadyInList = viewedRecently.getProductList();
 			if(alreadyInList != null) {
@@ -534,8 +541,11 @@ public class HomeController {
 			viewedRecently.setUpdatedDate(Calendar.getInstance().getTime());
 			viewedRecentlyRepository.save(viewedRecently);
 			model.addAttribute("viewedRecently",viewedProduct);
-		}*/
+		}else {
 			model.addAttribute("viewedRecently",null);
+		}
+		}
+		//	model.addAttribute("viewedRecently",null);
 		}
 		String availableSize = product.getSize();
 		List<String> sizeList = Arrays.asList(availableSize.split("\\s*,\\s*"));

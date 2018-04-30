@@ -14,7 +14,7 @@ public interface ProductService {
 	List<Product> findAllByOrderByIdDesc();
 	List<Product> findByCategory(Category category);
 	List<Product> findTop12ByCategory(Category category);
-	
+	List<Product> findByBrandByOrderByIdDesc(String brand);
 	List<Product> findBySubCategory(Category category, String subCategory, String mainSubCategory);
 	List<Product> findByCategoryByOrderByIdDesc(Category category);
 	List<Product> blurrySearch(String title);

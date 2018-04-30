@@ -4,6 +4,12 @@ body {
 .page-top{
 	
 }
+.qtycontainer{
+	margin-top:10px!important;
+}
+.sizecontainer{
+	margin-bottom:10px!important;
+}
 .hide-me{
 	display:none!important;
 }

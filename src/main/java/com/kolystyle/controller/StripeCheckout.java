@@ -277,6 +277,52 @@ public class StripeCheckout {
 		       return "thankyou";
 		   }
 	
+	    @RequestMapping(value = "/guest/checkout", method = RequestMethod.GET)
+	    public String checkoutGet(HttpServletRequest request,HttpServletResponse response,Model model) {
+	    	SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
+	      //Save in DB
+	        User user = null;
+	        ShoppingCart shoppingCart;
+	        Cookie[] cookies = request.getCookies();
+
+	        boolean foundCookie = false;
+
+	        shoppingCart = shoppingCartService.findCartByCookie(request);
+	        System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
+	        if(shoppingCart!=null) {
+	        	foundCookie = true;
+	        }
+	        if(shoppingCart==null) {
+	        	System.out.println("Bag ID IS MISSING");
+	        	return "redirect:/cart/guestcheckout?missingRequiredField=true";
+	        }
+	        		
+	        List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
+	        model.addAttribute("cartItemList",cartItemList);
+	        ShippingAddress shippingAddress = shoppingCart.getShippingAddress();
+	        		if(shippingAddress.getShippingAddressStreet1().isEmpty()|| 
+	        				   shippingAddress.getShippingAddressCity().isEmpty() ||
+	        				   shippingAddress.getShippingAddressState().isEmpty() ||
+	        				   shippingAddress.getShippingAddressZipcode().isEmpty()) {
+	        			return "redirect:/cart/guestcheckout?missingRequiredField=true";
+	        		}
+	        ///////////////////////
+
+	        		
+	        		
+	        		BigDecimal amount = (shoppingCart.getOrderTotal()).multiply(new BigDecimal(100));
+	        		int finalamount = amount.intValue();
+	       ///////////////////////////// 		
+	        model.addAttribute("shoppingCart", shoppingCart);
+	        model.addAttribute("amount", finalamount); // in cents
+	        model.addAttribute("stripePublicKey", stripePublicKey);
+	        model.addAttribute("currency", ChargeRequest.Currency.USD);
+	        model.addAttribute("noCartExist",true);
+	        return "payment";
+	    }
+	    
+	    
 	    @RequestMapping(value = "/guest/checkout", method = RequestMethod.POST)
 	    public String checkout(HttpServletRequest request,HttpServletResponse response,
 	    		Model model, @ModelAttribute("shippingAddress") ShippingAddress shippingAddress,

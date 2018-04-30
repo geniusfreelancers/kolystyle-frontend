@@ -78,22 +78,29 @@ checkoutApp.controller("miniCartCtrl", function ($scope, $http) {
     $scope.refreshCheck = function () {
         $http.get('/customize/minicart').success(function (data) {
             $scope.miniCart = data;
+            $scope.showOrNoShow();
         });
     };
 
     $scope.initCartId = function () {
         $scope.refreshCheck();
+       
     };
     
     $scope.showOrNoshow = function () {
+    	
     	var itemList= false;
     	if ( $scope.miniCart==null){
+    		 $('#haveCart').hide();
+    		 $('#doNotHaveCart').show();
     		console.log("No data");
     	}else{
     	var itemLists = $scope.miniCart.cartItemList.length;
         
         if (itemLists > 0){
         	itemList = true;
+        	 $('#doNotHaveCart').hide();
+        	 $('#haveCart').show();
         }
     	}
         return itemList;

@@ -15,6 +15,7 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	List<Product> findByMainSubCategory(String mainSubCategory);*/
 	List<Product> findAllByOrderByIdDesc();
 	List<Product> findByCategoryOrderByIdDesc(Category category);
+	List<Product> findByBrandOrderByIdDesc(String brand);
 	List<Product> findByTitleContaining(String title);
 
 	List<Product> findTop12ByCategoryOrderByIdDesc(Category category);

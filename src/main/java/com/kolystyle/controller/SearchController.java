@@ -45,6 +45,39 @@ public class SearchController {
 	@Autowired
 	private SearchLogRepository searchLogRepository;
 
+	@RequestMapping("/searchByBrand")
+	public String searchByBrand(@RequestParam("brand") String brand,
+			Model model, Principal principal){
+		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
+		if(principal != null){
+			String username = principal.getName();
+			User user = userService.findByUsername(username);
+			model.addAttribute("user", user);
+		}
+		
+		String classActiveCategory = "active"+brand;
+		classActiveCategory = classActiveCategory.replaceAll("\\s+", "");
+		classActiveCategory = classActiveCategory.replaceAll("&", "");
+		
+		model.addAttribute("classActiveCategory", true);
+	//	Category thiscategory = categoryService.findCategoryBySlug(category);
+	//	List<Product> productList = productService.findByCategory(thiscategory);
+		List<Product> productList = productService.findByBrandByOrderByIdDesc(brand);
+		
+		if(productList.isEmpty()){
+			model.addAttribute("emptyList", true);
+			 
+			return "productshelf";
+		}
+		model.addAttribute("productCategory",true);
+		model.addAttribute("procategory",brand);
+		
+		model.addAttribute("productList",productList);
+		
+		return "productshelf";
+	}
+	
 	@RequestMapping("/searchByCategory")
 	public String searchByCategory(@RequestParam("category") String category,
 			Model model, Principal principal){

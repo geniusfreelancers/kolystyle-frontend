@@ -244,7 +244,7 @@ width: 270px;
                                 <img class="img-responsive primary_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
                             
                           
-                            <div class="product-cart-area">
+                            <div class="product-cart-area hide-me">
                                 <div class="btn-others">
                                     <ul>
                                         <li th:if="!${siteSettings.loginKillSwitch}"><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
@@ -386,7 +386,7 @@ width: 270px;
                             
                            <!-- <div class="offer-nostock"><span th:text="${product.feature}"></span> 
                             </div>-->
-                            <div class="product-cart-area">
+                            <div class="product-cart-area hide-me">
                                 <div class="btn-others">
                                     <ul>
                                         <li th:if="!${siteSettings.loginKillSwitch}"><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
@@ -459,7 +459,7 @@ width: 270px;
                             <a th:href="@{/productDetail?id=}+${product.id}">
                                 <img class="img-responsive primary_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
                             
-                            <div class="product-cart-area">
+                            <div class="product-cart-area hide-me">
                                 <div class="btn-others">
                                     <ul>
                                         <li th:if="!${siteSettings.loginKillSwitch}"><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
@@ -530,7 +530,7 @@ width: 270px;
                             <a th:href="@{/productDetail?id=}+${product.id}">
                                 <img class="img-responsive primary_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
                             
-                            <div class="product-cart-area">
+                            <div class="product-cart-area hide-me">
                                 <div class="btn-others">
                                     <ul>
                                         <li th:if="!${siteSettings.loginKillSwitch}"><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>

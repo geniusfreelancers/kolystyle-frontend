@@ -224,25 +224,25 @@ Transit time: 3-6 business days
 						</a>
 						</div>
 						<div class="col-xs-4">
-							<div style="margin-left:50px;">	
-							<a th:href="@{/productDetail?id={{cartItem.product.id}}}"><h4>{{cartItem.product.title}}</h4></a>
-								<span>Size: </span><span>{{cartItem.productSize}}</span> | <span>Web ID: </span><span>{{cartItem.product.sku}}</span>
+							<div>	
+							<a th:href="@{/productDetail?id={{cartItem.product.id}}}"><span class="productTitle">{{cartItem.product.title}}</span></a>
+								<br/><span>Size: </span><span>{{cartItem.productSize}}</span> <br/> <span>Web ID: </span><span>{{cartItem.product.sku}}</span>
 							</div>
 							</div>
 							<div class="col-xs-2">
-								<h5 style="color: #db3208; font-size: large;">
+								<span>
 									$<span>{{cartItem.product.ourPrice}}</span>
-								</h5>
+								</span>
 								
 							</div>
 							<div class="col-xs-2">
-								<h5 style="font-size:large">{{cartItem.qty}}</h5>
+								<span>{{cartItem.qty}}</span>
 							</div>
 							<div class="col-xs-2">
 							
-							<h5 class="text-primary text-right" style="font-size: large;">
+							<span class="text-primary text-right">
 									$<span>{{(cartItem.product.ourPrice * cartItem.qty).toFixed(2)}}</span>
-								</h5>
+								</span>
 							</div>
 					
 						</div>
@@ -273,14 +273,14 @@ Transit time: 3-6 business days
 							
 							<div class="row">
 								<div class="col-xs-7 text-left">
-									<h3 style="color: darkred;">
+									<h4 style="color: darkred;">
 										<strong>Order Total : </strong>
-									</h3>
+									</h4>
 								</div>
 								<div class="col-xs-5 text-right">
-									<h3>
+									<h4>
 										<strong style="color: darkred;">$<span>{{checkOut.orderTotal.toFixed(2)}}</span></strong>
-									</h3>
+									</h4>
 								</div>
 								
 							</div>

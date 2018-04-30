@@ -14,12 +14,9 @@
 	<input hidden="hidden" th:field="*{product.id}" th:name="id" th:value="${product.id}"/>
 	<input hidden="hidden" th:id="'id-addingtocart-'+${product.id}" name="idd" th:value="${product.id}"/>
 	<div class="row" style="margin-top:0px;">
-	<div class="col-md-3 col-md-offset-1">
+	<div class="col-md-4">
 	<a th:href="@{/productshelf}" class="btn btn-default"><i class="fas fa-chevron-left"></i> Back to Shop</a><br/><br/>
 	<!--img class="img-responsive shelf-product" alt="" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/-->
-	<img class="img-responsive shelf-product" alt="" src="http://paulkr.github.io/blowup.js/demo/img/waldo.jpg"/>
-	
-	<img class="img-responsive thumbnail-product" th:each="productImage : ${productImagesList}" src="http://paulkr.github.io/blowup.js/demo/img/waldo.jpg"/>
 	
 	<!-- Start Image Switcher -->
 	<style>
@@ -28,11 +25,11 @@
 	padding: 2px;
 	margin: 10px;
 }
-nav {
+nava {
 	display: none;
 	margin: 0 10px;
 }
-nav a {
+nava a {
 	border: 1px #ccc solid;
 	padding: 2px 2px 0;
 	display: block;
@@ -42,83 +39,28 @@ nav a {
 	-moz-transition: all .3s ease-in-out;	
 	transition: all .3s ease-in-out;		
 }
-nav a:first-child {
+nava a:first-child {
 	margin-left: 0;
 }
-nav a:hover {
+nava a:hover {
 	-webkit-transform: scale(1.1);
 	-moz-transform: scale(1.1);	
 	transform: scale(1.1);				
 }
-nav a.active {
+nava a.active {
 	background: #FEFFC0;
 	border-color: #ECD95C;
 }
 	</style>
 	<aside class="preview">
-		<img alt="Alt title of image" id="main" src="http://dabrook.org/examples/labs/product-image-switcher/images/shoe-inside.png" />
-	<nav>
-		<a class="thumbnail-product" th:each="productImage : ${productImagesList}" th:href="@{/image/product/}+${productImage}"><img class="img-responsive" alt="Side of the shoe" th:src="@{/image/product/}+${productImage}"/></a>
+		<img style="width:363px;height:526px;" class="img-responsive shelf-product" alt="Alt title of image" id="main" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" />
+	<nav class="nava">
+		<a class="thumbnail-product" th:each="productImage : ${productImagesList}" th:href="#{adminPath}+@{/image/product/}+${product.id}+'/'+${productImage}"><img class="img-responsive" alt="Side of the shoe" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${productImage}"/></a>
 	</nav>
 	</aside>
 
-<script>
-$(document).ready(function() {
-	$("aside.preview nav").show();
-	var previewImg = $("img#main");
-	$("a:first").addClass("active");
-	$("nav a img").click(function(){
-		var link = $(this).parent();	
-		var linkHref = link.attr("href");			
-		var linkAlt = link.attr("alt");			
-		if( $(link).hasClass("active") == false)
-		{
-			$("a").removeClass("active");
-			link.addClass("active");											
-			$(previewImg).animate({
-				opacity: 0.8,
-			}, 300, function() {
-				previewImg.attr("src", linkHref);
-				previewImg.attr("alt", linkAlt);				
-				$(this).animate({
-					opacity: 1,
-					}, 300
-				);							
-			});			
-		}
-		return false;
-	});
-	$("input").click(function(){
-		$("p.more").fadeIn("slow");
-	})
-});
-</script>
-<script>
-	$(document).ready(function () {
-		$("#main").blowup({
-			background:"#000000",
-			"round":false,
-			"width" : 250,
-		    "height" : 250
-			});
-	})
-	
+<!-- <script> -->
 
-</script>
-	<!-- End Image Switcher -->
-	
-	<script>
-	$(document).ready(function () {
-		$(".shelf-product").blowup({
-			background:"#000000",
-			"round":false,
-			"width" : 250,
-		    "height" : 250
-			});
-	})
-	
-
-</script>
 	
 	</div>
 	<div class="col-md-7">
@@ -132,7 +74,7 @@ $(document).ready(function() {
 
 		<div class="description">
 
-                    <a class="brandNameLink" target="_blank" th:href="@{/productDetail(id=${product.id})}"><span th:text="${product.brand}"></span></a>
+                    <a class="brandNameLink" th:href="@{/searchByBrand(brand=${product.brand})}"><span th:text="${product.brand}"></span></a>
 					
                     <h2 class="productName"><span th:text="${product.title}"></span></h2>
                     
@@ -142,8 +84,7 @@ $(document).ready(function() {
                  	
                  	<span><b>Extra Promo:</b></span> <span th:text="${product.extraPromo}"></span><br />
                  	
-                 	<span class="text-primary"><b>Sold:</b></span>
-				       <b><span th:text="${product.soldItems}"></span></b> Sold
+                 	
                  	
                  	
                  	
@@ -177,32 +118,33 @@ $(document).ready(function() {
 				
 				
 				<div class="col-md-12 text-right">
-					<label class="col-md-12"><span class="col-md-6 text-right">Unstiched</span>
-					<span class="col-md-6 text-left">
+					<label class="col-md-12"><span class="col-md-8 text-right">Unstiched</span>
+					<span class="col-md-4 text-left">
 					<input name="stitching" id="stitching" value="unstiched" type="radio" checked="checked"/>
 					</span>
 					</label>
 				</div>
 				<div class="col-md-12 text-right">
-					<label class="col-md-12"><span class="col-md-6 text-right">Ready to wear</span>
-					<span class="col-md-6 text-left">
+					<label class="col-md-12"><span class="col-md-8 text-right">Ready to wear</span>
+					<span class="col-md-4 text-left">
 					<input name="stitching" id="readytowear" value="readytowear" type="radio"/>
 					</span>
 					</label>
 				</div>
-				<div class="sizecontainer">
-				<span class="col-md-6 text-right">Size: </span>
-				<select name="size" id="size" class="col-md-6">
+				<div class="sizecontainer col-md-12">
+				<span class="col-md-8 text-right">Size: </span>
+				<select name="size" id="size" class="col-md-4">
 				<option th:each="size : ${sizeList}" th:value="${size}" th:text="${size}"></option>
 				
 				</select>
 				
+				
 				</div>
 				
-				<div class="qtycontainer">
+				<div class="qtycontainer col-md-12">
 				
-				<span class="col-md-6 text-right">Qty: </span>
-				<select name="qty" id="qty" class="col-md-6">
+				<span class="col-md-8 text-right">Qty: </span>
+				<select name="qty" id="qty" class="col-md-4">
 				<option th:each="qty : ${qtyList}" th:value="${qty}" th:text="${qty}"></option>
 				</select>
 				</div>
@@ -251,29 +193,24 @@ $(document).ready(function() {
 <div class="col-md-12">			
 	<div><br/><a onClick="$('a[href=\'#shippingReturn\']').trigger('click');">Shipping And Return Policy</a></div>
 
- <div class="review">
+ <div class="review hide-me">
                     <div><a onClick="$('a[href=\'#reviews\']').trigger('click');">0 reviews</a></div>
                 </div>
                 <!-- AddThis Button BEGIN -->
                 <div class="addthis_toolbox addthis_default_style "> <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a> <a class="addthis_button_tweet"></a> <a class="addthis_button_google_plusone" g:plusone:size="medium"></a> <a class="addthis_counter addthis_pill_style"></a> </div>
                 <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-506f325f57fbfc95"></script>
                 <!-- AddThis Button END -->
-		<!-- Description Tabs Start -->
-</div>
 		
-	</div>
-	
-	
-	</div>
-
-<div class="col-md-offset-4 col-md-8">		
+</div>
+<!-- Description Tabs Start -->
+<div class="col-md-12">		
 
 <ul class="nav nav-tabs">
-  <li class="active"><a data-toggle="tab" href="#productInfo"><b>Product Details</b></a></li>
-  <li><a data-toggle="tab" href="#tailoringServices"><b>Tailoring Services</b></a></li>
-  <li><a data-toggle="tab" href="#colorCare"><b>Color and Wash Care</b></a></li>
-  <li><a data-toggle="tab" href="#shippingReturn"><b>Shipping &amp; Returns</b></a></li>
-  <li><a data-toggle="tab" href="#reviews"><b>Reviews</b></a></li>
+  <li class="active"><a data-toggle="tab" href="#productInfo">Product Details</a></li>
+  <li><a data-toggle="tab" href="#tailoringServices">Tailoring Services</a></li>
+  <li><a data-toggle="tab" href="#colorCare">Color and Wash Care</a></li>
+  <li><a data-toggle="tab" href="#shippingReturn">Shipping &amp; Returns</a></li>
+  <li class="hide-me"><a data-toggle="tab" href="#reviews"><b>Reviews</b></a></li>
 </ul>
 
 <div class="tab-content">
@@ -300,7 +237,7 @@ $(document).ready(function() {
     </div>
     
   </div>
-  <div id="reviews" class="tab-pane fade">
+  <div id="reviews" class="tab-pane fade hide-me">
     
     <p>Be the first to write a review for this product</p>
   </div>
@@ -308,6 +245,13 @@ $(document).ready(function() {
 		</div>
 		
 		<!-- Description Tabs Ends -->
+		
+	</div>
+	
+	
+	</div>
+
+
 
 </form>
 
@@ -376,7 +320,7 @@ width: 270px;
                             <a th:href="@{/productDetail?id=}+${product.id}">
                                 <img class="img-responsive hover_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
                            
-                            <div class="product-cart-area">
+                            <div class="product-cart-area hide-me">
                                 <div class="btn-others">
                                     <ul>
                                         <li th:if="!${siteSettings.loginKillSwitch}"><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
@@ -390,7 +334,7 @@ width: 270px;
                         <div class="product-details">
 
                            
-                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}"><h2 th:text="${product.title}"></h2></a></div>
+                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}"><span class="product-names" th:text="${product.title}"></span></a></div>
                             <div class="product-pd">
                                 <div class="product-price">
 								<a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: x-large; color: #db3208;">$<span
@@ -439,7 +383,7 @@ width: 270px;
                             <a th:href="@{/productDetail?id=}+${product.id}">
                                 <img class="img-responsive hover_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
                            
-                            <div class="product-cart-area">
+                            <div class="product-cart-area hide-me">
                                 <div class="btn-others">
                                     <ul>
                                         <li th:if="!${siteSettings.loginKillSwitch}"><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
@@ -453,7 +397,7 @@ width: 270px;
                         <div class="product-details">
 
                            
-                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}"><h2 th:text="${product.title}"></h2></a></div>
+                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}"><span class="product-names" th:text="${product.title}"></span></a></div>
                             <div class="product-pd">
                                 <div class="product-price">
 								<a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: x-large; color: #db3208;">$<span
@@ -501,7 +445,7 @@ width: 270px;
                             <a th:href="@{/productDetail?id=}+${product.id}">
                                 <img class="img-responsive hover_image" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" th:attr="alt=${product.title}" /></a>
                            
-                            <div class="product-cart-area">
+                            <div class="product-cart-area hide-me">
                                 <div class="btn-others">
                                     <ul>
                                         <li th:if="!${siteSettings.loginKillSwitch}"><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
@@ -515,7 +459,7 @@ width: 270px;
                         <div class="product-details">
 
                            
-                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}"><h2 th:text="${product.title}"></h2></a></div>
+                            <div class="product-title text-center"><a th:href="@{/productDetail?id=}+${product.id}"><span class="product-names" th:text="${product.title}"></span></a></div>
                             <div class="product-pd">
                                 <div class="product-price">
 								<a th:href="@{/productDetail?id=}+${product.id}"><span style="font-size: x-large; color: #db3208;">$<span

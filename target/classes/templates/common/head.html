@@ -103,9 +103,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 		<!-- ng-init="'initCartId(\'' + ${shoppingCart.id} + '\')'" -->
                 <section id="cart" class="mini-cart-label">
                     <div class="heading">
-                    	<a th:href="@{/shoppingCart/cart}" ng-hide="showOrNoshow()"><i class="fa fa-cart-plus mini-cart-icon" aria-hidden="true"></i>&nbsp;Shopping Bag</a>
+                    	<a id="doNotHaveCart" th:href="@{/shoppingCart/cart}"><i class="fa fa-cart-plus mini-cart-icon" aria-hidden="true"></i>&nbsp;Shopping Bag</a>
                         <!--h4><img width="32" height="32" alt="" src="/image/cart-bg.png"/></h4-->
-                        <a ng-show="showOrNoshow()" class="ng-hide"><i class="fa fa-cart-plus mini-cart-icon" aria-hidden="true"></i><span id="cart-total">&nbsp;Shopping Bag</span></a> </div>
+                        <a id="haveCart"><i class="fa fa-cart-plus mini-cart-icon" aria-hidden="true"></i><span id="cart-total">&nbsp;Shopping Bag</span></a> 
+                    </div>
 
 
 
