@@ -42,6 +42,7 @@ public class PublicController {
 		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
         //Do empty validation here
+        
         contactRepository.save(contact);
         model.addAttribute("contact",contact);
         model.addAttribute("success",true);

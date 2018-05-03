@@ -1,6 +1,20 @@
 body {
 
 }
+.inner-con{
+	width:100%;
+	background: #f5f5f5;
+	padding: 10px;
+	border: 1px solid #cdcdcd;
+	border-radius: 10px;
+}
+.grey-bg-bd{
+	background: #f5f5f5;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    border: 1px solid #cdcdcd;
+	border-radius: 10px;   
+} 
 .page-top{
 	
 }

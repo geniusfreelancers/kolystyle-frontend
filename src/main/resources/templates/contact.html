@@ -6,15 +6,10 @@
 
 <div class="spinnerspin">
 
-<!-- Facebook Page Plugin Script >
+<!-- Facebook Page Plugin Script-->
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0';
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script-->
+
+<script th:src="@{/js/facebook.js}"></script>
 	<div class="wrapper-box">
 		<div class="main-wrapper">
 
@@ -26,38 +21,47 @@
 		<div>			
 									
 		<div class="row" style="margin-top: 10px;">
-		<div class="col-md-12 text-center">
+		<div class="col-md-12 text-center grey-bg-bd">
+			
 			<h3>PLEASE CHOOSE ANY OF THE FOLLOWING METHOD TO CONTACT WITH US</h3>
 		</div>
-		<div class="col-md-4">
-			<h3>CONTACT US BY PHONE</h3>
+		<div class="col-md-4 grey-bg-bd">
+			<div class="inner-con">
+			<p class="contact-title">CONTACT US BY PHONE</p>
 			<p>Customer Service is available 7 days a week</p>
-			<p>1(646) 575 - 4603 For Return</p>
+			<p><span th:text="${siteSettings.storePhone}"></span> For Return</p>
 			<p>(11.00am - 11.00pm Eastern Time)</p>
+			</div>
 		</div>
 		<div class="col-md-4">
-			<h3>E-MAIL US</h3>
+			<div class="inner-con">
+			<p class="contact-title">E-MAIL US</p>
 			<p>For Questions, Comments or Inquiries</p>
 			<p>Send Us E-mail At:</p>
-			<p>sales@deshibesh.com</p>
-			<p>deshibesh@gmail.com</p>
- 			<p>Skype ID: deshibesh</p>
+			<p><span th:text="${siteSettings.storeSupportEmail}"></span></p>
+			<p><span th:text="${siteSettings.storeInfoEmail}"></span></p>
+ 			</div>
 		</div>
 		<div class="col-md-4">
-			<h3>FIND US</h3>
+			<div class="inner-con">
+			<p class="contact-title">FIND US</p>
 			<p>Find Us On Social Media Networks:</p>
 			<p>facebook.com/deshibesh</p>
 			<p>pinterest.com/deshibesh</p>
  			<p>twitter.com/deshibesh</p>
  			<p>google.com/+deshibesh</p>
  			<p>instagram.com/deshibesh</p>
-
+			</div>
 		</div>
-		<div class="col-md-12 text-center">
-			<h3>10331 91st Street, 1st Floor, Ozone Park, NY 11417</h3>
+		<div class="col-md-12 text-center grey-bg-bd">
+			<h3><span th:text="${siteSettings.storeAddress1}"></span> 
+			<span th:text="${siteSettings.storeAddress2}"></span>,
+			<span th:text="${siteSettings.storeAddressCity}"></span>
+			<span th:text="${siteSettings.storeAddressState}"></span>
+			<span th:text="${siteSettings.storeAddressZip}"></span></h3>
 		</div>
 
-			<form th:action="@{/public/contact}" method="post" id="payment-form">
+			<form th:action="@{/public/contact}" method="post" id="contact-form">
 			
 				<!-- Checkout Info -->
 				<div class="col-md-12">
@@ -209,7 +213,7 @@
 
 					</div>
 									
-<button type="submit" class="btn btn-warning btn-block" id="submit">Proceed to Payment</button>
+<button type="submit" class="btn btn-primary btn-block" id="submit">Submit</button>
 								</div>
 							</div>
 						</div>
@@ -223,6 +227,45 @@
 				</div>
 			
 			</form>
+			<script>
+			$().ready(function(){
+				$( "#contact-form" ).validate({
+			        rules: {
+			        	reason:"required",
+			        	helpFor:"required",
+			        	assistanceType: "required",
+			        	reasonType: "required",
+			        	orderNumber: "required",
+			        	details: "required",
+			            email: {
+			                required: true,
+			                email:true
+			            },
+			            phone:{
+			            	required:true,
+			            	minlength:10
+			            }
+			        },
+			        messages:{
+			        	reason:"Reason Required",
+			        	helpFor:"Help for Required",
+			        	assistanceType:"Street Address Required",
+			        	reasonType:"State Required",
+			        	orderNumber:"Order No Required",
+			        	details: "Details Required",
+			        	email: {
+			                required: "Email Required",
+			            },
+			            phone:{
+			            	required: "Phone Number Required",
+			            	minlength: "Invalid Phone Number"
+			            }
+			        }
+			    });
+			});
+			
+			
+			</script>
 			
 			<div class="col-md-4">
 			<!-- Facebook Page Plugin Script -->
