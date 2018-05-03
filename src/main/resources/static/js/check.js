@@ -26,10 +26,10 @@ $().ready(function(){
         		required: "Username Required",
         		minlength:"Username must be atleast 5 characters"
         	},
-        	email: {
+        	ShippingEmail: {
                 required: "Email Required",
             },
-            phoneNumber:{
+            ShippingPhone:{
             	required: "Phone Number Required",
             	minlength: "Invalid Phone Number"
             },

@@ -2,30 +2,244 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="common/head :: common-head" />
 <body>
+
+
+<div class="spinnerspin">
+
+<!-- Facebook Page Plugin Script >
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script-->
 	<div class="wrapper-box">
 		<div class="main-wrapper">
 
 			<div th:replace="common/head :: navbar" />
 
-			<div id="container-wrapper">
-				
-
-<div class="row">
-
-		
-		<div class="col-md-10 col-md-offset-1">
-		CONTACT US
+			<div id="container">
+				<div id="content">			
+		<section class="">
+		<div>			
+									
+		<div class="row" style="margin-top: 10px;">
+		<div class="col-md-12 text-center">
+			<h3>PLEASE CHOOSE ANY OF THE FOLLOWING METHOD TO CONTACT WITH US</h3>
 		</div>
-		
+		<div class="col-md-4">
+			<h3>CONTACT US BY PHONE</h3>
+			<p>Customer Service is available 7 days a week</p>
+			<p>1(646) 575 - 4603 For Return</p>
+			<p>(11.00am - 11.00pm Eastern Time)</p>
+		</div>
+		<div class="col-md-4">
+			<h3>E-MAIL US</h3>
+			<p>For Questions, Comments or Inquiries</p>
+			<p>Send Us E-mail At:</p>
+			<p>sales@deshibesh.com</p>
+			<p>deshibesh@gmail.com</p>
+ 			<p>Skype ID: deshibesh</p>
+		</div>
+		<div class="col-md-4">
+			<h3>FIND US</h3>
+			<p>Find Us On Social Media Networks:</p>
+			<p>facebook.com/deshibesh</p>
+			<p>pinterest.com/deshibesh</p>
+ 			<p>twitter.com/deshibesh</p>
+ 			<p>google.com/+deshibesh</p>
+ 			<p>instagram.com/deshibesh</p>
 
-</div>
+		</div>
+		<div class="col-md-12 text-center">
+			<h3>10331 91st Street, 1st Floor, Ozone Park, NY 11417</h3>
+		</div>
 
-	
-					<div class="clear"></div>
+			<form th:action="@{/public/contact}" method="post" id="payment-form">
+			
+				<!-- Checkout Info -->
+				<div class="col-md-12">
+					<div th:if="${missingRequiredField}">
+						<h5 class="alert alert-warning">There are some fields
+							missing. Field with * is required</h5>
+					</div>
+				</div>
+				<!-- Success Message -->
+				<div class="col-md-12">
+					<div th:if="${success}">
+						<h5 class="alert alert-success">We will get back to you shortly</h5>
+					</div>
+				</div>
 				
+				<div class="col-md-8">
+				<div class="panel-group" id="accordion">
+					
+					<div class="col-md-12">
+
+						<!-- 1. Shipping Address -->
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion"
+										href="#shippingInfo">We're listening</a>
+								</h4>
+							</div>
+							<div id="shippingInfo" class="panel-collapse collapse in"
+								th:classappend="${classActiveShipping}? 'in'">
+								<div class="panel-body">
+									<div class="row">
+										
+										<div class="col-md-6">
+									<div class="form-group">
+
+										<label for="email">* My Email Id</label> <input type="text"
+											class="form-control" id="email"
+											placeholder="Email" th:name="email"
+											required="required"
+											th:value="${contact.email}" />
+									</div>
+									</div>
+									<div class="col-md-6">
+									<div class="form-group">
+
+										<label for="reason">* I'd like to know about</label> <input type="text"
+											class="form-control" id="reason"
+											placeholder="Reason" th:name="reason"
+											required="required"
+											th:value="${contact.reason}" />
+									</div>
+									</div>
+									</div>
+									
+									<div class="row">
+									<div class="col-md-6">
+									<div class="form-group">
+										<label for="helpFor">* I need help at</label> <select
+													id="helpFor" class="form-control"
+													th:name="helpFor"
+													th:value="${contact.helpFor}"
+													required="required">
+													<option value="" disabled="disabled">Please select
+														an option</option>
+													<option value="I am yet to place the order"
+														th:selected="(${contact.helpFor}=='I am yet to place the order')">I am yet to place the order</option>
+													<option value="Already placed the order"
+														th:selected="(${contact.helpFor}=='Already placed the order')">Already placed the order</option>
+													<option value="None"
+														th:selected="(${contact.helpFor}=='None')">None</option>	
+												</select>
+									</div>
+									</div>
+									<div class="col-md-6">
+									
+									<div class="form-group">
+												<label for="assistanceType">* Assistance Type</label> <select
+													id="assistanceType" class="form-control"
+													th:name="assistanceType"
+													th:value="${contact.assistanceType}"
+													required="required">
+													<option value="" disabled="disabled">Please select
+														an option</option>
+													<option value="I am yet to place the order"
+														th:selected="(${contact.assistanceType}=='I am yet to place the order')">I am yet to place the order</option>
+													<option value="Already placed the order"
+														th:selected="(${contact.assistanceType}=='Already placed the order')">Already placed the order</option>
+													<option value="None"
+														th:selected="(${contact.assistanceType}=='None')">None</option>	
+												</select>
+											</div>
+									</div>
+									</div>
+									
+									<div class="row">
+									<div class="col-md-6">		
+									<div class="form-group">
+												<label for="reasonType">* Reason</label> <select
+													id="reasonType" class="form-control"
+													th:name="reasonType"
+													th:value="${contact.reasonType}"
+													required="required">
+													<option value="" disabled="disabled">Please select
+														an option</option>
+													<option value="I am yet to place the order"
+														th:selected="(${contact.reasonType}=='I am yet to place the order')">I am yet to place the order</option>
+													<option value="Already placed the order"
+														th:selected="(${contact.reasonType}=='Already placed the order')">Already placed the order</option>
+													<option value="None"
+														th:selected="(${contact.reasonType}=='None')">None</option>	
+												</select>
+											</div>
+									</div>
+											
+									
+										<div class="col-xs-6">
+											<div class="form-group">
+												<label for="orderNumber">* Order Number</label> <input
+													type="text" class="form-control" id="orderNumber"
+													placeholder="Order Number"
+													th:name="orderNumber" required="required"
+													th:value="${contact.orderNumber}" />
+											</div>
+										</div>
+									</div>
+									<div class="row">	
+										<div class="col-xs-12">
+											<div class="form-group">
+												<label for="details">* More details</label> <input
+													type="text" class="form-control" id="details"
+													placeholder="More details"
+													th:name="details" required="required"
+													th:value="${contact.details}" />
+											</div>
+										</div>
+										
+									</div>
+									
+									<div class="form-group">
+						<div class="col-md-4">
+							<label for="productImage">Attach a file</label>
+						</div>
+						<div class="col-md-8">
+							<input type="file" class="form-control" id="productImage"
+								name="productImage"  multiple="multiple"/>
+						<span class="help-block">You can attach screenshot of product or issue</span>
+						</div>
+
+					</div>
+									
+<button type="submit" class="btn btn-warning btn-block" id="submit">Proceed to Payment</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+					
+
+
+				</div>
+				</div>
+			
+			</form>
+			
+			<div class="col-md-4">
+			<!-- Facebook Page Plugin Script -->
+			<div class="fb-page" data-href="https://www.facebook.com/kolystyleinc" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/kolystyleinc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/kolystyleinc">Koly Style</a></blockquote></div>
+			</div>
+			
+			
+			
+		</div>
+		</div>
+		</section>
+		<div class="clear"></div>
+
+				</div>
 
 				<script th:src="@{/js/controller.js}"></script>
-
+				
 				<!-- end of container -->
 				<div th:replace="common/head :: footer" />
 
@@ -34,6 +248,8 @@
 		</div>
 
 	</div>
+</div>
 
+<script src="/js/demo.js"></script>
 </body>
 </html>
