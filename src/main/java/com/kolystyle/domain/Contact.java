@@ -1,5 +1,7 @@
 package com.kolystyle.domain;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +13,7 @@ public class Contact {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
+	private String fullName;
 	private String email;
 	private String reason;
 	private String helpFor;
@@ -19,12 +22,22 @@ public class Contact {
 	private String orderNumber;
 	private String details;
 	private String contactImage;
+	private Date contactDate;
+	private Date respondedDate;
+	private String status;
 	
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 	public String getEmail() {
 		return email;
@@ -68,15 +81,29 @@ public class Contact {
 	public void setDetails(String details) {
 		this.details = details;
 	}
-	
 	public String getContactImage() {
 		return contactImage;
 	}
 	public void setContactImage(String contactImage) {
 		this.contactImage = contactImage;
 	}
-	
-	
-	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public Date getContactDate() {
+		return contactDate;
+	}
+	public void setContactDate(Date contactDate) {
+		this.contactDate = contactDate;
+	}
+	public Date getRespondedDate() {
+		return respondedDate;
+	}
+	public void setRespondedDate(Date respondedDate) {
+		this.respondedDate = respondedDate;
+	}
 	
 }

@@ -85,8 +85,8 @@
    $('#shippedOn').html($.format.date(dateshipped, "E MMM dd yyyy h:mm:ss a"));
    /*]]>*/
     </script>
-    <p><strong>Tracking Number:</strong> <span id="trackingNumber" th:text="${order.id}"></span></p>
-    <p><strong>Shipped Via:</strong> <span id="shippedVia" th:text="${order.id}"></span></p>
+    <p><strong>Tracking Number:</strong> <span id="trackingNumber" th:text="${order.trackingNumber}"></span></p>
+    <p><strong>Shipped Via:</strong> <span id="shippedVia" th:text="${order.shippingCarrier}"></span></p>
 </div>
 
 </div>

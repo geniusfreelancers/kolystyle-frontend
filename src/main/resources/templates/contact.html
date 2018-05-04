@@ -25,7 +25,7 @@
 			
 			<h3>PLEASE CHOOSE ANY OF THE FOLLOWING METHOD TO CONTACT WITH US</h3>
 		</div>
-		<div class="col-md-4 grey-bg-bd">
+		<div class="col-md-4">
 			<div class="inner-con">
 			<p class="contact-title">CONTACT US BY PHONE</p>
 			<p>Customer Service is available 7 days a week</p>
@@ -94,7 +94,16 @@
 								th:classappend="${classActiveShipping}? 'in'">
 								<div class="panel-body">
 									<div class="row">
-										
+										<div class="col-md-6">
+									<div class="form-group">
+
+										<label for="fullName">* Full Name</label> <input type="text"
+											class="form-control" id="fullName"
+											placeholder="Full Name" th:name="fullName"
+											required="required"
+											th:value="${contact.fullName}" />
+									</div>
+									</div>
 										<div class="col-md-6">
 									<div class="form-group">
 
@@ -105,7 +114,10 @@
 											th:value="${contact.email}" />
 									</div>
 									</div>
-									<div class="col-md-6">
+									
+									</div>
+									<div class="row">
+									<div class="col-md-12">
 									<div class="form-group">
 
 										<label for="reason">* I'd like to know about</label> <input type="text"
@@ -116,8 +128,8 @@
 									</div>
 									</div>
 									</div>
-									
 									<div class="row">
+									
 									<div class="col-md-6">
 									<div class="form-group">
 										<label for="helpFor">* I need help at</label> <select
