@@ -7,20 +7,27 @@
 
 			<div th:replace="common/head :: navbar" />
 
+			<div class="col-md-12 offer-ticker-slide">
+				<span class="col-md-4"><a th:href="${siteSettings.bottomOfferTickerLeftUrl}"><span th:text="${siteSettings.bottomOfferTickerLeft}"></span></a></span>
+            	<span class="col-md-4"><a th:href="${siteSettings.bottomOfferTickerCenterUrl}"><span th:text="${siteSettings.bottomOfferTickerCenter}"></span></a></span>
+            	<span class="col-md-4"><a th:href="${siteSettings.bottomOfferTickerRightUrl}"><span th:text="${siteSettings.bottomOfferTickerRight}"></span></a></span>
+            </div>
+
 			<div id="container">
 				<div id="content">
 					<!-- Nivo Slider Start -->
 					<section class="slider-wrapper">
 						<div id="slideshow" class="nivoSlider">
 							<a class="nivo-imageLink"
-								href="/searchByCategory?category=Lehenga"><img
-								src="/image/slider/homebanner.jpg" alt="slide-1" /></a> <a
+								th:href="@{/}+${homePage.slideTwoUrl}"><img
+								th:src="#{adminPath}+@{/image/slider/}+${homePage.slideOneImg}"
+								alt="slide-1" /></a> <a
 								class="nivo-imageLink"
-								href="/searchByCategory?category=Saree"><img
-								src="/image/slider/slide-4.jpg" alt="slide-2" /></a> <!-- a
+								th:href="@{/}+${homePage.slideTwoUrl}"><img
+								th:src="#{adminPath}+@{/image/slider/}+${homePage.slideTwoImg}" alt="slide-2" /></a> <a
 								class="nivo-imageLink"
-								href="/searchByCategory?category=Friction"><img
-								src="/image/slider/slide-1.gif" alt="slide-3" /></a> -->
+								th:href="@{/}+${homePage.slideThreeUrl}"><img
+								th:src="#{adminPath}+@{/image/slider/}+${homePage.slideThreeImg}" alt="slide-3" /></a> 
 						</div>
 					</section>
 					
@@ -302,40 +309,40 @@ width: 270px;
 							<div class="col-md-12 boxcontent promo-background">
 
 <div class="col-md-3">
-									<a href="/searchByCategory?category=salwar"
+									<a th:href="@{/}+${homePage.categoryOneUrl}"
 										role="button" class="category_inner"> <img
-										class="zoom_image img-responsive" alt="" src="/image/yellow.png" />
+										class="zoom_image img-responsive" th:attr="alt=${homePage.categoryOneLable}" th:src="#{adminPath}+@{/image/}+${homePage.categoryOneImg}" />
 										<span class="info_wrapper">
-											<p class="category-name">Salwar Kameez</p>
+											<p class="category-name" th:text="${homePage.categoryOneLable}"></p>
 									</span>
 									</a>
 								</div>
 
 								<div class="col-md-3">
-									<a href="/searchByCategory?category=bottoms"
+									<a th:href="@{/}+${homePage.categoryTwoUrl}"
 										role="button" class="category_inner"> <img
-										class="zoom_image img-responsive" alt="" src="/image/paijama.png" />
+										class="zoom_image img-responsive" th:attr="alt=${homePage.categoryTwoLable}" th:src="#{adminPath}+@{/image/}+${homePage.categoryTwoImg}" />
 										<span class="info_wrapper">
-											<p class="category-name">Bottoms</p>
+											<p class="category-name" th:text="${homePage.categoryTwoLable}"></p>
 									</span>
 									</a>
 								</div>
 
 								<div class="col-md-3">
-									<a href="/searchByCategory?category=kurthi"
+									<a th:href="@{/}+${homePage.categoryThreeUrl}"
 										role="button" class="category_inner"> <img
-										class="zoom_image img-responsive" alt="" src="/image/kurthi-offer.png" />
+										class="zoom_image img-responsive" th:attr="alt=${homePage.categoryThreeLable}" th:src="#{adminPath}+@{/image/}+${homePage.categoryThreeImg}" />
 										<span class="info_wrapper">
-											<p class="category-name">Kurthi</p>
+											<p class="category-name" th:text="${homePage.categoryThreeLable}"></p>
 									</span>
 									</a>
 								</div>
 								<div class="col-md-3">
-									<a href="/searchByCategory?category=saree"
+									<a th:href="@{/}+${homePage.categoryFourUrl}"
 										role="button" class="category_inner"> <img
-										class="zoom_image img-responsive" alt="" src="/image/saree-offer.png" />
+										class="zoom_image img-responsive" th:attr="alt=${homePage.categoryFourLable}" th:src="#{adminPath}+@{/image/}+${homePage.categoryFourImg}" />
 										<span class="info_wrapper">
-											<p class="category-name">Designers Saree</p>
+											<p class="category-name" th:text="${homePage.categoryFourLable}"></p>
 									</span>
 									</a>
 								</div>
@@ -601,16 +608,16 @@ width: 270px;
 
 							<div class="col-md-12 boxcontent">
 								<div class="col-md-6">
-									<a href="/productshelf"
+									<a th:href="@{/}+${homePage.bannerOneUrl}"
 										role="button" class="category_inner"> <img
-										class="zoom_image img-responsive" alt="" src="/image/topleft.png" />
+										class="zoom_image img-responsive" th:src="#{adminPath}+@{/image/banners/}+${homePage.bannerOneImg}" />
 										
 									</a>
 								</div>
 								<div class="col-md-6">
-									<a href="/searchByCategory?category=gowns"
+									<a th:href="@{/}+${homePage.bannerTwoUrl}"
 										role="button" class="category_inner"> <img
-										class="zoom_image img-responsive" alt="" src="/image/topright.png" />
+										class="zoom_image img-responsive" alt="" th:src="#{adminPath}+@{/image/banners/}+${homePage.bannerTwoImg}" />
 										
 									</a>
 								</div>
@@ -626,16 +633,16 @@ width: 270px;
 							<div class="col-md-12 boxcontent text-center">
 							
 							<div class="col-md-6">
-								<a href="/searchByCategory?category=lungi"
+								<a th:href="@{/}+${homePage.bannerThreeUrl}"
 										role="button" class="category_inner"> <img
-										class="zoom_image img-responsive" alt="" src="/image/banners/offer-new-mens.png" />
+										class="zoom_image img-responsive" alt="" th:src="#{adminPath}+@{/image/banners/}+${homePage.bannerThreeImg}" />
 										
 									</a>
 							</div>
 							<div class="col-md-6">
-								<a href="/searchByCategory?category=sherwani"
+								<a th:href="@{/}+${homePage.bannerFourUrl}"
 										role="button" class="category_inner"> <img
-										class="zoom_image img-responsive" alt="" src="/image/banners/offer-news.png" />
+										class="zoom_image img-responsive" alt="" th:src="#{adminPath}+@{/image/banners/}+${homePage.bannerFourImg}" />
 										
 									</a>
 							</div>			
@@ -653,30 +660,30 @@ width: 270px;
 							<div class="col-md-12 boxcontent">
 								
 									<div class="col-md-3">
-									<a href="/searchByCategory?category=lehenga"
+									<a th:href="@{/}+${homePage.offerOneUrl}"
 										role="button" class="category_inner"> <img
-										class="zoom_image img-responsive" alt="" src="/image/offerone.png" />
+										class="zoom_image img-responsive" alt="" th:src="#{adminPath}+@{/image/}+${homePage.offerOneImg}" />
 										
 									</a>
 								</div>
 								<div class="col-md-3">
-									<a href="/searchByCategory?category=saree"
+									<a th:href="@{/}+${homePage.offerTwoUrl}"
 										role="button" class="category_inner"> <img
-										class="zoom_image img-responsive" alt="" src="/image/offertwo.png" />
+										class="zoom_image img-responsive" alt="" th:src="#{adminPath}+@{/image/}+${homePage.offerTwoImg}" />
 										
 									</a>
 								</div>
 								<div class="col-md-3">
-									<a href="/searchByCategory?category=kurthi"
+									<a th:href="@{/}+${homePage.offerThreeUrl}"
 										role="button" class="category_inner"> <img
-										class="zoom_image img-responsive" alt="" src="/image/offerthree.png" />
+										class="zoom_image img-responsive" alt="" th:src="#{adminPath}+@{/image/}+${homePage.offerThreeImg}" />
 										
 									</a>
 								</div>
 								<div class="col-md-3">
-									<a href="/searchByCategory?category=salwar"
+									<a th:href="@{/}+${homePage.offerFourUrl}"
 										role="button" class="category_inner"> <img
-										class="zoom_image img-responsive" alt="" src="/image/offerfour.png" />
+										class="zoom_image img-responsive" alt="" th:src="#{adminPath}+@{/image/}+${homePage.offerFourImg}" />
 										
 									</a>
 								</div>

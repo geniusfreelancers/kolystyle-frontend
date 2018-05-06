@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kolystyle.service.SiteSettingService;
 import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.Category;
+import com.kolystyle.domain.HomePage;
 import com.kolystyle.domain.Order;
 import com.kolystyle.domain.Product;
 import com.kolystyle.domain.ProductAttr;
@@ -55,6 +56,7 @@ import com.kolystyle.repository.CartItemRepository;
 import com.kolystyle.repository.ProductAttrRepository;
 import com.kolystyle.repository.ViewedRecentlyRepository;
 import com.kolystyle.service.CartItemService;
+import com.kolystyle.service.HomePageService;
 import com.kolystyle.service.OrderService;
 import com.kolystyle.service.ProductService;
 import com.kolystyle.service.ShoppingCartService;
@@ -111,6 +113,8 @@ public class HomeController {
 	private ViewedRecentlyRepository viewedRecentlyRepository;
 	@Autowired
 	private CartItemRepository cartItemRepository;
+	@Autowired
+	private HomePageService homePageService;
 	
 	@RequestMapping("/thankyou")
 	public String thankyou(Model model) {
@@ -142,6 +146,8 @@ public class HomeController {
 	        //Special
 	        SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
 	        model.addAttribute("siteSettings",siteSettings);
+	        HomePage homePage = homePageService.findOne(new Long(1));
+	        model.addAttribute("homePage",homePage);
 	        return "home";
 	    }
 

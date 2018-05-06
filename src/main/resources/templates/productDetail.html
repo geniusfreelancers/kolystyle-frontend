@@ -117,7 +117,7 @@ nava a.active {
 				<div class="col-md-12" th:if="!${noMore}">
 				
 				
-				<div class="col-md-12 text-right">
+				<div th:if="${product.unStiched}" class="col-md-12 text-right">
 					<label class="col-md-12"><span class="col-md-8 text-right">Unstiched</span>
 					<span class="col-md-4 text-left">
 					<input name="stitching" id="stitching" value="unstiched" type="radio" checked="checked"/>

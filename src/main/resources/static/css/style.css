@@ -1,6 +1,41 @@
 body {
 
 }
+#contactUsPage a img{border-radius:5px; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; -ms-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out;}
+#contactUsPage a img:hover {
+    border-radius: 50% 0%;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+.contactAddress{
+	font-size:1.2em;
+	padding-top:10px;
+}
+textarea#details {
+    max-width: 100%;
+}
+.offer-ticker {
+    text-align: center;
+    background: #f5f5f5;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.offer-ticker-slide {
+	z-index:1;
+    text-align: center;
+    background: #5bc1d2;
+    color:#ffffff;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom:5px;
+}
+.offer-ticker-slide > span > a{
+	color:#ffffff;
+}
 .inner-con{
 	width:100%;
 	background: #f5f5f5;

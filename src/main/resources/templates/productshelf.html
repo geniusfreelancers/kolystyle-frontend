@@ -5,19 +5,10 @@
 
 
 <style>
-
-
-
-
 .product-container {
 	width: 100%;
 	margin-top: 30px;
 }
-
-
-
-
-
 .quick-view-controller {
 	float: left;
 	width: 100%;
@@ -353,9 +344,9 @@ $(window).ready(function (){
 
 You can browse through our popular links above:</h5>
 				</div>
-				<div th:if="${productCategory}" class="content-header">
+				<div class="content-header">
 					<div class="col-md-12">
-					<img th:src="@{/image/cyber.jpg}" class="img-responsive" style="margin-bottom:10px;"/>
+					<img th:src="#{adminPath}+@{/image/offer/}+${siteSettings.shopOfferBanner}" class="img-responsive" style="margin-bottom:10px;"/>
 					
 					</div>
 				

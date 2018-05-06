@@ -485,7 +485,7 @@ label {cursor: pointer;}
 #header #cart .empty { padding-top: 50px; text-align: center; }
 
 /********** Search Bar **********/
-#header #search { position:absolute; top:35px; right:340px;}
+#header #search { position:absolute; top:55px; right:340px;}
 #header .button-search { background:url('../image/button-search.png') center center no-repeat;border: 0px!important;width:34px!important;height:34px ;position:absolute; right:0; cursor:pointer; float:right;}
 #header #search input {background:#FFF; padding:0 10px; width:300px; height:32px; line-height:32px; font-size:13px; color:#333; outline:none;}
 

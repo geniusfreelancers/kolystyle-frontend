@@ -23,7 +23,15 @@
 					
 					<!-- <div class="col-md-6 text-right"> -->
 					
-					<div class="col-md-8 col-md-offset-2" th:if="${!emptyCart}">
+				<div class="content-header">
+					<div class="col-md-12">
+						<img th:src="#{adminPath}+@{/image/offer/}+${siteSettings.cartOfferBanner}" class="img-responsive" style="margin-bottom:10px;"/>
+					</div>
+				
+				
+				</div>
+					
+					<div class="col-md-12 text-center" th:if="${!emptyCart}">
 					<p>
 						<i class="fa fa-shopping-bag fa-2x text-danger" aria-hidden="true"></i>
 						<strong>BAG ID: <span th:text="${shoppingCart.bagId}"></span></strong>
@@ -36,7 +44,7 @@
 							
 					<!-- </div> -->
 					
-					<br/><br/>
+					
 					
 					<div th:if="${notEnoughStock}" class="alert alert-warning col-md-8 col-md-offset-2">
 						Oops, some of the products does't have enough stock. Please update
@@ -47,9 +55,9 @@
 						<span class="col-md-12">Please add some product to cart.</span>
 					</div>
 						
-						<br/>
+						
 					<div class="row" th:if="${!emptyCart}">
-					<div class="col-md-8 col-md-offset-2 black-bg">
+					<div class="col-md-12 black-bg">
 						<div class="col-xs-6">
 							<p><strong>Item</strong></p>
 						</div>
@@ -69,7 +77,7 @@
             <div ng-controller = "cartCtrl" th:attr="ng-init='initCartId('+${shoppingCart.id}+')'">
 					<!-- ***************************Display Products in Cart***************************************** -->
 					<div class="row" th:attr="ng-repeat = 'cartItem in shoppingCart.cartItemList'">
-					<div class="col-md-8 col-md-offset-2"><hr/>
+					<div class="col-md-12"><hr/>
 						<!-- form th:action="@{/shoppingCart/updateCartItem}" method="post"-->
 						<form method="post">	
 							<div class="col-md-2">
@@ -138,7 +146,7 @@
 					</div>
 					<div class="row" th:if="${!emptyCart}">
 						
-						<div class="col-md-8 col-md-offset-2">
+						<div class="col-md-12">
 						<hr/>
 						
 						<input hidden="hidden" th:name="bagId" id="bagId" th:value="${shoppingCart.bagId}"/>
@@ -173,7 +181,7 @@
 						</div>
 						</div>
 						<div class="row" th:if="${!emptyCart}">
-						<div class="col-md-8 col-md-offset-2 text-right">
+						<div class="col-md-12 text-right">
 						
 						<!-- Subtotal -->
 						<div class="col-md-10 col-xs-6">
@@ -254,7 +262,7 @@
 						
 					</div>
 					<div class="row">
-					<div class="col-md-8 col-md-offset-2">
+					<div class="col-md-12">
 					
 					<div class="col-md-12 col-xs-12 text-right" th:if="${!emptyCart}">
 					

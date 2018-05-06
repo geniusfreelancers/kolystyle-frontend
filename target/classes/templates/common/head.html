@@ -87,9 +87,14 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 
                 </div>
             </div>
+            <div class="col-md-12 offer-ticker">
+            	<span th:text="${siteSettings.topOfferTicker}"></span>
+            </div>
+            
             <section class="hsecond">
-                <div id="logo"><a href="/"><img class="img-responsive" th:src="#{adminPath}+@{/image/koly-logo.png}" title="Kolystyle" alt="Kolystyle" /></a></div>
+                <div id="logo"><a href="/"><img class="img-responsive" th:src="#{adminPath}+@{/image/}+${siteSettings.siteLogo}" title="Kolystyle" alt="Kolystyle" /></a></div>
                 
+                <div class="search-box">
                     <form class="navbar-form" th:action="@{/searchProduct}" method="post">
 						<div id="search">	
 							<button type="submit" class="button-search"></button>
@@ -97,7 +102,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 							
 						 </div>
 						</form>
-               
+               </div>
                 <!--Mini Shopping Cart Start-->
         <section th:if="!${noCartExist}" class="" ng-app="checkoutApp">
 		<div ng-controller = "miniCartCtrl" ng-init="initCartId()">		
@@ -636,14 +641,14 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
             <!-- Follow Social Icons Start-->
             <div class="social part3"> 
             
-            <a href="http://facebook.com/kolystyle" target="_blank">
+            <a th:href="${siteSettings.facebookUrl}" target="_blank">
             <img src="/image/facebook.png" alt="Facebook" title="Facebook"/></a> 
-            <a href="https://twitter.com/#!/kolystyle" target="_blank">
+            <a th:href="${siteSettings.twitterUrl}" target="_blank">
             <img src="/image/twitter.png" alt="Twitter" title="Twitter"/> </a>
-            <a href="https://instagram.com/#!/kolystyle" target="_blank">
+            <a th:href="${siteSettings.instagramUrl}" target="_blank">
             <img src="/image/instagram.png" alt="Twitter" title="Instagram"/> </a>
-             <a href="#" target="_blank"> <img src="/image/googleplus.png" alt="Google+" title="Google+"/> </a>
-              <a href="#" target="_blank"> <img src="/image/pinterest.png" alt="Pinterest" title="Pinterest"/> </a>
+             <a th:href="${siteSettings.googleUrl}" target="_blank"> <img src="/image/googleplus.png" alt="Google+" title="Google+"/> </a>
+              <a th:href="${siteSettings.pintrestUrl}" target="_blank"> <img src="/image/pinterest.png" alt="Pinterest" title="Pinterest"/> </a>
                
                
                </div>
