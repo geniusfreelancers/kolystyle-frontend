@@ -417,13 +417,17 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/productDetail")
-	public String productDetail(@PathParam("id") Long id, Model model, Principal principal,HttpServletRequest request,HttpServletResponse response) {
+	public String productDetail(@PathParam("id") Long id, Model model, Principal principal,HttpServletRequest request,HttpServletResponse response) 
+	{
 		if(principal != null){
 			String username = principal.getName();
 			User user = userService.findByUsername(username);
 			model.addAttribute("user", user);
 		}
-		
+		ViewedRecently viewedRecently = null;
+		String alreadyInList;
+		String inList="";
+		List<String> alreadyList;
 		Product product = productService.findOne(id);
 		if(product == null) {
 			return "redirect:/productshelf";
@@ -431,7 +435,7 @@ public class HomeController {
 			/*Get bagId and or cookieValue and find product id if exist else
 			set cookie with value and create new ViewedRecently object */
 			
-			ViewedRecently viewedRecently = null;
+			
 			Cookie[] cookies = request.getCookies();
 			boolean foundCookie = false;
 			boolean foundBagId =false;
@@ -458,56 +462,45 @@ public class HomeController {
 	        }
 	       
 			}}	
-		if (!foundCookie) {
+		if (foundCookie==false && foundBagId==true) {
 			 viewedRecently = viewedRecentlyService.findByBagId(bagId);
 			if(viewedRecently == null) {
 				viewedRecently = new ViewedRecently();
-				
-			}		
+				alreadyInList = id.toString();
+			}else {
+				alreadyInList = viewedRecently.getProductList();
+				alreadyInList = alreadyInList+","+id.toString();
+			}
 				Random rand = new Random();
     			int  newrandom = rand.nextInt(99) + 10;
     			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     			cookieValue = newrandom+"PRO"+timestamp.getTime();
 				viewedRecently.setCookieValue(cookieValue);
 				viewedRecently.setBagId(bagId);
-				
-				String alreadyInList = viewedRecently.getProductList();
-				if(alreadyInList != null) {
-					alreadyInList = alreadyInList+","+id.toString();
+
+				alreadyList = Arrays.asList(alreadyInList.split("\\s*,\\s*"));
+				if(alreadyList.size()< 1) {
+					inList = id.toString();
 				}else {
-					alreadyInList = id.toString();
-				}
-				List<String> sizeList = Arrays.asList(alreadyInList.split("\\s*,\\s*"));
-				String inList = "";
 				int count = 1;
-				for(String size : sizeList) {
-					if(size.equalsIgnoreCase(id.toString()) ) {
+				for(String already : alreadyList) {
+					if(!already.equalsIgnoreCase(id.toString()) ) {
 						if(count == 1) {
-							inList += id.toString();
+							inList += already;
 						}else {
-							inList += ","+size+","+id.toString();
+							inList += ","+already;
 						}
 					}else {
-						
 						if(count == 1) {
-							inList += id.toString();
+							inList += already;
 						}else {
-							inList += ","+size+","+id.toString();
+							inList = inList+"";
 						}
-						
 					}
 					count++;
 				}
-				viewedRecently.setProductList(inList);
-				List<String> viewedRecentlyList = Arrays.asList(inList.split("\\s*,\\s*"));
-				List<Product> viewedProduct = new ArrayList<Product>();
-				for(String recent : viewedRecentlyList) {
-					viewedProduct.add(productService.findOne(new Long(recent)));
 				}
 				
-				viewedRecently.setUpdatedDate(Calendar.getInstance().getTime());
-				viewedRecentlyRepository.save(viewedRecently);
-				model.addAttribute("viewedRecently",viewedProduct);
     	            Cookie cookie1 = new Cookie("CookieValue",cookieValue);
     	            cookie1.setPath("/");
     	            cookie1.setMaxAge(30*24*60*60);
@@ -516,43 +509,85 @@ public class HomeController {
 			 viewedRecently = viewedRecentlyService.findByCookieValue(cookieValue);
 			//Just testing need to change accordingly to match requiremnet
 			 if(viewedRecently != null) {
-				
-			
-			String alreadyInList = viewedRecently.getProductList();
-			if(alreadyInList != null) {
-				alreadyInList = alreadyInList+","+id.toString();
-			}else {
-				alreadyInList = id.toString();
-			}
-			List<String> sizeList = Arrays.asList(alreadyInList.split("\\s*,\\s*"));
-			
-			String inList = id.toString();
-			int count = 1;
-			for(String size : sizeList) {
-				if(size.equalsIgnoreCase(id.toString()) ) {
-					 
+				 	alreadyInList = viewedRecently.getProductList();
+					alreadyInList = alreadyInList+","+id.toString();
+					if(viewedRecently.getBagId() == null && foundBagId == true) {
+						viewedRecently.setBagId(bagId);
+					}
 				}else {
-					
-						inList = inList+","+size;
-					
+					viewedRecently = new ViewedRecently();
+					alreadyInList = id.toString();
+					Random rand = new Random();
+	    			int  newrandom = rand.nextInt(99) + 10;
+	    			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	    			cookieValue = newrandom+"PRO"+timestamp.getTime();
+					viewedRecently.setCookieValue(cookieValue);
+					if(foundBagId == true) {
+						viewedRecently.setBagId(bagId);
+					}
+					Cookie[] cookiese = request.getCookies();
+					 if (cookiese != null){
+	    	            for (Cookie cookie11 : cookiese) {
+				            	 if (cookie11.getName().equalsIgnoreCase("CookieValue")) {
+				            		 	cookie11.setValue(cookieValue);
+				     	            	cookie11.setPath("/");
+				     	            	cookie11.setMaxAge(30*24*60*60);
+				     	            	response.addCookie(cookie11); 
+				     	            	System.out.println("Cookie for CookieValue is modified");
+				            	 }
+	    	            	}
+					 }else{
+						 	Cookie cookie12 = new Cookie("CookieValue",cookieValue);
+		    	            cookie12.setPath("/");
+		    	            cookie12.setMaxAge(30*24*60*60);
+		    	            response.addCookie(cookie12); 
+		    	            System.out.println("Cookie for CookieValue is added");
+					 }
 				}
-				count++;
+					alreadyList = Arrays.asList(alreadyInList.split("\\s*,\\s*"));
+					if(alreadyList.size()<1) {
+						inList = id.toString();
+					}else {
+						int count = 1;
+						int track = 1;
+						for(String already : alreadyList) {
+							if(!already.equalsIgnoreCase(id.toString()) ) {
+								if(count == 1) {
+									inList += already;
+								}else {
+									inList += ","+already;
+								}
+							}else {
+								
+								if(count == 1) {
+									inList += already;
+								}else {
+									if(track == 1 && count != 1) {
+										inList = inList+","+already;
+										track++;
+									}else {
+										inList = inList+"";
+									}
+								}
+							}
+							count++;
+						}
+					}
+					
+			 
 			}
-			viewedRecently.setProductList(inList);
-			List<String> viewedRecentlyList = Arrays.asList(inList.split("\\s*,\\s*"));
-			List<Product> viewedProduct = new ArrayList<Product>();
-			for(String recent : viewedRecentlyList) {
-				viewedProduct.add(productService.findOne(new Long(recent)));
-			}
-			viewedRecently.setUpdatedDate(Calendar.getInstance().getTime());
-			viewedRecentlyRepository.save(viewedRecently);
-			model.addAttribute("viewedRecently",viewedProduct);
-		}else {
-			model.addAttribute("viewedRecently",null);
 		}
+		
+		viewedRecently.setProductList(inList);
+		List<String> viewedRecentlyList = Arrays.asList(inList.split("\\s*,\\s*"));
+		List<Product> viewedProduct = new ArrayList<Product>();
+		for(String recent : viewedRecentlyList) {
+			viewedProduct.add(productService.findOne(new Long(recent)));
 		}
-		//	model.addAttribute("viewedRecently",null);
-		}
+		viewedRecently.setUpdatedDate(Calendar.getInstance().getTime());
+		viewedRecentlyRepository.save(viewedRecently);
+		model.addAttribute("viewedRecently",viewedProduct);
+				
 		String availableSize = product.getSize();
 		List<String> sizeList = Arrays.asList(availableSize.split("\\s*,\\s*"));
 		String productImages = product.getProductImagesName();
@@ -574,19 +609,15 @@ public class HomeController {
 		
 		String brand = product.getBrand();
 		List<Product> brandList = productService.findTop15ByBrand(brand);
-		if(qtyList.size()<1) {
-			model.addAttribute("noMore", true);
-		}
 		
 		//List<Product> productList = productService.findByCategory(category);
 		model.addAttribute("productList", productList);
 		model.addAttribute("brandList", brandList);
 		
-		System.out.println(productList);
+	
 		model.addAttribute("sizeList", sizeList);
 		model.addAttribute("productImagesList", productImagesList);
 		model.addAttribute("qtyList", qtyList);
-		model.addAttribute("qty", 1);
 		
 		
 		return "productDetail";

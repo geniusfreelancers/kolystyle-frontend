@@ -3,7 +3,9 @@
             CUSTOM STYLE
 
 ******************************************/
-
+#newsletterForm h4 {
+    color: #ffffff;
+}
 .uup{
 	top:45px!important;
 }
@@ -101,7 +103,7 @@
     font-weight: 600!important;
 }
 .text-icon{
-	color:#2f2f2f;
+	color:#c1baba;
 }
 .hideme{
 	display:none;
@@ -522,13 +524,13 @@ label {cursor: pointer;}
 #menu > ul > li { position: relative; float: left; z-index:1010; padding:0px; }
 #menu > ul > li > a { font-size:12px; color: #fff; line-height:40px; text-decoration: none; display: block; padding:0px 10px 0px 10px; z-index: 1009; position: relative; font-weight:bold; text-transform:uppercase;}
 /* #menu > ul > li:hover > a {color:#fff; background:#d45c93; } */
-#menu > ul > li > div { display: none; background:#fff; position:absolute; z-index:1008; padding:10px; border-top:2px solid #d45c93; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);}
+#menu > ul > li > div { display: none; background:#fff; position:absolute; z-index:1008; padding:10px; border-top:2px solid #ff0404; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);}
 #menu > ul > li:hover > div.custom_block{display:table;}
 #menu > ul > li:hover > div.custom_block ul{display:table-cell;}
 
 #menu > ul > li > div > ul { display: table-cell; }
 
-#menu > ul > li.categories_hor > div { display: none; background:#fff; min-width:895px; position:absolute; z-index:1008; padding:10px 10px 0px 10px; border-top:2px solid #d45c93; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);}
+#menu > ul > li.categories_hor > div { display: none; background:#fff; min-width:895px; position:absolute; z-index:1008; padding:10px 10px 0px 10px; border-top:2px solid #ff0404; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);}
 
 #menu > ul > li.categories_hor > div > .column {position:relative; display:inline-block; width:160px; margin:0 15px 15px 0px;}
 #menu > ul > li > div > ul{position:relative; width:160px;}
@@ -536,7 +538,7 @@ label {cursor: pointer;}
 #menu > ul > li.categories_hor > div > .column > a{font-weight:bold; font-size:13px; border-bottom:1px solid #ddd; margin-bottom:5px;}
 #menu > ul > li.categories_hor > div > .column a, #menu > ul > li > div > ul li a{padding:4px 0; display:block; }
 #menu > ul > li > div > ul li a{font-size:12px;}
-#menu > ul > li.categories_hor > div > .column:hover > a{color:#d45c93;}
+#menu > ul > li.categories_hor > div > .column:hover > a{color:#2f4994;}
 #menu > ul > li.categories_hor > div > .column > div{display:block;}
 #menu > ul > li.categories_hor > div > .column:hover div{display:table; }
 #menu > ul > li.categories_hor > div > .column > div ul{display:table; padding:0;}
@@ -545,9 +547,9 @@ label {cursor: pointer;}
 #menu > ul > li ul + ul { padding-left: 20px; }
 #menu > ul > li ul > li > a {text-decoration:none; padding:4px; display:block; min-width: 150px;}
 #menu > ul > li div > ul > li > a {color:#222; }
-#menu > ul > li div > ul > li > a:hover {background:url(../image/bullet-1.png) right center no-repeat; color:#d45c93;}
+#menu > ul > li div > ul > li > a:hover {background:url(../image/bullet-1.png) right center no-repeat; color:#2f4994;}
 
-#menu > ul > li.categories > div { display: none; background:#fff; min-width:160px; position:absolute; z-index:1008; padding:10px; border-top:2px solid #d45c93; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);}
+#menu > ul > li.categories > div { display: none; background:#fff; min-width:160px; position:absolute; z-index:1008; padding:10px; border-top:2px solid #ff0404; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);}
 
 #menu > ul > li.categories > div > .column, #menu > ul > li > div > ul{position:relative;}
 #menu > ul > li.categories > div > .column + .column, #menu > ul > li > div > ul li + li{border-top:1px solid #eee;}
@@ -1203,12 +1205,12 @@ a.wishlist:hover { color:#d45c93; }
 #footer.style-3 .facebook-outer{width:275px; height:248px;}
 
 /******** Footer Links *******/
-#footer { clear: both; overflow:auto; background:#ffffff; color:#999;width: 100%;}
+#footer { clear: both; overflow:auto; background:#000000; color:#ffffff;width: 100%; border-top: 1px solid #b3b3b3;}
 #footer .fpart-inner{width:95%; margin:0 auto; padding:20px 20px 0 20px;}
-#footer a{color:#000000;}
+#footer a{color:#ffffff;}
 #footer a:hover{color:#3babe4;}
 
-#footer h3{color: #000000; font-size:14px;  margin:0px 0 10px 0; padding:0px 0px 7px 0px; border-bottom:1px dotted #444; text-transform:uppercase; font-weight:bold;}
+#footer h3{color: #6378b1; font-size:14px;  margin:0px 0 10px 0; padding:0px 0px 7px 0px; /* border-bottom:1px dotted #444; */ text-transform:uppercase; font-weight:bold;}
 #footer .column { float: left; position:relative; width:19%; }
 #footer .column + .column { margin-left:0.5%; }
 #footer .column ul {width:170px; padding:0px; }
@@ -1411,10 +1413,10 @@ span.more.plus{background-position:0 -80px;}
 #footer {padding:0!important;}
 #footer .fpart-inner{padding:10px 10px 0}
 #footer .column { float:none; width:auto; margin:0!important; display:inline; }
-#footer h3{ cursor:pointer; display:block; text-align:center; padding:10px 0; margin-bottom:0px; border-top:1px dotted #444444;  border-bottom:none; height:32px; line-height:32px;}
+#footer h3{ cursor:pointer; display:block; text-align:center; padding:10px 0; margin-bottom:0px; /* border-top:1px dotted #444444; border-bottom:none;  */  height:32px; line-height:32px;}
 #footer .custom_column h3{border:none;}
 #footer h3 + h3{border-top:1px dotted #444444;}
-#footer h3.active{background-color:#444;}
+#footer h3.active{/* background-color:#444; */}
 #footer .column a { font-size:14px; padding:3px 0; line-height:25px; height:25px; background:none;}
 #footer .column:hover ul { display:none; }
 #footer .column ul {display:none; position:relative; bottom:0px; width:auto; padding:10px 0;}
@@ -1426,7 +1428,7 @@ span.more.plus{background-position:0 -80px;}
 #footer .contact{float:none; margin:0;}
 #footer .contact ul{width:auto; display:none; padding:10px 0;}
 #footer .contact ul li.address{background-position:0px 0px;}
-#footer #powered{margin-top:0px;}
+#footer #powered{margin-top:0px; border:none;}
 
 #footer .payments_types{float:none; padding:0 0 10px 0;}
 #footer .part3{width:auto; float:none;}

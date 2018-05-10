@@ -9,11 +9,11 @@
 
 			<div id="container">
 				<div id="content">
-<div class="row">
+
 <form  method="post">
 	<input hidden="hidden" th:field="*{product.id}" th:name="id" th:value="${product.id}"/>
 	<input hidden="hidden" th:id="'id-addingtocart-'+${product.id}" name="idd" th:value="${product.id}"/>
-	<div class="row" style="margin-top:0px;">
+	
 	<div class="col-md-4">
 	<a th:href="@{/productshelf}" class="btn btn-default"><i class="fas fa-chevron-left"></i> Back to Shop</a><br/><br/>
 	<!--img class="img-responsive shelf-product" alt="" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}"/-->
@@ -52,11 +52,12 @@ nava a.active {
 	border-color: #ECD95C;
 }
 	</style>
-	<aside class="preview">
-		<img style="width:363px;height:526px;" class="img-responsive shelf-product" alt="Alt title of image" id="main" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" />
+	<aside class="preview col-md-12">
+		<img style="width:100%;height:auto;" class="img-responsive shelf-product" alt="Alt title of image" id="main" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${product.coverImageName}" />
 	<nav class="nava">
 		<a class="thumbnail-product" th:each="productImage : ${productImagesList}" th:href="#{adminPath}+@{/image/product/}+${product.id}+'/'+${productImage}"><img class="img-responsive" alt="Side of the shoe" th:src="#{adminPath}+@{/image/product/}+${product.id}+'/'+${productImage}"/></a>
 	</nav>
+	<div class="clear"></div>
 	</aside>
 
 <!-- <script> -->
@@ -66,10 +67,10 @@ nava a.active {
 	<div class="col-md-7">
 	
 		
-    			<h3><span th:if="${notEnoughStock}" style="color: red">Oops, only <span th:text="${product.inStockNumber}"></span> In Stock.</span></h3>
+    			<h3  th:if="${notEnoughStock}"><span style="color: red">Oops, only <span th:text="${product.inStockNumber}"></span> In Stock.</span></h3>
 	
 		
-		<div class="row">
+	
 		<div class="col-md-10 col-offset-md-2">
 
 		<div class="description">
@@ -151,8 +152,9 @@ nava a.active {
 			</div>
 			<div class="col-md-12">
 				<br/>
-				<span class="col-md-6">Now: <span style="color:#db3208;font-size:1.7em;">$<span th:text="${product.ourPrice}"></span></span>
-				</span><span class="col-md-6">Was: <span style="text-decoration:line-through;">$<span th:text="${product.listPrice}"></span></span></span>
+				<div class="col-md-6"><span>Now: </span><span style="color:#db3208;font-size:1.5em;">$<span th:text="${product.ourPrice}"></span></span>
+				</div>
+				<div class="col-md-6"><span>Was: </span><span style="text-decoration:line-through;">$<span th:text="${product.listPrice}"></span></span></div>
 				<p class="text-center col-md-12" style="color:#73dc13;">You save: $<span th:text="${#numbers.formatDecimal((product.listPrice - product.ourPrice),0 , 'COMMA',2,'POINT')}"></span></p>
 			</div>
 			
@@ -179,7 +181,7 @@ nava a.active {
 					<br/>
 					<span id="serverRespones"></span>
 					<br/><br/>
-					<button th:if="!${noMore}" type="submit" class="btn btn-danger center-block" id="addthisproduct" style="font-weight:bolder;padding:10px 10px 10px 10px;">ADD TO CART</button>
+					<button th:if="!${noMore}" type="submit" class="btn btn-danger center-block" id="addthisproduct">ADD TO CART</button>
 				</div>
 				
 				
@@ -189,7 +191,7 @@ nava a.active {
 			</div>
 		</div>
 		
-		</div>
+		
 <div class="col-md-12">			
 	<div><br/><a onClick="$('a[href=\'#shippingReturn\']').trigger('click');">Shipping And Return Policy</a></div>
 
@@ -249,13 +251,13 @@ nava a.active {
 	</div>
 	
 	
-	</div>
+	
 
 
 
 </form>
 
-</div>
+
 <style>
 .slick-prev {
     left: -20px;  

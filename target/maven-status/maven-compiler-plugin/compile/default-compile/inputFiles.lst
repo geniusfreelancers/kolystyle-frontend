@@ -1,4 +1,5 @@
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\BraintreeGatewayFactory.java
+C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\ContactRepository.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\controller\SearchController.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\impl\NewsletterServiceImpl.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\UserPaymentRepository.java
@@ -15,6 +16,7 @@ C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\controller\Hom
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\OrderRepository.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\impl\ProductServiceImpl.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\controller\CheckoutController.java
+C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\ProductAttr.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\UserBilling.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\impl\BillingAddressServiceImpl.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\ProductToListItem.java
@@ -23,9 +25,12 @@ C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\Pas
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\ProductToListItemRepository.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\utility\SecurityUtility.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\OrderLogRepository.java
+C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\ContactService.java
+C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\HomePage.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\impl\WishListServiceImpl.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\StaticPageRepository.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\ViewedRecentlyRepository.java
+C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\ProductAttrRepository.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\UserShipping.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\GuestShoppingCart.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\controller\GuestShoppingCartController.java
@@ -35,6 +40,7 @@ C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\UserSh
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\User.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\Payment.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\RoleRepository.java
+C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\HomePageRepository.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\impl\OrderLogServiceImpl.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\ProductToCartItem.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\WishListRepository.java
@@ -45,6 +51,7 @@ C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\controller\Sub
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\controller\WishListController.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\impl\UserShippingServiceImpl.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\SubCategoryRepository.java
+C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\Contact.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\BillingAddress.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\controller\CartController.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\config\SecurityConfig.java
@@ -65,6 +72,7 @@ C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\securit
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\utility\MailConstructor.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\SiteSetting.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\utility\USConstants.java
+C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\HomePageService.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\ShoppingCartRepository.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\ListItemRepository.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\BillingAddressService.java
@@ -81,6 +89,7 @@ C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\Sub
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\controller\CartResources.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\SiteSettingRepository.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\StaticPageService.java
+C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\ProductAttribute.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\ShippingAddress.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\impl\ShippingAddressServiceImpl.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\CartItem.java
@@ -107,10 +116,13 @@ C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\repository\Pro
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\controller\PublicController.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\SearchLog.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\impl\ListItemServiceImpl.java
+C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\controller\StripeCheckout.java
+C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\impl\ContactServiceImpl.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\impl\ViewedRecentlyServiceImpl.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\UserPayment.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\PromoCodesService.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\impl\StripeService.java
+C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\service\impl\HomePageServiceImpl.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\controller\ShoppingCartController.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\StaticPage.java
 C:\kolystyleweb\r1\kolystyle-frontend\src\main\java\com\kolystyle\domain\ChargeRequest.java
