@@ -110,10 +110,18 @@
 							<div id="shippingInfo" class="panel-collapse collapse">
 							<div class="panel-body">
 <div class="row">
-						<div class="col-xs-6"><h4>Products</h4></div>
-						<div class="col-xs-2"><h4>Price</h4></div>
-						<div class="col-xs-2"><h4>Qty</h4></div>
-						<div class="col-xs-2 text-right"><h4>Amount</h4></div>
+<style>
+h5{
+margin-top:0px!important;
+}
+.panel-primary {
+    border-color: #ffffff;
+}
+</style>
+						<div class="col-xs-6"><h5>Products</h5></div>
+						<div class="col-xs-2"><h5>Price</h5></div>
+						<div class="col-xs-2"><h5>Qty</h5></div>
+						<div class="col-xs-2 text-right"><h5>Amount</h5></div>
 						</div>
 						
 						<!-- Display products in cart -->
@@ -126,24 +134,25 @@
 						</a>
 						</div>
 						<div class="col-xs-4">
-							<div style="margin-left:50px;">	
-							<a th:href="@{/productDetail?id=}+${cartItem.product.id}"><h4 th:text="${cartItem.product.title}"></h4></a>
-								<span>Size: </span><span th:text="${cartItem.productSize}"></span> | <span>Web ID: </span><span th:text="${cartItem.product.sku}"></span>
+							<div style="margin-left:10px;">	
+							<a th:href="@{/productDetail?id=}+${cartItem.product.id}"><h5 th:text="${cartItem.product.title}"></h5></a>
+								<p><span>Size: </span><span th:text="${cartItem.productSize}"></span></p>
+								 <p><span>Web ID: </span><span th:text="${cartItem.product.sku}"></span></p>
 							</div>
 							</div>
 							<div class="col-xs-2">
-								<h5 style="color: #db3208; font-size: large;">
+								<h5 style="color: #db3208;">
 									$<span th:text="${cartItem.product.ourPrice}"
 										th:style="${cartItem.product.inStockNumber}==0? 'text-decoration: line-through' : ''"></span>
 								</h5>
 								
 							</div>
 							<div class="col-xs-2">
-								<h5 style="font-size:large" th:text="${cartItem.qty}"></h5>
+								<h5 th:text="${cartItem.qty}"></h5>
 							</div>
 							<div class="col-xs-2">
 							
-							<h5 class="text-primary text-right" style="font-size: large;"  th:with="result=${cartItem.product.ourPrice * cartItem.qty}">
+							<h5 class="text-primary text-right" th:with="result=${cartItem.product.ourPrice * cartItem.qty}">
 									$<span th:text="${#numbers.formatDecimal(result, 0, 'COMMA', 2, 'POINT')}" ></span>
 								</h5>
 							</div>
@@ -175,7 +184,7 @@
 	<span><i class="fa fa-paypal" aria-hidden="true"></i> Paypal</span>	
 </div>
 </div>
-<div th:if="${creditMethod}" class="col-md-4 billing-address">
+<div th:if="${creditMethod}" class="col-md-4 billing-address hide-me">
 <p><strong>Billing address</strong></p>
 <p><span th:text="${transaction.source.funding}"></span></p>
 <p><span th:text="${order.billingAddress.BillingAddressStreet1}"></span></p>
@@ -192,14 +201,14 @@
 				
 
 				<script th:src="@{/js/controller.js}"></script>
-
+	<div class="row">
 				<!-- end of container -->
 				<div th:replace="common/head :: footer" />
 
 				<div th:replace="common/head :: body-bottom-scripts" />
 			</div>
 		</div>
-
+</div>
 	</div>
 
 </body>

@@ -80,15 +80,15 @@
 					<div class="col-md-12"><hr/>
 						<!-- form th:action="@{/shoppingCart/updateCartItem}" method="post"-->
 						<form method="post">	
-							<div class="col-md-2">
+							<div class="col-md-2 col-xs-4">
 								<a href="/productDetail?id={{cartItem.product.id}}"> <img
 									class="img-responsive product-shelf" style="width:70px;"
 									th:src="#{adminPath}+@{/image/product/{{cartItem.product.id}}/{{cartItem.product.coverImageName}}}" />
 								</a>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-4 col-xs-4">
 							<div class="cart-product-details">	
-							<a href="/productDetail?id={{cartItem.product.id}}"><h4>{{cartItem.product.title}}</h4></a>
+							<a href="/productDetail?id={{cartItem.product.id}}"><h5>{{cartItem.product.title}}</h5></a>
 								<p><span><strong>Size: </strong></span><span>{{cartItem.productSize}}</span></p>
 								<p><span>Web ID: </span><span>{{cartItem.product.sku}}</span></p>
 								<!-- <p th:if="${cartItem.product.inStockNumber&gt;10}"
@@ -105,7 +105,7 @@
 									
 							</div>
 							</div>
-							<div class="col-md-2">
+							<div class="col-md-2 col-xs-4">
 								<h5 class="text-success">
 									<strong>$<span>{{cartItem.product.ourPrice}}</span></strong>
 								</h5>
@@ -114,7 +114,7 @@
 								</h5>
 								
 							</div>
-							<div class="col-md-2">
+							<div class="col-md-2 col-xs-8">
 								<input hidden="hidden" name="id" value="{{cartItem.id}}" /> <input
 									id="{{cartItem.id}}" style="width:100%;" name="qty" step="1"
 									
@@ -128,7 +128,7 @@
 									id="update-item-{{cartItem.id}}" type="submit"
 									class="btn btn-warning btn-xs updateCartitem">Update</button>
 							</div>
-							<div class="col-md-2">
+							<div class="col-md-2 col-xs-8">
 							<p class="text-right"> 
 									<strong>$<span>{{(cartItem.product.ourPrice * cartItem.qty).toFixed(2)}}</span></strong>
 								</p>
@@ -136,7 +136,7 @@
 							
 							
 							</div>
-							<div class="col-md-10 col-md-offset-2">
+							<div class="col-md-10 col-md-offset-2 col-xs-12 text-right">
 							<a href="#" class="text-danger" th:attr="ng-click='removeFromCart(cartItem.id)'" ><i class="fa fa-trash" aria-hidden="true"></i> Remove</a>	
 								
 							</div>
@@ -287,7 +287,7 @@
 				</div>
 
 				
-
+<div class="row">
 				<!-- end of container -->
 				<div th:replace="common/head :: footer" />
 
@@ -295,7 +295,7 @@
 				<script th:src="@{/js/controller.js}"></script>
 			</div>
 		</div>
-
+</div>
 	</div>
 </div>
 </body>

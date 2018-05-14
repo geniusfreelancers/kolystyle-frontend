@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="common/head :: common-head" />
+<!-- Image Magnifier for product details page -->
+	<script th:src="@{/js/blowup.min.js}"></script>
 <body>
 	<div class="wrapper-box">
 		<div class="main-wrapper">
@@ -302,6 +304,7 @@ width: 270px;
                 		});
                 </script>
                 <hr/>
+                
 <div class="col-md-12">
 
 <p class="title">You May Also Like</p>
@@ -488,18 +491,20 @@ width: 270px;
                 
 </div>
 </div>
-</div>
+
+
 <script th:src="@{/js/controller.js}"></script>
 
-
+	<div class="row">
 				<!-- end of container -->
 				<div th:replace="common/head :: footer" />
 
 				<div th:replace="common/head :: body-bottom-scripts" />
+	</div>
 			</div>
 		</div>
 
 	</div>
-
+</div>
 </body>
 </html>
