@@ -70,7 +70,7 @@
 	background:url(/image/woo.png) 0 0 repeat; 
 }
 .promo-background{
-	background: black;
+	background: #fdfdfd;
 }
 
 .hover_effect{
@@ -82,8 +82,8 @@
 }
 .bg-special{
 	background:url(/image/woo.png) 0 0 repeat; 
-	/* background:#efe8dc; */
-	background:#ed3546;
+	background:#fdfdfd; 
+	/* background:#ed3546; */
 }
 .categorytitle {
     color: #ffffff;
@@ -111,7 +111,8 @@
 p.category-name {
     font-weight: bolder;
     font-size: 1.1em;
-    text-shadow: 1px 3px 3px #31170c;
+    /* text-shadow: 1px 3px 3px #31170c; */
+    color:#ff0000;
 }
 hr.dark-line {
     border: 1px solid #eadfdf;
