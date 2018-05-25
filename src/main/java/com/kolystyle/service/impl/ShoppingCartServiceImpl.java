@@ -234,6 +234,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		 }
 		
 	}
+
+	@Override
+	public ShoppingCart findOne(Long id) {
+		return shoppingCartRepository.findOne(id);
+	}
 	
 
 

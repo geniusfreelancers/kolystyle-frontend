@@ -3,6 +3,7 @@
             CUSTOM STYLE
 
 ******************************************/
+
 #newsletterForm h4 {
     color: #ffffff;
 }
@@ -1327,7 +1328,7 @@ a.wishlist:hover { color:#d45c93; }
 @media screen and (max-width:1024px) {
 .wrapper-box{width:auto; margin:10px; }
 .box-product > div, .product-grid > div{margin-right:2px;}
-.main-wrapper{margin: 0px 0px 0 0px; padding:0 10px;}
+.main-wrapper{margin: 0px 0px 0 0px; /* padding:0 10px; */}
 #header #search{right:300px;}
 
 #footer .part3, .facebook-outer, #footer .twitter_footer{width:300px;}
@@ -1420,7 +1421,7 @@ span.more.plus{background-position:0 -80px;}
 #footer h3.active{/* background-color:#444; */}
 #footer .column a { font-size:14px; padding:3px 0; line-height:25px; height:25px; background:none;}
 #footer .column:hover ul { display:none; }
-#footer .column ul {display:none; position:relative; bottom:0px; width:auto; padding:10px 0;}
+#footer .column ul { position:relative; bottom:0px; width:auto; padding:10px 0;}
 #footer .column ul li { text-align:center; }
 #footer .info { width:auto; display:inline; float:none; }
 #footer .info h3 { padding:5px 0; }

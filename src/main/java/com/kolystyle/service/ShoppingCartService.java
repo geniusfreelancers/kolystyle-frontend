@@ -25,6 +25,8 @@ public interface ShoppingCartService {
 	int cartItemCount(ShoppingCart shoppingCart);
 
 	String updateOrderInfo(ShoppingCart shoppingCart,ShippingAddress shippingAddress,String shippingMethod);
+
+	ShoppingCart findOne(Long id);
 	
 /*	GuestShoppingCart updateGuestShoppingCart(GuestShoppingCart guestShoppingCart);
 	
