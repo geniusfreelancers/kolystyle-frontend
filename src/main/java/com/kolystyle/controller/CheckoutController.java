@@ -602,14 +602,7 @@ if(shoppingCart==null) {
 
 	       model.addAttribute("isSuccess", Arrays.asList(TRANSACTION_SUCCESS_STATUSES).contains(transaction.getStatus()));
 	       model.addAttribute("transaction", transaction);
-	   		LocalDate today = LocalDate.now();
-	   		LocalDate estimatedDeliveryDate;
 	   		
-	   		if(order.getShippingMethod().equals("groundShipping")){
-	   			estimatedDeliveryDate = today.plusDays(5);
-	   		}else{
-	   			estimatedDeliveryDate = today.plusDays(3);
-	   		}
 	   		if(order.getPaymentType().equals("paypal_account")){
 	        	   model.addAttribute("paypalMethod",true);
 		   			 
@@ -630,7 +623,7 @@ if(shoppingCart==null) {
 	   		}else {
 	   			currentStatus = 2;
 	   		}
-	   		model.addAttribute("estimatedDeliveryDate",estimatedDeliveryDate);
+	   		model.addAttribute("estimatedDeliveryDate",order.getEstimatedDeliveryDate());
 	   		model.addAttribute("order",order);
 	   		model.addAttribute("currentStatus",currentStatus);
 	   		model.addAttribute("cartItemList", order.getCartItemList());

@@ -2,9 +2,11 @@ package com.kolystyle.controller;
 
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Locale;
 
@@ -170,6 +172,16 @@ public class StripeCheckout {
 		   		order.setOrderType(shoppingCart.getCartType());
 		   		order.setOrderSubtotal(shoppingCart.getGrandTotal());
 		   		order.setDiscount(shoppingCart.getDiscountedAmount());
+		   		LocalDate today = LocalDate.now();
+		   		LocalDate estimatedDeliveryDate;
+		   		if(order.getShippingMethod().equals("groundShipping")){
+		   			estimatedDeliveryDate = today.plusDays(5);
+		   		}else{
+		   			estimatedDeliveryDate = today.plusDays(3);
+		   		}
+		   		
+		   		Date date = Date.from(estimatedDeliveryDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		   		order.setEstimatedDeliveryDate(date);
 		   		orderRepository.save(order);
 		   		OrderLog orderLog = new OrderLog();
 		   		orderLog.setOrder(order);
@@ -244,14 +256,7 @@ public class StripeCheckout {
 		       model.addAttribute("isSuccess", charge.getStatus());
 		       
 		       model.addAttribute("transaction", charge);
-		   		LocalDate today = LocalDate.now();
-		   		LocalDate estimatedDeliveryDate;
 		   		
-		   		if(order.getShippingMethod().equals("groundShipping")){
-		   			estimatedDeliveryDate = today.plusDays(5);
-		   		}else{
-		   			estimatedDeliveryDate = today.plusDays(3);
-		   		}
 		   		
 			   			model.addAttribute("creditMethod",true);
 			   		
@@ -269,7 +274,7 @@ public class StripeCheckout {
 		   		}else {
 		   			currentStatus = 2;
 		   		}
-		   		model.addAttribute("estimatedDeliveryDate",estimatedDeliveryDate);
+		   		model.addAttribute("estimatedDeliveryDate",order.getEstimatedDeliveryDate());
 		   		model.addAttribute("order",order);
 		   		model.addAttribute("currentStatus",currentStatus);
 		   		model.addAttribute("cartItemList", order.getCartItemList());

@@ -693,6 +693,19 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
     <!-- P-Loading JS -->
 	<script th:src="@{/js/p-loading.min.js}"></script>
     
+    <!-- Facebook messenger API -->
+    <!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script th:src="@{/js/facebooktext.js}"></script>
+
+<!-- Your customer chat code -->
+<div class="fb-customerchat"
+  attribution="setup_tool"
+  page_id="1874906639463560"
+  theme_color="#20cef5">
+</div>
+<!-- Facebook messenger API -->
+    
 	</div>
 </body>
 </html>
