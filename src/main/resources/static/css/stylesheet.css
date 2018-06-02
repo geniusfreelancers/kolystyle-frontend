@@ -3,7 +3,9 @@
             CUSTOM STYLE
 
 ******************************************/
-
+.nivo-imageLink img {
+    width: 100%;
+}
 #newsletterForm h4 {
     color: #ffffff;
 }

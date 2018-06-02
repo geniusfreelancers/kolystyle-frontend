@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -64,6 +65,7 @@ import com.kolystyle.service.UserPaymentService;
 import com.kolystyle.service.UserService;
 import com.kolystyle.service.UserShippingService;
 import com.kolystyle.service.ViewedRecentlyService;
+import com.kolystyle.service.impl.AmazonClient;
 import com.kolystyle.service.impl.UserSecurityService;
 import com.kolystyle.utility.MailConstructor;
 import com.kolystyle.utility.SecurityUtility;
@@ -71,7 +73,21 @@ import com.kolystyle.utility.USConstants;
 
 @Controller
 public class HomeController {
+	private AmazonClient amazonClient;
 	
+
+    @Value("${amazonProperties.endpointUrl}")
+    private String endpointUrl;
+    @Value("${amazonProperties.bucketName}")
+    private String bucketName;
+    @Value("${amazonProperties.accessKey}")
+    private String accessKey;
+    @Value("${amazonProperties.secretKey}")
+    private String secretKey;
+    @Autowired
+    HomeController(AmazonClient amazonClient) {
+        this.amazonClient = amazonClient;
+    }
 	@Autowired
 	private ProductAttrRepository productAttrRepository;
 
@@ -148,7 +164,11 @@ public class HomeController {
 	        model.addAttribute("siteSettings",siteSettings);
 	        HomePage homePage = homePageService.findOne(new Long(1));
 	        model.addAttribute("homePage",homePage);
-	        return "home";
+	        String fileUrl = endpointUrl + "/" + bucketName + "/";
+			model.addAttribute("fileUrl", fileUrl);
+	        return "newlanding";
+	        //return "home";
+		    
 	    }
 
 	@RequestMapping("/userlogin")
