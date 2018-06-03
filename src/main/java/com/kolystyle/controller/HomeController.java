@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kolystyle.service.SiteSettingService;
+import com.kolystyle.domain.HomePageAdditional;
 import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.Category;
 import com.kolystyle.domain.HomePage;
@@ -164,6 +165,8 @@ public class HomeController {
 	        model.addAttribute("siteSettings",siteSettings);
 	        HomePage homePage = homePageService.findOne(new Long(1));
 	        model.addAttribute("homePage",homePage);
+	        HomePageAdditional homePageAdditional = homePageService.findAdditionalHomePage(new Long(1));
+	        model.addAttribute("homePageAdditional",homePageAdditional);
 	        String fileUrl = endpointUrl + "/" + bucketName + "/";
 			model.addAttribute("fileUrl", fileUrl);
 	        return "newlanding";
