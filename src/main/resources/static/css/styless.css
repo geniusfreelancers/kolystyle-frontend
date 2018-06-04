@@ -2202,6 +2202,10 @@ ul.pro-cat a:hover {
 /*-----------------------------
 13.1.2. Useful Link Widget
 -------------------------------*/
+ul.use-links {
+    color: #ffffff;
+    margin-bottom: 10px;
+}
 .payment {
     color: #ffffff;
     font-size: 24px;
@@ -2290,7 +2294,8 @@ ul.use_link a:hover {
  13.1.4. About Widget
 -------------------------------*/
 .about-text > img {
-    width: 193px
+    width: 193px;
+    background: #ffffff;
     }
 
 .about-text > p {

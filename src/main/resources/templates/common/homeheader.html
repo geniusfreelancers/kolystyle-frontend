@@ -78,7 +78,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 <div th:fragment="navbar">
 	<header id="header">
 			
-			<div class="topbar" th:if="!${siteSettings.loginKillSwitch}">
+			<div class="topbar" >
 			<!-- HEADER TOP -->
             <div class="header-top">
                 <div class="container">
@@ -86,7 +86,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
                         <div class="col-md-8 col-sm-9">
 							<!-- HEADER TOP MENU -->
                             <div class="header-top-menu">
-                                <ul class="list-unstyled list-inline">
+                                <ul class="list-unstyled list-inline" th:if="!${siteSettings.loginKillSwitch}">
                                     <li class="dropdown dropdown-small">
                                         <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">English <i class="fa fa-angle-down"></i></a>
                                         <ul class="dropdown-menu">
@@ -651,6 +651,21 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 								
 								<!-- Useful Link Widget -->
 								<div class="col-md-4 footer-widget">
+									<h5>INFORMATION</h5>
+									<nav>
+										<ul class="use_link">
+											<li><a th:href="@{/}">Home</a></li>
+											<li><a th:href="@{/public/about}">About Us</a></li>
+											<li><a th:href="@{/public/terms}">Terms and Conditions</a></li>
+											<li><a th:href="@{/public/privacy}">Privacy Policy</a></li>
+											<li><a th:href="@{/public/contact}">Contact Us</a></li>
+										</ul>
+									</nav>
+								</div>
+								<!-- Useful Link Widget -->
+								
+								<!-- Recent Post Widget -->
+								<div class="col-md-4 footer-widget">
 									<h5>CUSTOMER SERVICE</h5>
 									<nav>
 										<ul class="use_link">
@@ -662,37 +677,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 										</ul>
 									</nav>
 								</div>
-								<!-- Useful Link Widget -->
-								
-								<!-- Recent Post Widget -->
-								<div class="col-md-4 footer-widget">
-									<h5>RECENT Post</h5>
-									<div class="rposts">
-										<ul>
-											<li>
-												<img alt="" src="image/1(6).jpg"/>
-												<div class="pposts-info">
-													<h6><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/blog-single.html">Another post with a gallery</a></h6>
-													<p>Feb 16 / 02/  2015</p>
-												</div>
-											</li>
-											<li>
-												<img alt="" src="image/2(5).jpg"/>
-												<div class="pposts-info">
-													<h6><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/blog-single.html">Another post with a gallery</a></h6>
-													<p>Feb 16 / 02/  2015</p>
-												</div>
-											</li>
-											<li>
-												<img alt="" src="image/3(4).jpg"/>
-												<div class="pposts-info">
-													<h6><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/blog-single.html">Another post with a gallery</a></h6>
-													<p>Feb 16 / 02/  2015</p>
-												</div>
-											</li>
-										</ul>
-									</div>
-								</div>
 								<!-- Recent Post Widget -->
 								
 								
@@ -702,7 +686,16 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 								<div class="col-md-12 footer-widget">
 									<div class="about-text">
 										<img th:src="${fileUrl}+${siteSettings.siteLogo}" alt=""/>
-										<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ...</p>
+										<ul class="use-links">
+											<li class="address"><span th:text="${siteSettings.storeAddress1}"></span>,
+											<span th:text="${siteSettings.storeAddress2}"></span></li>
+							                <li class="address"><span th:text="${siteSettings.storeAddressCity}"></span> 
+							                <span th:text="${siteSettings.storeAddressState}"></span> - 
+							                <span th:text="${siteSettings.storeAddressZip}"></span></li>
+							                <li class="mobile"><i class="fas fa-phone"></i> <span th:text="${siteSettings.storePhone}"></span></li>
+							                <li class="fax"><i class="fas fa-phone"></i> <span th:text="${siteSettings.storeFax}"></span></li>
+							                <li class="email"><i class="far fa-envelope"></i> <a th:href="'mailto:'+${siteSettings.storeInfoEmail}"><span th:text="${siteSettings.storeInfoEmail}"></span></a></li>
+										</ul>
 									</div>
 								</div>
 								<!-- About Widget -->
@@ -721,19 +714,11 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 								</div>
 								<!-- Social Shear Widget -->
 								
-								<!-- Contact Widget -->
-								<div class="col-md-12 footer-widget">
-									<div class="connect-area">
-										<ul class="contact_purchase">
-											<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">Contact us</a></li>
-											<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">Purchase</a></li>
-										</ul>
-									</div>
-								</div>
+								
 								<!-- Payment PNG Widget -->
 								<div class="col-md-12 footer-widget">
 									<div class="payment">
-										
+										<p>Accepted Payments</p>
 										<i class="fab fa-cc-paypal hide-me"></i>
 							            <i class="fab fa-cc-amex"></i>
 							            <i class="fab fa-cc-visa"></i>
@@ -758,11 +743,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 						<div class="col-md-9 col-sm-8 footer-left">
 						<nav>
 							<ul class="footer-menu">
-								<li><a th:href="@{/}">Home</a></li>
-								<li><a th:href="@{/public/about}">About Us</a></li>
-								<li><a th:href="@{/public/terms}">Terms and Conditions</a></li>
-								<li><a th:href="@{/public/privacy}">Privacy Policy</a></li>
-								<li><a th:href="@{/public/contact}">Contact Us</a></li>
+								<li><a target="_blank" href="http://www.geniusfreelancers.com">Developed By GeniusFreelancers</a></li>
 							</ul>
 						</nav>	
 						</div>
@@ -777,6 +758,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 					</div>
 				</div>
 			</div>
+			
 			<!-- Copyright -->
 			
 		</footer>
