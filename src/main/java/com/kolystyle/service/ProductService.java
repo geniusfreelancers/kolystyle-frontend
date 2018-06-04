@@ -19,4 +19,5 @@ public interface ProductService {
 	List<Product> findByCategoryByOrderByIdDesc(Category category);
 	List<Product> blurrySearch(String title);
 	List<Product> findTop15ByBrand(String brand);
+	List<Product> findTop8ByFeatureOrderByIdDesc(String feature);
 }

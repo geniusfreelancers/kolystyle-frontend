@@ -158,9 +158,14 @@ public class HomeController {
 	        model.addAttribute("productList",productList);
 	      //  model.addAttribute("searchCondition", searchCondition);
 	        //Featured
-	        //Latest
+	        List<Product> featuredProductList = productService.findTop8ByFeatureOrderByIdDesc("featured");
+	        model.addAttribute("featuredProductList",featuredProductList);
 	        //BestSeller
+	        List<Product> bestSellerProductList = productService.findTop8ByFeatureOrderByIdDesc("bestseller");
+	        model.addAttribute("bestSellerProductList",bestSellerProductList);
 	        //Special
+	        List<Product> specialProductList = productService.findTop8ByFeatureOrderByIdDesc("special");
+	        model.addAttribute("specialProductList",specialProductList);
 	        SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
 	        model.addAttribute("siteSettings",siteSettings);
 	        HomePage homePage = homePageService.findOne(new Long(1));

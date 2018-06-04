@@ -44,6 +44,10 @@ public class ProductServiceImpl implements ProductService{
 		return productRepository.findTop15ByBrandOrderByIdDesc(brand);
 	}
 	
+	public List<Product> findTop8ByFeatureOrderByIdDesc(String feature){
+		return productRepository.findTop8ByFeatureOrderByIdDesc(feature);
+	}
+	
 	public List<Product> findByCategory(Category category){
 		List<Product> productList = productRepository.findByCategory(category);
 		

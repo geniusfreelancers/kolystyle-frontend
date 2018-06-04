@@ -36,14 +36,14 @@ $(document).ready(function() {
 	})
 });
 
-	$(document).ready(function () {
+/*	$(document).ready(function () {
 		$(".shelf-product").blowup({
 			background:"#000000",
 			"round":false,
 			"width" : 250,
 		    "height" : 250
 			});
-	})
+	});*/
 	
 
 
@@ -426,7 +426,7 @@ $(function() {
 	              	
 	              	var newemail = $('#newsletteremail').val();
 	              	if($.isEmptyObject(data)){
-	              		htmls += '<p class="text-success">You were already suscribed earlier</p>';
+	              		htmls += '<p class="text-danger">You were already suscribed earlier</p>';
 	              	}else{
 	              		
                 		htmls += '<p class="text-success">Thank you for suscribing</p>';

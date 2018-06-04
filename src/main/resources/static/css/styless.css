@@ -87,6 +87,18 @@ Version:1.0
  1. Global Styles 
 -------------------------------*/
 
+label#newsletteremail-error {
+    color: #fd0000;
+}
+.newsletteremail.error {
+    border: 1px solid #f50202;
+}
+.up_c_contTwo p {
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+    text-shadow: 3px 2px 3px black;
+}
 .header-top a:hover,.tabs-head li.active a,.btn-others li a:hover,.home-2 .nav > li > a:hover, .home-2 .nav .open > a:hover, .home-2 .nav .open > a:focus, .home-2 .nav > li > a:focus, .home-2 .nav .open > a, .home-2 .navbar-main .nav > li.open > a,.product-price,.top-product-price,.btn-others-list li a:hover,.blog-post-col:hover .blog-post a,.special-box:hover a,.footer-widget h5,ul.use_link a:hover,.pposts-info a:hover,.contact_purchase > li a:hover,.footer-menu a:hover  {
   color: #c2a26f;
 }
@@ -2190,6 +2202,10 @@ ul.pro-cat a:hover {
 /*-----------------------------
 13.1.2. Useful Link Widget
 -------------------------------*/
+.payment {
+    color: #ffffff;
+    font-size: 24px;
+}
 .use_link > li {
     border-bottom: 1px solid #7f7f7f;
     font-family: Arial;
@@ -2205,8 +2221,6 @@ ul.use_link a {
     }
 
 ul.use_link a:before {
-    content: "ï„…";
-    font-family: FontAwesome;
     font-style: normal;
     font-weight: normal;
     text-decoration: inherit;
@@ -4971,14 +4985,7 @@ a.orderbtn {
     text-align: center
     }
 
-.error {
-    color: #fff;
-    display: block;
-    font-family: "Raleway", sans-serif;
-    font-size: 440px;
-    font-weight: 900;
-    line-height: 360px
-    }
+
 
 .errorWrap h1 {
     color: #fff;

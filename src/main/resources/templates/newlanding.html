@@ -93,21 +93,25 @@
                 <div class="row">
                     <div class="col-md-4 col-sm-4">
                         <div class="special-wid special-small special-first">
-                            <div class="special-bg special-1"></div>
+                            <div class="special-bg  special-1">
+                            
+                            </div>
                             <div class="special-text special-text-right text-uppercase">
-                                <h4>flat</h4>
-                                <h2>35% off</h2>
-                                <h3>on jewelry</h3>
-                                <p>Lorem ipsum dolor sit amet</p>
-                                <a href="gird.html" class="read-more">shop now</a>
+                                <h4 th:text="${homePageAdditional.specialOneLable}"></h4>
+                                <h2 th:text="${homePageAdditional.specialOneLable2}"></h2>
+                                <h3 th:text="${homePageAdditional.specialOneLable3}"></h3>
+                                <p th:text="${homePageAdditional.specialOneText}"></p>
+                                <a th:href="@{/}+${homePageAdditional.specialOneUrl}" class="read-more">shop now</a>
                             </div>
                         </div>
                         <div class="special-wid special-big">
-                            <div class="special-bg special-2"></div>
-							<a href="list.html">
+                            <div class="special-bg  special-2">
+                           
+                            </div>
+							<a th:href="@{/}+${homePageAdditional.specialFourUrl}">
 								<div class="special-text special-text-bottom text-center">
-									<h2>paijama</h2>
-									<p>Lorem ipsum dolor sit amet, consectetuer</p>
+									<h2 th:text="${homePageAdditional.specialFourLable}"></h2>
+									<p th:text="${homePageAdditional.specialFourText}"></p>
 								</div>
 							</a>
                         </div>
@@ -116,19 +120,19 @@
                     <div class="col-md-4 col-sm-4">
                         <div class="special-wid special-big">
                             <div class="special-bg special-3"></div>
-							<a href="gird.html">
+							<a th:href="@{/}+${homePageAdditional.specialTwoUrl}">
 								<div class="special-text special-text-bottom no-overlay text-center">
-									<h2>belt for men</h2>
-									<p>Lorem ipsum dolor sit amet, consectetuer</p>
+									<h2 th:text="${homePageAdditional.specialTwoLable}"></h2>
+									<p th:text="${homePageAdditional.specialTwoLable2}"></p>
 								</div>
 							</a>
                         </div> 
                         
                         <div class="sale-widget special-small">
-							<a href="gird.html">
+							<a th:href="@{/}+${homePageAdditional.specialFiveUrl}">
 								<div class="sale-widget-inner">
-									<h2>Sale</h2>
-									<p>up to 70% off</p>
+									<h2 th:text="${homePageAdditional.specialFiveLable}"></h2>
+									<p th:text="${homePageAdditional.specialFiveText}"></p>
 								</div>
 							</a>
                         </div>                       
@@ -138,18 +142,18 @@
                         <div class="special-wid special-small">
                             <div class="special-bg special-4"></div>
                             <div class="special-text special-text-left">
-                                <a href="gird.html"><h2>kurthi</h2></a>
-                                <a href="gird.html"><h3>luxury handbags</h3></a>
-                                <p>Lorem ipsum dolor sit amet, consectetuer</p>
+                                <a th:href="@{/}+${homePageAdditional.specialThreeUrl}"><h2 th:text="${homePageAdditional.specialThreeLable}"></h2></a>
+                                <a th:href="@{/}+${homePageAdditional.specialThreeUrl}"><h3 th:text="${homePageAdditional.specialThreeLable2}"></h3></a>
+                                <p th:text="${homePageAdditional.specialThreeText}"></p>
                             </div>
                         </div> 
                         
                         <div class="special-wid special-big">
                             <div class="special-bg special-5"></div>
-							<a href="list.html">
+							<a th:href="@{/}+${homePageAdditional.specialSixUrl}">
 								<div class="special-text special-text-bottom text-center">
-									<h2>SALWAR KAMEEZ</h2>
-									<p>Lorem ipsum dolor sit amet, consectetuer</p>
+									<h2 th:text="${homePageAdditional.specialSixLable}"></h2>
+									<p th:text="${homePageAdditional.specialSixText}"></p>
 								</div>
 							</a>
                         </div>                                               
@@ -166,9 +170,9 @@
 					<!-- PRODUCT NAV -->
 					<div class="product-tabs-title">
 						<ul class="tabs-head" role="tablist">
-							<li class="active"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#tab_one" role="tab" data-toggle="tab" aria-expanded="true">Featured Products</a></li>
-							<li class=""><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#tab_two" role="tab" data-toggle="tab" aria-expanded="false">Most Viewed Products</a></li>
-							<li class=""><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#tab_three" role="tab" data-toggle="tab" aria-expanded="false">New Products</a></li>
+							<li class="active"><a th:href="@{#tab_one}" role="tab" data-toggle="tab" aria-expanded="true">Featured Products</a></li>
+							<li class=""><a th:href="@{#tab_two}" role="tab" data-toggle="tab" aria-expanded="false">Best Seller</a></li>
+							<li class=""><a th:href="@{#tab_three}" role="tab" data-toggle="tab" aria-expanded="false">Special</a></li>
 						</ul>
 					</div>
 					<!-- PRODUCT NAV -->
@@ -178,7 +182,7 @@
 						<!-- Featured Products -->
 						<div role="tabpanel" class="tab-pane fade active in" id="tab_one">
 							<div class="row">
-								<div class="col-md-3 col-sm-6">
+								<div class="col-md-3 col-sm-6" data-th-each="product : ${featuredProductList}" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-size=${product.size}">
 									<div class="product-singleArea">
 										<div class="product-img">
 											<div class="overlay"></div>
@@ -201,250 +205,6 @@
 											<div class="product-pd">
 												<div class="product-price">£50.00</div>
 												<div class="product-discount">-25%</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/2(2).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/1(2).jpg" alt=""/>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/3(1).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/5.jpg" alt=""/>
-											<div class="offer-nostock">sale</div>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-												<div class="product-discount">-25%</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/4(1).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/3(1).jpg" alt=""/>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/5.jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/4(1).jpg" alt=""/>
-											<div class="offer-nostock">sale</div>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-												<div class="product-discount">-25%</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/6.jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/11.jpg" alt=""/>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/7.jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/8.jpg" alt=""/>
-											<div class="offer-nostock">sale</div>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-												<div class="product-discount">-25%</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/8.jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/7.jpg" alt=""/>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
 											</div>
 											<div class="product-review">
 												<div class="star">
@@ -462,10 +222,10 @@
 						</div>
 						<!-- Featured Products -->
 						
-						<!-- Most Viewed Products -->
+						<!-- Best Seller Products -->
 						<div role="tabpanel" class="tab-pane fade" id="tab_two">
 							<div class="row">
-								<div class="col-md-3 col-sm-6">
+								<div class="col-md-3 col-sm-6" data-th-each="product : ${bestSellerProductList}" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-size=${product.size}">
 									<div class="product-singleArea">
 										<div class="product-img">
 											<div class="overlay"></div>
@@ -501,258 +261,16 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/6.jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/11.jpg" alt=""/>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/7.jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/8.jpg" alt=""/>
-											<div class="offer-nostock">sale</div>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-												<div class="product-discount">-25%</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/8.jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/7.jpg" alt=""/>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/1(2).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/2(2).jpg" alt=""/>
-											<div class="offer-nostock">sale</div>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-												<div class="product-discount">-25%</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/2(2).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/1(2).jpg" alt=""/>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/3(1).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/5.jpg" alt=""/>
-											<div class="offer-nostock">sale</div>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-												<div class="product-discount">-25%</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/4(1).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/3(1).jpg" alt=""/>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
+								
+								
 							</div>
 						</div>
-						<!-- Most Viewed Products -->
+						<!-- Best Seller Products -->
 						
-						<!-- New Products -->
+						<!-- Special Products -->
 						<div role="tabpanel" class="tab-pane fade" id="tab_three">
 							<div class="row">
-								<div class="col-md-3 col-sm-6">
+								<div class="col-md-3 col-sm-6" data-th-each="product : ${specialProductList}" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-size=${product.size}">
 									<div class="product-singleArea">
 										<div class="product-img">
 											<div class="overlay"></div>
@@ -788,253 +306,10 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/6.jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/11.jpg" alt=""/>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/1(2).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/2(2).jpg" alt=""/>
-											<div class="offer-nostock">sale</div>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-												<div class="product-discount">-25%</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/4(1).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/3(1).jpg" alt=""/>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/5.jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/4(1).jpg" alt=""/>
-											<div class="offer-nostock">sale</div>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-												<div class="product-discount">-25%</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/2(2).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/1(2).jpg" alt=""/>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/7.jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/8.jpg" alt=""/>
-											<div class="offer-nostock">sale</div>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-												<div class="product-discount">-25%</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-6">
-									<div class="product-singleArea">
-										<div class="product-img">
-											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/8.jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/7.jpg" alt=""/>
-											<div class="product-cart-area">
-												<div class="btn-others">
-													<ul>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
-														<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html"><i class="fa fa-expand"></i></a></li>
-													</ul>
-												</div>
-												<div class="btn-add-to-cart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">ADD TO CART</a></div>
-											</div>
-										</div>
-										<div class="product-details">
-											<div class="product-title"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/detail.html">FLORAL LACE SHIFT DRESS</a></div>
-											<div class="product-pd">
-												<div class="product-price">£50.00</div>
-											</div>
-											<div class="product-review">
-												<div class="star">
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-													<span class="yes"><i class="fa fa-star"></i></span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
+								
 							</div>
 						</div>
-						<!-- New Products -->
+						<!-- Special Products -->
 					</div>
 					<!-- PRODUCTS -->
 				</div>
@@ -1049,23 +324,25 @@
 					<div class="col-md-6">
 						<div class="upcoming_one">
 							<div class="up_c_img">
-								<img src="image/upcomunga.jpg" alt=""/>
+								<img th:src="${fileUrl}+${homePage.promotionOneImg}" alt=""/>
 							</div>
 							<div class="up_c_cont text-center">
-								<a href=""><h3>new products</h3></a>
+								<a th:href="@{/}+${homePage.promotionOneUrl}"><h3 th:text="${homePage.promotionOneLable}"></h3></a>
 								<span></span>
-								<p>Discount codes &amp; Offers</p>
+								<p th:text="${homePage.promotionOneText}"></p>
 							</div>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="upcoming_one">
 							<div class="up_c_img">
-								<img src="image/upcomung2a.jpg" alt=""/>
+								<img th:src="${fileUrl}+${homePage.promotionTwoImg}" alt=""/>
 							</div>
 							<div class="up_c_contTwo">
 								<span></span>
-								<a href=""><h3>smart phone trending</h3></a>
+								<a th:href="@{/}+${homePage.promotionTwoUrl}"><h3 th:text="${homePage.promotionTwoLable}"></h3></a>
+								<br/>
+								<p th:text="${homePage.promotionTwoText}"></p>
 							</div>
 						</div>
 					</div>
@@ -1258,12 +535,12 @@
 					<div class="col-md-5 col-sm-12">
 						<div class="left-discount">
 							<div class="dis-img">
-								<img src="image/1a.jpg" alt=""/>
+								<img th:src="${fileUrl}+${homePageAdditional.bannerOneImg}" alt=""/>
 								<div class="dis-content">
 									<div class="d_b_text">
-										<h4>fashion for kids</h4>
-										<h2>accessories</h2>
-										<a class="dis-link" href="#">get the look <span><i class="fa fa-angle-double-right"></i></span></a>
+										<h4 th:text="${homePageAdditional.bannerOneLable}"></h4>
+										<h2 th:text="${homePageAdditional.bannerOneLable2}"></h2>
+										<a class="dis-link" th:href="@{/}+${homePageAdditional.bannerOneUrl}">get the look <span><i class="fa fa-angle-double-right"></i></span></a>
 									</div>
 								</div>
 							</div>														
@@ -1274,11 +551,11 @@
 							<div class="col-md-12 col-sm-12">
 								<div class="right-top-discount">
 									<div class="right-dis-top-img">
-										<img src="image/2a.jpg" alt=""/>
+										<img th:src="${fileUrl}+${homePageAdditional.bannerTwoImg}" alt=""/>
 										<div class="right-dis-content">
 											<div class="right-top-dis-text">
-												<h3>shoes style</h3>
-												<h2>sale up to 30%</h2>
+												<h3 th:text="${homePageAdditional.bannerTwoLable}"></h3>
+												<h2 th:text="${homePageAdditional.bannerTwoLable2}"></h2>
 											</div>
 										</div>										
 									</div>
@@ -1287,12 +564,12 @@
 							<div class="col-md-6 col-sm-6">
 								<div class="dis-bottom-left">
 									<div class="dis-bottom-left-img">
-										<img src="image/3 (1)a.jpg" alt=""/>
+										<img th:src="${fileUrl}+${homePageAdditional.bannerThreeImg}" alt=""/>
 									<div class="dis-bottom-left-content">
 										<div class="dis-bottom-left-text">
-											<h6>kolystyle fashion</h6>
-											<h2>collection</h2>
-											<a class="dis-link" href="#">get the look <span><i class="fa fa-angle-double-right"></i></span></a>
+											<h6 th:text="${homePageAdditional.bannerThreeLable}"></h6>
+											<h2 th:text="${homePageAdditional.bannerThreeLable2}"></h2>
+											<a class="dis-link" th:href="@{/}+${homePageAdditional.bannerThreeUrl}">get the look <span><i class="fa fa-angle-double-right"></i></span></a>
 										</div>
 									</div>										
 									</div>
@@ -1301,12 +578,12 @@
 							<div class="col-md-6 col-sm-6 dis-rig-pa">
 								<div class="dis-bottom-right">
 									<div class="dis-bottom-right-img">
-										<img src="image/4 (1)a.jpg" alt=""/>
+										<img th:src="${fileUrl}+${homePageAdditional.bannerFourImg}" alt=""/>
 									<div class="dis-bottom-right-content">
 										<div class="dis-bottom-right-text">
-											<h6>the bag new</h6>
-											<h2>-50% sale</h2>
-											<a class="dis-link" href="#">get the look <span><i class="fa fa-angle-double-right"></i></span></a>
+											<h6 th:text="${homePageAdditional.bannerFourLable}"></h6>
+											<h2 th:text="${homePageAdditional.bannerFourLable2}"></h2>
+											<a class="dis-link" th:href="@{/}+${homePageAdditional.bannerFourUrl}">get the look <span><i class="fa fa-angle-double-right"></i></span></a>
 										</div>
 									</div>										
 									</div>
@@ -1428,14 +705,14 @@
 							<div class="blog-post-area">
 								<div class="blog-post-col">
 									<div class="blog-thumb">
-										<img src="image/1(5)a.jpg" alt=""/>
+										<img th:src="${fileUrl}+${homePage.offerOneImg}" alt=""/>
 										<div class="post-meta-date post-meta-home">
-											<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">March  17ST, 2015</a>
+											<a th:href="@{/}+${homePage.offerOneUrl}">GET THE LOOK</a>
 										</div>
 									</div>
 									<div class="blog-post">	
-										<h5><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/blog-single.html">Another post with a gallery</a></h5>
-										<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis...</p>
+										<h5><a th:href="@{/}+${homePage.offerOneUrl}" th:text="${homePage.offerOneTitle}"></a></h5>
+										<p th:text="${homePage.offerOneText}"></p>
 									</div>
 								</div>
 								
@@ -1445,14 +722,14 @@
 							<div class="blog-post-area">
 								<div class="blog-post-col">
 									<div class="blog-thumb">
-										<img src="image/2(4)a.jpg" alt=""/>
+										<img th:src="${fileUrl}+${homePage.offerTwoImg}" alt=""/>
 										<div class="post-meta-date post-meta-home">
-											<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">March  17ST, 2015</a>
+											<a th:href="@{/}+${homePage.offerTwoUrl}">GET THE LOOK</a>
 										</div>
 									</div>
 									<div class="blog-post">	
-										<h5><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/blog-single.html">Another post with a gallery</a></h5>
-										<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis...</p>
+										<h5><a th:href="@{/}+${homePage.offerTwoUrl}" th:text="${homePage.offerTwoTitle}"></a></h5>
+										<p th:text="${homePage.offerTwoText}"></p>
 									</div>
 								</div>
 								
@@ -1462,14 +739,14 @@
 							<div class="blog-post-area">
 								<div class="blog-post-col">
 									<div class="blog-thumb">
-										<img src="image/3(3)a.jpg" alt=""/>
+										<img th:src="${fileUrl}+${homePage.offerThreeImg}" alt=""/>
 										<div class="post-meta-date post-meta-home">
-											<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">March  17ST, 2015</a>
+											<a th:href="@{/}+${homePage.offerThreeUrl}">GET THE LOOK</a>
 										</div>
 									</div>
 									<div class="blog-post">	
-										<h5><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/blog-single.html">Another post with a gallery</a></h5>
-										<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis...</p>
+										<h5><a th:href="@{/}+${homePage.offerThreeUrl}" th:text="${homePage.offerThreeTitle}"></a></h5>
+										<p th:text="${homePage.offerThreeText}"></p>
 									</div>
 								</div>
 								
@@ -1479,14 +756,14 @@
 							<div class="blog-post-area">
 								<div class="blog-post-col">
 									<div class="blog-thumb">
-										<img src="image/4(3)a.jpg" alt=""/>
+										<img th:src="${fileUrl}+${homePage.offerFourImg}" alt=""/>
 										<div class="post-meta-date post-meta-home">
-											<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">March  17ST, 2015</a>
+											<a th:href="@{/}+${homePage.offerFourUrl}">GET THE LOOK</a>
 										</div>
 									</div>
 									<div class="blog-post">	
-										<h5><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/blog-single.html">Another post with a gallery</a></h5>
-										<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis...</p>
+										<h5><a th:href="@{/}+${homePage.offerFourUrl}" th:text="${homePage.offerFourTitle}"></a></h5>
+										<p th:text="${homePage.offerFourText}"></p>
 									</div>
 								</div>
 								

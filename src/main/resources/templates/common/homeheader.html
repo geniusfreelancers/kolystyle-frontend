@@ -22,7 +22,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 		============================================ -->
 		<link rel="shortcut icon" type="image/x-icon" href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/img/favicon.ico"/>
 
-	
+		<!-- Angular JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
 		
 
 		<!-- Bootstrap CSS
@@ -618,25 +619,46 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 								<!-- Newsletter Widget -->
 								<div class="col-md-4 footer-widget">
 									<h5>NEWSLETTER</h5>
-									<p>Subscribe to the kolystyle mailing list to receive updates on new arrivals, special offers and other discount information.</p>
-									<form class="newsletter">
-										<input type="text"/>
-										<!-- /br-->
-										<button type="submit">Subscribe</button>
+									<p>Subscribe to the kolystyle mailing list to receive updates on new arrivals, special offers and other discount information. GET 10% OFF NOW</p>
+									<form class="newsletter" id="newsletterForm">
+										
+										<input th:if="!${removed}" type="text" name="newsletteremail" class="newsletteremail" id="newsletteremail" placeholder="Enter Email here"/>
+										<br/>
+										<p id="newsletterMsg"></p>
+										<button th:if="!${removed}" type="submit" id="newsletterSubmit">Subscribe</button>
+										
 									</form>
+			<script>
+			$().ready(function(){
+				$("#newsletterForm").validate({
+			        rules: {
+			        	newsletteremail: {
+			                required: true,
+			                email:true
+			            }
+			        },
+			        messages:{
+			        	
+			        	newsletteremail: {
+			                required: "Email Required",
+			            }
+			        }
+			    });
+			});
+			</script>
 								</div>
 								<!-- Newsletter Widget -->
 								
 								<!-- Useful Link Widget -->
 								<div class="col-md-4 footer-widget">
-									<h5>useful link</h5>
+									<h5>CUSTOMER SERVICE</h5>
 									<nav>
 										<ul class="use_link">
-											<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">Orders and Returns</a></li>
-											<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">Search Items</a></li>
-											<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">Advance Search</a></li>
-											<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">Affiliates</a></li>
-											<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">Group Sales</a></li>
+											<li><a th:href="@{/public/track}">Orders Status</a></li>
+											<li><a th:href="@{/public/returns}">Returns</a></li>
+											<li><a th:href="@{/public/delivery}">Delivery Information</a></li>
+											<li><a th:href="@{/public/faq}">FAQ</a></li>
+											<li><a th:href="@{/public/sitemap}">Sitemap</a></li>
 										</ul>
 									</nav>
 								</div>
@@ -673,19 +695,13 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 								</div>
 								<!-- Recent Post Widget -->
 								
-								<!-- Payment PNG Widget -->
-								<div class="col-md-4 footer-widget">
-									<div class="payment">
-										<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><img src="image/payment.png" alt=""/></a>
-									</div>
-								</div>
-								<!-- Payment PNG Widget -->
+								
 							</div>
 							<div class="col-md-3 col-sm-4 widget-right">
 								<!-- About Widget -->
 								<div class="col-md-12 footer-widget">
 									<div class="about-text">
-										<img src="image/logo.png" alt=""/>
+										<img th:src="${fileUrl}+${siteSettings.siteLogo}" alt=""/>
 										<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ...</p>
 									</div>
 								</div>
@@ -695,10 +711,11 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 								<div class="col-md-12 footer-widget">
 									<div class="social-area">
 										<ul class="socila_icon">
-											<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#"><i class="fa fa-facebook"></i></a></li>
-											<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#"><i class="fa fa-twitter"></i></a></li>
-											<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#"><i class="fa fa-rss"></i></a></li>
-											<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#"><i class="fa fa-google-plus"></i></a></li>
+											<li><a th:href="${siteSettings.facebookUrl}" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+											<li><a th:href="${siteSettings.twitterUrl}" target="_blank"><i class="fab fa-twitter"></i></a></li>
+											<li><a th:href="${siteSettings.instagramUrl}" target="_blank"><i class="fab fa-instagram"></i></a></li>
+											<li><a th:href="${siteSettings.googleUrl}" target="_blank"><i class="fab fa-google-plus-g"></i></a></li>
+											<li><a th:href="${siteSettings.pintrestUrl}" target="_blank"><i class="fab fa-pinterest"></i></a></li>
 										</ul>
 									</div>
 								</div>
@@ -713,6 +730,18 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 										</ul>
 									</div>
 								</div>
+								<!-- Payment PNG Widget -->
+								<div class="col-md-12 footer-widget">
+									<div class="payment">
+										
+										<i class="fab fa-cc-paypal hide-me"></i>
+							            <i class="fab fa-cc-amex"></i>
+							            <i class="fab fa-cc-visa"></i>
+							            <i class="fab fa-cc-mastercard"></i>
+							            <i class="fab fa-cc-discover"></i>
+									</div>
+								</div>
+								<!-- Payment PNG Widget -->
 								<!-- Contact Widget -->
 							</div>
 						</div>
@@ -729,11 +758,11 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 						<div class="col-md-9 col-sm-8 footer-left">
 						<nav>
 							<ul class="footer-menu">
-								<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html">Home</a></li>
-								<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html">about</a></li>
-								<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html">services</a></li>
-								<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html">blog</a></li>
-								<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html">contact</a></li>
+								<li><a th:href="@{/}">Home</a></li>
+								<li><a th:href="@{/public/about}">About Us</a></li>
+								<li><a th:href="@{/public/terms}">Terms and Conditions</a></li>
+								<li><a th:href="@{/public/privacy}">Privacy Policy</a></li>
+								<li><a th:href="@{/public/contact}">Contact Us</a></li>
 							</ul>
 						</nav>	
 						</div>
@@ -741,13 +770,15 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 						
 						<!-- Copyright Text -->
 						<div class="col-md-3 col-sm-4 footer-right">
-							<p class="copyrightp">Copyright © 2015 BootExperts</p>
+							<p class="copyrightp">© 2018 Koly Style. All Rights Reserved. </p>
+							
 						</div>
-						<!-- Copyright Text -->
+						
 					</div>
 				</div>
 			</div>
 			<!-- Copyright -->
+			
 		</footer>
 		<!-- Footer -->
 		
@@ -755,7 +786,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 		<!-- JS Libs
 		============================================ -->
 		<script src="js/jquery-2.1.4.min.js"></script>
-		
+		<script th:src="@{/js/scripts.js}"></script>
 		<!-- Include Libs & Plugins
 		============================================ -->
         <script src="js/bootstrap.min.js"></script>
@@ -776,7 +807,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 		<!-- jquery ui js -->
 		<script src="js/jquery-ui.min.js"></script>
         <script src="js/kolystyle-plugins.js"></script>
-	
+		<script th:src="@{/js/validation.js}"></script>
+		
 <!--style id="redCountdownCSS">.redCountdownWrapper > div { display:inline-block; position:relative; width:calc(25% - 20px); margin:10px; } .redCountdownWrapper .redCountdownValue {  width:100%; line-height:1em; position:absolute; top:50%; text-align:center; left:0; display:block;}</style-->
 </div>
 
