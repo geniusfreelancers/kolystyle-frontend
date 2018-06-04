@@ -8,10 +8,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kolystyle.domain.PagerModel;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import com.kolystyle.repository.ProductsRepository;
 import com.kolystyle.service.SiteSettingService;
+import com.kolystyle.service.impl.AmazonClient;
 import com.kolystyle.domain.Product;
 import com.kolystyle.domain.SiteSetting;
 @Controller
@@ -20,6 +22,21 @@ public class ClientController {
     private static final int INITIAL_PAGE = 0;
     private static final int INITIAL_PAGE_SIZE = 20;
     private static final int[] PAGE_SIZES = { 20, 50, 100};
+    private AmazonClient amazonClient;
+	
+
+    @Value("${amazonProperties.endpointUrl}")
+    private String endpointUrl;
+    @Value("${amazonProperties.bucketName}")
+    private String bucketName;
+    @Value("${amazonProperties.accessKey}")
+    private String accessKey;
+    @Value("${amazonProperties.secretKey}")
+    private String secretKey;
+    @Autowired
+    ClientController(AmazonClient amazonClient) {
+        this.amazonClient = amazonClient;
+    }
     @Autowired
     ProductsRepository productsRepository;
     @Autowired
@@ -45,6 +62,11 @@ public class ClientController {
         PagerModel pager = new PagerModel(clientlist.getTotalPages(),clientlist.getNumber(),BUTTONS_TO_SHOW);
         // add clientmodel
         modelAndView.addObject("clientlist",clientlist);
+        
+     // evaluate page size
+       // modelAndView.addObject("totalRecord", totalRecord);
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
         // evaluate page size
         modelAndView.addObject("selectedPageSize", evalPageSize);
         // add page sizes
