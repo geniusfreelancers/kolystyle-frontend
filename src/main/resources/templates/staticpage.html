@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="common/head :: common-head" />
-<body>
-	<div class="wrapper-box">
-		<div class="main-wrapper">
-
-			<div th:replace="common/head :: navbar" />
-
-			<div id="container-wrapper">
+<head th:replace="common/homeheader :: home-head" />
+	<body class="home-1 top-btn-color">
+		
+        <!-- HEADER -->
+        <div th:replace="common/homeheader :: navbar" />
+ 		<!-- HEADER -->
+ 		<div th:replace="common/homeheader :: ticker-slider" />	
 				
-
+<div class="container">	
 <div class="row">
 
 		
-		<div class="col-md-10 col-md-offset-1">
+		<div class="col-md-12">
 		<h1 class="uppercase" th:text="${staticpage.title}"></h1>
 		<div class="col-md-12 text-justify" th:utext="${staticpage.maincontent}">
 			
@@ -22,21 +21,12 @@
 		
 
 </div>
-
-	
-					<div class="clear"></div>
-				
-<div class="row">
-				<script th:src="@{/js/controller.js}"></script>
-
-				<!-- end of container -->
-				<div th:replace="common/head :: footer" />
-
-				<div th:replace="common/head :: body-bottom-scripts" />
-			</div>
-		</div>
 </div>
-	</div>
+	
+				<!-- Footer -->
+		<div th:replace="common/homeheader :: footer" />
+		<script th:src="@{/js/controller.js}"></script>
+		
 
 </body>
 </html>
