@@ -1616,9 +1616,19 @@ padding: 9px 0 !important;}
     color: #0f99de;
     float: left;
     font-size: 14px;
-    margin-right: 12px
-    }
-
+    margin-right: 3px;
+    width: 31%;
+}
+.product-listprice {
+    color: #f95656;
+    float: left;
+    font-size: 14px;
+    margin-right: 3px;
+    width: 31%;
+}
+.product-listprice span {
+    text-decoration: line-through;
+}
 .product-discount {
     background: none repeat scroll 0 0 #f95656;
     color: #fff;
@@ -1627,24 +1637,36 @@ padding: 9px 0 !important;}
     font-weight: 100;
     padding: 2px;
     text-align: center;
-    width: 40px
-    }
-
+    width: 31%;
+    margin-right: 3px;
+}
+.clear {
+    clear: both;
+}
 .product-pd {
     float: left;
-    width: 50%
+    width: 60%
     }
 
 .product-review {
     float: left;
     text-align: right;
-    width: 50%
+    width: 40%
     }
 
 .product-review span {
     color: #000
     }
+.product-pds {
+    float: left;
+    width: 65%
+    }
 
+.product-reviews {
+    float: left;
+    text-align: right;
+    width: 35%
+    }
 .product-review span:last-child {
     color: #8c8c8c
     }
@@ -2961,12 +2983,11 @@ ul#crumbs > li {
     font-size: 11px;
     font-weight: normal;
     line-height: 43px;
-    margin-right: 40px;
     position: relative
     }
 
 ul#crumbs > li::before {
-    content: "ï„…";
+   
     color: #FFF;
     font-family: FontAwesome;
     font-style: normal;
@@ -2991,7 +3012,10 @@ ul#crumbs li > a {
 .productr-page-title {
     margin-bottom: 18px
     }
-
+.brandNameLink {
+    font-size: 16px!important;
+    font-weight: bold;
+}
 .et-border {
     background: none repeat scroll 0 0 #686868;
     display: block;
@@ -3375,7 +3399,8 @@ a.hotdealTitle:hover{color:#0f99de}
 .product-pd-list {
     display: block;
     margin-bottom: 26px;
-    overflow: hidden
+    overflow: hidden;
+    width:50%;
     }
 
 .product-details-list > p {
@@ -3610,7 +3635,7 @@ padding-top: 13px;
 #infoTab li {
     border-bottom: 1px solid rgba(0, 0, 0, 0);
     display: inline-block;
-    margin-right: 72px
+    margin-right: 40px
     }
 
 #infoTab li a {
@@ -6219,6 +6244,9 @@ a.topbar-btn.active {
 }
 .product-pd-list,.home-3 .hot-deal-products .product-details-list > p {
   margin-bottom: 20px;
+}
+.product-pd-list{
+	width:100%;
 }
 .home-3 .cdown {
 width:70px;

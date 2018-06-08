@@ -38,7 +38,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 		<!-- Libs CSS
 		============================================ -->
 		<link rel="stylesheet" href="css/animate.css"/>
-		<link rel="stylesheet" href="css/flexslider.css"/>
+		<link th:href="@{/css/slideshow.css}" rel="stylesheet"/>
+		<link rel="stylesheet" th:href="@{css/flexslider.css}"/>
 
 		<script type="text/javascript"> 
 		$(window).on('load', function() {
@@ -54,12 +55,19 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous"/>
 
 		<link rel="stylesheet" href="css/styless.css"/>
-		<link th:href="@{/css/slideshow.css}" rel="stylesheet"/>
+		
 		<!-- Custom styles for this template -->
 		<link th:href="@{/css/style.css}" rel="stylesheet" />
 		
 		
 		
+
+<link href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css" rel="stylesheet"/>
+
+
+<!--link rel="stylesheet" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/-->
+
+	
 		
 		
 		<!-- Old IE stylesheet
@@ -599,14 +607,15 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
         <!-- HEADER -->
 </div>
 
-<div th:fragment ="ticker-slider">
+<div class="container" th:fragment ="ticker-slider">
+<div class="row"> 
 <div class="col-md-12 offer-ticker-slide">
 				<span class="col-md-4"><a th:href="${siteSettings.bottomOfferTickerLeftUrl}"><span th:text="${siteSettings.bottomOfferTickerLeft}"></span></a></span>
             	<span class="col-md-4"><a th:href="${siteSettings.bottomOfferTickerCenterUrl}"><span th:text="${siteSettings.bottomOfferTickerCenter}"></span></a></span>
             	<span class="col-md-4"><a th:href="${siteSettings.bottomOfferTickerRightUrl}"><span th:text="${siteSettings.bottomOfferTickerRight}"></span></a></span>
             </div>
 </div>
-
+</div>
 <div th:fragment="footer">
 <!-- Footer -->
 		<footer>
@@ -767,7 +776,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 
 		<!-- JS Libs
 		============================================ -->
-		<script src="js/jquery-2.1.4.min.js"></script>
+		<!-- script src="js/jquery-2.1.4.min.js"></script-->
 		<script th:src="@{/js/scripts.js}"></script>
 		<!-- Include Libs & Plugins
 		============================================ -->
@@ -781,18 +790,22 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 		<script src="js/jquery.redcountdown.js"></script>
 
 		<!-- jquery Flexslider js -->
+		
 		<script src="js/jquery.nivo.slider.pack.js"></script>
 		<script src="js/jquery.flexslider.js"></script>
-		
+		<script th:src="@{/js/jquery.jcarousel.min.js}"></script>
 		
 		
 		<!-- jquery ui js -->
 		<script src="js/jquery-ui.min.js"></script>
         <script src="js/kolystyle-plugins.js"></script>
 		<script th:src="@{/js/validation.js}"></script>
-		
+		<script src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
+
 <!--style id="redCountdownCSS">.redCountdownWrapper > div { display:inline-block; position:relative; width:calc(25% - 20px); margin:10px; } .redCountdownWrapper .redCountdownValue {  width:100%; line-height:1em; position:absolute; top:50%; text-align:center; left:0; display:block;}</style-->
 </div>
 
 </body>
 </html>
+
+

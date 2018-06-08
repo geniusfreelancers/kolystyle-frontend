@@ -102,9 +102,17 @@ You can browse through our popular links above:</h5>
 											<div class="product-title"><a th:href="@{/productDetail?id=}+${product.id}" th:text="${product.title}"></a></div>
 											<div class="product-pd">
 												<div class="product-price"><span>$</span>
-												<span th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
+													<span th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
 												</div>
-												<div class="product-discount">-25%</div>
+												<div class="product-discount" th:with="discount=${100-(product.ourPrice/product.listPrice)*100}">
+												
+														-<span class="discount-digit" th:if="${discount &gt; 0}" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
+												</div>
+												<div class="product-listprice">
+												<span>$</span>
+													<span th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
+												</div>
+												
 											</div>
 											<div class="product-review">
 												<div class="star">

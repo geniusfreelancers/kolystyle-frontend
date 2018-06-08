@@ -647,8 +647,8 @@ public class HomeController {
 		model.addAttribute("productImagesList", productImagesList);
 		model.addAttribute("qtyList", qtyList);
 		
-		
-		return "productDetail";
+		return "productinformation";
+	//	return "productDetail";
 	}
 	
 	@RequestMapping("/forgotpassword")
