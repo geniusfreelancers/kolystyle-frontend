@@ -1431,7 +1431,7 @@ padding: 9px 0 !important;}
     }
 
 .tabs-head li::before {
-    content: "\f005";
+    
     font-family: FontAwesome;
     font-style: normal;
     font-weight: normal;
@@ -1442,7 +1442,7 @@ padding: 9px 0 !important;}
     }
 
 .tabs-head li:last-child::after {
-    content: "\f005";
+   
     font-family: FontAwesome;
     font-style: normal;
     font-weight: normal;

@@ -28,7 +28,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 
 		<!-- Bootstrap CSS
 		============================================ -->
-		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
 		<script
 		th:src="@{/js/jquery.min.js}"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
@@ -37,9 +37,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 		
 		<!-- Libs CSS
 		============================================ -->
-		<link rel="stylesheet" href="css/animate.css"/>
+		<link rel="stylesheet" th:href="@{/css/animate.css}"/>
 		<link th:href="@{/css/slideshow.css}" rel="stylesheet"/>
-		<link rel="stylesheet" th:href="@{css/flexslider.css}"/>
+		<link rel="stylesheet" th:href="@{/css/flexslider.css}"/>
 
 		<script type="text/javascript"> 
 		$(window).on('load', function() {
@@ -48,13 +48,13 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 		</script>
 		<!-- jQuery ui css
 		============================================ -->
-		<link href="css/jquery-ui.css" rel="stylesheet"/>
+		<link th:href="@{/css/jquery-ui.css}" rel="stylesheet"/>
 		
 		<!-- Theme CSS
 		============================================ -->
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous"/>
 
-		<link rel="stylesheet" href="css/styless.css"/>
+		<link rel="stylesheet" th:href="@{/css/styless.css}"/>
 		
 		<!-- Custom styles for this template -->
 		<link th:href="@{/css/style.css}" rel="stylesheet" />
@@ -130,7 +130,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
                         <div class="col-md-4 col-sm-3">
 							<!-- SHOPPING CART -->
 							<div class="shopping-cart floatright">
-								<a title="View your shopping cart" href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html" class="cart-contents">
+								<a title="View your shopping cart" th:href="@{/shoppingCart/cart}" class="cart-contents">
 									<span class="count">0 items</span>
 									-
 									<span class="amount">£0.00</span>
@@ -454,7 +454,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 											<li>
 												<!-- SHOPPING CART -->
 												<div class="shopping-cart floatright">
-													<a title="View your shopping cart" href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html" class="cart-contents">
+													<a title="View your shopping cart" th:href="@{/shoppingCart/cart}" class="cart-contents">
 														<span class="count">0 items</span>
 														-
 														<span class="amount">£0.00</span>
@@ -780,28 +780,29 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 		<script th:src="@{/js/scripts.js}"></script>
 		<!-- Include Libs & Plugins
 		============================================ -->
-        <script src="js/bootstrap.min.js"></script>
+        <script th:src="@{/js/bootstrap.min.js}"></script>
 
 		
-		<script src="js/jquery.knob.min.js"></script>
-		<script src="js/jquery.ba-throttle-debounce.min.js"></script>
+		<script th:src="@{/js/jquery.knob.min.js}"></script>
+		<script th:src="@{/js/jquery.ba-throttle-debounce.min.js}"></script>
 		<!-- jquery Redcountdown js -->
-		<script src="js/jquery.countdown.min.js"></script>
-		<script src="js/jquery.redcountdown.js"></script>
+		<script th:src="@{/js/jquery.countdown.min.js}"></script>
+		<script th:src="@{/js/jquery.redcountdown.js}"></script>
 
 		<!-- jquery Flexslider js -->
 		
-		<script src="js/jquery.nivo.slider.pack.js"></script>
-		<script src="js/jquery.flexslider.js"></script>
+		<script th:src="@{/js/jquery.nivo.slider.pack.js}"></script>
+		<script th:src="@{/js/jquery.flexslider.js}"></script>
 		<script th:src="@{/js/jquery.jcarousel.min.js}"></script>
 		
 		
 		<!-- jquery ui js -->
-		<script src="js/jquery-ui.min.js"></script>
-        <script src="js/kolystyle-plugins.js"></script>
+		<script th:src="@{/js/jquery-ui.min.js}"></script>
+        <script th:src="@{/js/kolystyle-plugins.js}"></script>
 		<script th:src="@{/js/validation.js}"></script>
 		<script src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
-
+		<!-- P-Loading JS -->
+	<script th:src="@{/js/p-loading.min.js}"></script>
 <!--style id="redCountdownCSS">.redCountdownWrapper > div { display:inline-block; position:relative; width:calc(25% - 20px); margin:10px; } .redCountdownWrapper .redCountdownValue {  width:100%; line-height:1em; position:absolute; top:50%; text-align:center; left:0; display:block;}</style-->
 </div>
 

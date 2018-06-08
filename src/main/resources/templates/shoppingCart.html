@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="common/head :: common-head" />
-<body>
-	<div class="spinnerspin">
-	<div class="wrapper-box">
-		<div class="main-wrapper">
-
-			<div th:replace="common/head :: navbar" />
-
-			<div id="container">
+<head th:replace="common/homeheader :: home-head" />
+	<body class="home-1 top-btn-color">
+		<div class="spinnerspin">
+        <!-- HEADER -->
+        <div th:replace="common/homeheader :: navbar" />
+ 		<!-- HEADER -->
+ 		<div th:replace="common/homeheader :: ticker-slider" />			
 				<div id="content cart-over">
 			
-			
+		<div class="container">	
 
-		<div class="row" style="margin-top: 10px;">
+		<div class="row" style="margin-top: 10px;margin-bottom:10px;">
 			<div class="col-md-10 col-md-offset-1">
 				
 					<!-- <div class="col-md-6 text-left">
@@ -282,21 +280,15 @@
 			</div>
 		</div>
 
-
-					<div class="clear"></div>
+	</div>
+					
 				</div>
 
 				
-<div class="row">
-				<!-- end of container -->
-				<div th:replace="common/head :: footer" />
-
-				<div th:replace="common/head :: body-bottom-scripts" />
-				<script th:src="@{/js/controller.js}"></script>
-			</div>
+		<!-- Footer -->
+		<div th:replace="common/homeheader :: footer" />
+		<script th:src="@{/js/controller.js}"></script>
 		</div>
-</div>
-	</div>
-</div>
+
 </body>
 </html>
