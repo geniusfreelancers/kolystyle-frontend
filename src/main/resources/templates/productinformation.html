@@ -191,10 +191,11 @@
 										<br/><br/>
 										<div class="product-pd-list">
 											<div class="product-price">$<span th:text="${product.ourPrice}"></span></div>
-											<div class="product-discount" th:with="discount=${100-(product.ourPrice/product.listPrice)*100}"
-											>
-											-<span th:if="${discount &gt; 0}" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
-											</div>
+											<div class="product-discount" th:with="discount=${100-(product.ourPrice/product.listPrice)*100}" >
+												<div class="product-discount-container" th:if="${discount &gt; 0}">
+														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
+												</div>
+												</div>
 											<div class="product-listing">$<span th:text="${product.listPrice}"></span></div>
 										</div>
 										<div class="saving">
@@ -360,7 +361,7 @@
 										<h6><a href="detail.html">FLORAL LACE SHIFT DRESS</a></h6>
 										<div class="product-pd">
 											<div class="product-price">$50</div>
-											<div class="product-discount">-25%</div>
+											<div class="product-discount" style="color:red;">-25%</div>
 										</div>
 									</div>
 								</li>
@@ -519,9 +520,10 @@ width: 300px;
 												<div class="product-price"><span>$</span>
 													<span th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
 												</div>
-												<div class="product-discount" th:with="discount=${100-(product.ourPrice/product.listPrice)*100}">
-												
-														-<span class="discount-digit" th:if="${discount &gt; 0}" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
+												<div class="product-discount" th:with="discount=${100-(product.ourPrice/product.listPrice)*100}" >
+												<div class="product-discount-container" th:if="${discount &gt; 0}">
+														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
+												</div>
 												</div>
 												<div class="product-listprice">
 												<span>$</span>
@@ -579,9 +581,10 @@ width: 300px;
 												<div class="product-price"><span>$</span>
 													<span th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
 												</div>
-												<div class="product-discount" th:with="discount=${100-(product.ourPrice/product.listPrice)*100}">
-												
-														-<span class="discount-digit" th:if="${discount &gt; 0}" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
+												<div class="product-discount" th:with="discount=${100-(product.ourPrice/product.listPrice)*100}" >
+												<div class="product-discount-container" th:if="${discount &gt; 0}">
+														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
+												</div>
 												</div>
 												<div class="product-listprice">
 												<span>$</span>
