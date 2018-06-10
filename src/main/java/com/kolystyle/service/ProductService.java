@@ -20,4 +20,8 @@ public interface ProductService {
 	List<Product> blurrySearch(String title);
 	List<Product> findTop15ByBrand(String brand);
 	List<Product> findTop8ByFeatureOrderByIdDesc(String feature);
+
+	List<Product> findTop6ByProductTagsContaining(String productTags);
+
+	Product findTop1ByProductTagsContaining(String productTags);
 }

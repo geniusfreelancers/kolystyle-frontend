@@ -27,4 +27,6 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	List<Product> findTop8ByFeatureOrderByIdDesc(String feature);
 	@Query("select p from Product p where p.title like ?1 or p.sku like ?1 or p.description like ?1")
 	List<Product> search(String query);
+	List<Product> findTop3ByProductTagsContaining(String productTags);
+	Product findTop1ByProductTagsContaining(String productTags);
 }

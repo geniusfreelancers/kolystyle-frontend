@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="common/head :: common-head" />
-<body>
-<!-- Load the required components. -->
-<script src="https://www.paypalobjects.com/api/checkout.js"></script>
-<script src="https://js.braintreegateway.com/web/3.25.0/js/client.min.js"></script>
-<script src="https://js.braintreegateway.com/web/3.25.0/js/paypal-checkout.min.js"></script>
-<div class="spinnerspin">
-	<div class="wrapper-box">
-		<div class="main-wrapper">
+<head th:replace="common/homeheader :: home-head" />
+	<body class="home-1 top-btn-color">
+		
+        <!-- HEADER -->
+        <div th:replace="common/homeheader :: navbar" />
+ 		<!-- HEADER -->
+ 		<div th:replace="common/homeheader :: ticker-slider" />	
 
-			<div th:replace="common/head :: navbar" />
-
-			<div id="container">
+			<div class="container" id="container">
 				<div id="content">			
 				
 									
@@ -81,35 +77,41 @@
 						<div class="row" data-th-each="cartItem : ${shoppingCart.cartItemList}">
 						
 						<hr/>
-						<div class="col-xs-2">
+						<div class="col-md-2 col-xs-12">
 						<a th:href="@{/productDetail?id=}+${cartItem.product.id}">
 						<img class="img-responsive shelf-product" th:src="#{adminPath}+@{/image/product/}+${cartItem.product.id}+'/'+${cartItem.product.coverImageName}" th:attr="alt=${cartItem.product.title}" style="width:70px;" />
 						</a>
 						</div>
-						<div class="col-xs-4">
-							<div style="margin-left:50px;">	
-							<a th:href="@{/productDetail?id=}+${cartItem.product.id}"><h4 th:text="${cartItem.product.title}"></h4></a>
-								<span>Size: </span><span th:text="${cartItem.productSize}"></span><br/><span>Web ID: </span><span th:text="${cartItem.product.sku}"></span>
+						<div class="col-md-4 col-xs-12">
+							<div class="col-md-12">	
+							<a th:href="@{/productDetail?id=}+${cartItem.product.id}"><span th:text="${cartItem.product.title}"></span></a>
 							</div>
+							<div class="col-md-12">	
+								<span>Size: </span><span th:text="${cartItem.productSize}"></span>
 							</div>
-							<div class="col-xs-2">
-								<h5 style="color: #db3208; font-size: large;">
+							<div class="col-md-12">	
+								<p><span>Web ID: </span><span th:text="${cartItem.product.sku}"></span></p>
+							</div>
+						</div>
+						
+							<div class="col-md-2 col-xs-4">
+								<span style="color: #db3208; font-size: large;">
 									$<span th:text="${cartItem.product.ourPrice}"></span>
-								</h5>
+								</span>
 								
 							</div>
-							<div class="col-xs-2">
-								<h5 style="font-size:large" th:text="${cartItem.qty}"></h5>
+							<div class="col-md-2 col-xs-4">
+								<span style="font-size:large" th:text="${cartItem.qty}"></span>
 							</div>
-							<div class="col-xs-2">
+							<div class="col-md-2 col-xs-4">
 							
 
 							
-							<h5 class="text-primary text-right" style="font-size: large;">
+							<span class="text-primary text-right" style="font-size: large;">
 									$<span th:with="result=${cartItem.product.ourPrice * cartItem.qty}" th:text="${#numbers.formatDecimal(result, 0 , 'COMMA', 2, 'POINT')}"></span>
-								</h5>
+								</span>
 							</div>
-					
+							
 						</div>
 						<hr/>
 
@@ -193,7 +195,7 @@
 		
 		
 			<form action='/guest/charge' method='POST' id='checkout-form'>
-		    <input type='hidden' th:value='${amount}' name='amount' />
+		    <input type='hidden' th:value='${amount}' name='finalamount' id="finalamount"/>
 		    
 		    <!-- NOTE: data-key/data-amount/data-currency will be rendered by Thymeleaf -->
 		    <script
@@ -231,18 +233,12 @@
 
 				</div>
 
-				<script th:src="@{/js/controller.js}"></script>
-		<div class="row">		
-				<!-- end of container -->
-				<div th:replace="common/head :: footer" />
-
-				<div th:replace="common/head :: body-bottom-scripts" />
-			</div>
+				
+				
 		</div>
-</div>
-	</div>
-</div>
-
+		<script th:src="@{/js/controller.js}"></script>
+				<div th:replace="common/homeheader :: footer" />
+				
 <script src="/js/demo.js"></script>
 </body>
 </html>

@@ -204,10 +204,13 @@
 											<span th:if="*{product.inStockNumber&gt;10}" class="available">Availability: <span>In Stock</span></span>
 											<span th:if="*{product.inStockNumber&lt;10 and product.inStockNumber&gt;0}" class="available">Only <span th:text="${product.inStockNumber}"></span> In Stock</span>
 											<span th:if="*{product.inStockNumber==0}" class="unavailable">Unavailable</span>
-											<span id="serverRespone"></span><br/>
-											<span id="serverRespones"></span>
+											
+											
 										</div>
 										<div class="product-cart-area-single col-md-12">
+										<form  method="post">
+										<input hidden="hidden" th:field="*{product.id}" th:name="id" th:value="${product.id}"/>
+										<input hidden="hidden" th:id="'id-addingtocart-'+${product.id}" name="idd" th:value="${product.id}"/>
 											<div class="stitching">
 												<span>Stitching Option </span>
 												
@@ -226,17 +229,58 @@
 											
 											<div class="quantity">
 												<span>Qty&nbsp;&nbsp; </span>
-												<form>
+												
 													<select name="qty" id="qty" >
 														<option th:each="qty : ${qtyList}" th:value="${qty}" th:text="${qty}"></option>
 													</select>
-												</form>
+												
 											</div>
-											
+											</form>
 										</div>
-										
+										<!-- Bootstrap Modal -->
+<div class="modal" id="mymodal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul id="modal-body">
+        
+        </ul>
+        <table class="table" id="mod-table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody id="modal-table">
+    
+  </tbody>
+</table>
+      </div>
+      <div class="modal-footer">
+      	<a href="/shoppingCart/cart" class="btn btn-info" role="button">View Cart and Checkout</a>
+        
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+										<!-- Bootstrap modal -->
 										<div class="product-cart-area-button col-md-12">
-											<div  th:if="!${noMore}" class="add-to-cart-single cart-btn"><a href="#">ADD TO CART</a></div>
+											<div  th:if="!${noMore}" class="add-to-cart-single cart-btn">
+												<a href="#" id="addthisproduct">ADD TO CART</a>
+											</div>
 											<div class="btn-others-single">
 												<ul>
 													<li><a href=""><i class="fa fa-heart-o"></i></a></li>
@@ -413,9 +457,10 @@ width: 300px;
 												<div class="product-price"><span>$</span>
 													<span th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
 												</div>
-												<div class="product-discount" th:with="discount=${100-(product.ourPrice/product.listPrice)*100}">
-												
-														-<span class="discount-digit" th:if="${discount &gt; 0}" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
+												<div class="product-discount" th:with="discount=${100-(product.ourPrice/product.listPrice)*100}" >
+												<div class="product-discount-container" th:if="${discount &gt; 0}">
+														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
+												</div>
 												</div>
 												<div class="product-listprice">
 												<span>$</span>
@@ -563,7 +608,7 @@ width: 300px;
 		<!-- Recently Viewed -->
 	<!-- end of container -->
 	<div class="clear"></div>
-				<script th:src="@{/js/controller.js}"></script>
+				
 
 				<!-- end of container -->
 	

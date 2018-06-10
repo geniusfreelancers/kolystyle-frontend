@@ -147,9 +147,14 @@ public class HomeController {
 	
 	 @RequestMapping("/")
 	    public String home(Model model){
+		 	SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	        model.addAttribute("siteSettings",siteSettings);
+	        HomePage homePage = homePageService.findOne(new Long(1));
+	        model.addAttribute("homePage",homePage);
+	        HomePageAdditional homePageAdditional = homePageService.findAdditionalHomePage(new Long(1));
+	        model.addAttribute("homePageAdditional",homePageAdditional);
 		 	List<Product> productList = productService.findAllByOrderByIdDesc();
 	        model.addAttribute("productList",productList);
-	      //  model.addAttribute("searchCondition", searchCondition);
 	        //Featured
 	        List<Product> featuredProductList = productService.findTop8ByFeatureOrderByIdDesc("featured");
 	        model.addAttribute("featuredProductList",featuredProductList);
@@ -159,12 +164,18 @@ public class HomeController {
 	        //Special
 	        List<Product> specialProductList = productService.findTop8ByFeatureOrderByIdDesc("special");
 	        model.addAttribute("specialProductList",specialProductList);
-	        SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
-	        model.addAttribute("siteSettings",siteSettings);
-	        HomePage homePage = homePageService.findOne(new Long(1));
-	        model.addAttribute("homePage",homePage);
-	        HomePageAdditional homePageAdditional = homePageService.findAdditionalHomePage(new Long(1));
-	        model.addAttribute("homePageAdditional",homePageAdditional);
+	        //Sales
+	        List<Product> saleProductList = productService.findTop6ByProductTagsContaining("sales");
+	        model.addAttribute("saleProductList",saleProductList);
+	        //Latest
+	        List<Product> latestProductList = productService.findTop6ByProductTagsContaining("latest");
+	        model.addAttribute("latestProductList",latestProductList);
+	        //Hot Deal
+	     //   String hotDeal = siteSettings.getHotDeal();
+	        Product hotProduct = productService.findTop1ByProductTagsContaining("eid");
+	        model.addAttribute("hotProduct",hotProduct);  
+	        
+	        
 	        String fileUrl = endpointUrl + "/" + bucketName + "/";
 			model.addAttribute("fileUrl", fileUrl);
 	        return "newlanding";

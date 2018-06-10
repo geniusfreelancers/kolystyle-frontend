@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="common/head :: common-head" />
-<body>
+<head th:replace="common/homeheader :: home-head" />
+<body class="home-1 top-btn-color">
+	<div class="spinnerspin">
+        <!-- HEADER -->
+        <div th:replace="common/homeheader :: navbar" />
+ 		<!-- HEADER -->
+ 		<div th:replace="common/homeheader :: ticker-slider" />	
 
-<div class="spinnerspin">
-	<div class="wrapper-box">
-		<div class="main-wrapper">
-
-			<div th:replace="common/head :: navbar" />
-
-			<div id="container">
+		<div class="container" id="container">
+		<div class="row">
 				<div id="content">			
 		<section class="" ng-app="checkoutApp">
 		<div ng-controller = "checkoutCtrl" th:attr="ng-init='initCartId('+${shoppingCart.id}+')'">			
@@ -321,18 +321,17 @@ Transit time: 3-6 business days
 
 				</div>
 
-				<script th:src="@{/js/controller.js}"></script>
-			<div class="row">
-				<!-- end of container -->
-				<div th:replace="common/head :: footer" />
-
-				<div th:replace="common/head :: body-bottom-scripts" />
-			</div>
+				
+				
 		</div>
-</div>
-	</div>
-</div>
+		</div>
+			<!-- Footer -->
+		<div th:replace="common/homeheader :: footer" />
+		<script th:src="@{/js/controller.js}"></script>
 
-<script src="/js/demo.js"></script>
+	
+	</div>
+
+
 </body>
 </html>

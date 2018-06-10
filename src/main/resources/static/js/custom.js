@@ -145,3 +145,7 @@ $('.colorbox').colorbox({
 		});
 /******** ================= ********/
 });
+
+jQuery('#addthisproduct').click(function(){
+	alert("I will add now");
+});

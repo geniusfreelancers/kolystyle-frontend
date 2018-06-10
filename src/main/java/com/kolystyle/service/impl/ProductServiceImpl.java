@@ -137,4 +137,16 @@ public class ProductServiceImpl implements ProductService{
 	public List<Product> findByBrandByOrderByIdDesc(String brand){
 		return productRepository.findByBrandOrderByIdDesc(brand);
 	}
+
+
+	@Override
+	public List<Product> findTop6ByProductTagsContaining(String productTags) {
+		return productRepository.findTop3ByProductTagsContaining(productTags);
+	}
+
+
+	@Override
+	public Product findTop1ByProductTagsContaining(String productTags) {
+		return productRepository.findTop1ByProductTagsContaining(productTags);
+	}
 }

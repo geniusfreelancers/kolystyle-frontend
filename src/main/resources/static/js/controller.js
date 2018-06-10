@@ -151,12 +151,54 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
 }else{
 	  size : $('#size').val();
 },*/
-
+$('.shopping-cart').mouseenter(function(){
+    $('.b-content').show(); 
+ });
+ $('.shopping-cart').mouseleave(function(){
+    $('.b-content').hide(); 
+ });
+ $('.b-content').mouseenter(function(){
+	    $('.b-content').show(); 
+	 });
+	 $('.b-content').mouseleave(function(){
+	    $('.b-content').hide(); 
+	 });
+ 
+$(document).ready(function(){
+	$.get("/rest/cart/mycart", {
+        ajax : 'true'
+    }, function(data) {
+    	//console.log(data);
+    	 var item =0;
+    	 var items="";
+    	 if(data==""){
+    		 $('.b-content').hide(); 
+    		 $('.b-content').html('<p class="text-center"><span>Your cart is empty</span></p>');
+    	 }else{
+    	for (i = 0; i < data.cartItemList.length; i++) {
+           item += data.cartItemList[i].qty;
+           items += '<tr class="border-bottom"><td><img class="img-responsive product-shelf" style="width:70px;" src="https://s3.us-east-2.amazonaws.com/kolystyle/'+data.cartItemList[i].product.coverImageName+'" /></td><td><span class="col-md-12"><strong>'+data.cartItemList[i].product.title+'</strong></span><span class="col-md-12">Size: '+data.cartItemList[i].productSize+' | '+data.cartItemList[i].qty+' x $'+data.cartItemList[i].product.ourPrice+'</span></td><td> $'+data.cartItemList[i].subtotal+'</td></tr>';
+       	
+        }
+    	   
+    	$('.count').html(item+' items');
+    	$('.amount').html('$'+data.orderTotal);
+    	$('#cart-item-list').html(items);	
+    	$('.mini-Subtotal').html('$'+data.grandTotal);
+    	$('.mini-Discount').html('$'+data.discountedAmount);
+    	$('.mini-Shipping').html('$'+data.shippingCost);
+    	$('.mini-Ordertotal').html('$'+data.orderTotal);
+    	 }
+    });
+});
 $(function() {
 	var sizes = "";
+	var option = "";
 	$('#addthisproduct').click(
 	        function() {
-	        	if($('input[name=stitching]:checked').val() != "readytowear"){
+	        	option = $('#stitching').val();
+	        	
+	        	if(option != "readytowear"){
 	        		  sizes = "unstiched";
 	        	}else{
 	        		  sizes = $('#size').val();
@@ -171,15 +213,40 @@ $(function() {
 	                var html = '';
 	                var len = data.length;
 	                if(len != 0){
-	                $('#serverRespone').show();
-	                $('#serverRespone').html('<i class="fa fa-check" aria-hidden="true" style="color: forestgreen"></i> <span style="color: forestgreen;">Added to cart.</span>');	
-	                $('#serverRespones').show();
-	                $('#serverRespones').html('<span><a style="color:red;" href="shoppingCart/cart">View cart</a></span>');	
+	              //  console.log(data);
+	                var cartListing = '';
+	                var i;
+	                var item =0;
+	                var items="";
+	                for (i = 0; i < data.cartItemList.length; i++) {
+	                    cartListing += '<tr><th scope="row">'+data.cartItemList[i].product.id+'</th><td>'+data.cartItemList[i].product.title+'</td><td>'+data.cartItemList[i].productSize+'</td><td>'+data.cartItemList[i].qty+'</td></tr>';
+	                    item += data.cartItemList[i].qty;
+	                    items += '<tr class="border-bottom"><td><img class="img-responsive product-shelf" style="width:70px;" src="https://s3.us-east-2.amazonaws.com/kolystyle/'+data.cartItemList[i].product.coverImageName+'" /></td><td><span class="col-md-12"><strong>'+data.cartItemList[i].product.title+'</strong></span><span class="col-md-12">Size: '+data.cartItemList[i].productSize+' | '+data.cartItemList[i].qty+' x $'+data.cartItemList[i].product.ourPrice+'</span></td><td> $'+data.cartItemList[i].subtotal+'</td></tr>';
+	                	
+	                }
+	                $('.modal-title').show();
+	                $('.modal-title').html('Item Added To Your Bag');
+	                $('#modal-body').hide();
+	                $('#mod-table').show();
+	                $('#modal-table').html(cartListing);
+	                $('#mymodal').modal('show');	                
+	                
+	                //Update mini cart
+	                $('.count').html(item+' items');
+	            	$('.amount').html('$'+data.orderTotal);
+	            	$('#cart-item-list').html(items);	
+	            	$('.mini-Subtotal').html('$'+data.grandTotal);
+	            	$('.mini-Discount').html('$'+data.discountedAmount);
+	            	$('.mini-Shipping').html('$'+data.shippingCost);
+	            	$('.mini-Ordertotal').html('$'+data.orderTotal);
 	                
 	                }else{	
-	                	$('#serverRespone').show();
-		                $('#serverRespone').html('<i class="fa fa-exclamation-circle text-danger" aria-hidden="true"></i> <span class="text-danger">Not Enough Quantity.</span>');	
-		                $('#serverRespones').hide();
+	                	$('.modal-title').show();
+	                	$('.modal-title').html('Item cannot be added to your Bag');	
+	                	$('#modal-body').show();
+		                $('#modal-body').html('<i class="fa fa-exclamation-circle text-danger" aria-hidden="true"></i> <span class="text-danger">Not Enough Quantity.</span>');
+		                $('#mod-table').hide();
+		                $('#mymodal').modal('show');
 	                }                
 	            });
 	            return false;

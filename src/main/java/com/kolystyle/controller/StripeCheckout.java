@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ import javax.servlet.http.Cookie;
 import com.kolystyle.domain.BillingAddress;
 import com.kolystyle.domain.CartItem;
 import com.kolystyle.domain.ChargeRequest;
+import com.kolystyle.domain.Newsletter;
 import com.kolystyle.domain.ChargeRequest.Currency;
 import com.kolystyle.domain.Order;
 import com.kolystyle.domain.OrderLog;
@@ -39,12 +41,14 @@ import com.kolystyle.domain.ShippingAddress;
 import com.kolystyle.domain.ShoppingCart;
 import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.domain.User;
+import com.kolystyle.repository.NewsletterRepository;
 import com.kolystyle.repository.OrderLogRepository;
 import com.kolystyle.repository.OrderRepository;
 import com.kolystyle.repository.ProductRepository;
 import com.kolystyle.repository.PromoCodesRepository;
 import com.kolystyle.service.BillingAddressService;
 import com.kolystyle.service.CartItemService;
+import com.kolystyle.service.NewsletterService;
 import com.kolystyle.service.OrderLogService;
 import com.kolystyle.service.OrderService;
 import com.kolystyle.service.PaymentService;
@@ -115,7 +119,10 @@ public class StripeCheckout {
 	private PromoCodesService promoCodesService;
 	@Autowired
 	private PromoCodesRepository promoCodesRepository;
-	
+	@Autowired
+	private NewsletterService newsletterService;
+	@Autowired
+	private NewsletterRepository newsletterRepository;
 	@Autowired
 	private JavaMailSender mailSender;
 	
@@ -128,7 +135,7 @@ public class StripeCheckout {
 	    private String stripePublicKey;
 	    
 	    @RequestMapping(value = "/guest/charge", method = RequestMethod.POST)
-	    public String charge(ChargeRequest chargeRequest, Model model ,HttpServletRequest request,HttpServletResponse response)
+	    public String charge(ChargeRequest chargeRequest,@ModelAttribute("finalamount") int finalamount,BindingResult result, Model model ,HttpServletRequest request,HttpServletResponse response)
 	      throws StripeException {
 	    	//Save in DB
         	User user = null;
@@ -151,6 +158,7 @@ public class StripeCheckout {
         	model.addAttribute("cartItemList",cartItemList);
 	        chargeRequest.setDescription(shoppingCart.getBagId());
 	        chargeRequest.setCurrency(Currency.USD);
+	        chargeRequest.setAmount(finalamount);
 	        Charge charge = paymentsService.charge(chargeRequest);
 	        Order order = null;
 	        System.out.println(charge.getStatus());
@@ -183,6 +191,16 @@ public class StripeCheckout {
 		   		Date date = Date.from(estimatedDeliveryDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		   		order.setEstimatedDeliveryDate(date);
 		   		orderRepository.save(order);
+		   		Newsletter newsletter = newsletterService.findByEmail(order.getOrderEmail());
+		   		if(newsletter == null) {
+		   			newsletter = new Newsletter();
+		   			newsletter.setEmail(order.getOrderEmail());
+					Date enrolledDate = Calendar.getInstance().getTime();
+					newsletter.setEnrolledDate(enrolledDate);
+					String verifyToken = USConstants.randomAlphaNumeric(10);
+					newsletter.setVerifyToken(verifyToken);
+		   		}		   		
+		   		newsletterRepository.save(newsletter);
 		   		OrderLog orderLog = new OrderLog();
 		   		orderLog.setOrder(order);
 		   		orderLog.setUpdatedBy("Guest User");
@@ -278,7 +296,7 @@ public class StripeCheckout {
 		   		model.addAttribute("order",order);
 		   		model.addAttribute("currentStatus",currentStatus);
 		   		model.addAttribute("cartItemList", order.getCartItemList());
-
+		   		model.addAttribute("noCartExist",true);
 		       return "thankyou";
 		   }
 	
@@ -316,8 +334,8 @@ public class StripeCheckout {
 
 	        		
 	        		
-	        		BigDecimal amount = (shoppingCart.getOrderTotal()).multiply(new BigDecimal(100));
-	        		int finalamount = amount.intValue();
+	        BigDecimal amount = (shoppingCart.getOrderTotal()).multiply(new BigDecimal(100));
+	        int finalamount = amount.intValue();
 	       ///////////////////////////// 		
 	        model.addAttribute("shoppingCart", shoppingCart);
 	        model.addAttribute("amount", finalamount); // in cents

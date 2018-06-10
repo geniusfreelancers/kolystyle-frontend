@@ -1,24 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="common/head :: common-head" />
-<body>
-	<div class="wrapper-box">
-		<div class="main-wrapper">
-
-			<div th:replace="common/head :: navbar" />
-
-			<div id="container-wrapper">
+<head th:replace="common/homeheader :: home-head" />
+	<body class="home-1 top-btn-color">
+		
+        <!-- HEADER -->
+        <div th:replace="common/homeheader :: navbar" />
+ 		<!-- HEADER -->
+ 		<div th:replace="common/homeheader :: ticker-slider" />	
+				
+<div class="container">	
 				
 
 <div class="row">
-<style>
-#checkout-link{
-	display:none!important;
-}
-.mini-cart-label{
-	display:none!important;
-}
-</style>
+
 <div class="col-md-10 col-md-offset-1">
 
 <div class="col-md-12 border-all">
@@ -96,7 +90,8 @@
 </div>
 </div>
 </div>
-<br/><br/>
+</div>
+<div class="container">	
 <div class="row">
 <div class="col-md-10 col-md-offset-1">
 
@@ -111,7 +106,7 @@
 							<div class="panel-body">
 <div class="row">
 <style>
-h5{
+#shippingInfo h5{
 margin-top:0px!important;
 }
 .panel-primary {
@@ -163,6 +158,8 @@ margin-top:0px!important;
 				</div>
 </div>
 </div>
+</div>
+<div class="container">	
 <div class="row">
 <div class="col-md-10 col-md-offset-1">
 <div class="col-md-4 order-summary">
@@ -196,20 +193,12 @@ margin-top:0px!important;
 </div>
 </div>
 
-	
-					<div class="clear"></div>
-				
 
-				<script th:src="@{/js/controller.js}"></script>
-	<div class="row">
-				<!-- end of container -->
-				<div th:replace="common/head :: footer" />
-
-				<div th:replace="common/head :: body-bottom-scripts" />
-			</div>
-		</div>
 </div>
-	</div>
+<br/><br/>
+				<!-- Footer -->
+		<div th:replace="common/homeheader :: footer" />
+		
 
 </body>
 </html>

@@ -65,6 +65,16 @@ public class ShoppingCartController {
 		}
         return null;
     }
+	
+	@RequestMapping("/mycart")
+    public @ResponseBody
+    ShoppingCart getMyCart(HttpServletRequest request){
+		ShoppingCart shoppingCart = shoppingCartService.findCartByCookie(request);
+		System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
+		
+			 return shoppingCart;
+		
+    }
 	/*@RequestMapping("/cart")
 	public String shoppingCart(Model model,Principal principal,HttpServletRequest request){
 		
