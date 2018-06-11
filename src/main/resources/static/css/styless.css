@@ -1,4 +1,4 @@
-/*------------------------------------------------------------------
+﻿/*------------------------------------------------------------------
 Theme Name: kolystyle
 Version:1.0
 -------------------------------------------------------------------*/
@@ -86,6 +86,13 @@ Version:1.0
 /*-----------------------------
  1. Global Styles 
 -------------------------------*/
+.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
+    color: #777;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+    display: none!important;
+}
  .border-bottom{
  	border-bottom:1px solid #ece6e6;
  }

@@ -171,10 +171,10 @@ public class HomeController {
 	        List<Product> latestProductList = productService.findTop6ByProductTagsContaining("latest");
 	        model.addAttribute("latestProductList",latestProductList);
 	        //Hot Deal
-	     //   String hotDeal = siteSettings.getHotDeal();
-	        Product hotProduct = productService.findTop1ByProductTagsContaining("eid");
+	        String hotDealTag = siteSettings.getHotDeal();
+	        Product hotProduct = productService.findTop1ByProductTagsContaining(hotDealTag);
 	        model.addAttribute("hotProduct",hotProduct);  
-	        
+	        model.addAttribute("hotDealTag",hotDealTag);  
 	        
 	        String fileUrl = endpointUrl + "/" + bucketName + "/";
 			model.addAttribute("fileUrl", fileUrl);

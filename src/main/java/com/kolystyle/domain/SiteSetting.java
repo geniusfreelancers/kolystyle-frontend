@@ -17,7 +17,7 @@ public class SiteSetting {
 	private BigDecimal shippingCost;
 	private BigDecimal premiumShippingCost;
 	private String siteLogo;
-	
+	private String hotDeal;
 	@Transient
 	private MultipartFile siteLogoImage;
 	private String shopOfferBanner;
@@ -98,6 +98,12 @@ public class SiteSetting {
 		this.siteLogo = siteLogo;
 	}
 
+	public String getHotDeal() {
+		return hotDeal;
+	}
+	public void setHotDeal(String hotDeal) {
+		this.hotDeal = hotDeal;
+	}
 	public MultipartFile getSiteLogoImage() {
 		return siteLogoImage;
 	}

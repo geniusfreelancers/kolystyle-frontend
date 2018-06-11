@@ -2,11 +2,15 @@ package com.kolystyle.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import com.kolystyle.domain.Category;
 import com.kolystyle.domain.Product;
+import com.kolystyle.domain.SubCategory;
+import com.kolystyle.domain.SubSubCategory;
 
 public interface ProductRepository extends CrudRepository<Product, Long> {
 
@@ -29,4 +33,10 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	List<Product> search(String query);
 	List<Product> findTop3ByProductTagsContaining(String productTags);
 	Product findTop1ByProductTagsContaining(String productTags);
+	List<Product> findAllByProductTagsContaining(String productTags);
+	
+	Page<Product> findByBrandContaining(String brand, Pageable pageable);
+	Page<Product> findByCategoryOrderByIdDesc(Category category, Pageable pageable);
+	Page<Product> findByCategoryAndSubCategory(Category category, SubCategory subCategory, Pageable pageable);
+	Page<Product> findByCategoryAndMainSubCategory(Category category, SubSubCategory mainSubCategory,Pageable pageable);
 }

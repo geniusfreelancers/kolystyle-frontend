@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.kolystyle.domain.Category;
 import com.kolystyle.domain.Product;
+import com.kolystyle.domain.SubCategory;
+import com.kolystyle.domain.SubSubCategory;
 import com.kolystyle.repository.ProductRepository;
 import com.kolystyle.service.ProductService;
 
@@ -16,7 +20,7 @@ public class ProductServiceImpl implements ProductService{
 
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	
 	
 	public List<Product> findAll(){
@@ -82,7 +86,6 @@ public class ProductServiceImpl implements ProductService{
 			String subCat = product.getSubCategory().getSubCategorySlug();
 			String submainCat = product.getMainSubCategory().getSubSubCategorySlug();
 			
-			
 				if(subCategory == "" || subCategory.isEmpty() || subCategory.equalsIgnoreCase("none") || subCategory == null) {
 					validProductList.add(product);
 				}else{
@@ -137,8 +140,10 @@ public class ProductServiceImpl implements ProductService{
 	public List<Product> findByBrandByOrderByIdDesc(String brand){
 		return productRepository.findByBrandOrderByIdDesc(brand);
 	}
+	
 
 
+	
 	@Override
 	public List<Product> findTop6ByProductTagsContaining(String productTags) {
 		return productRepository.findTop3ByProductTagsContaining(productTags);
@@ -149,4 +154,33 @@ public class ProductServiceImpl implements ProductService{
 	public Product findTop1ByProductTagsContaining(String productTags) {
 		return productRepository.findTop1ByProductTagsContaining(productTags);
 	}
+
+
+	@Override
+	public List<Product> findAllByProductTagsContaining(String productTags) {
+		return productRepository.findAllByProductTagsContaining(productTags);
+	}
+
+
+	@Override
+	public Page<Product> findByBrandByOrderByIdDesc(String brand, PageRequest pageRequest) {
+		return productRepository.findByBrandContaining(brand, pageRequest);
+	}
+
+	public Page<Product> findByCategoryByOrderByIdDesc(Category category, PageRequest pageRequest) {
+		return productRepository.findByCategoryOrderByIdDesc(category,pageRequest);
+	}
+
+
+	public Page<Product> findByCategoryAndSubCategory(Category category, SubCategory subCategory, PageRequest pageRequest) {
+		return productRepository.findByCategoryAndSubCategory(category, subCategory,pageRequest);
+	}
+
+
+	@Override
+	public Page<Product> findByCategoryAndSubSubCategory(Category category, SubSubCategory subSubCategory,
+			PageRequest pageRequest) {
+		return productRepository.findByCategoryAndMainSubCategory(category, subSubCategory,pageRequest);
+	}
+
 }

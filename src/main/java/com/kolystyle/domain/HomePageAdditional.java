@@ -388,4 +388,5 @@ public class HomePageAdditional {
 		public void setSpecialSixImage(MultipartFile specialSixImage) {
 			this.specialSixImage = specialSixImage;
 		}
+		
 }

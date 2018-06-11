@@ -19,4 +19,6 @@ public interface CategoryService {
 	List<SubSubCategory> findAllSubSubCategories();
 	List<SubCategory> findAllSubCategoriesByCategory(Category category);
 	List<SubSubCategory> findAllSubSubCategoriesBySubCategory(SubCategory subCategory);
+	List<SubCategory> findSubCategoryBySlug(String subCategorySlug);
+	List<SubSubCategory> findSubSubCategoryBySlug(String mainSubCategory);
 }

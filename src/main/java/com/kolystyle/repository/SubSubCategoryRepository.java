@@ -11,4 +11,6 @@ public interface SubSubCategoryRepository extends CrudRepository<SubSubCategory,
 
 	List<SubSubCategory> findBySubCategory(SubCategory subCategory);
 
+	List<SubSubCategory> findBySubSubCategorySlug(String mainSubCategory);
+
 }
