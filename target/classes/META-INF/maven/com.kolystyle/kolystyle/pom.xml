@@ -5,7 +5,7 @@
 
 	<groupId>com.kolystyle</groupId>
 	<artifactId>kolystyle</artifactId>
-	<version>12.0.1-SNAPSHOT</version>
+	<version>13.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Kolystyle</name>
