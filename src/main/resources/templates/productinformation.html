@@ -101,7 +101,7 @@
     float: left;
 }
 .addthis_toolbox.addthis_default_style {
-    margin-top: 10px!important;
+    margin-bottom: 20px!important;
 }
 		</style>
 			<div class="container">
@@ -208,6 +208,12 @@
 											
 											
 										</div>
+
+										<!-- AddThis Button BEGIN -->
+						                <div class="addthis_toolbox addthis_default_style col-md-12"> <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a> <a class="addthis_button_tweet"></a> <a class="addthis_button_google_plusone" g:plusone:size="medium"></a> <a class="addthis_counter addthis_pill_style"></a> </div>
+						                <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-506f325f57fbfc95"></script>
+						                <!-- AddThis Button END -->										
+										
 										<div class="product-cart-area-single col-md-12">
 										<form  method="post">
 										<input hidden="hidden" th:field="*{product.id}" th:name="id" th:value="${product.id}"/>
@@ -282,7 +288,7 @@
 											<div  th:if="!${noMore}" class="add-to-cart-single cart-btn">
 												<a href="#" id="addthisproduct">ADD TO CART</a>
 											</div>
-											<div class="btn-others-single">
+											<div class="btn-others-single" th:if="!${siteSettings.loginKillSwitch}">
 												<ul>
 													<li><a href=""><i class="fa fa-heart-o"></i></a></li>
 													<li><a href=""><i class="fa fa-exchange"></i></a></li>
@@ -290,10 +296,7 @@
 											</div>
 										</div>
 									
-										<!-- AddThis Button BEGIN -->
-						                <div class="addthis_toolbox addthis_default_style col-md-12"> <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a> <a class="addthis_button_tweet"></a> <a class="addthis_button_google_plusone" g:plusone:size="medium"></a> <a class="addthis_counter addthis_pill_style"></a> </div>
-						                <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-506f325f57fbfc95"></script>
-						                <!-- AddThis Button END -->
+
 									</div>
 								</div>
 							</div>				

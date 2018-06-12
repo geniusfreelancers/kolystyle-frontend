@@ -368,8 +368,6 @@ public class ClientController {
         	
         }
         searchLog.setResultReturned(clientlist.getNumberOfElements());
-        System.out.println("GET NUMBER OF ELEMENTs "+clientlist.getNumberOfElements());
-        System.out.println("GET SIZE "+clientlist.getSize());
 		searchLog.setSearchEnded(Calendar.getInstance().getTime());
 		searchLogRepository.save(searchLog);
         System.out.println("client list get total pages" + clientlist.getTotalPages() + "client list get number " + clientlist.getNumber());

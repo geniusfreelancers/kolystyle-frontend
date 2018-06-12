@@ -251,59 +251,59 @@ $(document).ready(function(){
 													<!-- Classic list -->
 													<li class="menuBB"><a id="homeLink" th:href="@{/}">Home</a></li>
 													
-													<li class="dropdown kolystyle-fw menuBB"><a class="dropdown-toggle" data-toggle="dropdown" th:href="@{/searchByCategory?category=saree}">Saree</a>
+													<li class="dropdown kolystyle-fw menuBB"><a class="sareeLink" th:href="@{/searchByCategory?category=saree}">Saree</a>
 														<ul class="dropdown-menu list-unstyled">
 															<li>
 																<div class="kolystyle-content">
 																	<div class="row">
 																		<div class="col-md-2 col-sm-2">
 																			<div class="header-menu">
-																				<h4><a id="sareeoccasionLink" href="/searchBySubCategory?category=Saree&amp;subCategory=occasion">Occasion</a></h4>
+																				<h4><a id="sareeoccasionLink" th:href="@{/searchBySubCategory?category=Saree&amp;subCategory=occasion}">Occasion</a></h4>
 																			</div> 
 																			<ul class="list-unstyled">
-																				<li><a id="sareewedLink" href="/searchBySubSubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=wedding">Wedding Wear</a></li>
-                                        										<li><a id="sareepartyLink" href="/searchBySubSubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=party">Party Wear</a></li>
-                                       											<li><a id="sareebridalLink" href="/searchBySubSubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=bridal">Bridal Wear</a></li>
-                                        										<li><a id="sareefestiveLink" href="/searchBySubSubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=festive">Festive Wear</a></li>
-                                        										<li><a id="sareecasualLink" href="/searchBySubSubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=casual">Casual Wear</a></li>
-                                        										<li><a id="sareeallLink" href="/searchBySubCategory?category=Saree&amp;subCategory=occasion">All Occasions...</a></li>
+																				<li><a id="sareewedLink" th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=wedding}">Wedding Wear</a></li>
+                                        										<li><a id="sareepartyLink" th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=party}">Party Wear</a></li>
+                                       											<li><a id="sareebridalLink" th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=bridal}">Bridal Wear</a></li>
+                                        										<li><a id="sareefestiveLink" th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=festive}">Festive Wear</a></li>
+                                        										<li><a id="sareecasualLink" th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=casual}">Casual Wear</a></li>
+                                        										<li><a id="sareeallLink" th:href="@{/searchBySubCategory?category=Saree&amp;subCategory=occasion}">All Occasions...</a></li>
 																			</ul>
 																		</div>
 
 
 																		<div class="col-md-2 col-sm-2">
 																			<div class="header-menu">
-																				<h4><a id="sareestyleLink" href="/searchBySubCategory?category=Saree&amp;subCategory=style">Style</a></h4>
+																				<h4><a id="sareestyleLink" th:href="@{/searchBySubCategory?category=Saree&amp;subCategory=style}">Style</a></h4>
 																			</div>
 																			<ul class="list-unstyled">
-																				<li><a id="sareekanchLink" href="/searchBySubSubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=kanchipuram">Kanchipuram Saree</a></li>
-										                                        <li><a id="sareebanarasiLink" href="/searchBySubSubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=banarasi">Banarasi Saree</a></li>
-										                                        <li><a id="sareeombreLink" href="/searchBySubSubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=ombre">Ombre Sarees</a></li>
-										                                        <li><a id="sareepreLink" href="/searchBySubSubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=prestiched">Pre-stitched Sarees</a></li>
-										                                        <li><a id="sareehandLink" href="/searchBySubSubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=handloom">Handloom Saree</a></li>
-										                                        <li><a id="sareeallstyleLink" href="/searchBySubCategory?category=Saree&amp;subCategory=style">All styles...</a></li>
+																				<li><a id="sareekanchLink" th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=kanchipuram}">Kanchipuram Saree</a></li>
+										                                        <li><a id="sareebanarasiLink" th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=banarasi}">Banarasi Saree</a></li>
+										                                        <li><a id="sareeombreLink" th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=ombre}">Ombre Sarees</a></li>
+										                                        <li><a id="sareepreLink" th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=prestiched}">Pre-stitched Sarees</a></li>
+										                                        <li><a id="sareehandLink" th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=handloom}">Handloom Saree</a></li>
+										                                        <li><a id="sareeallstyleLink" th:href="@{/searchBySubCategory?category=Saree&amp;subCategory=style}">All styles...</a></li>
 																			</ul>
 																		</div>
 																		<div class="col-md-2 col-sm-2">
 																			<div class="header-menu">
-																				<h4><a id="sareefabricLink" href="/searchBySubCategory?category=Saree&amp;subCategory=fabric">Fabric</a></h4>
+																				<h4><a id="sareefabricLink" th:href="@{/searchBySubCategory?category=Saree&amp;subCategory=fabric}">Fabric</a></h4>
 																			</div>
 																			<ul class="list-unstyled">
-																				<li><a id="sareecottonLink" href="/searchBySubSubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=cotton">Cotton Saree</a></li>
-										                                        <li><a id="sareesilkLink" href="/searchBySubSubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=silk">Silk Saree</a></li>
-										                                        <li><a id="sareeartLink" href="/searchBySubSubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=art">Art Silk Saree</a></li>
-										                                        <li><a id="sareegeoLink" href="/searchBySubSubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=georgette">Georgette Saree</a></li>
-										                                        <li><a id="sareechifLink" href="/searchBySubSubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=chiffon">Chiffon Saree</a></li>
-										                                        <li><a id="sareeallfabLink" href="/searchBySubCategory?category=Saree&amp;subCategory=fabric">All Fabrics...</a></li>
+																				<li><a id="sareecottonLink" th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=cotton}">Cotton Saree</a></li>
+										                                        <li><a id="sareesilkLink" th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=silk}">Silk Saree</a></li>
+										                                        <li><a id="sareeartLink" th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=art}">Art Silk Saree</a></li>
+										                                        <li><a id="sareegeoLink" th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=georgette}">Georgette Saree</a></li>
+										                                        <li><a id="sareechifLink" th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=chiffon}">Chiffon Saree</a></li>
+										                                        <li><a id="sareeallfabLink" th:href="@{/searchBySubCategory?category=Saree&amp;subCategory=fabric}">All Fabrics...</a></li>
 																			</ul>
 																		</div>
 																		<div class="col-md-2 col-sm-2">
 																			<div class="header-menu">
-																				<h4><a id="sareemoreLink" href="/searchByCategory?category=saree">More</a></h4>
+																				<h4><a id="sareemoreLink" th:href="@{/searchByCategory?category=saree}">More</a></h4>
 																			</div> 
 																			<ul class="list-unstyled">
-																				<li><a id="sareeblouseLink" href="/searchByCategory?category=blouse">Blouse</a></li>
-                                        										<li><a id="sareepetticoatLink" href="/searchByCategory?category=petticoat">Petticoat</a></li>
+																				<li><a id="sareeblouseLink" th:href="@{/searchByCategory?category=blouse}">Blouse</a></li>
+                                        										<li><a id="sareepetticoatLink" th:href="@{/searchByCategory?category=petticoat}">Petticoat</a></li>
 																			</ul>
 																		</div>
 																		<div class="col-md-4 col-sm-4">
@@ -320,61 +320,61 @@ $(document).ready(function(){
 														</ul>
 													</li>
 					<!-- SALWAR KAMEEZ -->		
-					<li class="dropdown kolystyle-fw menuBB"><a id="salwarLink" href="/searchByCategory?category=Salwar">SALWAR KAMEEZ</a>
+					<li class="dropdown kolystyle-fw menuBB"><a id="salwarLink" th:href="@{/searchByCategory?category=Salwar}">SALWAR KAMEEZ</a>
 														<ul class="dropdown-menu list-unstyled">
 															<li>
 																<div class="kolystyle-content">
 																	<div class="row">
 																		<div class="col-md-2 col-sm-2">
 																			<div class="header-menu">
-																				<h4><a id="salwaroccasionLink" href="/searchBySubCategory?category=Salwar&amp;subCategory=occasion">Occasion</a></h4>
+																				<h4><a id="salwaroccasionLink" th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=occasion}">Occasion</a></h4>
 																			</div> 
 																			<ul class="list-unstyled">
-																				<li><a id="salwarwedLink" href="/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=wedding">Wedding Wear</a></li>
-										                                        <li><a id="salwarpartyLink" href="/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=party">Party Wear</a></li>
-										                                        <li><a id="salwarfestiveLink" href="/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=festive">Festive Wear</a></li>
-										                                        <li><a id="salwarcasualLink" href="/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=casual">Casual Wear</a></li>
-										                                        <li><a id="salwaralloccasionLink" href="/searchBySubCategory?category=Salwar&amp;subCategory=occasion">All Occasions...</a></li>
+																				<li><a id="salwarwedLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=wedding}">Wedding Wear</a></li>
+										                                        <li><a id="salwarpartyLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=party}">Party Wear</a></li>
+										                                        <li><a id="salwarfestiveLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=festive}">Festive Wear</a></li>
+										                                        <li><a id="salwarcasualLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=casual}">Casual Wear</a></li>
+										                                        <li><a id="salwaralloccasionLink" th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=occasion}">All Occasions...</a></li>
 																			</ul>
 																		</div>
 
 
 																		<div class="col-md-2 col-sm-2">
 																			<div class="header-menu">
-																				<h4><a id="salwarstyleLink" href="/searchBySubCategory?category=Salwar&amp;subCategory=style">Style</a></h4>
+																				<h4><a id="salwarstyleLink" th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=style}">Style</a></h4>
 																			</div>
 																			<ul class="list-unstyled">
-																				<li><a id="salwaranarkaliLink" href="/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=anarkali">Anarkali Style</a></li>
-										                                        <li><a id="salwarstraightLink" href="/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=straight">Straight Style</a></li>
-										                                        <li><a id="salwarabayaLink" href="/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=abaya">Abaya Style</a></li>
-										                                        <li><a id="salwarpakistaniLink" href="/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=pakistani">Pakistani Style</a></li>
-										                                        <li><a id="salwarpunjabiLink" href="/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=punjabi">Punjabi Style</a></li>
-										                                        <li><a id="salwarallstyleLink" href="/searchBySubCategory?category=Salwar&amp;subCategory=style">All styles...</a></li>
+																				<li><a id="salwaranarkaliLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=anarkali}">Anarkali Style</a></li>
+										                                        <li><a id="salwarstraightLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=straight}">Straight Style</a></li>
+										                                        <li><a id="salwarabayaLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=abaya}">Abaya Style</a></li>
+										                                        <li><a id="salwarpakistaniLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=pakistani}">Pakistani Style</a></li>
+										                                        <li><a id="salwarpunjabiLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=punjabi}">Punjabi Style</a></li>
+										                                        <li><a id="salwarallstyleLink" th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=style}">All styles...</a></li>
 																			</ul>
 																		</div>
 																		<div class="col-md-2 col-sm-2">
 																			<div class="header-menu">
-																				<h4><a id="salwarfabricLink" href="/searchBySubCategory?category=Salwar&amp;subCategory=fabric">Fabric</a></h4>
+																				<h4><a id="salwarfabricLink" th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=fabric}">Fabric</a></h4>
 																			</div>
 																			<ul class="list-unstyled">
-																				<li><a id="salwarchadLink" href="/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=chanderi">Chanderi Suits</a></li>
-										                                        <li><a id="salwargeoLink" href="/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=georgette">Georgette Suits</a></li>
-										                                        <li><a id="salwarcottonLink" href="/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=cotton">Cotton Suits</a></li>
-										                                        <li><a id="salwarnetLink" href="/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=net">Net Suits</a></li>
-										                                        <li><a id="salwarartLink" href="/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=art">Art Silk Suits</a></li>
-										                                        <li><a id="salwarallfabLink" href="/searchBySubCategory?category=Salwar&amp;subCategory=fabric">All Fabrics...</a></li>
+																				<li><a id="salwarchadLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=chanderi}">Chanderi Suits</a></li>
+										                                        <li><a id="salwargeoLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=georgette}">Georgette Suits</a></li>
+										                                        <li><a id="salwarcottonLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=cotton}">Cotton Suits</a></li>
+										                                        <li><a id="salwarnetLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=net}">Net Suits</a></li>
+										                                        <li><a id="salwarartLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=art}">Art Silk Suits</a></li>
+										                                        <li><a id="salwarallfabLink" th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=fabric}">All Fabrics...</a></li>
 																			</ul>
 																		</div>
 																		<div class="col-md-2 col-sm-2">
 																			<div class="header-menu">
-																				<h4><a id="salwaraltLink" href="/searchByCategory?category=Salwar">Alternates</a></h4>
+																				<h4><a id="salwaraltLink" th:href="@{/searchByCategory?category=Salwar}">Alternates</a></h4>
 																			</div> 
 																			<ul class="list-unstyled">
-																				<li><a id="salwarlongLink" href="/searchByCategory?category=Kurtas">Long Kurtas</a></li>
-										                                        <li><a id="salwartunicsLink" href="/searchByCategory?category=Tunics">Tunics</a></li>
-										                                        <li><a id="salwarbottomsLink" href="/searchByCategory?category=Bottoms">Bottoms</a></li>
-										                                        <li><a id="salwardupattasLink" href="/searchByCategory?category=Dupattas">Dupattas</a></li>
-										                                        <li><a id="salwargownsLink" href="/searchByCategory?category=Gowns">Gowns</a></li>
+																				<li><a id="salwarlongLink" th:href="@{/searchByCategory?category=Kurtas}">Long Kurtas</a></li>
+										                                        <li><a id="salwartunicsLink" th:href="@{/searchByCategory?category=Tunics}">Tunics</a></li>
+										                                        <li><a id="salwarbottomsLink" th:href="@{/searchByCategory?category=Bottoms}">Bottoms</a></li>
+										                                        <li><a id="salwardupattasLink" th:href="@{/searchByCategory?category=Dupattas}">Dupattas</a></li>
+										                                        <li><a id="salwargownsLink" th:href="@{/searchByCategory?category=Gowns}">Gowns</a></li>
 																			</ul>
 																		</div>
 																		<div class="col-md-4 col-sm-4">
@@ -391,58 +391,58 @@ $(document).ready(function(){
 														</ul>
 													</li>
 				<!-- LEHENGA -->		
-					<li class="dropdown kolystyle-fw menuBB"><a id="lehengaLink" href="/searchByCategory?category=Lehenga">LEHENGA</a>
+					<li class="dropdown kolystyle-fw menuBB"><a id="lehengaLink" th:href="@{/searchByCategory?category=Lehenga}">LEHENGA</a>
 														<ul class="dropdown-menu list-unstyled">
 															<li>
 																<div class="kolystyle-content">
 																	<div class="row">
 																		<div class="col-md-2 col-sm-2">
 																			<div class="header-menu">
-																				<h4> <a id="lehengaOccaLink" href="/searchBySubCategory?category=Lehenga&amp;subCategory=occasion">Occasion</a></h4>
+																				<h4> <a id="lehengaOccaLink" th:href="@{/searchBySubCategory?category=Lehenga&amp;subCategory=occasion}">Occasion</a></h4>
 																			</div> 
 																			<ul class="list-unstyled">
-																				    <li><a id="lehengawedLink" href="/searchBySubSubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=wedding">Wedding Wear</a></li>
-											                                        <li><a id="lehengapartyLink" href="/searchBySubSubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=party">Party Wear</a></li>
-											                                        <li><a id="lehengafestiveLink" href="/searchBySubSubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=festive">Festive Wear</a></li>
-											                                        <li><a id="lehengabridalLink" href="/searchBySubSubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=bridal">Bridal Wear</a></li>
-											                                        <li><a id="lehengaalloccLink" href="/searchBySubCategory?category=Lehenga&amp;subCategory=occasion">All Occasions...</a></li>
+																				    <li><a id="lehengawedLink" th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=wedding}">Wedding Wear</a></li>
+											                                        <li><a id="lehengapartyLink" th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=party}">Party Wear</a></li>
+											                                        <li><a id="lehengafestiveLink" th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=festive}">Festive Wear</a></li>
+											                                        <li><a id="lehengabridalLink" th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=bridal}">Bridal Wear</a></li>
+											                                        <li><a id="lehengaalloccLink" th:href="@{/searchBySubCategory?category=Lehenga&amp;subCategory=occasion}">All Occasions...</a></li>
 																			</ul>
 																		</div>
 
 
 																		<div class="col-md-2 col-sm-2">
 																			<div class="header-menu">
-																				<h4><a id="lehengastyleLink" href="/searchBySubCategory?category=Lehenga&amp;subCategory=style">Style</a></h4>
+																				<h4><a id="lehengastyleLink" th:href="@{/searchBySubCategory?category=Lehenga&amp;subCategory=style}">Style</a></h4>
 																			</div>
 																			<ul class="list-unstyled">
-																				<li><a id="lehengacircleLink" href="/searchBySubSubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=circular">Circular Style</a></li>
-										                                        <li><a id="lehengaalineLink" href="/searchBySubSubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=aline">A-Line Lehenga</a></li>
-										                                        <li><a id="lehengamermaidLink" href="/searchBySubSubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=mermaid">Mermaid Style</a></li>
-										                                        <li><a id="lehengaindoLink" href="/searchBySubSubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=indowestern">Indowestern Lehenga</a></li>
-										                                        <li><a id="lehengaallstyleLink" href="/searchBySubCategory?category=Lehenga&amp;subCategory=style">All styles...</a></li>
+																				<li><a id="lehengacircleLink" th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=circular}">Circular Style</a></li>
+										                                        <li><a id="lehengaalineLink" th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=aline}">A-Line Lehenga</a></li>
+										                                        <li><a id="lehengamermaidLink" th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=mermaid}">Mermaid Style</a></li>
+										                                        <li><a id="lehengaindoLink" th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=indowestern}">Indowestern Lehenga</a></li>
+										                                        <li><a id="lehengaallstyleLink" th:href="@{/searchBySubCategory?category=Lehenga&amp;subCategory=style}">All styles...</a></li>
 																			</ul>
 																		</div>
 																		<div class="col-md-2 col-sm-2">
 																			<div class="header-menu">
-																				<h4><a id="lehengafabricLink" href="/searchBySubCategory?category=Lehenga&amp;subCategory=fabric">Fabric</a></h4>
+																				<h4><a id="lehengafabricLink" th:href="@{/searchBySubCategory?category=Lehenga&amp;subCategory=fabric}">Fabric</a></h4>
 																			</div>
 																			<ul class="list-unstyled">
-																				<li><a id="lehengasilkLink" href="/searchBySubSubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=silk">Silk Lehenga</a></li>
-										                                        <li><a id="lehengageoLink" href="/searchBySubSubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=georgette">Georgette Lehenga</a></li>
-										                                        <li><a id="lehengavelLink" href="/searchBySubSubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=velvet">Velvet Lehenga</a></li>
-										                                        <li><a id="lehenganetLink" href="/searchBySubSubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=net">Net Lehenga</a></li>
-										                                        <li><a id="lehengaartLink" href="/searchBySubSubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=art">Art Silk Lehenga</a></li>
-										                                        <li><a id="lehengaallfabLink" href="/searchBySubCategory?category=Lehenga&amp;subCategory=fabric">All Fabrics...</a></li>
+																				<li><a id="lehengasilkLink" th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=silk}">Silk Lehenga</a></li>
+										                                        <li><a id="lehengageoLink" th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=georgette}">Georgette Lehenga</a></li>
+										                                        <li><a id="lehengavelLink" th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=velvet}">Velvet Lehenga</a></li>
+										                                        <li><a id="lehenganetLink" th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=net}">Net Lehenga</a></li>
+										                                        <li><a id="lehengaartLink" th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=art}">Art Silk Lehenga</a></li>
+										                                        <li><a id="lehengaallfabLink" th:href="@{/searchBySubCategory?category=Lehenga&amp;subCategory=fabric}">All Fabrics...</a></li>
 																			</ul>
 																		</div>
 																		<div class="col-md-2 col-sm-2">
 																			<div class="header-menu">
-																				<h4><a id="lehengaalternateLink" href="/searchByCategory?category=Lehenga">Alternates</a></h4>
+																				<h4><a id="lehengaalternateLink" th:href="@{/searchByCategory?category=Lehenga}">Alternates</a></h4>
 																			</div> 
 																			<ul class="list-unstyled">
-																					<li><a id="lehengaabayaLink" href="/searchByCategory?category=Abaya">Abaya Style Suit</a></li>
-											                                        <li><a id="lehengalehengaLink" href="/searchByCategory?category=LehengaSaree">Lehenga Style Saree</a></li>
-											                                        <li><a id="lehengagownsLink" href="/searchByCategory?category=Gowns">Gowns</a></li>
+																					<li><a id="lehengaabayaLink" th:href="@{/searchByCategory?category=Abaya}">Abaya Style Suit</a></li>
+											                                        <li><a id="lehengalehengaLink" th:href="@{/searchByCategory?category=LehengaSaree}">Lehenga Style Saree</a></li>
+											                                        <li><a id="lehengagownsLink" th:href="@{/searchByCategory?category=Gowns}">Gowns</a></li>
 																			</ul>
 																		</div>
 																		<div class="col-md-4 col-sm-4">
@@ -461,9 +461,9 @@ $(document).ready(function(){
 													
 													<!-- GOWNS -->
 										<li class="menuBB"><a th:href="@{/searchByCategory?category=gowns}">GOWNS</a></li>	
-										<li class="menuBB"><a id="jewelryLink" href="/searchByCategory?category=jewellery">JEWELRY</a></li>	
+										<li class="menuBB"><a id="jewelryLink" th:href="@{/searchByCategory?category=jewellery}">JEWELRY</a></li>	
 										<!-- Accessories -->
-													<li class="menuBB"><a id="jewelryLink" href="/searchByCategory?category=jewellery">Accessories</a></li>	
+													<li class="menuBB"><a id="jewelryLink" th:href="@{/searchByCategory?category=jewellery}">Accessories</a></li>	
 											<!-- Accounts -->	
 							
 					<li class="menuBB" th:if="!${siteSettings.loginKillSwitch}"><a id="myaccLink" >My Account</a>							
