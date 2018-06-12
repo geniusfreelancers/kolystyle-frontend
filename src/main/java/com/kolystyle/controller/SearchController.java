@@ -111,7 +111,7 @@ public class SearchController {
 		return "productshelf";
 	}*/
 	
-	@RequestMapping("/searchProduct")
+/*	@RequestMapping("/searchProduct")
 	public String searchProduct(@ModelAttribute("keyword") String keyword, Principal principal, Model model, HttpServletRequest request){
 		keyword = keyword.trim();
 		SearchLog searchLog = new SearchLog();
@@ -156,6 +156,7 @@ public class SearchController {
 			model.addAttribute("user", user);
 		}
 		List<Product> productList = productService.blurrySearch(keyword);
+		
 		searchLog.setResultReturned(productList.size());
 		searchLog.setSearchEnded(Calendar.getInstance().getTime());
 		searchLogRepository.save(searchLog);
@@ -171,7 +172,7 @@ public class SearchController {
 		}
 		model.addAttribute("productList",productList);
 		return "productshelf";
-	}
+	}*/
 	
 	/*@RequestMapping("/searchBySubCategory")
 	public String searchBySubCategory(@RequestParam("category") String category,

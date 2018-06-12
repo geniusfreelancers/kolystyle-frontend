@@ -38,6 +38,9 @@ public interface ProductService {
 
 	Page<Product> findByCategoryAndSubSubCategory(Category category, SubSubCategory subSubCategory,
 			PageRequest pageRequest);
+	List<Product> findTop12ByOrderByIdDesc();
+
+	Page<Product> searchByKeyword(String keyword, PageRequest pageRequest);
 	
 
 }

@@ -13,6 +13,7 @@ import com.kolystyle.domain.Product;
 import com.kolystyle.domain.SubCategory;
 import com.kolystyle.domain.SubSubCategory;
 import com.kolystyle.repository.ProductRepository;
+import com.kolystyle.service.CategoryService;
 import com.kolystyle.service.ProductService;
 
 @Service
@@ -21,7 +22,8 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	private ProductRepository productRepository;
 
-	
+	@Autowired
+	private CategoryService categoryService;
 	
 	public List<Product> findAll(){
 		List<Product> productList = (List<Product>) productRepository.findAll();
@@ -52,6 +54,9 @@ public class ProductServiceImpl implements ProductService{
 		return productRepository.findTop8ByFeatureOrderByIdDesc(feature);
 	}
 	
+	public List<Product> findTop12ByOrderByIdDesc(){
+		return productRepository.findTop12ByOrderByIdDesc();
+	}
 	public List<Product> findByCategory(Category category){
 		List<Product> productList = productRepository.findByCategory(category);
 		
@@ -181,6 +186,26 @@ public class ProductServiceImpl implements ProductService{
 	public Page<Product> findByCategoryAndSubSubCategory(Category category, SubSubCategory subSubCategory,
 			PageRequest pageRequest) {
 		return productRepository.findByCategoryAndMainSubCategory(category, subSubCategory,pageRequest);
+	}
+
+
+	@Override
+	public Page<Product> searchByKeyword(String keyword, PageRequest pageRequest) {
+		Page<Product> productList = productRepository.findByTitleContaining(keyword,pageRequest);
+		if (productList.hasContent() != true){
+			productList = productRepository.findBySku(keyword,pageRequest);
+		}
+		if (productList.hasContent() != true){
+			productList = productRepository.findByBrandContaining(keyword,pageRequest);
+		}
+		if (productList.hasContent() != true){
+			productList = productRepository.findByDescriptionContaining(keyword,pageRequest);
+		}
+		if (productList.hasContent() != true){
+			productList = productRepository.findByCategoryOrderByIdDesc(categoryService.findCategoryBySlug(keyword),pageRequest);
+		}
+		
+		return productList;
 	}
 
 }

@@ -1,9 +1,16 @@
 package com.kolystyle.controller;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,11 +24,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import com.kolystyle.repository.ProductsRepository;
+import com.kolystyle.repository.SearchLogRepository;
 import com.kolystyle.service.CategoryService;
 import com.kolystyle.service.ProductService;
 import com.kolystyle.service.SiteSettingService;
 import com.kolystyle.service.impl.AmazonClient;
 import com.kolystyle.domain.Product;
+import com.kolystyle.domain.SearchLog;
 import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.domain.SubCategory;
 import com.kolystyle.domain.SubSubCategory;
@@ -54,8 +63,8 @@ public class ClientController {
     SiteSettingService siteSettingService;
     @Autowired
     CategoryService categoryService;
-    /*@Autowired
-    SubCategoryService subCategoryService;*/
+    @Autowired
+	SearchLogRepository searchLogRepository;
     
     @GetMapping("/products")
     public ModelAndView homepage(@RequestParam("pageSize") Optional<Integer> pageSize,
@@ -74,6 +83,12 @@ public class ClientController {
         // print repo
         System.out.println("here is client repo " + productsRepository.findAll());
         Page<Product> clientlist = productsRepository.findAll(new PageRequest(evalPage, evalPageSize));
+        if(clientlist.hasContent() == false) {
+        	model.addAttribute("emptyList", true);
+        	return modelAndView;
+        }else {
+        	model.addAttribute("emptyList", false);
+        }
         System.out.println("client list get total pages" + clientlist.getTotalPages() + "client list get number " + clientlist.getNumber());
         PagerModel pager = new PagerModel(clientlist.getTotalPages(),clientlist.getNumber(),BUTTONS_TO_SHOW);
         // add clientmodel
@@ -113,7 +128,14 @@ public class ClientController {
         System.out.println("here is client repo " + productService.findByBrandByOrderByIdDesc(brand,new PageRequest(evalPage, evalPageSize)));
        /* Page<Product> clientlist = productsRepository.findAll(new PageRequest(evalPage, evalPageSize));*/
         Page<Product> clientlist = productService.findByBrandByOrderByIdDesc(brand,new PageRequest(evalPage, evalPageSize,Sort.Direction.DESC,"id"));
-        
+        if(clientlist.hasContent() == false) {
+        	model.addAttribute("emptyList", true);
+        	List<Product> productList = productService.findTop12ByOrderByIdDesc();
+        	model.addAttribute("productList", productList);
+        	return modelAndView;
+        }else {
+        	model.addAttribute("emptyList", false);
+        }
         System.out.println("client list get total pages" + clientlist.getTotalPages() + "client list get number " + clientlist.getNumber());
         PagerModel pager = new PagerModel(clientlist.getTotalPages(),clientlist.getNumber(),BUTTONS_TO_SHOW);
         // add clientmodel
@@ -153,6 +175,14 @@ public class ClientController {
         System.out.println("here is client repo " + productService.findByCategoryByOrderByIdDesc(thiscategory,new PageRequest(evalPage, evalPageSize)));
        /* Page<Product> clientlist = productsRepository.findAll(new PageRequest(evalPage, evalPageSize));*/
         Page<Product> clientlist = productService.findByCategoryByOrderByIdDesc(thiscategory,new PageRequest(evalPage, evalPageSize,Sort.Direction.DESC,"id"));
+        if(clientlist.hasContent() == false) {
+        	model.addAttribute("emptyList", true);
+        	List<Product> productList = productService.findTop12ByOrderByIdDesc();
+        	model.addAttribute("productList", productList);
+        	return modelAndView;
+        }else {
+        	model.addAttribute("emptyList", false);
+        }
         System.out.println("client list get total pages" + clientlist.getTotalPages() + "client list get number " + clientlist.getNumber());
         PagerModel pager = new PagerModel(clientlist.getTotalPages(),clientlist.getNumber(),BUTTONS_TO_SHOW);
         // add clientmodel
@@ -200,6 +230,14 @@ public class ClientController {
         System.out.println("here is client repo " + productService.findByCategoryAndSubCategory(thiscategory, thisSubCategory,new PageRequest(evalPage, evalPageSize)));
        /* Page<Product> clientlist = productsRepository.findAll(new PageRequest(evalPage, evalPageSize));*/
         Page<Product> clientlist = productService.findByCategoryAndSubCategory(thiscategory, thisSubCategory,new PageRequest(evalPage, evalPageSize,Sort.Direction.DESC,"id"));;
+        if(clientlist.hasContent() == false) {
+        	model.addAttribute("emptyList", true);
+        	List<Product> productList = productService.findTop12ByOrderByIdDesc();
+        	model.addAttribute("productList", productList);
+        	return modelAndView;
+        }else {
+        	model.addAttribute("emptyList", false);
+        }
         System.out.println("client list get total pages" + clientlist.getTotalPages() + "client list get number " + clientlist.getNumber());
         PagerModel pager = new PagerModel(clientlist.getTotalPages(),clientlist.getNumber(),BUTTONS_TO_SHOW);
         // add clientmodel
@@ -248,8 +286,17 @@ public class ClientController {
         }
         // print repo
         System.out.println("here is client repo " + productService.findByCategoryAndSubSubCategory(thiscategory, thisSubSubCategory,new PageRequest(evalPage, evalPageSize)));
-       /* Page<Product> clientlist = productsRepository.findAll(new PageRequest(evalPage, evalPageSize));*/
+       
+        /* Page<Product> clientlist = productsRepository.findAll(new PageRequest(evalPage, evalPageSize));*/
         Page<Product> clientlist = productService.findByCategoryAndSubSubCategory(thiscategory, thisSubSubCategory,new PageRequest(evalPage, evalPageSize,Sort.Direction.DESC,"id"));;
+        if(clientlist.hasContent() == false) {
+        	model.addAttribute("emptyList", true);
+        	List<Product> productList = productService.findTop12ByOrderByIdDesc();
+        	model.addAttribute("productList", productList);
+        	return modelAndView;
+        }else {
+        	model.addAttribute("emptyList", false);
+        }
         System.out.println("client list get total pages" + clientlist.getTotalPages() + "client list get number " + clientlist.getNumber());
         PagerModel pager = new PagerModel(clientlist.getTotalPages(),clientlist.getNumber(),BUTTONS_TO_SHOW);
         // add clientmodel
@@ -270,4 +317,152 @@ public class ClientController {
         return modelAndView;
     }
     
+    @GetMapping("/searchProduct")
+    public ModelAndView searchProduct(@RequestParam("pageSize") Optional<Integer> pageSize,
+            @RequestParam("page") Optional<Integer> page,@ModelAttribute("keyword") String keyword,Model model,HttpServletRequest request){
+    	SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
+        ModelAndView modelAndView = new ModelAndView("products");
+        keyword = keyword.trim();
+		SearchLog searchLog = new SearchLog();
+		searchLog.setSearchStarted(Calendar.getInstance().getTime());
+		searchLog.setSessionId(request.getSession().getId());
+		searchLog.setSearchKeyword(keyword);
+		searchLog.setUsedBrowser(request.getHeader("User-Agent"));
+		searchLog.setSearchedOnPage(request.getHeader("referer"));
+        //Get Cookie Value for Bag Id
+		Cookie[] cookies = request.getCookies();
+		 String cartBagId = null;
+		 if (cookies != null){
+			int cookieLength = cookies.length;
+			//Check cookie value
+			if (cookieLength >0) {
+			   for(int i = 0; i < cookieLength; i++) { 
+		           Cookie cartID = cookies[i];
+		           if (cartID.getName().equalsIgnoreCase("BagId")) {
+		               System.out.println("BagId retrived for search = " + cartID.getValue()); 
+		               cartBagId = cartID.getValue();
+		           }
+	       		}
+			}
+		}
+       searchLog.setCartId(cartBagId);
+        // Evaluate page size. If requested parameter is null, return initial
+        // page size
+        int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
+        // Evaluate page. If requested parameter is null or less than 0 (to
+        // prevent exception), return initial size. Otherwise, return value of
+        // param. decreased by 1.
+        int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;       
+        // print repo
+        System.out.println("here is client repo " + productService.searchByKeyword(keyword,new PageRequest(evalPage, evalPageSize)));
+       /* Page<Product> clientlist = productsRepository.findAll(new PageRequest(evalPage, evalPageSize));*/
+        Page<Product> clientlist = productService.searchByKeyword(keyword,new PageRequest(evalPage, evalPageSize,Sort.Direction.DESC,"id"));
+        if(clientlist.hasContent() == false) {
+        	model.addAttribute("emptyList", true);
+        	List<Product> productList = productService.findTop12ByOrderByIdDesc();
+        	model.addAttribute("productList", productList);
+        	return modelAndView;
+        }else {
+        	model.addAttribute("emptyList", false);
+        	
+        }
+        searchLog.setResultReturned(clientlist.getNumberOfElements());
+        System.out.println("GET NUMBER OF ELEMENTs "+clientlist.getNumberOfElements());
+        System.out.println("GET SIZE "+clientlist.getSize());
+		searchLog.setSearchEnded(Calendar.getInstance().getTime());
+		searchLogRepository.save(searchLog);
+        System.out.println("client list get total pages" + clientlist.getTotalPages() + "client list get number " + clientlist.getNumber());
+        PagerModel pager = new PagerModel(clientlist.getTotalPages(),clientlist.getNumber(),BUTTONS_TO_SHOW);
+        // add clientmodel
+        modelAndView.addObject("clientlist",clientlist);
+        // evaluate page size
+       // modelAndView.addObject("totalRecord", totalRecord);
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
+        // evaluate page size
+        modelAndView.addObject("selectedPageSize", evalPageSize);
+        model.addAttribute("searchResult",true);
+		model.addAttribute("keyword",keyword);
+        modelAndView.addObject("pageType", "/searchProduct?keyword="+keyword);
+        // add page sizes
+        modelAndView.addObject("pageSizes", PAGE_SIZES);
+        // add pager
+        modelAndView.addObject("pager", pager);
+        return modelAndView;
+    }
+    
+    @PostMapping("/searchProduct")
+    public ModelAndView searchProductPost(@RequestParam("pageSize") Optional<Integer> pageSize,
+            @RequestParam("page") Optional<Integer> page,@ModelAttribute("keyword") String keyword,Model model,HttpServletRequest request){
+    	SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
+        ModelAndView modelAndView = new ModelAndView("products");
+        keyword = keyword.trim();
+		SearchLog searchLog = new SearchLog();
+		searchLog.setSearchStarted(Calendar.getInstance().getTime());
+		searchLog.setSessionId(request.getSession().getId());
+		searchLog.setSearchKeyword(keyword);
+		searchLog.setUsedBrowser(request.getHeader("User-Agent"));
+		searchLog.setSearchedOnPage(request.getHeader("referer"));
+        //Get Cookie Value for Bag Id
+		Cookie[] cookies = request.getCookies();
+		 String cartBagId = null;
+		 if (cookies != null){
+			int cookieLength = cookies.length;
+			//Check cookie value
+			if (cookieLength >0) {
+			   for(int i = 0; i < cookieLength; i++) { 
+		           Cookie cartID = cookies[i];
+		           if (cartID.getName().equalsIgnoreCase("BagId")) {
+		               System.out.println("BagId retrived for search = " + cartID.getValue()); 
+		               cartBagId = cartID.getValue();
+		           }
+	       		}
+			}
+		}
+       searchLog.setCartId(cartBagId);
+        // Evaluate page size. If requested parameter is null, return initial
+        // page size
+        int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
+        // Evaluate page. If requested parameter is null or less than 0 (to
+        // prevent exception), return initial size. Otherwise, return value of
+        // param. decreased by 1.
+        int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;       
+        // print repo
+        System.out.println("here is client repo " + productService.searchByKeyword(keyword,new PageRequest(evalPage, evalPageSize)));
+       /* Page<Product> clientlist = productsRepository.findAll(new PageRequest(evalPage, evalPageSize));*/
+        Page<Product> clientlist = productService.searchByKeyword(keyword,new PageRequest(evalPage, evalPageSize,Sort.Direction.DESC,"id"));
+        if(clientlist.hasContent() == false) {
+        	model.addAttribute("emptyList", true);
+        	List<Product> productList = productService.findTop12ByOrderByIdDesc();
+        	model.addAttribute("productList", productList);
+        	return modelAndView;
+        }else {
+        	model.addAttribute("emptyList", false);
+        	
+        }
+        searchLog.setResultReturned(clientlist.getNumberOfElements());
+        
+		searchLog.setSearchEnded(Calendar.getInstance().getTime());
+		searchLogRepository.save(searchLog);
+        System.out.println("client list get total pages" + clientlist.getTotalPages() + "client list get number " + clientlist.getNumber());
+        PagerModel pager = new PagerModel(clientlist.getTotalPages(),clientlist.getNumber(),BUTTONS_TO_SHOW);
+        // add clientmodel
+        modelAndView.addObject("clientlist",clientlist);
+        // evaluate page size
+       // modelAndView.addObject("totalRecord", totalRecord);
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
+        // evaluate page size
+        modelAndView.addObject("selectedPageSize", evalPageSize);
+        model.addAttribute("searchResult",true);
+		model.addAttribute("keyword",keyword);
+        modelAndView.addObject("pageType", "/searchProduct?keyword="+keyword);
+        // add page sizes
+        modelAndView.addObject("pageSizes", PAGE_SIZES);
+        // add pager
+        modelAndView.addObject("pager", pager);
+        return modelAndView;
+    }
 }
