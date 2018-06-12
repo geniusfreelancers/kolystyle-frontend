@@ -42,13 +42,27 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
     	    spinner: 'wave'
     	  })
     	var qty = $('#'+cartItemId).val();
-        $http.put('/shoppingCart/updateCartItem/'+cartItemId+'/'+qty).success(function (data) {
+    	var promoCode = $('#enterPromoCode').val();
+    	if(promoCode==""){
+    		promoCode=null;
+    	}
+        $http.put('/shoppingCart/updateCartItem/'+cartItemId+'/'+qty+'/'+promoCode).success(function (data) {
         	$scope.shoppingCart = data;
         	 $scope.shoppingCart.shippingCost = $scope.calShipping(data);
              $('.updateCartitem').show();
              $('.spinnerspin').ploading({
             	    action: 'hide'
             })
+           
+            if($scope.shoppingCart.errors == null){
+             $('.applyPromoError').show();	
+       		 $('.applyPromoError').html('<p class="text-success"><span>You saved $</span><span>'+$scope.shoppingCart.discountedAmount.toFixed(2)+'</span> using promo code <span>'+$scope.shoppingCart.promoCode.toUpperCase()+'</span>');
+       		 $('#applyPromoNow').hide();
+       		 $('#removePromoNow').show();
+       		 $("#enterPromoCode").prop("disabled",true);
+       	 }else{
+       		$('.applyPromoError').hide();
+       	 }
         });
     };
 ////

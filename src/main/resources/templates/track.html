@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="common/head :: common-head" />
-<body>
-	<div class="wrapper-box">
-		<div class="main-wrapper">
+<head th:replace="common/homeheader :: home-head" />
+<body class="home-1 top-btn-color">
+	<!-- Facebook Page Plugin Script-->
+	<div id="fb-root"></div>
+	<script th:src="@{/js/facebook.js}"></script>
+        <!-- HEADER -->
+        <div th:replace="common/homeheader :: navbar" />
+ 		<!-- HEADER -->
+ 		<div th:replace="common/homeheader :: ticker-slider" />	
 
-			<div th:replace="common/head :: navbar" />
-
-			<div id="container-wrapper">
+			<div id="container" class="container">
 				
 
 <div class="row">
@@ -17,6 +20,10 @@
 }
 .mini-cart-label{
 	display:none!important;
+}
+.error {
+    color: #e71b1b;
+    font-weight: 100;
 }
 </style>
 <div class="col-md-10 col-md-offset-1">
@@ -98,8 +105,6 @@
     </script>
 </div>
 <div class="col-md-4">
-<p>Paypal Response: <span th:text="${transaction.getId()}"></span></p>
-<p>Paypal Response: <!--span th:text="${transaction.getPaymentInstrumentType()}"></span--></p>
 <p><strong>Shipping Method:</strong> <span th:text="${order.shippingMethod}"></span></p>
 <p><strong>Shipping address</strong></p>
 <p><span th:text="${order.shippingAddress.firstName}"></span> <span th:text="${order.shippingAddress.lastName}"></span></p>
@@ -239,19 +244,10 @@
 </div>
 
 	
-					<div class="clear"></div>
-				
+					</div>	
 
-				<script th:src="@{/js/controller.js}"></script>
-<div class="row">
-				<!-- end of container -->
-				<div th:replace="common/head :: footer" />
-
-				<div th:replace="common/head :: body-bottom-scripts" />
-			</div>
-		</div>
-</div>
-	</div>
-
+			<!-- Footer -->
+		<div th:replace="common/homeheader :: footer" />
+	
 </body>
 </html>

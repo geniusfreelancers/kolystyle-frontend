@@ -103,6 +103,14 @@ Version:1.0
 label#newsletteremail-error {
     color: #fd0000;
 }
+.btn-lol {
+    color: #fff;
+    background-color: #5bc1d2;
+    border-color: #5bc1d2;
+}
+.removeItems:hover{
+	color:#008000!important;
+	}
 .newsletteremail.error {
     border: 1px solid #f50202;
 }
@@ -5912,6 +5920,9 @@ div .c-selectParent1 > select {
     .m_nav {
         cursor: pointer
         }	
+ .noshowmobile{
+ 	display:none;
+ }       
 /*-----------------------------
 Title
 -------------------------------*/	

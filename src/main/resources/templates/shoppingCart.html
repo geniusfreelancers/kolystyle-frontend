@@ -35,12 +35,7 @@
 						<strong>BAG ID: <span th:text="${shoppingCart.bagId}"></span></strong>
 					</p>
 					</div>
-					<!-- <div class="col-md-5">
-						<a class="btn btn-primary"
-							th:href="@{/checkout(id=${shoppingCart.id})}">Check Out</a>
-					</div> -->
-							
-					<!-- </div> -->
+				
 					
 					
 					
@@ -54,7 +49,7 @@
 					</div>
 						
 						
-					<div class="row" th:if="${!emptyCart}">
+					<div class="row noshowmobile" th:if="${!emptyCart}">
 					<div class="col-md-12 black-bg">
 						<div class="col-xs-6">
 							<p><strong>Item</strong></p>
@@ -80,7 +75,7 @@
 						<form method="post">	
 							<div class="col-md-2 col-xs-4">
 								<a href="/productDetail?id={{cartItem.product.id}}"> <img
-									class="img-responsive product-shelf" style="width:70px;"
+									class="img-responsive product-shelf" style="width:84px;height:99px;"
 									th:src="#{adminPath}+@{/image/product/{{cartItem.product.id}}/{{cartItem.product.coverImageName}}}" />
 								</a>
 							</div>
@@ -124,7 +119,7 @@
 								<!--  style="display: none;" -->
 								<button th:attr="ng-click='updateCartItem(cartItem.id)'" 
 									id="update-item-{{cartItem.id}}" type="submit"
-									class="btn btn-warning btn-xs updateCartitem">Update</button>
+									class="btn btn-lol btn-xs updateCartitem">Update</button>
 							</div>
 							<div class="col-md-2 col-xs-8">
 							<p class="text-right"> 
@@ -135,7 +130,7 @@
 							
 							</div>
 							<div class="col-md-10 col-md-offset-2 col-xs-12 text-right">
-							<a href="#" class="text-danger" th:attr="ng-click='removeFromCart(cartItem.id)'" ><i class="fa fa-trash" aria-hidden="true"></i> Remove</a>	
+							<a href="#" class="text-danger removeItems" th:attr="ng-click='removeFromCart(cartItem.id)'" ><i class="fa fa-trash" aria-hidden="true"></i> Remove</a>	
 								
 							</div>
 						</form>
@@ -156,7 +151,7 @@
 							
 							 <input
 									th:id="enterPromoCode" th:name="promocode"	th:value="${shoppingCart.promoCode}"				
-									class="form-control promoCode" value="" th:type="text"/>
+									class="form-control promoCode" placeholder="Enter Promo Code" th:type="text"/>
 									
 									<!-- Coupon you applied is not valid th:if="${invalidPromoError}"-->
 									<p id="applyPromoError">{{shoppingCart.errors}}</p>
@@ -273,7 +268,7 @@
 				</div>
 				</section>
 				<div class="col-md-6 col-xs-6 text-left">
-						<a class="btn btn-default" th:href="@{/productshelf}">Continue
+						<a class="btn btn-default" th:href="@{/products}">Continue
 							Shopping</a>
 					</div>
 				
