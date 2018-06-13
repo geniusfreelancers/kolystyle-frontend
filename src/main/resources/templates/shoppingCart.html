@@ -23,7 +23,7 @@
 					
 				<div class="content-header">
 					<div class="col-md-12">
-						<img th:src="#{adminPath}+@{/image/offer/}+${siteSettings.cartOfferBanner}" class="img-responsive" style="margin-bottom:10px;"/>
+						<img th:src="${fileUrl}+${siteSettings.cartOfferBanner}" class="img-responsive" style="margin-bottom:10px;"/>
 					</div>
 				
 				
@@ -35,9 +35,6 @@
 						<strong>BAG ID: <span th:text="${shoppingCart.bagId}"></span></strong>
 					</p>
 					</div>
-				
-					
-					
 					
 					<div th:if="${notEnoughStock}" class="alert alert-warning col-md-8 col-md-offset-2">
 						Oops, some of the products does't have enough stock. Please update
@@ -71,12 +68,12 @@
 					<!-- ***************************Display Products in Cart***************************************** -->
 					<div class="row" th:attr="ng-repeat = 'cartItem in shoppingCart.cartItemList'">
 					<div class="col-md-12"><hr/>
-						<!-- form th:action="@{/shoppingCart/updateCartItem}" method="post"-->
+						
 						<form method="post">	
 							<div class="col-md-2 col-xs-4">
 								<a href="/productDetail?id={{cartItem.product.id}}"> <img
 									class="img-responsive product-shelf" style="width:84px;height:99px;"
-									th:src="#{adminPath}+@{/image/product/{{cartItem.product.id}}/{{cartItem.product.coverImageName}}}" />
+									th:src="${fileUrl}+@{{{cartItem.product.coverImageName}}}" />
 								</a>
 							</div>
 							<div class="col-md-4 col-xs-8">

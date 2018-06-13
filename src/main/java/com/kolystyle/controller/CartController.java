@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,13 +40,28 @@ import com.kolystyle.service.PromoCodesService;
 import com.kolystyle.service.ShoppingCartService;
 import com.kolystyle.service.SiteSettingService;
 import com.kolystyle.service.UserService;
+import com.kolystyle.service.impl.AmazonClient;
 
 @Controller
 @RequestMapping("/shoppingCart")
 public class CartController {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(CartController.class);
-	
+	 private AmazonClient amazonClient;
+		
+
+	    @Value("${amazonProperties.endpointUrl}")
+	    private String endpointUrl;
+	    @Value("${amazonProperties.bucketName}")
+	    private String bucketName;
+	    @Value("${amazonProperties.accessKey}")
+	    private String accessKey;
+	    @Value("${amazonProperties.secretKey}")
+	    private String secretKey;
+	    @Autowired
+	    CartController(AmazonClient amazonClient) {
+	        this.amazonClient = amazonClient;
+	    }
 	@Autowired
 	private UserService userService;
 	
@@ -126,6 +142,8 @@ public class CartController {
 	public String shoppingCart(Model model,Principal principal,HttpServletRequest request){
 		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
 		User user = null;
 		ShoppingCart shoppingCart;
 		List<CartItem> cartItemList = null;

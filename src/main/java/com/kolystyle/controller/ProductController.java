@@ -65,7 +65,7 @@ private AmazonClient amazonClient;
 	@Autowired
 	private ViewedRecentlyRepository viewedRecentlyRepository;
 	
-	@RequestMapping("/productshelf")
+/*	@RequestMapping("/productshelf")
 	public String productshelf(Model model, Principal principal, Pageable page) {
 		if(principal != null){
 			String username = principal.getName();
@@ -94,8 +94,8 @@ private AmazonClient amazonClient;
 			for(ProductAttr productAtt : productAttrLis ) {
 				
 				productAttributeList.addAll(productAtt.getProductAttribute());
-				/*for(ProductAttribute productAttribute : productAttributeList ) {
-				}*/
+				for(ProductAttribute productAttribute : productAttributeList ) {
+				}
 			}
 			
 			
@@ -160,7 +160,7 @@ private AmazonClient amazonClient;
 		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
 	        model.addAttribute("siteSettings",siteSettings);
 		return "productshelf";
-	}
+	}*/
 	
 	@RequestMapping("/productDetail")
 	public String productDetail(@PathParam("id") Long id, Model model, Principal principal,HttpServletRequest request,HttpServletResponse response) 
@@ -170,6 +170,10 @@ private AmazonClient amazonClient;
 			User user = userService.findByUsername(username);
 			model.addAttribute("user", user);
 		}
+		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+	      model.addAttribute("siteSettings",siteSettings);
+	      String fileUrl = endpointUrl + "/" + bucketName + "/";
+			model.addAttribute("fileUrl", fileUrl);
 		ViewedRecently viewedRecently = null;
 		String alreadyInList;
 		String inList="";
@@ -339,8 +343,7 @@ private AmazonClient amazonClient;
 		String productImages = product.getProductImagesName();
 		List<String> productImagesList = Arrays.asList(productImages.split("\\s*,\\s*"));
 		model.addAttribute("product", product);
-		 SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
-	        model.addAttribute("siteSettings",siteSettings);
+		 
 		//List<Integer> qtyList = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
 		int qtly = product.getInStockNumber();
 		List<Integer> qtyList = new ArrayList<Integer>();

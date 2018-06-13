@@ -59,6 +59,7 @@ import com.kolystyle.service.SiteSettingService;
 import com.kolystyle.service.UserPaymentService;
 import com.kolystyle.service.UserService;
 import com.kolystyle.service.UserShippingService;
+import com.kolystyle.service.impl.AmazonClient;
 import com.kolystyle.service.impl.StripeService;
 import com.kolystyle.utility.MailConstructor;
 import com.kolystyle.utility.USConstants;
@@ -70,7 +71,21 @@ public class StripeCheckout {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CheckoutController.class);
 	/*private BraintreeGateway gateway = KolystyleApplication.gateway;*/
+	 private AmazonClient amazonClient;
+		
 
+	    @Value("${amazonProperties.endpointUrl}")
+	    private String endpointUrl;
+	    @Value("${amazonProperties.bucketName}")
+	    private String bucketName;
+	    @Value("${amazonProperties.accessKey}")
+	    private String accessKey;
+	    @Value("${amazonProperties.secretKey}")
+	    private String secretKey;
+	    @Autowired
+	    StripeCheckout(AmazonClient amazonClient) {
+	        this.amazonClient = amazonClient;
+	    }
    
 /*	private ShippingAddress shippingAddress = new ShippingAddress();
 	private BillingAddress billingAddress = new BillingAddress();
@@ -262,6 +277,8 @@ public class StripeCheckout {
 		       Order order;
 		       SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
 		        model.addAttribute("siteSettings",siteSettings);
+		        String fileUrl = endpointUrl + "/" + bucketName + "/";
+				model.addAttribute("fileUrl", fileUrl);
 		       try {
 		    	   charge = Charge.retrieve(transactionId);
 		           order = orderService.findOne(orderId);
@@ -304,6 +321,8 @@ public class StripeCheckout {
 	    public String checkoutGet(HttpServletRequest request,HttpServletResponse response,Model model) {
 	    	SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
 	        model.addAttribute("siteSettings",siteSettings);
+	        String fileUrl = endpointUrl + "/" + bucketName + "/";
+			model.addAttribute("fileUrl", fileUrl);
 	      //Save in DB
 	        User user = null;
 	        ShoppingCart shoppingCart;
@@ -353,7 +372,8 @@ public class StripeCheckout {
 				Principal principal) {
 	    	SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
 	        model.addAttribute("siteSettings",siteSettings);
-	        
+	        String fileUrl = endpointUrl + "/" + bucketName + "/";
+			model.addAttribute("fileUrl", fileUrl);
 	      //Save in DB
 	        User user = null;
 	        ShoppingCart shoppingCart;
@@ -401,6 +421,8 @@ public class StripeCheckout {
 	public String guestcheckout(HttpServletRequest request,HttpServletResponse response,Model model ) {
 		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
 		ShoppingCart shoppingCart;
 
 		
