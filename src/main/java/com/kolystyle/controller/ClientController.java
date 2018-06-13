@@ -72,6 +72,8 @@ public class ClientController {
     	SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
         ModelAndView modelAndView = new ModelAndView("products");
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
         //
         // Evaluate page size. If requested parameter is null, return initial
         // page size
@@ -96,8 +98,7 @@ public class ClientController {
         
      // evaluate page size
        // modelAndView.addObject("totalRecord", totalRecord);
-        String fileUrl = endpointUrl + "/" + bucketName + "/";
-		model.addAttribute("fileUrl", fileUrl);
+        
         // evaluate page size
         modelAndView.addObject("selectedPageSize", evalPageSize);
         modelAndView.addObject("pageType", "/products");
@@ -114,6 +115,8 @@ public class ClientController {
     	SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
         ModelAndView modelAndView = new ModelAndView("products");
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
         //
         // Evaluate page size. If requested parameter is null, return initial
         // page size
@@ -142,8 +145,7 @@ public class ClientController {
         modelAndView.addObject("clientlist",clientlist);
         // evaluate page size
        // modelAndView.addObject("totalRecord", totalRecord);
-        String fileUrl = endpointUrl + "/" + bucketName + "/";
-		model.addAttribute("fileUrl", fileUrl);
+        
         // evaluate page size
         modelAndView.addObject("selectedPageSize", evalPageSize);
         
@@ -161,6 +163,8 @@ public class ClientController {
     	SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
         ModelAndView modelAndView = new ModelAndView("products");
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
         //
         // Evaluate page size. If requested parameter is null, return initial
         // page size
@@ -189,8 +193,7 @@ public class ClientController {
         modelAndView.addObject("clientlist",clientlist);
         // evaluate page size
        // modelAndView.addObject("totalRecord", totalRecord);
-        String fileUrl = endpointUrl + "/" + bucketName + "/";
-		model.addAttribute("fileUrl", fileUrl);
+        
         // evaluate page size
         modelAndView.addObject("selectedPageSize", evalPageSize);
         model.addAttribute("productCategory",true);
@@ -210,6 +213,8 @@ public class ClientController {
     	SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
         ModelAndView modelAndView = new ModelAndView("products");
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
         //
         // Evaluate page size. If requested parameter is null, return initial
         // page size
@@ -244,8 +249,7 @@ public class ClientController {
         modelAndView.addObject("clientlist",clientlist);
         // evaluate page size
        // modelAndView.addObject("totalRecord", totalRecord);
-        String fileUrl = endpointUrl + "/" + bucketName + "/";
-		model.addAttribute("fileUrl", fileUrl);
+      
         // evaluate page size
         modelAndView.addObject("selectedPageSize", evalPageSize);
         model.addAttribute("productCategory",true);
@@ -266,6 +270,8 @@ public class ClientController {
     	SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
         ModelAndView modelAndView = new ModelAndView("products");
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
         //
         // Evaluate page size. If requested parameter is null, return initial
         // page size
@@ -303,8 +309,7 @@ public class ClientController {
         modelAndView.addObject("clientlist",clientlist);
         // evaluate page size
        // modelAndView.addObject("totalRecord", totalRecord);
-        String fileUrl = endpointUrl + "/" + bucketName + "/";
-		model.addAttribute("fileUrl", fileUrl);
+
         // evaluate page size
         modelAndView.addObject("selectedPageSize", evalPageSize);
         model.addAttribute("productCategory",true);
@@ -323,6 +328,8 @@ public class ClientController {
     	SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
         ModelAndView modelAndView = new ModelAndView("products");
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
         keyword = keyword.trim();
 		SearchLog searchLog = new SearchLog();
 		searchLog.setSearchStarted(Calendar.getInstance().getTime());
@@ -376,8 +383,7 @@ public class ClientController {
         modelAndView.addObject("clientlist",clientlist);
         // evaluate page size
        // modelAndView.addObject("totalRecord", totalRecord);
-        String fileUrl = endpointUrl + "/" + bucketName + "/";
-		model.addAttribute("fileUrl", fileUrl);
+   
         // evaluate page size
         modelAndView.addObject("selectedPageSize", evalPageSize);
         model.addAttribute("searchResult",true);
@@ -396,6 +402,8 @@ public class ClientController {
     	SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
         ModelAndView modelAndView = new ModelAndView("products");
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
         keyword = keyword.trim();
 		SearchLog searchLog = new SearchLog();
 		searchLog.setSearchStarted(Calendar.getInstance().getTime());
@@ -450,8 +458,7 @@ public class ClientController {
         modelAndView.addObject("clientlist",clientlist);
         // evaluate page size
        // modelAndView.addObject("totalRecord", totalRecord);
-        String fileUrl = endpointUrl + "/" + bucketName + "/";
-		model.addAttribute("fileUrl", fileUrl);
+   
         // evaluate page size
         modelAndView.addObject("selectedPageSize", evalPageSize);
         model.addAttribute("searchResult",true);

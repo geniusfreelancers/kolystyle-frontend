@@ -854,27 +854,6 @@ padding: 9px 0 !important;}
     background-color: #F0F0F0
     }
 
-.special-1 {
-    background-image: url(../image/special_1a.png)
-    }
-
-.special-2 {
-    background-image: url(../image/special_2a.jpg)
-    }
-
-.special-3 {
-    background-image: url(../image/special_3a.png);
-    background-position: center center
-    }
-
-.special-4 {
-    background-image: url(../image/special_4a.jpg)
-    }
-
-.special-5 {
-    background-image: url(../image/special_5a.jpg)
-    }
-
 .special-text {
     position: relative;
     z-index: 1
@@ -5263,7 +5242,7 @@ transform: rotate(-45deg);
 }
 
 .home-4 #testimonial {
-  background: rgba(0, 0, 0, 0) url("../img/bg/2.jpg") no-repeat scroll left center / cover ;
+  /*background: rgba(0, 0, 0, 0) url("../img/bg/2.jpg") no-repeat scroll left center / cover ;*/
   margin-bottom: 50px;
 }
 .home-4 .section-title span::before {border: 1px solid #9a9a9a;
