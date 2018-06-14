@@ -1,6 +1,7 @@
 package com.kolystyle.domain;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,6 +19,7 @@ public class SiteSetting {
 	private BigDecimal premiumShippingCost;
 	private String siteLogo;
 	private String hotDeal;
+	private Date hotDealExpiry;
 	@Transient
 	private MultipartFile siteLogoImage;
 	private String shopOfferBanner;
@@ -103,6 +105,13 @@ public class SiteSetting {
 	}
 	public void setHotDeal(String hotDeal) {
 		this.hotDeal = hotDeal;
+	}
+	
+	public Date getHotDealExpiry() {
+		return hotDealExpiry;
+	}
+	public void setHotDealExpiry(Date hotDealExpiry) {
+		this.hotDealExpiry = hotDealExpiry;
 	}
 	public MultipartFile getSiteLogoImage() {
 		return siteLogoImage;

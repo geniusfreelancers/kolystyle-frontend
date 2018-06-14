@@ -398,7 +398,7 @@
 							</div>
 							<div class="col-md-6 col-sm-6 paddingRight">
 								<div class="product-details-list">
-									<h6><a class="hotdealTitle" href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#" th:text="${hotProduct.title}"></a></h6>
+									<h6><a class="hotdealTitle" th:href="@{/productDetail?id=}+${hotProduct.id}" th:text="${hotProduct.title}"></a></h6>
 									<div class="product-review-list">
 										<ul>
 											<li>
@@ -413,7 +413,9 @@
 										</ul>
 									</div>
 									<div class="product-pd-list">
-										<div class="product-price">£50.00</div>
+										<div class="product-price"><span>$</span>
+													<span th:text="${#numbers.formatDecimal(hotProduct.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
+												</div>
 										<div class="product-discount" th:with="discount=${100-(hotProduct.ourPrice/hotProduct.listPrice)*100}" >
 												<div class="product-discount-container" th:if="${discount &gt; 0}">
 														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
@@ -424,18 +426,22 @@
 													<span th:text="${#numbers.formatDecimal(hotProduct.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
 												</div>
 									</div>
-									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+									<p th:utext="${hotProduct.description}"></p>
 									<div class="product-cart-area-list">
-										<div class="dealAddToCart cart-btn"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#">GRAB THIS DEAL</a></div>
-										<div class="btn-others-list">
+										<div class="dealAddToCart cart-btn"><a th:href="@{/currentdeals?deal=}+${siteSettings.hotDeal}">GRAB THIS DEAL</a></div>
+										<div class="btn-others-list" th:if="!${siteSettings.loginKillSwitch}">
 											<ul>
-												<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-heart-o"></i></a></li>
-												<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html"><i class="fa fa-exchange"></i></a></li>
+												<li><a th:href="@{/productDetail?id=}+${hotProduct.id}"><i class="fa fa-heart-o"></i></a></li>
+												<li><a th:href="@{/productDetail?id=}+${hotProduct.id}"><i class="fa fa-exchange"></i></a></li>
 											</ul>
 										</div>
 									</div>
+									<input type="hidden" id="hotDealExpiry" name="hotDealExpiry" th:value="${siteSettings.hotDealExpiry}"/>
 									<div class="hotDealProduct">
-										<div data-countdown="2016/01/01"><span class="cdown day">0 <p>Days</p></span> <span class="cdown hour">0 <p>Hours</p></span> <span class="cdown minutes">00 <p>Minutes</p></span> <span>00 <p>Seconds</p></span></div>
+										<div id="hotDealProduct"><span class="cdown day"><span id="cdown_day">0 </span><p>Days</p></span> 
+										<span class="cdown hour"><span id="cdown_hour">0 </span> <p>Hours</p></span> 
+										<span class="cdown minutes"><span id="cdown_minutes">00 </span> <p>Minutes</p></span> 
+										<span><span id="cdown_second">00 </span> <p>Seconds</p></span></div>
 									</div>
 								</div>
 							</div>
@@ -787,7 +793,7 @@
 		<!-- Footer -->
 		<div th:replace="common/homeheader :: footer" />
 		
-		
+		<script th:src="@{/js/countdown.js}"></script>
 
 </body>
 </html>

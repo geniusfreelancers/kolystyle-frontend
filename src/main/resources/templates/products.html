@@ -77,8 +77,18 @@ You can browse through our popular links above</h5>
 					<img th:src="${fileUrl}+${siteSettings.shopOfferBanner}" class="img-responsive" style="margin-bottom:10px;width:100%"/>
 					
 					</div>
-				
-				
+				<div class="col-md-12" th:if="${hotDeal}">
+				<div class="col-md-3 col-md-offset-4" >
+					<input type="hidden" id="hotDealExpiry" name="hotDealExpiry" th:value="${siteSettings.hotDealExpiry}"/>
+									<div class="hotDealProduct" id="hotDealTimer">
+										<div id="hotDealProduct"><span class="cdown day"><span id="cdown_day">0 </span><p>Days</p></span> 
+										<span class="cdown hour"><span id="cdown_hour">0 </span> <p>Hours</p></span> 
+										<span class="cdown minutes"><span id="cdown_minutes">00 </span> <p>Minutes</p></span> 
+										<span><span id="cdown_second">00 </span> <p>Seconds</p></span></div>
+									</div>
+								<br/>
+				</div>
+				</div>
 				</div><br/><br/>
 				<!-- Each Product Start -->
 	<div class="col-md-3 col-sm-6" data-th-each="product : ${clientlist}" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-subcategory=${product.subCategory.subCategorySlug},data-subsubcategory=${product.mainSubCategory.subSubCategorySlug},data-size=${product.size}">
@@ -278,6 +288,7 @@ function changePageAndSize() {
   <script th:src="@{/js/jquery.facets.js}"></script-->
   		<!-- Footer -->
 		<div th:replace="common/homeheader :: footer" />
+		<script th:if="${hotDeal}" th:src="@{/js/countdown.js}"></script>	
 </body>
 
 </html>

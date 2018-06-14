@@ -1,6 +1,8 @@
 /**
  * 
  */
+
+
 //Blowup Lens Zoom 
 $(document).ready(function() {
 	$("aside.preview nav").show();

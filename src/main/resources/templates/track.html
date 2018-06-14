@@ -180,7 +180,7 @@
 						<hr/>
 						<div class="col-xs-2">
 						<a th:href="@{/productDetail(id=${cartItem.product.id})}">
-						<img class="img-responsive shelf-product" th:src="#{adminPath}+@{/image/product/}+${cartItem.product.id}+'/'+${cartItem.product.coverImageName}" style="width:70px;" />
+						<img class="img-responsive shelf-product" th:src="${fileUrl}+${cartItem.product.coverImageName}" style="width:70px;" />
 						</a>
 						</div>
 						<div class="col-xs-4">
@@ -225,14 +225,14 @@
 <div class="col-md-4 payment-type">
 <p><strong>Payment type</strong></p>
 <div th:if="${creditMethod}">
-	<!--span th:text="${transaction.getCreditCard().getCardType()}"></span-->Ending in
-	<strong><!--span th:text="${transaction.getCreditCard().getLast4()}"></span--></strong>
+	<span th:text="${transaction.source.brand}"></span> Ending in
+	<strong><span th:text="${transaction.source.last4}"></span></strong>
 </div>
 <div th:if="${paypalMethod}">
 	<span><i class="fa fa-paypal" aria-hidden="true"></i> Paypal</span>	
 </div>
 </div>
-<div th:if="${creditMethod}" class="col-md-4 billing-address">
+<div th:if="${creditMethod}" class="col-md-4 billing-address hide-me">
 <p><strong>Billing address</strong></p>
 <p><span th:text="${order.billingAddress.BillingAddressStreet1}"></span></p>
 <p><span th:text="${order.billingAddress.BillingAddressStreet2}"></span></p>
@@ -245,7 +245,7 @@
 
 	
 					</div>	
-
+<br/>
 			<!-- Footer -->
 		<div th:replace="common/homeheader :: footer" />
 	

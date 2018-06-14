@@ -210,4 +210,10 @@ public class ProductServiceImpl implements ProductService{
 		return productList;
 	}
 
+
+	@Override
+	public Page<Product> findByProductTagsContaining(String deal, PageRequest pageRequest) {
+		return productRepository.findByProductTagsContaining(deal,pageRequest);
+	}
+
 }

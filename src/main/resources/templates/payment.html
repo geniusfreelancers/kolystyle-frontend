@@ -79,7 +79,7 @@
 						<hr/>
 						<div class="col-md-2 col-xs-12">
 						<a th:href="@{/productDetail?id=}+${cartItem.product.id}">
-						<img class="img-responsive shelf-product" th:src="#{adminPath}+@{/image/product/}+${cartItem.product.id}+'/'+${cartItem.product.coverImageName}" th:attr="alt=${cartItem.product.title}" style="width:70px;" />
+						<img class="img-responsive shelf-product" th:src="${fileUrl}+${cartItem.product.coverImageName}" th:attr="alt=${cartItem.product.title}" style="width:70px;" />
 						</a>
 						</div>
 						<div class="col-md-4 col-xs-12">
