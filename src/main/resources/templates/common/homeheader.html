@@ -307,9 +307,9 @@ $(document).ready(function(){
 																			</ul>
 																		</div>
 																		<div class="col-md-4 col-sm-4">
-																			<div class="banner">
+																			<div class="banner col-md-10">
 																				<a th:href="@{/searchByCategory?category=saree}">
-																					<img alt="" src="image/1.jpg"/>
+																					<img alt="" th:src="${fileUrl}+${siteSettings.menu1Banner}"/>
 																				</a> 
 																			</div>
 																		</div>
@@ -378,9 +378,9 @@ $(document).ready(function(){
 																			</ul>
 																		</div>
 																		<div class="col-md-4 col-sm-4">
-																			<div class="banner">
+																			<div class="banner col-md-10">
 																				<a th:href="@{/searchByCategory?category=Salwar}">
-																					<img alt="" src="image/1.jpg"/>
+																					<img alt="" th:src="${fileUrl}+${siteSettings.menu2Banner}"/>
 																				</a> 
 																			</div>
 																		</div>
@@ -446,9 +446,9 @@ $(document).ready(function(){
 																			</ul>
 																		</div>
 																		<div class="col-md-4 col-sm-4">
-																			<div class="banner">
+																			<div class="banner col-md-10">
 																				<a th:href="@{/searchByCategory?category=Lehenga}">
-																					<img alt="" src="image/1.jpg"/>
+																					<img alt="" th:src="${fileUrl}+${siteSettings.menu3Banner}"/>
 																				</a> 
 																			</div>
 																		</div>
@@ -570,7 +570,7 @@ $(document).ready(function(){
 																<div class="in1">
 																	<div class="col-md-6">
 																		<a th:href="@{/searchByCategory?category=saree}">
-																		<img src="image/1.jpg" alt=""/></a>
+																		<img th:src="${fileUrl}+${siteSettings.menu1Banner}" alt=""/></a>
 																	</div>
 																</div>
 															</li>
@@ -625,7 +625,7 @@ $(document).ready(function(){
 																<div class="in1">
 																	<div class="col-md-6">
 																		<a th:href="@{/searchByCategory?category=Salwar}">
-																		<img src="image/2.jpg" alt=""/></a>
+																		<img th:src="${fileUrl}+${siteSettings.menu2Banner}" alt=""/></a>
 																	</div>
 																</div>
 															</li>
@@ -677,7 +677,7 @@ $(document).ready(function(){
 																<div class="in1">
 																	<div class="col-md-6">
 																		<a th:href="@{/searchByCategory?category=Lehenga}">
-																		<img src="image/2.jpg" alt=""/></a>
+																		<img th:src="${fileUrl}+${siteSettings.menu3Banner}" alt=""/></a>
 																	</div>
 																</div>
 															</li>

@@ -86,6 +86,10 @@ Version:1.0
 /*-----------------------------
  1. Global Styles 
 -------------------------------*/
+.kolystyle .kolystyle-content div > a img {
+    width: 180px;
+    height: 300px;
+}
 .product-pd-rel {
     float: left;
     width: 100%;
