@@ -86,6 +86,14 @@ Version:1.0
 /*-----------------------------
  1. Global Styles 
 -------------------------------*/
+.product-pd-rel {
+    float: left;
+    width: 100%;
+}
+.rel-image {
+	width:75px;
+    height: 90px;
+}
 .no-content {
     color: #ff0000;
     text-align: center;

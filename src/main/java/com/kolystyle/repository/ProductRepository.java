@@ -43,4 +43,5 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	Page<Product> findByTitleContaining(String keyword, Pageable pageable);
 	Page<Product> findBySku(String keyword, Pageable pageable);
 	Page<Product> findByDescriptionContaining(String keyword, Pageable pageable);
+	List<Product> findTop5ByCategoryOrderByIdDesc(Category category);
 }

@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="common/homeheader :: home-head" />
+<!-- Image Zoom -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/jquery.simpleLens.css}"/>
+    <link rel="stylesheet" type="text/css" href="@{css/jquery.simpleGallery.css}"/>
+    
 	<body class="home-1 top-btn-color">
         <!-- HEADER -->
         <div th:replace="common/homeheader :: navbar" />
@@ -132,26 +136,35 @@
 							<div class="product-single-col">
 								<div class="col-md-5 col-sm-4 product-slider">
 									<div class="product-img ">
-										<div class="detail-slider">
-										  
-										<div class="flex-viewport" style="overflow: hidden; position: relative;">
-										<ul class="slides" style="width: 1200%; transition-duration: 0.6s; transform: translate3d(-1464px, 0px, 0px);">
-										<li data-thumb="image/1(2).jpg" class="clone" aria-hidden="true" style="width: 366px; float: left; display: block;">
-											  <img src="image/1(2).jpg" alt="img-responsive" draggable="false"/>
-											</li>											
-											<li data-thumb="image/3(1).jpg" style="width: 366px; float: left; display: block;" class="">
-											  <img src="image/3(1).jpg" alt="img-responsive" draggable="false"/>
-											</li>
-											<li data-thumb="image/3(1).jpg" style="width: 366px; float: left; display: block;" class="flex-active-slide">
-											  <img src="image/3(1).jpg" alt="img-responsive" draggable="false"/>
-											</li>
-										  <li data-thumb="image/2(2).jpg" class="clone" aria-hidden="true" style="width: 366px; float: left; display: block;">
-											  <img src="image/2(2).jpg" alt="img-responsive" draggable="false"/>
-											</li>
-											</ul>
-											</div>
-										
-											</div>
+										    <div class="simpleLens-gallery-container" id="demo-1">
+        <div class="simpleLens-container">
+            <div class="simpleLens-big-image-container">
+                <a class="simpleLens-lens-image" data-lens-image="image/demo/large/benvado_elisa_bianco.jpg">
+                    <img src="image/demo/medium/benvado_elisa_bianco.jpg" class="simpleLens-big-image"/>
+                </a>
+            </div>
+        </div>
+
+        <div class="simpleLens-thumbnails-container">
+            <a href="#" class="simpleLens-thumbnail-wrapper"
+               data-lens-image="image/demo/large/benvado_elisa_bianco.jpg"
+               data-big-image="image/demo/medium/benvado_elisa_bianco.jpg">
+                <img src="image/demo/thumbnail/benvado_elisa_bianco.jpg"/>
+            </a>
+
+            <a href="#" class="simpleLens-thumbnail-wrapper"
+               data-lens-image="image/demo/large/camper_21926_red.jpg"
+               data-big-image="image/demo/medium/camper_21926_red.jpg">
+                <img src="image/demo/thumbnail/camper_21926_red.jpg"/>
+            </a>
+
+            <a href="#" class="simpleLens-thumbnail-wrapper"
+               data-lens-image="image/demo/large/flylondon_most_red.jpg"
+               data-big-image="image/demo/medium/flylondon_most_red.jpg">
+                <img src="image/demo/thumbnail/flylondon_most_red.jpg"/>
+            </a>
+        </div>
+    </div>
 									</div>
 								</div>
 								<div class="col-md-7  col-sm-8 product-details-single">
@@ -196,7 +209,7 @@
 														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
 												</div>
 												</div>
-											<div class="product-listing">$<span th:text="${product.listPrice}"></span></div>
+											<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="product-listing">$<span th:text="${product.listPrice}"></span></div>
 										</div>
 										<div class="saving">
 											You save: $<span th:text="${#numbers.formatDecimal((product.listPrice - product.ourPrice),0 , 'COMMA',2,'POINT')}"></span>
@@ -359,12 +372,22 @@
 							<h5>RELATED PRODUCTS</h5>
 							<ul class="releated-content" data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
 								<li data-th-each="product : ${productList}" class="slide-inner">
-									<img src="image/rel.jpg" alt=""/>
+									<img class="rel-image" src="image/rel.jpg" alt=""/>
 									<div class="pposts-info">
-										<h6><a href="detail.html">FLORAL LACE SHIFT DRESS</a></h6>
-										<div class="product-pd">
-											<div class="product-price">$50</div>
-											<div class="product-discount" style="color:red;">-25%</div>
+										<h6><a th:href="@{/productDetail?id=}+${product.id}" th:text="${product.title}"></a></h6>
+										<div class="product-pd-rel">
+											<div class="product-price"><span>$</span>
+												<span th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
+											</div>
+											<div class="product-discount" th:with="discount=${100-(product.ourPrice/product.listPrice)*100}" >
+												<div class="product-discount-container" th:if="${discount &gt; 0}">
+														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
+												</div>
+												</div>
+												<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="product-listprice">
+												<span>$</span>
+													<span th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
+												</div>
 										</div>
 									</div>
 								</li>
@@ -440,11 +463,9 @@ width: 300px;
                     <div class="product-singleArea">
 										<div class="product-img">
 											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/1(2).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/2(2).jpg" alt=""/>
-											<!-- <img class="img-responsive primary_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="alt=${product.title}"/>
-											<img class="img-responsive hover_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="alt=${product.title}"/> -->
-											<div class="offer-nostock">sale</div>
+											<img class="img-responsive primary_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="title=${product.title},alt=${product.title}"/>
+											<img class="img-responsive hover_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="title=${product.title},alt=${product.title}"/> 
+											<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="offer-nostock">sale</div>
 											<div class="product-cart-area">
 												<div class="btn-others" th:if="!${siteSettings.loginKillSwitch}">
 													<ul>
@@ -466,7 +487,7 @@ width: 300px;
 														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
 												</div>
 												</div>
-												<div class="product-listprice">
+												<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="product-listprice">
 												<span>$</span>
 													<span th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
 												</div>
@@ -502,11 +523,9 @@ width: 300px;
                     <div class="product-singleArea">
 										<div class="product-img">
 											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/1(2).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/2(2).jpg" alt=""/>
-											<!-- <img class="img-responsive primary_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="alt=${product.title}"/>
-											<img class="img-responsive hover_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="alt=${product.title}"/> -->
-											<div class="offer-nostock">sale</div>
+											<img class="img-responsive primary_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="title=${product.title},alt=${product.title}"/>
+											<img class="img-responsive hover_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="title=${product.title},alt=${product.title}"/> 
+											<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="offer-nostock">sale</div>
 											<div class="product-cart-area">
 												<div class="btn-others" th:if="!${siteSettings.loginKillSwitch}">
 													<ul>
@@ -528,7 +547,7 @@ width: 300px;
 														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
 												</div>
 												</div>
-												<div class="product-listprice">
+												<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="product-listprice">
 												<span>$</span>
 													<span th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
 												</div>
@@ -563,11 +582,9 @@ width: 300px;
                     <div class="product-singleArea">
 										<div class="product-img">
 											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/1(2).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/2(2).jpg" alt=""/>
-											<!-- <img class="img-responsive primary_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="alt=${product.title}"/>
-											<img class="img-responsive hover_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="alt=${product.title}"/> -->
-											<div class="offer-nostock">sale</div>
+											<img class="img-responsive primary_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="title=${product.title},alt=${product.title}"/>
+											<img class="img-responsive hover_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="title=${product.title},alt=${product.title}"/> 
+											<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="offer-nostock">sale</div>
 											<div class="product-cart-area">
 												<div class="btn-others" th:if="!${siteSettings.loginKillSwitch}">
 													<ul>
@@ -589,7 +606,7 @@ width: 300px;
 														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
 												</div>
 												</div>
-												<div class="product-listprice">
+												<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="product-listprice">
 												<span>$</span>
 													<span th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
 												</div>
@@ -620,6 +637,20 @@ width: 300px;
 	
 		<!-- Footer -->
 		<div th:replace="common/homeheader :: footer" />
+		<!-- Image Zoom -->
+		<script type="text/javascript" th:src="@{/js/jquery.simpleGallery.js}"></script>
+		<script type="text/javascript" th:src="@{/js/jquery.simpleLens.js}"></script>
+		<script>
+    $(document).ready(function(){
+        $('#demo-1 .simpleLens-thumbnails-container img').simpleGallery({
+            loading_image: 'demo/images/loading.gif'
+        });
+
+        $('#demo-1 .simpleLens-big-image').simpleLens({
+            loading_image: 'demo/images/loading.gif'
+        });
+    });
+</script>
 </body>
 
 </html> 

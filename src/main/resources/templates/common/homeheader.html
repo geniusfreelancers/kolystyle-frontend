@@ -447,7 +447,7 @@ $(document).ready(function(){
 																		</div>
 																		<div class="col-md-4 col-sm-4">
 																			<div class="banner">
-																				<a th:href="@{/searchByCategory?category=Salwar}">
+																				<a th:href="@{/searchByCategory?category=Lehenga}">
 																					<img alt="" src="image/1.jpg"/>
 																				</a> 
 																			</div>
@@ -463,16 +463,16 @@ $(document).ready(function(){
 										<li class="menuBB"><a th:href="@{/searchByCategory?category=gowns}">GOWNS</a></li>	
 										<li class="menuBB"><a id="jewelryLink" th:href="@{/searchByCategory?category=jewellery}">JEWELRY</a></li>	
 										<!-- Accessories -->
-													<li class="menuBB"><a id="jewelryLink" th:href="@{/searchByCategory?category=jewellery}">Accessories</a></li>	
+										<li class="menuBB"><a id="accessoriesLink" th:href="@{/searchByCategory?category=accessories}">Accessories</a></li>	
 											<!-- Accounts -->	
 							
 					<li class="menuBB" th:if="!${siteSettings.loginKillSwitch}"><a id="myaccLink" >My Account</a>							
 				
 														<ul class="sub-menu-drop">
 															<li><a id="myaccountLink" th:href="@{/customer/account}">My Account</a></li>
-							                                <li><a id="orderLink" href="/customer/orderhistory">Order History</a></li>
-							                                <li><a href="/customer/wishlist" id="wishlist-total">My Wish List</a></li>
-							                                <li><a id="trackLink" href="/ordertracking">Track Order</a></li>
+							                                <li><a id="orderLink" th:href="@{/customer/orderhistory}">Order History</a></li>
+							                                <li><a th:href="@{/customer/wishlist}" id="wishlist-total">My Wish List</a></li>
+							                                <li><a id="trackLink" th:href="@{/ordertracking}">Track Order</a></li>
 														</ul>													
 													</li>							
 										<!-- INFORMATION -->	
@@ -511,7 +511,7 @@ $(document).ready(function(){
 													<a title="View your shopping cart" th:href="@{/shoppingCart/cart}" class="cart-contents">
 														<span class="count">0 items</span>
 														-
-														<span class="amount">£0.00</span>
+														<span class="amount">$0.00</span>
 													</a>
 												</div>
 												<!-- SHOPPING CART -->
@@ -522,45 +522,54 @@ $(document).ready(function(){
 										<div class="mobi-menu">
 											<div id="cssmenu">
 												<ul>
-													<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index.html" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Home</span></a></li>
-													<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/gird.html" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Man</span></a></li>
+													<li><a th:href="@{/}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Home</span></a></li>
 													<li class="has-sub">
-														<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">women</span><span class="holder" style="border-color: rgba(0, 0, 0, 0.34902);"></span></a>
+														<a th:href="@{/searchByCategory?category=saree}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Saree</span><span class="holder" style="border-color: rgba(0, 0, 0, 0.34902);"></span></a>
 														<ul>
 															<li class="has-sub">
-																<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#"><span>women bag</span></a>
+																<a th:href="@{/searchBySubCategory?category=Saree&amp;subCategory=occasion}"><span>Occasion</span></a>
 																<ul>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>bag items</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>bag items</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>bag items</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>bag items</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>bag items</span></a></li>
-																	<li class="last"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>bag items</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=wedding}"><span>Wedding Wear</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=party}"><span>Party Wear</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=bridal}"><span>Bridal Wear</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=festive}"><span>Festive Wear</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=occasion&amp;mainsubCategory=casual}"><span>Casual Wear</span></a></li>
+																	<li class="last"><a th:href="@{/searchBySubCategory?category=Saree&amp;subCategory=occasion}"><span>All Occasions...</span></a></li>
 																</ul>
 															</li>
 															<li class="has-sub">
-																<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#"><span>Accessories</span></a>
+																<a th:href="@{/searchBySubCategory?category=Saree&amp;subCategory=style}"><span>Style</span></a>
 																<ul>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/portfolio_4col.html"><span>Accessories 1</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/portfolio_3col.html"><span>Accessories 2</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/portfolio_2col.html"><span>Accessories 3</span></a></li>
-																	<li class="last"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/404.html"><span>Accessories 5</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=kanchipuram}"><span>Kanchipuram Saree</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=banarasi}"><span>Banarasi Saree</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=ombre}"><span>Ombre Sarees</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=prestiched}"><span>Pre-stitched Sarees</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=style&amp;mainsubCategory=handloom}"><span>Handloom Saree</span></a></li>
+																	<li class="last"><a th:href="@{/searchBySubCategory?category=Saree&amp;subCategory=style}"><span>All styles...</span></a></li>
 																</ul>
 															</li>
 															<li class="has-sub">
-																<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#"><span>Woman Dresses</span></a>
+																<a th:href="@{/searchBySubCategory?category=Saree&amp;subCategory=fabric}"><span>Fabric</span></a>
 																<ul>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/category-page1.html"><span>Dresses 1</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/category-page2.html"><span>Dresses 2</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/product-page.html"><span>Dresses 3</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/shopping_cart.html"><span>Dresses 4</span></a></li>
-																	<li class="last"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/shop_checkout.html"><span>Dresses 5</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=cotton}"><span>Cotton Saree</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=silk}"><span>Silk Saree</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=art}"><span>Art Silk Saree</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=georgette}"><span>Georgette Saree</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Saree&amp;subCategory=fabric&amp;mainsubCategory=chiffon}"><span>Chiffon Saree</span></a></li>
+																	<li class="last"><a th:href="@{/searchBySubCategory?category=Saree&amp;subCategory=fabric}"><span>All Fabrics...</span></a></li>
+																</ul>
+															</li>
+															<li class="has-sub">
+																<a th:href="@{/searchByCategory?category=saree}"><span>More</span></a>
+																<ul>
+																	<li><a th:href="@{/searchByCategory?category=blouse}"><span>Blouse</span></a></li>
+																	<li><a th:href="@{/searchByCategory?category=petticoat}"><span>Petticoat</span></a></li>
 																</ul>
 															</li>
 															<li class="img-nav">
 																<div class="in1">
 																	<div class="col-md-6">
-																		<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index.html">
+																		<a th:href="@{/searchByCategory?category=saree}">
 																		<img src="image/1.jpg" alt=""/></a>
 																	</div>
 																</div>
@@ -568,37 +577,54 @@ $(document).ready(function(){
 														</ul>
 													</li>
 													<li class="has-sub">
-														<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">fashion</span><span class="holder" style="border-color: rgba(0, 0, 0, 0.34902);"></span></a>
+														<a th:href="@{/searchByCategory?category=Salwar}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">SALWAR KAMEEZ</span><span class="holder" style="border-color: rgba(0, 0, 0, 0.34902);"></span></a>
 														<ul>
 															<li class="has-sub">
-																<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#"><span>Women</span></a>
+																<a th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=occasion}"><span>Occasion</span></a>
 																<ul>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>Dresses</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>Bags</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>Jeans</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>Shirts</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>T-shirts</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>Wallets</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>Hair Accessories</span></a></li>
-																	<li class="last"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>Short dresses</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=wedding}"><span>Wedding Wear</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=party}"><span>Party Wear</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=festive}"><span>Festive Wear</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=casual}"><span>Casual Wear</span></a></li>
+																	<li class="last"><a th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=occasion}"><span>All Occasions...</span></a></li>
 																</ul>
 															</li>
 															<li class="has-sub">
-																<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#"><span>Man</span></a>
-																<ul>			
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/portfolio_4col.html"><span>Jeans</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/portfolio_3col.html"><span>Shirts</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/portfolio_2col.html"><span>T-shirts</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/portfolio_2col.html"><span>Blazers</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/portfolio_2col.html"><span>Sport Bags</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/portfolio_2col.html"><span>Coats</span></a></li>
-																	<li class="last"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/404.html"><span>Sandals</span></a></li>
+																<a th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=style}"><span>Style</span></a>
+																<ul>		
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=anarkali}"><span>Anarkali Style</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=straight}"><span>Straight Style</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=abaya}"><span>Abaya Style</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=pakistani}"><span>Pakistani Style</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=punjabi}"><span>Punjabi Style</span></a></li>
+																	<li class="last"><a th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=style}"><span>All styles...</span></a></li>
+																</ul>
+															</li>
+															<li class="has-sub">
+																<a th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=fabric}"><span>Fabric</span></a>
+																<ul>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=chanderi}"><span>Chanderi Suits</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=georgette}"><span>Georgette Suits</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=cotton}"><span>Cotton Suits</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=net}"><span>Net Suits</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=art}"><span>Art Silk Suits</span></a></li>
+																	<li class="last"><a th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=fabric}"><span>All Fabrics...</span></a></li>
+																</ul>
+															</li>
+															<li class="has-sub">
+																<a th:href="@{/searchByCategory?category=Salwar}"><span>Alternates</span></a>
+																<ul>	
+																	<li><a th:href="@{/searchByCategory?category=Kurtas}"><span>Long Kurtas</span></a></li>
+																	<li><a th:href="@{/searchByCategory?category=Tunics}"><span>Tunics</span></a></li>
+																	<li><a th:href="@{/searchByCategory?category=Bottoms}"><span>Bottoms</span></a></li>
+																	<li><a th:href="@{/searchByCategory?category=Dupattas}"><span>Dupattas</span></a></li>
+																	<li class="last"><a th:href="@{/searchByCategory?category=Gowns}"><span>Gowns</span></a></li>
 																</ul>
 															</li>
 															<li class="img-nav">
 																<div class="in1">
 																	<div class="col-md-6">
-																		<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index.html">
+																		<a th:href="@{/searchByCategory?category=Salwar}">
 																		<img src="image/2.jpg" alt=""/></a>
 																	</div>
 																</div>
@@ -606,46 +632,81 @@ $(document).ready(function(){
 														</ul>
 													</li>
 													<li class="has-sub">
-														<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">accessories</span><span class="holder" style="border-color: rgba(0, 0, 0, 0.34902);"></span></a>
+														<a th:href="@{/searchByCategory?category=Lehenga}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">LEHENGA</span><span class="holder" style="border-color: rgba(0, 0, 0, 0.34902);"></span></a>
 														<ul>
 															<li class="has-sub">
-																<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#"><span>Women</span></a>
-																<ul>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>Dresses</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>Bags</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>Jeans</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>Shirts</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>T-shirts</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>Wallets</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>Hair Accessories</span></a></li>
-																	<li class="last"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/list.html"><span>Short dresses</span></a></li>
+																<a th:href="@{/searchBySubCategory?category=Lehenga&amp;subCategory=occasion}"><span>Occasion</span></a>
+																<ul>			
+																	<li><a th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=wedding}"><span>Wedding Wear</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=party}"><span>Party Wear</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=festive}"><span>Festive Wear</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=occasion&amp;mainsubCategory=bridal}"><span>Bridal Wear</span></a></li>
+																	<li class="last"><a th:href="@{/searchBySubCategory?category=Lehenga&amp;subCategory=occasion}"><span>All Occasions...</span></a></li>
 																</ul>
 															</li>
 															<li class="has-sub">
-																<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#"><span>Man</span></a>
-																<ul>			
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/portfolio_4col.html"><span>Jeans</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/portfolio_3col.html"><span>Shirts</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/portfolio_2col.html"><span>T-shirts</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/portfolio_2col.html"><span>Blazers</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/portfolio_2col.html"><span>Sport Bags</span></a></li>
-																	<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/portfolio_2col.html"><span>Coats</span></a></li>
-																	<li class="last"><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/404.html"><span>Sandals</span></a></li>
+																<a th:href="@{/searchBySubCategory?category=Lehenga&amp;subCategory=style}"><span>Style</span></a>
+																<ul>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=circular}"><span>Circular Style</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=aline}"><span>A-Line Lehenga</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=mermaid}"><span>Mermaid Style</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=style&amp;mainsubCategory=indowestern}"><span>Indowestern Lehenga</span></a></li>
+																	<li class="last"><a th:href="@{/searchBySubCategory?category=Lehenga&amp;subCategory=style}"><span>All styles...</span></a></li>
+																</ul>
+															</li>
+															<li class="has-sub">
+																<a th:href="@{/searchBySubCategory?category=Lehenga&amp;subCategory=fabric}"><span>Fabric</span></a>
+																<ul>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=silk}"><span>Silk Lehenga</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=georgette}"><span>Georgette Lehenga</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=velvet}"><span>Velvet Lehenga</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=net}"><span>Net Lehenga</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Lehenga&amp;subCategory=fabric&amp;mainsubCategory=art}"><span>Art Silk Lehenga</span></a></li>
+																	<li class="last"><a th:href="@{/searchBySubCategory?category=Lehenga&amp;subCategory=fabric}"><span>All Fabrics...</span></a></li>
+																</ul>
+															</li>
+															<li class="has-sub">
+																<a th:href="@{/searchByCategory?category=Lehenga}"><span>Alternates</span></a>
+																<ul> 
+																	<li><a th:href="@{/searchByCategory?category=Abaya}"><span>Abaya Style Suit</span></a></li>
+																	<li><a th:href="@{/searchByCategory?category=LehengaSaree}"><span>Lehenga Style Saree</span></a></li>
+																	<li class="last"><a th:href="@{/searchByCategory?category=Gowns}"><span>Gowns</span></a></li>
 																</ul>
 															</li>
 															<li class="img-nav">
 																<div class="in1">
 																	<div class="col-md-6">
-																		<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index.html">
+																		<a th:href="@{/searchByCategory?category=Lehenga}">
 																		<img src="image/2.jpg" alt=""/></a>
 																	</div>
 																</div>
 															</li>
 														</ul>
 													</li>
-													<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/about.html" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">About</span></a></li>
-													<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/contact.html" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Contact us</span></a></li>
-													<li><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/blog-one.html" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Blog</span></a></li>
+													<li><a th:href="@{/searchByCategory?category=gowns}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">GOWNS</span></a></li>
+													<li><a th:href="@{/searchByCategory?category=jewellery}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">JEWELRY</span></a></li>
+													<li><a th:href="@{/searchByCategory?category=accessories}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Accessories</span></a></li>
+													
+													<li class="has-sub" th:if="!${siteSettings.loginKillSwitch}">
+														<a th:href="@{/customer/account}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">My Account</span><span class="holder" style="border-color: rgba(0, 0, 0, 0.34902);"></span></a>
+															<ul>			
+																	<li><a th:href="@{/customer/account}"><span>My Account</span></a></li>
+																	<li><a th:href="@{/customer/orderhistory}"><span>Order History</span></a></li>
+																	<li><a th:href="@{/customer/wishlist}"><span>My Wish List</span></a></li>
+																	<li class="last"><a th:href="@{/ordertracking}"><span>Track Order</span></a></li>
+															</ul>
+												  </li>
+												  
+												  <li class="has-sub">
+														<a th:href="@{/public/about}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Information</span><span class="holder" style="border-color: rgba(0, 0, 0, 0.34902);"></span></a>
+															<ul>
+																	<li><a th:href="@{/public/about}"><span>About Us</span></a></li>
+																	<li><a th:href="@{/public/delivery}"><span>Delivery Information</span></a></li>
+																	<li><a th:href="@{/public/privacy}"><span>Privacy Policy</span></a></li>
+																	<li class="last"><a th:href="@{/public/terms}"><span>Terms &amp; Conditions</span></a></li>
+															</ul>
+												  </li>
+													<li><a href="@{/public/contact}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Contact Us</span></a></li>
 												</ul>
 											</div>
 										</div>

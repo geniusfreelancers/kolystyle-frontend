@@ -351,7 +351,7 @@ private AmazonClient amazonClient;
 			qtyList.add(i);
 		}
 		Category category = product.getCategory();
-		List<Product> productList = productService.findTop12ByCategory(category);
+		List<Product> productList = productService.findTop5ByCategory(category);
 		if(qtyList.size()<1) {
 			model.addAttribute("noMore", true);
 		}
