@@ -69,7 +69,11 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 
 <!--link rel="stylesheet" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/-->
 
-	
+	<!-- XZOOM STYLE-->
+<link rel="stylesheet" type="text/css" th:href="@{/css/xzoom.css}" media="all" />
+
+<!-- XZOOM JQUERY PLUGIN  -->
+<script type="text/javascript" th:src="@{/js/xzoom.min.js}"></script>
 		
 		
 		<!-- Old IE stylesheet
@@ -891,7 +895,6 @@ $(document).ready(function(){
 
 		<!-- JS Libs
 		============================================ -->
-		<!-- script src="js/jquery-2.1.4.min.js"></script-->
 		<script th:src="@{/js/scripts.js}"></script>
 		<!-- Include Libs & Plugins
 		============================================ -->
@@ -900,10 +903,7 @@ $(document).ready(function(){
 		
 		<script th:src="@{/js/jquery.knob.min.js}"></script>
 		<script th:src="@{/js/jquery.ba-throttle-debounce.min.js}"></script>
-		<!-- jquery Redcountdown js -->
-		<script th:src="@{/js/jquery.countdown.min.js}"></script>
-		<script th:src="@{/js/jquery.redcountdown.js}"></script>
-
+		
 		<!-- jquery Flexslider js -->
 		
 		<script th:src="@{/js/jquery.nivo.slider.pack.js}"></script>

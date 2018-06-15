@@ -55,16 +55,6 @@
         $( '.m_nav' ).on('click', function() {
             $( '#cssmenu' ).slideToggle( 'slow', function() {});
         });
-        
-        
-        
-        var $dCountDown = $('[data-countdown]'), finalDate = $('[data-countdown]').data('countdown');
-        $dCountDown.countdown(finalDate, function(event) {
-        $dCountDown.html(event.strftime('<span class="cdown day">%-D <p>Days</p></span> <span class="cdown hour">%-H <p>Hours</p></span> <span class="cdown minutes">%M <p>Minutes</p></span class="cdown second"> <span>%S <p>Seconds</p></span>'));
-        });
-        
-        
-
         // Movile Menu
         $('.close').one('click', function(e) {
             e.preventDefault();
@@ -137,52 +127,7 @@
 	
 	// kolystyle Countdown
 	$(window).load(function(){
-        
-		$('.kolystyleCountdown').redCountdown({
-			end: '1319999999',
-			now: '1313681323',
-			labels: true,
-			style: {
-				element: "",
-				textResponsive: .5,
-				daysElement: {
-					gauge: {
-						thickness: .1,
-						bgColor: "rgba(0,0,0,0.05)",
-						fgColor: "#f84242"
-					},
-					textCSS: 'font-family:\'Montserrat\'; font-size:30px; font-weight:300; color:#FFF;'
-				},
-				hoursElement: {
-					gauge: {
-						thickness: .1,
-						bgColor: "rgba(0,0,0,0.05)",
-						fgColor: "#f84242"
-					},
-					textCSS: 'font-family:\'Montserrat\'; font-size:30px; font-weight:300; color:#FFF;'
-				},
-				minutesElement: {
-					gauge: {
-						thickness: .1,
-						bgColor: "rgba(0,0,0,0.05)",
-						fgColor: "#f84242"
-					},
-					textCSS: 'font-family:\'Montserrat\'; font-size:30px; font-weight:300; color:#FFF;'
-				},
-				secondsElement: {
-					gauge: {
-						thickness: .1,
-						bgColor: "rgba(0,0,0,0.05)",
-						fgColor: "#f84242"
-					},
-					textCSS: 'font-family:\'Montserrat\'; font-size:30px; font-weight:300; color:#FFF;'
-				}
-				
-			},
-			onEndCallback: function() { console.log('Time out!'); }
-		});
-        
-        
+
         // Testimonial Slider
         $('.testyslider').flexslider({
             animation: "slide",
@@ -190,10 +135,10 @@
             animationLoop: true,
             touch: true,
             reverse: false,
-            itemWidth: 500,
-            itemMargin: 0,
+            itemWidth: 400,
+            itemMargin: 5,
             minItems: 1,
-            maxItems: 2,
+            maxItems: 4,
             directionNav: false
         });
         

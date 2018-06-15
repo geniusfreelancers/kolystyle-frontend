@@ -44,6 +44,7 @@ import com.kolystyle.domain.Order;
 import com.kolystyle.domain.Product;
 import com.kolystyle.domain.ProductAttr;
 import com.kolystyle.domain.ProductAttribute;
+import com.kolystyle.domain.Reviews;
 import com.kolystyle.domain.ShoppingCart;
 import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.domain.User;
@@ -61,6 +62,7 @@ import com.kolystyle.service.CartItemService;
 import com.kolystyle.service.HomePageService;
 import com.kolystyle.service.OrderService;
 import com.kolystyle.service.ProductService;
+import com.kolystyle.service.ReviewsService;
 import com.kolystyle.service.ShoppingCartService;
 import com.kolystyle.service.UserPaymentService;
 import com.kolystyle.service.UserService;
@@ -125,6 +127,8 @@ public class HomeController {
 	private CartItemRepository cartItemRepository;
 	@Autowired
 	private HomePageService homePageService;
+	@Autowired
+	private ReviewsService reviewsService;
 	
 	@RequestMapping("/thankyou")
 	public String thankyou(Model model) {
@@ -133,17 +137,7 @@ public class HomeController {
 		return "thankyou";
 	}
 	
-/*	@RequestMapping("/index")
-	public String index(Model model) {
-		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
-        model.addAttribute("siteSettings",siteSettings);
-		return "index";
-	}
-	
-	@RequestMapping("/result")
-	public String result() {
-		return "result";
-	}*/
+
 	
 	 @RequestMapping("/")
 	    public String home(Model model){
@@ -153,6 +147,8 @@ public class HomeController {
 	        model.addAttribute("homePage",homePage);
 	        HomePageAdditional homePageAdditional = homePageService.findAdditionalHomePage(new Long(1));
 	        model.addAttribute("homePageAdditional",homePageAdditional);
+	        String fileUrl = endpointUrl + "/" + bucketName + "/";
+			model.addAttribute("fileUrl", fileUrl);
 		 	List<Product> productList = productService.findAllByOrderByIdDesc();
 	        model.addAttribute("productList",productList);
 	        //Featured
@@ -176,11 +172,10 @@ public class HomeController {
 	        model.addAttribute("hotProduct",hotProduct);  
 	        model.addAttribute("hotDealTag",hotDealTag);  
 	        
-	        String fileUrl = endpointUrl + "/" + bucketName + "/";
-			model.addAttribute("fileUrl", fileUrl);
-	        return "newlanding";
-	        //return "home";
-		    
+	        List<Reviews> reviewsList = reviewsService.findByStatusOrderByIdDesc("published");
+	        model.addAttribute("reviewsList",reviewsList);
+	        
+	        return "newlanding";		    
 	    }
 
 	@RequestMapping("/userlogin")

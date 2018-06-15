@@ -45,7 +45,7 @@ public class AmazonClient {
                .withRegion("us-east-2").withForceGlobalBucketAccessEnabled(true).build(); 
                
     		   
-    		  // AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+    /* AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).build();*/
     }
     
     private File convertMultiPartToFile(MultipartFile file) throws IOException {

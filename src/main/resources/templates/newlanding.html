@@ -458,7 +458,7 @@
 							</div>
 							<ul>
 								<li data-th-each="product : ${saleProductList}" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-size=${product.size}">
-									<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#"><img alt="" src="image/3(2).jpg"/></a>
+									<a th:href="@{/productDetail?id=}+${product.id}"><img alt="" th:src="${fileUrl}+${product.coverImageName}"/></a>
 									<div class="top-sale-info">
 										<h6><a th:href="@{/productDetail?id=}+${product.id}" th:text="${product.title}"></a></h6>
 										<div class="top-product-review">
@@ -470,7 +470,8 @@
 												<span class="yes"><i class="fa fa-star"></i></span>
 											</div>
 										</div>
-										<div class="top-product-price">$<span th:text="${product.ourPrice}"></span></div>
+										<div class="top-product-price col-md-6">$<span th:text="${product.ourPrice}"></span></div>
+										<div class="product-listprice col-md-6"><span>$</span><span th:text="${product.listPrice}"></span></div>
 									</div>
 								</li>
 							
@@ -488,7 +489,7 @@
 							</div>
 							<ul>
 								<li data-th-each="product : ${latestProductList}" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-size=${product.size}">
-									<a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html#"><img alt="" src="image/3(2).jpg"/></a>
+									<a th:href="@{/productDetail?id=}+${product.id}"><img alt="" th:src="${fileUrl}+${product.coverImageName}"/></a>
 									<div class="top-sale-info">
 										<h6><a th:href="@{/productDetail?id=}+${product.id}" th:text="${product.title}"></a></h6>
 										<div class="top-product-review">
@@ -500,7 +501,8 @@
 												<span class="yes"><i class="fa fa-star"></i></span>
 											</div>
 										</div>
-										<div class="top-product-price">$<span th:text="${product.ourPrice}"></span></div>
+										<div class="top-product-price col-md-6">$<span th:text="${product.ourPrice}"></span></div>
+										<div class="product-listprice col-md-6"><span>$</span><span th:text="${product.listPrice}"></span></div>
 									</div>
 								</li>
 							</ul>
@@ -583,92 +585,30 @@
 			<div class="row">
 				<div class="col-md-12 text-center">
 					<div class="section-title"><span>#MYKOLYSTYLE</span></div>
+					<div class="testyslider-title"><span>What our customers says about us</span></div>
 				</div>
 				<div class="col-md-12">
 					<div class="testyslider">
 						
 					<div class="flex-viewport" style="overflow: hidden; position: relative;"><ul class="slides" style="width: 1200%; transition-duration: 0s; transform: translate3d(-2280px, 0px, 0px);">
-							<li style="width: 570px; float: left; display: block;">
-								<div class="author_img">
-									<img src="image/author_1.jpg" alt="" draggable="false"/>
-								</div>
+							<li style="width: 400px; float: left; display: block;" class="testimonial-content" data-th-each="review : ${reviewsList}">
+								
 								<div class="author_testy">
-									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat...</p>
-									<span class="author_name">
-										arida jome 
+									<p th:utext="${review.reviewText}"></p>
+									<span class="author_name" th:text="${review.fullName}">
+										
 									</span>
 									<span class="author_position">
-										- Customer
+										- <span th:text="${review.reviewType}"></span>
 									</span>
 								</div>
 							</li>
-							<li style="width: 570px; float: left; display: block;">
-								<div class="author_img">
-									<img src="image/author_2.jpg" alt="" draggable="false"/>
-								</div>
-								<div class="author_testy">
-									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat...</p>
-									<span class="author_name">
-										arida jome 
-									</span>
-									<span class="author_position">
-										- Customer
-									</span>
-								</div>
-							</li>
-							<li style="width: 570px; float: left; display: block;">
-								<div class="author_img">
-									<img src="image/author_1.jpg" alt="" draggable="false"/>
-								</div>
-								<div class="author_testy">
-									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat...</p>
-									<span class="author_name">
-										arida jome 
-									</span>
-									<span class="author_position">
-										- Customer
-									</span>
-								</div>
-							</li>
-							<li style="width: 570px; float: left; display: block;">
-								<div class="author_img">
-									<img src="image/author_2.jpg" alt="" draggable="false"/>
-								</div>
-								<div class="author_testy">
-									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat...</p>
-									<span class="author_name">arida jome</span>
-									<span class="author_position"> - Customer</span>
-								</div>
-							</li>
-							<li style="width: 570px; float: left; display: block;">
-								<div class="author_img">
-									<img src="image/author_1.jpg" alt="" draggable="false"/>
-								</div>
-								<div class="author_testy">
-									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat...</p>
-									<span class="author_name">
-										arida jome 
-									</span>
-									<span class="author_position">
-										- Customer
-									</span>
-								</div>
-							</li>
-							<li style="width: 570px; float: left; display: block;">
-								<div class="author_img">
-									<img src="image/author_2.jpg" alt="" draggable="false"/>
-								</div>
-								<div class="author_testy">
-									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat...</p>
-									<span class="author_name">
-										arida jome 
-									</span>
-									<span class="author_position">
-										- Customer
-									</span>
-								</div>
-							</li>
-						</ul></div><ol class="flex-control-nav flex-control-paging"><li><a class="">1</a></li><li><a class="">2</a></li><li><a class="flex-active">3</a></li></ol></div>
+						
+						</ul></div>
+						<ol class="flex-control-nav flex-control-paging">
+						
+						</ol>
+						</div>
 				</div>
 			</div>
 			</div>

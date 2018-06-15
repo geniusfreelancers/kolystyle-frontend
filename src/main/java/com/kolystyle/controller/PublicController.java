@@ -1,14 +1,7 @@
 package com.kolystyle.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +10,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kolystyle.domain.Contact;
 import com.kolystyle.domain.SiteSetting;
 import com.kolystyle.domain.StaticPage;
 import com.kolystyle.repository.ContactRepository;
+import com.kolystyle.service.ContactService;
 import com.kolystyle.service.SiteSettingService;
 import com.kolystyle.service.StaticPageService;
 
@@ -41,6 +33,8 @@ public class PublicController {
 
 	@Autowired
 	private SiteSettingService siteSettingService;
+	@Autowired
+	private ContactService contactService;
 	@Value("${adminUrl}")
     private String adminPath;
 	
@@ -55,7 +49,7 @@ public class PublicController {
 	
 	@RequestMapping(value="/contact", method = RequestMethod.POST)
 	public String contactPost(@ModelAttribute("contact") Contact contact, 
-			@RequestBody List<MultipartFile> productImage, Model model,HttpServletRequest request) {
+			Model model,HttpServletRequest request) {
 		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
         //Do empty validation here
@@ -77,60 +71,32 @@ public class PublicController {
         }else {
 	        contact.setStatus("New");
 	        contact.setContactDate(Calendar.getInstance().getTime());
-	        contactRepository.save(contact);
+	        
+	        List<MultipartFile> productImageList = contact.getProductImage();
+	        
 	        ///Saving Image
+			String contactImage = null;
 			String productImageName = null;
 			 //Get the uploaded files and store them
 			int count = 1;	
-	        List<MultipartFile> files = productImage;
-	        if (files != null && files.size() > 0) 
+	        if (productImageList != null && productImageList.size() > 0) 
 	        {
 	        	
-	            for (MultipartFile multipartFile : files) {
+	            for (MultipartFile productImage : productImageList) {
 	            	
-	            	try {
-						byte[] bytes = multipartFile.getBytes();
-						
-						//To generate random number 50 is max and 10 is min
-						Random rand = new Random();
-						int  newrandom = rand.nextInt(50) + 10;
-						
-						/*Using Product Id with Time Stamp and Random Number for File name so we can 
-						  have unique file always within product id folder*/
-						Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-						String newFileName = contact.getId()+timestamp.getTime()+newrandom+".png";
-						
-							if(count == 1) {
-								productImageName = newFileName;
-								count++;
-							}else {
-								productImageName = productImageName+","+newFileName;
-							}
-						
-						//String PATH = "http:\\localhost:8083\\image\\product/";
-						String PATH = "/src/main/resources/static/image/contact/";
-					    
-					//	String folderName =  PATH.concat(Long.toString(contact.getId()));
-						String folderName =  PATH;
-						//Create Folder with product ID as name
-						File directory = new File(folderName);
-					    if (! directory.exists()){
-					        directory.mkdir();     
-					    }
-						 
-						 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(folderName+"/"+newFileName)));
-						 stream.write(bytes);
-						 stream.close();
-						 
-	            	} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+	            	contactImage = contactService.updateImage(null, productImage);	
+					
+						if(count == 1) {
+							productImageName = contactImage;
+							count++;
+						}else {
+							productImageName = productImageName+","+contactImage;
+						}
 	            }
 	            contact.setContactImage(productImageName);
-	            contactRepository.save(contact);
+	            
 	        }
-	        
+	        contactRepository.save(contact);
 	        //Saving Image Ends
 	        contact = new Contact();
 	        model.addAttribute("contact",contact);
