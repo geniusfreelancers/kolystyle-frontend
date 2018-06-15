@@ -32,7 +32,9 @@ public class CategoryServiceImpl implements  CategoryService{
 	public Category save(Category category) {
 		return categoryRepository.save(category);
 	}
-	
+	public List<SubCategory> findSubCategoryBySlug(String subCategorySlug) {
+		return subCategoryRepository.findBySubCategorySlug(subCategorySlug);
+	}
 	public SubCategory save(SubCategory subcategory) {
 		return subCategoryRepository.save(subcategory);
 	}
@@ -71,6 +73,11 @@ public class CategoryServiceImpl implements  CategoryService{
 	
 	public List<SubSubCategory> findAllSubSubCategoriesBySubCategory(SubCategory subCategory){
 		return (List<SubSubCategory>) subSubCategoryRepository.findBySubCategory(subCategory);
+	}
+
+	@Override
+	public List<SubSubCategory> findSubSubCategoryBySlug(String mainSubCategory) {
+		return subSubCategoryRepository.findBySubSubCategorySlug(mainSubCategory);
 	}
 	
 	

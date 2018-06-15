@@ -220,7 +220,7 @@ Transit time: 3-6 business days
 						<hr/>
 						<div class="col-xs-2">
 						<a th:href="@{/productDetail?id={{cartItem.product.id}}}">
-						<img class="img-responsive shelf-product" th:src="#{adminPath}+@{/image/product/{{cartItem.product.id}}/{{cartItem.product.coverImageName}}}" style="width:70px;" />
+						<img class="img-responsive shelf-product" th:src="${fileUrl}+@{{{cartItem.product.coverImageName}}}" style="width:84px;height:99px;" />
 						</a>
 						</div>
 						<div class="col-xs-4">

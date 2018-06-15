@@ -11,4 +11,6 @@ public interface SubCategoryRepository extends CrudRepository<SubCategory, Long>
 
 	List<SubCategory> findByCategory(Category category);
 
+	List<SubCategory> findBySubCategorySlug(String subCategorySlug);
+
 }

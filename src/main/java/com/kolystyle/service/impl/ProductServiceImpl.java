@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.kolystyle.domain.Category;
 import com.kolystyle.domain.Product;
+import com.kolystyle.domain.SubCategory;
+import com.kolystyle.domain.SubSubCategory;
 import com.kolystyle.repository.ProductRepository;
+import com.kolystyle.service.CategoryService;
 import com.kolystyle.service.ProductService;
 
 @Service
@@ -16,8 +21,9 @@ public class ProductServiceImpl implements ProductService{
 
 	@Autowired
 	private ProductRepository productRepository;
-	
-	
+
+	@Autowired
+	private CategoryService categoryService;
 	
 	public List<Product> findAll(){
 		List<Product> productList = (List<Product>) productRepository.findAll();
@@ -39,7 +45,9 @@ public class ProductServiceImpl implements ProductService{
 	public List<Product> findTop12ByCategory(Category category){
 		return productRepository.findTop12ByCategoryOrderByIdDesc(category);
 	}
-	
+	public List<Product> findTop5ByCategory(Category category){
+		return productRepository.findTop5ByCategoryOrderByIdDesc(category);
+	}
 	public List<Product> findTop15ByBrand(String brand){
 		return productRepository.findTop15ByBrandOrderByIdDesc(brand);
 	}
@@ -48,6 +56,9 @@ public class ProductServiceImpl implements ProductService{
 		return productRepository.findTop8ByFeatureOrderByIdDesc(feature);
 	}
 	
+	public List<Product> findTop12ByOrderByIdDesc(){
+		return productRepository.findTop12ByOrderByIdDesc();
+	}
 	public List<Product> findByCategory(Category category){
 		List<Product> productList = productRepository.findByCategory(category);
 		
@@ -81,7 +92,6 @@ public class ProductServiceImpl implements ProductService{
 		for(Product product: activeProductList){
 			String subCat = product.getSubCategory().getSubCategorySlug();
 			String submainCat = product.getMainSubCategory().getSubSubCategorySlug();
-			
 			
 				if(subCategory == "" || subCategory.isEmpty() || subCategory.equalsIgnoreCase("none") || subCategory == null) {
 					validProductList.add(product);
@@ -137,8 +147,10 @@ public class ProductServiceImpl implements ProductService{
 	public List<Product> findByBrandByOrderByIdDesc(String brand){
 		return productRepository.findByBrandOrderByIdDesc(brand);
 	}
+	
 
 
+	
 	@Override
 	public List<Product> findTop6ByProductTagsContaining(String productTags) {
 		return productRepository.findTop3ByProductTagsContaining(productTags);
@@ -149,4 +161,59 @@ public class ProductServiceImpl implements ProductService{
 	public Product findTop1ByProductTagsContaining(String productTags) {
 		return productRepository.findTop1ByProductTagsContaining(productTags);
 	}
+
+
+	@Override
+	public List<Product> findAllByProductTagsContaining(String productTags) {
+		return productRepository.findAllByProductTagsContaining(productTags);
+	}
+
+
+	@Override
+	public Page<Product> findByBrandByOrderByIdDesc(String brand, PageRequest pageRequest) {
+		return productRepository.findByBrandContaining(brand, pageRequest);
+	}
+
+	public Page<Product> findByCategoryByOrderByIdDesc(Category category, PageRequest pageRequest) {
+		return productRepository.findByCategoryOrderByIdDesc(category,pageRequest);
+	}
+
+
+	public Page<Product> findByCategoryAndSubCategory(Category category, SubCategory subCategory, PageRequest pageRequest) {
+		return productRepository.findByCategoryAndSubCategory(category, subCategory,pageRequest);
+	}
+
+
+	@Override
+	public Page<Product> findByCategoryAndSubSubCategory(Category category, SubSubCategory subSubCategory,
+			PageRequest pageRequest) {
+		return productRepository.findByCategoryAndMainSubCategory(category, subSubCategory,pageRequest);
+	}
+
+
+	@Override
+	public Page<Product> searchByKeyword(String keyword, PageRequest pageRequest) {
+		Page<Product> productList = productRepository.findByTitleContaining(keyword,pageRequest);
+		if (productList.hasContent() != true){
+			productList = productRepository.findBySku(keyword,pageRequest);
+		}
+		if (productList.hasContent() != true){
+			productList = productRepository.findByBrandContaining(keyword,pageRequest);
+		}
+		if (productList.hasContent() != true){
+			productList = productRepository.findByDescriptionContaining(keyword,pageRequest);
+		}
+		if (productList.hasContent() != true){
+			productList = productRepository.findByCategoryOrderByIdDesc(categoryService.findCategoryBySlug(keyword),pageRequest);
+		}
+		
+		return productList;
+	}
+
+
+	@Override
+	public Page<Product> findByProductTagsContaining(String deal, PageRequest pageRequest) {
+		return productRepository.findByProductTagsContaining(deal,pageRequest);
+	}
+
 }

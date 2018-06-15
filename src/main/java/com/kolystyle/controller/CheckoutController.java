@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,6 +47,7 @@ import com.kolystyle.service.SiteSettingService;
 import com.kolystyle.service.UserPaymentService;
 import com.kolystyle.service.UserService;
 import com.kolystyle.service.UserShippingService;
+import com.kolystyle.service.impl.AmazonClient;
 import com.kolystyle.utility.MailConstructor;
 import com.kolystyle.utility.USConstants;
 import com.stripe.model.Charge;
@@ -54,7 +56,21 @@ import com.stripe.model.Charge;
 public class CheckoutController {
 	private static final Logger LOG = LoggerFactory.getLogger(CheckoutController.class);
 	/*private BraintreeGateway gateway = KolystyleApplication.gateway;*/
+	private AmazonClient amazonClient;
+	
 
+    @Value("${amazonProperties.endpointUrl}")
+    private String endpointUrl;
+    @Value("${amazonProperties.bucketName}")
+    private String bucketName;
+    @Value("${amazonProperties.accessKey}")
+    private String accessKey;
+    @Value("${amazonProperties.secretKey}")
+    private String secretKey;
+    @Autowired
+    CheckoutController(AmazonClient amazonClient) {
+        this.amazonClient = amazonClient;
+    }
     private Status[] TRANSACTION_SUCCESS_STATUSES = new Status[] {
        Transaction.Status.AUTHORIZED,
        Transaction.Status.AUTHORIZING,
@@ -64,7 +80,7 @@ public class CheckoutController {
        Transaction.Status.SETTLING,
        Transaction.Status.SUBMITTED_FOR_SETTLEMENT
     };
-
+    
 	private ShippingAddress shippingAddress = new ShippingAddress();
 	private BillingAddress billingAddress = new BillingAddress();
 	private Payment payment = new Payment();
@@ -564,6 +580,8 @@ if(shoppingCart==null) {
 	public String trackOrder(HttpServletRequest request,HttpServletResponse response,Model model ) {
 		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
         Order order = new Order();
         model.addAttribute("order",order);
 		model.addAttribute("success",false);
@@ -577,6 +595,8 @@ if(shoppingCart==null) {
 	   public String orderDetailsPage(@ModelAttribute("order") Order order, Model model) {
 			SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
 	        model.addAttribute("siteSettings",siteSettings);
+	        String fileUrl = endpointUrl + "/" + bucketName + "/";
+			model.addAttribute("fileUrl", fileUrl);
 	        String email = order.getOrderEmail();
 	       Charge transaction;
 	       try {

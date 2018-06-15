@@ -122,7 +122,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	public BigDecimal calculateDiscountAmount(ShoppingCart shoppingCart, PromoCodes promoCodes) {
 		BigDecimal gTotal = shoppingCart.getGrandTotal();
 		BigDecimal discountAmount = new BigDecimal(0);
-		if (promoCodes != null) {
+		if (promoCodes != null && shoppingCart.getErrors() == null) {
 		
 		BigDecimal promoVal = promoCodes.getPromoValue();
 		

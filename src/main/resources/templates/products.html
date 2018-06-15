@@ -65,29 +65,39 @@
 		</div>
 			<div class="col-md-12">
 
-				<div th:if="${emptyList}">
-					<h5 style="font-style: italic;"><strong>Oops...</strong><br/><br/>We're sorry but we couldn't find the page you are looking for.<br/><br/>
+				<div th:if="${emptyList}" class="no-content">
+					<h5><strong>Oops...</strong><br/><br/>We're sorry but we couldn't find the product you are looking for.<br/>
+					<br/>
 
-You can browse through our popular links above:</h5>
+You can browse through our popular links above</h5>
+				<a class="btn btn-default" th:href="@{/products}">Go to Shop</a>
 				</div>
-				<div class="content-header">
+				<div class="content-header" th:if="!${emptyList}">
 					<div class="col-md-12">
-					<img th:src="${filePath}+${siteSettings.shopOfferBanner}" class="img-responsive" style="margin-bottom:10px;"/>
+					<img th:src="${fileUrl}+${siteSettings.shopOfferBanner}" class="img-responsive" style="margin-bottom:10px;width:100%"/>
 					
 					</div>
-				
-				
+				<div class="col-md-12" th:if="${hotDeal}">
+				<div class="col-md-3 col-md-offset-4" >
+					<input type="hidden" id="hotDealExpiry" name="hotDealExpiry" th:value="${siteSettings.hotDealExpiry}"/>
+									<div class="hotDealProduct" id="hotDealTimer">
+										<div id="hotDealProduct"><span class="cdown day"><span id="cdown_day">0 </span><p>Days</p></span> 
+										<span class="cdown hour"><span id="cdown_hour">0 </span> <p>Hours</p></span> 
+										<span class="cdown minutes"><span id="cdown_minutes">00 </span> <p>Minutes</p></span> 
+										<span><span id="cdown_second">00 </span> <p>Seconds</p></span></div>
+									</div>
+								<br/>
+				</div>
+				</div>
 				</div><br/><br/>
 				<!-- Each Product Start -->
-	<div class="col-md-3 col-sm-6" data-th-each="product : ${clientlist}" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-size=${product.size}">
+	<div class="col-md-3 col-sm-6" data-th-each="product : ${clientlist}" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-subcategory=${product.subCategory.subCategorySlug},data-subsubcategory=${product.mainSubCategory.subSubCategorySlug},data-size=${product.size}">
 									<div class="product-singleArea">
 										<div class="product-img">
 											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/1(2).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/2(2).jpg" alt=""/>
-											<!-- <img class="img-responsive primary_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="alt=${product.title}"/>
-											<img class="img-responsive hover_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="alt=${product.title}"/> -->
-											<div class="offer-nostock">sale</div>
+											 <img class="img-responsive primary_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="title=${product.title},alt=${product.title}"/>
+											<img class="img-responsive hover_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="title=${product.title},alt=${product.title}"/> 
+											<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="offer-nostock">sale</div>
 											<div class="product-cart-area">
 												<div class="btn-others" th:if="!${siteSettings.loginKillSwitch}">
 													<ul>
@@ -109,7 +119,7 @@ You can browse through our popular links above:</h5>
 														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
 												</div>
 												</div>
-												<div class="product-listprice">
+												<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="product-listprice">
 												<span>$</span>
 													<span th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
 												</div>
@@ -129,9 +139,60 @@ You can browse through our popular links above:</h5>
 								</div>
 			</div>
 			
+			<!-- Each Product Start -->
+	<div class="col-md-12" th:if="${emptyList}">		
+	<p class="section-title"><span>NEW ARRIVALS</span></p>		
+	<div class="col-md-3 col-sm-6" data-th-each="product : ${productList}" th:attr="data-price=${product.ourPrice},data-brand=${product.brand},data-category=${product.category.categorySlug},data-subcategory=${product.subCategory.subCategorySlug},data-subsubcategory=${product.mainSubCategory.subSubCategorySlug},data-size=${product.size}">
+									<div class="product-singleArea">
+										<div class="product-img">
+											<div class="overlay"></div>
+											 <img class="img-responsive primary_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="title=${product.title},alt=${product.title}"/>
+											<img class="img-responsive hover_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="title=${product.title},alt=${product.title}"/> 
+											<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="offer-nostock">sale</div>
+											<div class="product-cart-area">
+												<div class="btn-others" th:if="!${siteSettings.loginKillSwitch}">
+													<ul>
+														<li><a th:href="@{/customer/addtolist?id=}+${product.id}" th:id="'addingtocart-'+${product.id}" class="addingtowishlist"><i class="fa fa-heart-o"></i></a></li>
+														<li><a href="#"><i class="fa fa-expand"></i></a></li>
+													</ul>
+												</div>
+												<div class="btn-add-to-cart cart-btn"><a th:href="@{/productDetail?id=}+${product.id}">GET A LOOK</a></div>
+											</div>
+										</div>
+										<div class="product-details">
+											<div class="product-title"><a th:href="@{/productDetail?id=}+${product.id}" th:text="${product.title}"></a></div>
+											<div class="product-pd">
+												<div class="product-price"><span>$</span>
+													<span th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
+												</div>
+												<div class="product-discount" th:with="discount=${100-(product.ourPrice/product.listPrice)*100}" >
+												<div class="product-discount-container" th:if="${discount &gt; 0}">
+														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
+												</div>
+												</div>
+												<div class="product-listprice" th:if="${product.listPrice} &gt; ${product.ourPrice}">
+												<span>$</span>
+													<span th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
+												</div>
+												
+											</div>
+											<div class="product-review">
+												<div class="star">
+													<span class="yes"><i class="fa fa-star"></i></span>
+													<span class="yes"><i class="fa fa-star"></i></span>
+													<span class="yes"><i class="fa fa-star"></i></span>
+													<span class="yes"><i class="fa fa-star"></i></span>
+													<span class="yes"><i class="fa fa-star"></i></span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+		</div>
+			
 			<p th:text="${totalRecord}"></p>
 	<!-- Pagination -->
-	<div class="col-md-12 text-center">
+	<div class="col-md-12 text-center" th:if="!${emptyList}">
                 <div class="form-group col-md-1">
                     <select class="form-control pagination" id="pageSizeSelect">
                         <option th:each="pageSize : ${pageSizes}" th:text="${pageSize}"
@@ -144,28 +205,28 @@ You can browse through our popular links above:</h5>
                     <ul class="pagination">
                         <li th:class="${clientlist.number == 0} ? disabled"><a
                             class="pageLink"
-                            th:href="@{/products(pageSize=${selectedPageSize}, page=1)}">«</a>
+                            th:href="@{${pageType}(pageSize=${selectedPageSize}, page=1)}">«</a>
                         </li>
                         <li th:class="${clientlist.number == 0} ? disabled"><a
                             class="pageLink"
-                            th:href="@{/products(pageSize=${selectedPageSize}, page=${clientlist.number})}">←</a>
+                            th:href="@{${pageType}(pageSize=${selectedPageSize}, page=${clientlist.number})}">←</a>
                         </li>
                         <li
                             th:class="${clientlist.number == (page - 1)} ? 'active pointer-disabled'"
                             th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
                             <a class="pageLink"
-                            th:href="@{/products(pageSize=${selectedPageSize}, page=${page})}"
+                            th:href="@{${pageType}(pageSize=${selectedPageSize}, page=${page})}"
                             th:text="${page}"></a>
                         </li>
                         <li
                             th:class="${clientlist.number + 1 == clientlist.totalPages} ? disabled">
                             <a class="pageLink"
-                            th:href="@{/products(pageSize=${selectedPageSize}, page=${clientlist.number + 2})}">→</a>
+                            th:href="@{${pageType}(pageSize=${selectedPageSize}, page=${clientlist.number + 2})}">→</a>
                         </li>
                         <li
                             th:class="${clientlist.number + 1 == clientlist.totalPages} ? disabled">
                             <a class="pageLink"
-                            th:href="@{/products(pageSize=${selectedPageSize}, page=${clientlist.totalPages})}">»</a>
+                            th:href="@{${pageType}(pageSize=${selectedPageSize}, page=${clientlist.totalPages})}">»</a>
                         </li>
                     </ul>
                 </div>
@@ -187,13 +248,19 @@ You can browse through our popular links above:</h5>
 	
 	
 	<script th:inline="javascript">
+	
         /*<![CDATA[*/
         $(document).ready(function() {
     changePageAndSize();
 });
 function changePageAndSize() {
     $('#pageSizeSelect').change(function(evt) {
-        window.location.replace("/products?pageSize=" + this.value + "&page=1");
+    	var recordCount = /*[[${pageType}]]*/;
+    	if(recordCount == "/products"){
+    		window.location.replace(recordCount+"?pageSize=" + this.value + "&page=1");
+    	}else{
+        	window.location.replace(recordCount+"&pageSize=" + this.value + "&page=1");
+        }
     });
 }
         /*]]>*/
@@ -221,6 +288,7 @@ function changePageAndSize() {
   <script th:src="@{/js/jquery.facets.js}"></script-->
   		<!-- Footer -->
 		<div th:replace="common/homeheader :: footer" />
+		<script th:if="${hotDeal}" th:src="@{/js/countdown.js}"></script>	
 </body>
 
 </html>

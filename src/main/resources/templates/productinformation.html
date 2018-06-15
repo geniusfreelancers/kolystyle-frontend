@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="common/homeheader :: home-head" />
+
+
+    
 	<body class="home-1 top-btn-color">
         <!-- HEADER -->
         <div th:replace="common/homeheader :: navbar" />
@@ -101,7 +104,7 @@
     float: left;
 }
 .addthis_toolbox.addthis_default_style {
-    margin-top: 10px!important;
+    margin-bottom: 20px!important;
 }
 		</style>
 			<div class="container">
@@ -132,27 +135,22 @@
 							<div class="product-single-col">
 								<div class="col-md-5 col-sm-4 product-slider">
 									<div class="product-img ">
-										<div class="detail-slider">
-										  
-										<div class="flex-viewport" style="overflow: hidden; position: relative;">
-										<ul class="slides" style="width: 1200%; transition-duration: 0.6s; transform: translate3d(-1464px, 0px, 0px);">
-										<li data-thumb="image/1(2).jpg" class="clone" aria-hidden="true" style="width: 366px; float: left; display: block;">
-											  <img src="image/1(2).jpg" alt="img-responsive" draggable="false"/>
-											</li>											
-											<li data-thumb="image/3(1).jpg" style="width: 366px; float: left; display: block;" class="">
-											  <img src="image/3(1).jpg" alt="img-responsive" draggable="false"/>
-											</li>
-											<li data-thumb="image/3(1).jpg" style="width: 366px; float: left; display: block;" class="flex-active-slide">
-											  <img src="image/3(1).jpg" alt="img-responsive" draggable="false"/>
-											</li>
-										  <li data-thumb="image/2(2).jpg" class="clone" aria-hidden="true" style="width: 366px; float: left; display: block;">
-											  <img src="image/2(2).jpg" alt="img-responsive" draggable="false"/>
-											</li>
-											</ul>
-											</div>
-										
-											</div>
-									</div>
+
+<!-- XZOOM -->
+<img class="xzoom" th:src="${fileUrl}+${product.coverImageName}" th:attr="xoriginal=${fileUrl}+${product.coverImageName}" />
+
+<div class="xzoom-thumbs xzoom-thumbs-control-nav" >
+<li data-th-each="proimage : ${productImagesList}">
+  <a th:href="${fileUrl}+${proimage}">
+    <img class="xzoom-gallery" width="80" th:src="${fileUrl}+${proimage}"  th:attr="xpreview=${fileUrl}+${proimage}"/>
+  </a>
+</li>
+</div>
+<!-- XZOOM -->
+
+
+
+						</div>
 								</div>
 								<div class="col-md-7  col-sm-8 product-details-single">
 									<div class="product-details-list productSingle">
@@ -196,7 +194,7 @@
 														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
 												</div>
 												</div>
-											<div class="product-listing">$<span th:text="${product.listPrice}"></span></div>
+											<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="product-listing">$<span th:text="${product.listPrice}"></span></div>
 										</div>
 										<div class="saving">
 											You save: $<span th:text="${#numbers.formatDecimal((product.listPrice - product.ourPrice),0 , 'COMMA',2,'POINT')}"></span>
@@ -208,6 +206,12 @@
 											
 											
 										</div>
+
+										<!-- AddThis Button BEGIN -->
+						                <div class="addthis_toolbox addthis_default_style col-md-12"> <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a> <a class="addthis_button_tweet"></a> <a class="addthis_button_google_plusone" g:plusone:size="medium"></a> <a class="addthis_counter addthis_pill_style"></a> </div>
+						                <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-506f325f57fbfc95"></script>
+						                <!-- AddThis Button END -->										
+										
 										<div class="product-cart-area-single col-md-12">
 										<form  method="post">
 										<input hidden="hidden" th:field="*{product.id}" th:name="id" th:value="${product.id}"/>
@@ -282,7 +286,7 @@
 											<div  th:if="!${noMore}" class="add-to-cart-single cart-btn">
 												<a href="#" id="addthisproduct">ADD TO CART</a>
 											</div>
-											<div class="btn-others-single">
+											<div class="btn-others-single" th:if="!${siteSettings.loginKillSwitch}">
 												<ul>
 													<li><a href=""><i class="fa fa-heart-o"></i></a></li>
 													<li><a href=""><i class="fa fa-exchange"></i></a></li>
@@ -290,10 +294,7 @@
 											</div>
 										</div>
 									
-										<!-- AddThis Button BEGIN -->
-						                <div class="addthis_toolbox addthis_default_style col-md-12"> <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a> <a class="addthis_button_tweet"></a> <a class="addthis_button_google_plusone" g:plusone:size="medium"></a> <a class="addthis_counter addthis_pill_style"></a> </div>
-						                <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-506f325f57fbfc95"></script>
-						                <!-- AddThis Button END -->
+
 									</div>
 								</div>
 							</div>				
@@ -356,12 +357,22 @@
 							<h5>RELATED PRODUCTS</h5>
 							<ul class="releated-content" data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
 								<li data-th-each="product : ${productList}" class="slide-inner">
-									<img src="image/rel.jpg" alt=""/>
+									<img class="rel-image" src="image/rel.jpg" alt=""/>
 									<div class="pposts-info">
-										<h6><a href="detail.html">FLORAL LACE SHIFT DRESS</a></h6>
-										<div class="product-pd">
-											<div class="product-price">$50</div>
-											<div class="product-discount" style="color:red;">-25%</div>
+										<h6><a th:href="@{/productDetail?id=}+${product.id}" th:text="${product.title}"></a></h6>
+										<div class="product-pd-rel">
+											<div class="product-price"><span>$</span>
+												<span th:text="${#numbers.formatDecimal(product.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
+											</div>
+											<div class="product-discount" th:with="discount=${100-(product.ourPrice/product.listPrice)*100}" >
+												<div class="product-discount-container" th:if="${discount &gt; 0}">
+														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
+												</div>
+												</div>
+												<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="product-listprice">
+												<span>$</span>
+													<span th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
+												</div>
 										</div>
 									</div>
 								</li>
@@ -437,11 +448,9 @@ width: 300px;
                     <div class="product-singleArea">
 										<div class="product-img">
 											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/1(2).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/2(2).jpg" alt=""/>
-											<!-- <img class="img-responsive primary_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="alt=${product.title}"/>
-											<img class="img-responsive hover_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="alt=${product.title}"/> -->
-											<div class="offer-nostock">sale</div>
+											<img class="img-responsive primary_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="title=${product.title},alt=${product.title}"/>
+											<img class="img-responsive hover_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="title=${product.title},alt=${product.title}"/> 
+											<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="offer-nostock">sale</div>
 											<div class="product-cart-area">
 												<div class="btn-others" th:if="!${siteSettings.loginKillSwitch}">
 													<ul>
@@ -463,7 +472,7 @@ width: 300px;
 														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
 												</div>
 												</div>
-												<div class="product-listprice">
+												<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="product-listprice">
 												<span>$</span>
 													<span th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
 												</div>
@@ -499,11 +508,9 @@ width: 300px;
                     <div class="product-singleArea">
 										<div class="product-img">
 											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/1(2).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/2(2).jpg" alt=""/>
-											<!-- <img class="img-responsive primary_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="alt=${product.title}"/>
-											<img class="img-responsive hover_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="alt=${product.title}"/> -->
-											<div class="offer-nostock">sale</div>
+											<img class="img-responsive primary_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="title=${product.title},alt=${product.title}"/>
+											<img class="img-responsive hover_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="title=${product.title},alt=${product.title}"/> 
+											<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="offer-nostock">sale</div>
 											<div class="product-cart-area">
 												<div class="btn-others" th:if="!${siteSettings.loginKillSwitch}">
 													<ul>
@@ -525,7 +532,7 @@ width: 300px;
 														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
 												</div>
 												</div>
-												<div class="product-listprice">
+												<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="product-listprice">
 												<span>$</span>
 													<span th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
 												</div>
@@ -560,11 +567,9 @@ width: 300px;
                     <div class="product-singleArea">
 										<div class="product-img">
 											<div class="overlay"></div>
-											<img class="img-responsive primary_image" src="image/1(2).jpg" alt=""/>
-											<img class="img-responsive hover_image" src="image/2(2).jpg" alt=""/>
-											<!-- <img class="img-responsive primary_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="alt=${product.title}"/>
-											<img class="img-responsive hover_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="alt=${product.title}"/> -->
-											<div class="offer-nostock">sale</div>
+											<img class="img-responsive primary_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="title=${product.title},alt=${product.title}"/>
+											<img class="img-responsive hover_image" th:src="${fileUrl}+${product.coverImageName}" th:attr="title=${product.title},alt=${product.title}"/> 
+											<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="offer-nostock">sale</div>
 											<div class="product-cart-area">
 												<div class="btn-others" th:if="!${siteSettings.loginKillSwitch}">
 													<ul>
@@ -586,7 +591,7 @@ width: 300px;
 														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
 												</div>
 												</div>
-												<div class="product-listprice">
+												<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="product-listprice">
 												<span>$</span>
 													<span th:text="${#numbers.formatDecimal(product.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span>
 												</div>
@@ -617,6 +622,20 @@ width: 300px;
 	
 		<!-- Footer -->
 		<div th:replace="common/homeheader :: footer" />
+		<!-- XZOOM Zoom -->
+		<script type="text/javascript" th:src="@{/js/productinformation.js}"></script>
+		
+		<!-- script>
+    $(document).ready(function(){
+        $('#demo-1 .simpleLens-thumbnails-container img').simpleGallery({
+            loading_image: 'demo/images/loading.gif'
+        });
+
+        $('#demo-1 .simpleLens-big-image').simpleLens({
+            loading_image: 'demo/images/loading.gif'
+        });
+    });
+</script-->
 </body>
 
 </html> 

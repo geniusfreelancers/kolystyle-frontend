@@ -1,4 +1,4 @@
-/*------------------------------------------------------------------
+﻿/*------------------------------------------------------------------
 Theme Name: kolystyle
 Version:1.0
 -------------------------------------------------------------------*/
@@ -86,12 +86,46 @@ Version:1.0
 /*-----------------------------
  1. Global Styles 
 -------------------------------*/
+.testimonial-content li{
+	width:23%!important;
+}
+.kolystyle .kolystyle-content div > a img {
+    width: 180px;
+    height: 300px;
+}
+.product-pd-rel {
+    float: left;
+    width: 100%;
+}
+.rel-image {
+	width:75px;
+    height: 90px;
+}
+.no-content {
+    color: #ff0000;
+    text-align: center;
+}
+.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
+    color: #777;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+    display: none!important;
+}
  .border-bottom{
  	border-bottom:1px solid #ece6e6;
  }
 label#newsletteremail-error {
     color: #fd0000;
 }
+.btn-lol {
+    color: #fff;
+    background-color: #5bc1d2;
+    border-color: #5bc1d2;
+}
+.removeItems:hover{
+	color:#008000!important;
+	}
 .newsletteremail.error {
     border: 1px solid #f50202;
 }
@@ -833,27 +867,6 @@ padding: 9px 0 !important;}
     background-repeat: no-repeat;
     background-position: left center;
     background-color: #F0F0F0
-    }
-
-.special-1 {
-    background-image: url(../image/special_1a.png)
-    }
-
-.special-2 {
-    background-image: url(../image/special_2a.jpg)
-    }
-
-.special-3 {
-    background-image: url(../image/special_3a.png);
-    background-position: center center
-    }
-
-.special-4 {
-    background-image: url(../image/special_4a.jpg)
-    }
-
-.special-5 {
-    background-image: url(../image/special_5a.jpg)
     }
 
 .special-text {
@@ -1775,18 +1788,20 @@ padding: 9px 0 !important;}
 
 .author_testy {
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.5);
-    margin-left: 140px;
+    margin-left: 10px;
     margin-top: 40px;
     padding: 10px;
     position: relative;
-    width: 405px
     }
-
+.testyslider-title {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+}
 .author_testy:before {
     right: 100%;
     top: 40%;
     border: solid transparent;
-    content: " ";
     height: 0;
     width: 0;
     position: absolute
@@ -1805,7 +1820,7 @@ padding: 9px 0 !important;}
     }
 
 .author_name {
-    color: #fff;
+    color: #87e6f6;
     font-weight: bold;
     text-transform: uppercase
     }
@@ -1932,7 +1947,9 @@ ul.pro-cat a:hover {
     }
 
 .top-sale-info a, a.hotdealTitle {
-    color: #282828
+    color: #282828;
+    font-weight: bold;
+    font-size: 13px;
     }
 
 .top-product-review {
@@ -2686,7 +2703,7 @@ z-index: 9;
   padding-right: 0;
 }
 .product-details-list .dealAddToCart  {
-    background: none repeat scroll 0 0 #c2a26f;
+    background: none repeat scroll 0 0 #248899;
 	color: #fff;
     display: block;
     float: left;
@@ -2695,6 +2712,9 @@ z-index: 9;
     text-align: center;
     width: 145px
     }
+.dealAddToCart:hover{
+	background: none repeat scroll 0 0 #3abed4;
+}  
 .dealAddToCart.cart-btn > a {
   line-height: 46px;
   color: #fff;
@@ -3529,10 +3549,10 @@ padding-top: 13px;
 
 .single-product-title {
     border-bottom: 1px dashed #d7d7d7;
-    line-height: 18px;
-    margin-bottom: 25px;
+    line-height: 24px;
+    /*margin-bottom: 20px;*/
     margin-top: 0;
-    padding-bottom: 26px
+    padding-bottom: 15px
     }
 
 .single-product-title a {
@@ -3672,7 +3692,7 @@ padding-top: 13px;
     font-family: Arial;
     font-size: 12px;
     font-weight: normal;
-    margin-bottom: 44px
+    margin-bottom: 30px
     }
 
 .stock > span {
@@ -5244,7 +5264,7 @@ transform: rotate(-45deg);
 }
 
 .home-4 #testimonial {
-  background: rgba(0, 0, 0, 0) url("../img/bg/2.jpg") no-repeat scroll left center / cover ;
+  /*background: rgba(0, 0, 0, 0) url("../img/bg/2.jpg") no-repeat scroll left center / cover ;*/
   margin-bottom: 50px;
 }
 .home-4 .section-title span::before {border: 1px solid #9a9a9a;
@@ -5901,6 +5921,9 @@ div .c-selectParent1 > select {
     .m_nav {
         cursor: pointer
         }	
+ .noshowmobile{
+ 	display:none;
+ }       
 /*-----------------------------
 Title
 -------------------------------*/	
@@ -6360,6 +6383,7 @@ padding: 5px 0px;
 }
 .top-btn-color  a.topbar-btn {
   background-color: #000;
+  display:none;
 }
 .page-bannar .bannar-text span {
   font-size: 22px !important;

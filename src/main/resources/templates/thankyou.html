@@ -21,7 +21,7 @@
 	Thank you for your order #<span th:text="${order.id}"></span></h3>
 </div>
 <div class="col-md-6">
-	<a href="/productshelf" style="float: right;" class="btn btn-default">Continue Shopping</a>
+	<a href="/products" style="float: right;" class="btn btn-default">Continue Shopping</a>
 </div>
 <br/><br/>
 <div class="col-md-12">
@@ -125,7 +125,7 @@ margin-top:0px!important;
 						<hr/>
 						<div class="col-xs-2">
 						<a th:href="@{/productDetail(id=${cartItem.product.id})}">
-						<img class="img-responsive shelf-product" th:src="#{adminPath}+@{/image/product/}+${cartItem.product.id}+'/'+${cartItem.product.coverImageName}" style="width:70px;" />
+						<img class="img-responsive shelf-product" th:src="${fileUrl}+${cartItem.product.coverImageName}" style="width:70px;" />
 						</a>
 						</div>
 						<div class="col-xs-4">

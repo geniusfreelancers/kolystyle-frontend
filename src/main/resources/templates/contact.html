@@ -1,27 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="common/head :: common-head" />
-<body>
+<head th:replace="common/homeheader :: home-head" />
+<body class="home-1 top-btn-color">
+	<!-- Facebook Page Plugin Script-->
+	<div id="fb-root"></div>
+	<script th:src="@{/js/facebook.js}"></script>
+	<div class="spinnerspin">
+        <!-- HEADER -->
+        <div th:replace="common/homeheader :: navbar" />
+ 		<!-- HEADER -->
+ 		<div th:replace="common/homeheader :: ticker-slider" />	
 
-
-<div class="spinnerspin">
-
-<!-- Facebook Page Plugin Script-->
-<div id="fb-root"></div>
-
-<script th:src="@{/js/facebook.js}"></script>
-	<div class="wrapper-box">
-		<div class="main-wrapper">
-
-			<div th:replace="common/head :: navbar" />
-
-			<div id="container">
+			<div id="container" class="container">
 				<div id="content">			
-		<section class="">
-		<div>			
-									
 		<div class="row" style="margin-top: 10px;">
-		<div class="col-md-12 text-center grey-bg-bd">
+		<div class="col-md-12 text-center">
 			
 			<p class="contactAddress">PLEASE CHOOSE ANY OF THE FOLLOWING METHOD TO CONTACT WITH US</p>
 		</div>
@@ -44,7 +37,13 @@
 		</div>
 		<div class="col-md-4">
 			<div class="inner-con social" id="contactUsPage">
+			
 			<p class="contact-title">FIND US</p>
+			<p class="contactAddress"><i class="fas fa-map-marker-alt"></i> <span th:text="${siteSettings.storeAddress1}"></span>, 
+			
+			<span th:text="${siteSettings.storeAddressCity}"></span>,
+			<span th:text="${siteSettings.storeAddressState}"></span> - 
+			<span th:text="${siteSettings.storeAddressZip}"></span></p>
 			<p>Find Us On Social Media Networks:</p>
 			 			
  			<a th:href="${siteSettings.facebookUrl}" target="_blank">
@@ -64,19 +63,7 @@
               
 			</div>
 		</div>
-		<div class="col-md-12 text-center grey-bg-bd">
-			
-			<p class="contactAddress"><i class="fas fa-map-marker-alt"></i> <span th:text="${siteSettings.storeAddress1}"></span>, 
-			
-			<span th:text="${siteSettings.storeAddressCity}"></span>,
-			<span th:text="${siteSettings.storeAddressState}"></span> - 
-			<span th:text="${siteSettings.storeAddressZip}"></span></p>
-		</div>
-
-			<form th:action="@{/public/contact}" method="post" id="contact-form" enctype="multipart/form-data">
-			
-				
-				<!-- Success Message -->
+						<!-- Success Message -->
 				<div class="col-md-12">
 					<div th:if="${success}">
 						<h5 class="alert alert-success">We will get back to you shortly</h5>
@@ -90,11 +77,11 @@
 					</div>
 				</div>
 				
-				<div class="col-md-8">
+				<div class="col-md-8" style="margin-top:20px;margin-bottom: 20px;">
 				<div class="panel-group" id="accordion">
 					
 					<div class="col-md-12">
-
+						<form th:action="@{/public/contact}" method="post" id="contact-form" enctype="multipart/form-data">
 						<!-- 1. Shipping Address -->
 						<div class="panel panel-default">
 							<div class="panel-heading">
@@ -267,23 +254,30 @@
 						</div>
 						<div class="col-md-8">
 							<input type="file" class="form-control" id="productImage"
-								name="productImage"  multiple="multiple"/>
+								name="productImage" th:value="${contact.productImage}" multiple="multiple"/>
 						<span class="help-block">You can attach screenshot of product or issue (.jpg or .png only)</span>
 						</div>
 
 					</div>
 									
-<button type="submit" class="btn btn-primary btn-block" id="submit">Submit</button>
+		<button type="submit" class="btn btn-primary btn-block" id="submit">Submit</button>
 								</div>
 							</div>
 						</div>
+					</form>
 					</div>
-
+			
 				</div>
 				</div>
 			
-			</form>
-			<script>
+			
+
+			
+			<div class="col-md-4">
+			<!-- Facebook Page Plugin Script -->
+			<div class="fb-page col-md-12" data-href="https://www.facebook.com/kolystyleinc" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/kolystyleinc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/kolystyleinc">Koly Style</a></blockquote></div>
+			</div>
+						<script>
 			$().ready(function(){
 				$( "#contact-form" ).validate({
 			        rules: {
@@ -314,34 +308,19 @@
 			
 			
 			</script>
-			
-			<div class="col-md-4">
-			<!-- Facebook Page Plugin Script -->
-			<div class="fb-page" data-href="https://www.facebook.com/kolystyleinc" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/kolystyleinc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/kolystyleinc">Koly Style</a></blockquote></div>
-			</div>
-			
-			
-			
 		</div>
-		</div>
-		</section>
-		<div class="clear"></div>
+		
+
 
 				</div>
 
 				</div>	
-				<script th:src="@{/js/controller.js}"></script>
-			<div class="row">
-				<!-- end of container -->
-				<div th:replace="common/head :: footer" />
 
-				<div th:replace="common/head :: body-bottom-scripts" />
-			</div>
-		</div>
-
+			<!-- Footer -->
+		<div th:replace="common/homeheader :: footer" />
+	
 	</div>
-</div>
 
-<script src="/js/demo.js"></script>
+
 </body>
 </html>

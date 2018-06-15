@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,13 +40,28 @@ import com.kolystyle.service.PromoCodesService;
 import com.kolystyle.service.ShoppingCartService;
 import com.kolystyle.service.SiteSettingService;
 import com.kolystyle.service.UserService;
+import com.kolystyle.service.impl.AmazonClient;
 
 @Controller
 @RequestMapping("/shoppingCart")
 public class CartController {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(CartController.class);
-	
+	 private AmazonClient amazonClient;
+		
+
+	    @Value("${amazonProperties.endpointUrl}")
+	    private String endpointUrl;
+	    @Value("${amazonProperties.bucketName}")
+	    private String bucketName;
+	    @Value("${amazonProperties.accessKey}")
+	    private String accessKey;
+	    @Value("${amazonProperties.secretKey}")
+	    private String secretKey;
+	    @Autowired
+	    CartController(AmazonClient amazonClient) {
+	        this.amazonClient = amazonClient;
+	    }
 	@Autowired
 	private UserService userService;
 	
@@ -94,68 +110,9 @@ public class CartController {
 			shoppingCart = shoppingCartService.findCartByCookie(request);
 			System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
 			 }
-		String errors = null; 
-		if(promoCodes==null){
-			LOG.info("User entered invalid promo code: {}", couponCode.toUpperCase());
-			errors = "The promo code "+couponCode.toUpperCase()+" you entered is invalid.";
-		}else{
-			LOG.info("User entered valid promo code: {} value of {} {}", couponCode.toUpperCase(),promoCodes.getPromoValue(),promoCodes.getPercentOrDollar());
-			BigDecimal gTotal = shoppingCart.getGrandTotal();
-			BigDecimal promoVal = promoCodes.getPromoValue();
-			BigDecimal discountedAmount = new BigDecimal(0);
-			LOG.info("User's Shopping Cart Grand Total is: {}", gTotal);
-			
-			Date start = promoCodes.getStartDate();
-	        Date expiry = promoCodes.getExpiryDate();
-	        Date today = Calendar.getInstance().getTime();
-			//check for cart minimum and expiry and start date
-	        if(!promoCodes.isPromoStatus()){
-				errors = "Promo code "+couponCode.toUpperCase()+" not active";
-			}else if(gTotal.compareTo(promoCodes.getCartTotal()) < 0) {
-				LOG.info("User entered valid promo code: {} . But Shopping Cart Total is {} which is less than required Pormo Cart minimum of {} ", couponCode.toUpperCase(),gTotal,promoCodes.getCartTotal());
-				errors = "Subtotal must be $"+promoCodes.getCartTotal()+" or above to apply promo code "+couponCode.toUpperCase();
-			}else if(promoCodes.getPromoUsedCount() >= promoCodes.getPromoUseCount()){
-				errors = "Promo code "+couponCode.toUpperCase()+" is not available anymore";
-			}else if(start.after(today)) {
-				errors = "Promo code "+couponCode.toUpperCase()+" can be used on or after "+new SimpleDateFormat("MM-dd-yyyy").format(promoCodes.getStartDate());
-			}else if(expiry.before(today)) {
-				errors = "Promo code "+couponCode.toUpperCase()+" expired on "+new SimpleDateFormat("MM-dd-yyyy").format(promoCodes.getExpiryDate());
-			}else if(promoCodes.getCartItemQty() > shoppingCartService.cartItemCount(shoppingCart)) {
-				errors = "Minimum "+promoCodes.getCartItemQty()+" items required to use "+couponCode.toUpperCase();
-			}else {
-				LOG.info("We can proceed with applying promo code {}. It passes all validation",couponCode.toUpperCase());			
-			if(promoCodes.getPercentOrDollar().equalsIgnoreCase("dollar")) {
-				discountedAmount = promoVal;
-						//gTotal- promoCodes.getPromoValue();
-				LOG.info("User's applied Coupon Code with dollar value of: {}", promoVal);
-				LOG.info("User's New Shopping Cart Grand Total is: {} after {} dollars discount", discountedAmount,promoVal);
-			}else {
-				discountedAmount = promoVal.divide(new BigDecimal(100),2);
-				LOG.info("User's applied Coupon Code with percentage value of: {}%", promoCodes.getPromoValue());
-				discountedAmount = discountedAmount.multiply(gTotal);
-				LOG.info("User's applied Coupon Code with percentage value of: {}% and gets $ {} discount", promoVal,discountedAmount);
-				//discountedAmount = gTotal.subtract(discountedAmount);
-				LOG.info("User's New Shopping Cart Grand Total is: {} after {} percentage discount", discountedAmount,promoVal);
-			}
-			
-			
-			shoppingCart.setPromoCode(couponCode);
-			LOG.info("Promo Code {} is stored in Shopping Cart with Bag ID {}",couponCode, shoppingCart.getBagId());
-			shoppingCart.setDiscountedAmount(discountedAmount);
-			LOG.info("Stored Discounted Amount {} Shopping Cart with Bag ID {} where Grand Total was {}",discountedAmount,couponCode, shoppingCart.getBagId(),shoppingCart.getGrandTotal());
-			//check for shipping cost
-			
-			shoppingCart.setOrderTotal(gTotal.add(shoppingCart.getShippingCost()).subtract(discountedAmount));
-
-			LOG.info("Shopping Cart is saved and returning ShoppingCart as JSON");
-			}
-		}
-			shoppingCart.setErrors(errors);
-			LOG.info("Promo code not applied because it didn't pass requirenment, Shopping Cart is saving NOW and returned as JSON");
-			shoppingCartRepository.save(shoppingCart);
+			//Validate PromoCodes		
+			shoppingCart = promoCodesService.validatePromoCode(promoCodes,shoppingCart,couponCode);
 			return	shoppingCartService.updateShoppingCart(shoppingCart);
-			//ShoppingCart newshoppingCart = shoppingCartService.findCartByCookie(request);
-		//return newshoppingCart;
 	}
 	
 	@RequestMapping(value="/removePromoCode/{cartId}/{bagId}", method=RequestMethod.POST)
@@ -173,8 +130,6 @@ public class CartController {
 			
 			shoppingCartRepository.save(shoppingCart);
 			return shoppingCartService.updateShoppingCart(shoppingCart);
-			//ShoppingCart newshoppingCart = shoppingCartRepository.findOne(id);
-			//return newshoppingCart;
 		}else {
 			//Shopping Cart ID and Bag ID mismatched Do something to 
 			LOG.info("Unusual promo code removal is triggred for Cart with ID : {}",shoppingCart.getId());
@@ -187,14 +142,15 @@ public class CartController {
 	public String shoppingCart(Model model,Principal principal,HttpServletRequest request){
 		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
 		User user = null;
 		ShoppingCart shoppingCart;
 		List<CartItem> cartItemList = null;
-		//User need to log in If wanted to implement Guest Check out need to work on this
-		if(principal != null){
-		
-		user= userService.findByUsername(principal.getName());
-		shoppingCart = user.getShoppingCart();
+
+		if(principal != null){	
+			user= userService.findByUsername(principal.getName());
+			shoppingCart = user.getShoppingCart();
 		}else{
 
 			shoppingCart = shoppingCartService.findCartByCookie(request);
@@ -205,8 +161,10 @@ public class CartController {
        		
 
        	}else {
+       		PromoCodes promoCodes = promoCodesService.findByPromoCode(shoppingCart.getPromoCode());
+       		//Promocode Validate
+       		shoppingCart = promoCodesService.validatePromoCode(promoCodes,shoppingCart,shoppingCart.getPromoCode());
        		cartItemList = cartItemService.findByShoppingCart(shoppingCart);
-       	
 			shoppingCartService.updateShoppingCart(shoppingCart);
 			model.addAttribute("emptyCart",false);	
 		}
@@ -218,95 +176,6 @@ public class CartController {
 		
 		return "shoppingCart";
 	}
-	
-/*	@RequestMapping("/addItem")
-	public String addItem(@ModelAttribute("product") Product product,
-			@ModelAttribute("qty") String qty,
-			@ModelAttribute("size") String size,
-			HttpServletRequest request, HttpServletResponse response, 
-			Model model, 
-			Principal principal){
-		User user = null;
-		ShoppingCart shoppingCart;
-		//Get Browser cookie and Session
-		HttpSession session = request.getSession();
-		LOG.info("User with session Id {} adding product to cart", request.getSession().getId());
-		Cookie[] cookies = request.getCookies();
-		boolean foundCookie = false;
-		int cookieLength = cookies.length;
-   	 //Check cookie value
-		if (cookieLength >0) {
-        for(int i = 0; i < cookieLength; i++) { 
-            Cookie cartID = cookies[i];
-            if (cartID.getName().equals("BagId")) {
-            	LOG.info("User with Bag Id {} adding product to cart", cartID.getValue());
-                System.out.println("BagId = " + cartID.getValue());
-                foundCookie = true;
-            }
-        }
-	}
-		//Check this for id being null
-		product = productService.findOne(product.getId());
-		LOG.info("User adding product with ID  {} to cart", product.getId());
-		//Check if product qty is available
-		if(Integer.parseInt(qty) > product.getInStockNumber()){
-			model.addAttribute("notEnoughStock",true);
-			LOG.info("User is looking to add {} product with ID to cart in following qty", Integer.parseInt(qty));
-			return "forward:/productDetail?id="+product.getId();
-		}
-		
-		//Modify this line if you want Guest to add items to cart
-        if(principal != null){
-        	user =userService.findByUsername(principal.getName());
-        	LOG.info("User {} is adding product to cart", user.getUsername());
-        	shoppingCart = user.getShoppingCart();
-        }else{  
-        	
-        	//Get Cart By Bag Id
-        	
-        	// Get Cart from Session.
-        	 shoppingCart = (ShoppingCart) session.getAttribute("ShoppingCart");
-        	 LOG.info("Returning Guest User is adding product to cart");
-        	 
-        	// If null, create it.
-        	if (shoppingCart == null) {
-        		shoppingCart = new ShoppingCart();
-        		String sessionID = session.getId();
-        		shoppingCart.setSessionId(sessionID);   			
-       			
-    			//To generate random number 99 is max and 10 is min
-    			Random rand = new Random();
-    			int  newrandom = rand.nextInt(99) + 10;
-    			
-    			Time Stamp and Random Number for Bag Id so we can always
-    			  have unique bag id within Guest Cart
-    			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-    			
-    			String bagId = newrandom+"KS"+timestamp.getTime();
-    			shoppingCart.setCartType("guest");
-    			shoppingCart.setBagId(bagId);
-    			shoppingCartRepository.save(shoppingCart);
-    			LOG.info("Guest User with Bag ID {} is adding product to cart", shoppingCart.getBagId());
-        		// And store to Session.
-        		request.getSession().setAttribute("ShoppingCart",shoppingCart);
-        		// And CartId to cookie.
-       		 if (!foundCookie) {
-       	            Cookie cookie1 = new Cookie("BagId",shoppingCart.getBagId());
-       	            cookie1.setPath("/");
-       	            cookie1.setMaxAge(30*24*60*60);
-       	            response.addCookie(cookie1); 
-       	        }
-
-        	}
-        }
-        
-     	cartItemService.addProductToCartItem(product,shoppingCart,Integer.parseInt(qty), size);
-        
-		model.addAttribute("addProductSuccess",true);
-		
-		return "forward:/productDetail?id="+product.getId();
-		
-	}*/
 	 
 	@RequestMapping("/addItem")
 	    public @ResponseBody
@@ -340,7 +209,6 @@ public class CartController {
 			return null ;
 		}
 		
-		//Modify this line if you want Guest to add items to cart
         if(principal != null){
         	user =userService.findByUsername(principal.getName());
         	LOG.info("User {} is adding product to cart", user.getUsername());
@@ -388,13 +256,6 @@ public class CartController {
         }
         CartItem cartItem = cartItemService.addProductToCartItem(product,shoppingCart,Integer.parseInt(qty), size);
      	cartItemRepository.save(cartItem);
-     	// may not be needed
-     //	shoppingCartRepository.save(shoppingCart);
-     	//need to fix some issue for null pointer here
-     	/*shoppingCart.setGrandTotal(shoppingCartService.calculateCartSubTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
-		shoppingCart.setDiscountedAmount(shoppingCartService.calculateDiscountAmount(shoppingCart,promoCodesService.findByPromoCode(shoppingCart.getPromoCode())).setScale(2, BigDecimal.ROUND_HALF_UP));
-		shoppingCart.setShippingCost(shoppingCartService.calculateShippingCost(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
-		shoppingCart.setOrderTotal(shoppingCartService.calculateCartOrderTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));*/
 
 		Date addedDate = Calendar.getInstance().getTime();
 		shoppingCart.setUpdatedDate(addedDate);
@@ -407,10 +268,10 @@ public class CartController {
 		
 	}
 	
-	@RequestMapping(value="/updateCartItem/{cartItemId}/{qty}", method = RequestMethod.PUT)
+	@RequestMapping(value="/updateCartItem/{cartItemId}/{qty}/{promoCode}", method = RequestMethod.PUT)
 	public  @ResponseBody
     ShoppingCart updateShoppingCart(@PathVariable(value = "cartItemId") Long cartItemId, 
-			@PathVariable(value = "qty") int qty,Model model){
+			@PathVariable(value = "qty") int qty,@PathVariable(value = "promoCode") String promoCode,Model model){
 		CartItem cartItem = cartItemService.findById(cartItemId);
 		ShoppingCart shoppingCart = cartItem.getShoppingCart();
 		Long shoppingCartId = shoppingCart.getId();
@@ -423,13 +284,14 @@ public class CartController {
 		}else {
 			cartItem.setQty(qty);
 			//check to see if subtotal promo shipping and total is updated as well NEED TO UPDATE
+			PromoCodes promoCodes = promoCodesService.findByPromoCode(promoCode);
 			cartItemService.updateCartItem(cartItem);
-			shoppingCartService.updateShoppingCart(shoppingCart);
+			shoppingCart = promoCodesService.validatePromoCode(promoCodes,shoppingCart,promoCode);
+			shoppingCart = shoppingCartService.updateShoppingCart(shoppingCart);
 		}
 		shoppingCartRepository.save(shoppingCart);
 		shoppingCartService.updateShoppingCart(shoppingCart);
 		return shoppingCartRepository.findOne(shoppingCartId);
-		//return shoppingCart;
 		
 	}
 	
