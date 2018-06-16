@@ -255,7 +255,11 @@ public class CartController {
         	}
         }
         CartItem cartItem = cartItemService.addProductToCartItem(product,shoppingCart,Integer.parseInt(qty), size);
-     	cartItemRepository.save(cartItem);
+     	if(cartItem == null) {
+     		model.addAttribute("notEnoughStock",true);
+     		return null;
+     	}
+        cartItemRepository.save(cartItem);
 
 		Date addedDate = Calendar.getInstance().getTime();
 		shoppingCart.setUpdatedDate(addedDate);

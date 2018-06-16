@@ -519,4 +519,52 @@ public class ClientController {
         modelAndView.addObject("pager", pager);
         return modelAndView;
     }
+    
+    @GetMapping("/productByGender")
+    public ModelAndView productByGender(@RequestParam("pageSize") Optional<Integer> pageSize,
+            @RequestParam("page") Optional<Integer> page,@RequestParam("gender") String gender,Model model){
+    	SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
+        model.addAttribute("siteSettings",siteSettings);
+        ModelAndView modelAndView = new ModelAndView("products");
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
+        //
+        // Evaluate page size. If requested parameter is null, return initial
+        // page size
+        int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
+        // Evaluate page. If requested parameter is null or less than 0 (to
+        // prevent exception), return initial size. Otherwise, return value of
+        // param. decreased by 1.
+        int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
+        
+       
+        // print repo
+        System.out.println("here is client repo " + productService.findByGenderOrderByIdDesc(gender,new PageRequest(evalPage, evalPageSize)));
+       /* Page<Product> clientlist = productsRepository.findAll(new PageRequest(evalPage, evalPageSize));*/
+        Page<Product> clientlist = productService.findByGenderOrderByIdDesc(gender,new PageRequest(evalPage, evalPageSize,Sort.Direction.DESC,"id"));
+        if(clientlist.hasContent() == false) {
+        	model.addAttribute("emptyList", true);
+        	List<Product> productList = productService.findTop12ByOrderByIdDesc();
+        	model.addAttribute("productList", productList);
+        	return modelAndView;
+        }else {
+        	model.addAttribute("emptyList", false);
+        }
+        System.out.println("client list get total pages" + clientlist.getTotalPages() + "client list get number " + clientlist.getNumber());
+        PagerModel pager = new PagerModel(clientlist.getTotalPages(),clientlist.getNumber(),BUTTONS_TO_SHOW);
+        // add clientmodel
+        modelAndView.addObject("clientlist",clientlist);
+        // evaluate page size
+       // modelAndView.addObject("totalRecord", totalRecord);
+        
+        // evaluate page size
+        modelAndView.addObject("selectedPageSize", evalPageSize);
+        
+        modelAndView.addObject("pageType", "/productByGender?gender="+gender);
+        // add page sizes
+        modelAndView.addObject("pageSizes", PAGE_SIZES);
+        // add pager
+        modelAndView.addObject("pager", pager);
+        return modelAndView;
+    }
 }

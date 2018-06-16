@@ -212,7 +212,7 @@
 						                <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-506f325f57fbfc95"></script>
 						                <!-- AddThis Button END -->										
 										
-										<div class="product-cart-area-single col-md-12">
+										<div th:if="!${noMore}" class="product-cart-area-single col-md-12">
 										<form  method="post">
 										<input hidden="hidden" th:field="*{product.id}" th:name="id" th:value="${product.id}"/>
 										<input hidden="hidden" th:id="'id-addingtocart-'+${product.id}" name="idd" th:value="${product.id}"/>
@@ -278,7 +278,6 @@
     </div>
   </div>
 </div>
-
 
 
 										<!-- Bootstrap modal -->
@@ -350,14 +349,16 @@
 					<div class="right-sidebar">
 						<div class="item-details2 widget shop-title-h52">
 							<div class="ofStyle">
-								<img src="image/3(1).jpg" alt=""/>
+								<a th:href="@{/productByGender?gender=}+${product.gender}">
+								<img th:src="${fileUrl}+${genderImage}" alt=""/>
+								</a>
 							</div>
 						</div>
 						<div class="rposts topsale widget shop-title-h52">
 							<h5>RELATED PRODUCTS</h5>
 							<ul class="releated-content" data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
 								<li data-th-each="product : ${productList}" class="slide-inner">
-									<img class="rel-image" src="image/rel.jpg" alt=""/>
+									<img class="rel-image" th:src="${fileUrl}+${product.coverImageName}" alt=""/>
 									<div class="pposts-info">
 										<h6><a th:href="@{/productDetail?id=}+${product.id}" th:text="${product.title}"></a></h6>
 										<div class="product-pd-rel">

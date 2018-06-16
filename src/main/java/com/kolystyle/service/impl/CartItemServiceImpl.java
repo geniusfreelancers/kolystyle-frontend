@@ -26,10 +26,6 @@ public class CartItemServiceImpl implements CartItemService {
 	@Autowired
 	private CartItemRepository cartItemRepository;
 	
-	/*@Autowired
-	private ProductToCartItemRepository productToCartItemRepository;
-	@Autowired
-	private ProductToCartItemService productToCartItemService;*/
 	@Autowired
 	private ShoppingCartService shoppingCartService;
 	
@@ -41,7 +37,7 @@ public class CartItemServiceImpl implements CartItemService {
 	
 	@Autowired
 	private PromoCodesService promoCodesService;
-	
+
 	@Autowired
 	private PromoCodesRepository promoCodesRepository;
 	
@@ -62,8 +58,9 @@ public class CartItemServiceImpl implements CartItemService {
 	
 	public CartItem addProductToCartItem(Product product,ShoppingCart shoppingCart,int qty,String size){
 		List<CartItem> cartItemList = findByShoppingCart(shoppingCart);
-	
-		
+		if(product.getInStockNumber() < findProductQtyInCart(shoppingCart,product)+qty) {
+			return null;
+		}
 		for(CartItem cartItem : cartItemList){
 			if(product.getId() == cartItem.getProduct().getId()){
 				//Check if product with same size already exist in cart
@@ -83,7 +80,8 @@ public class CartItemServiceImpl implements CartItemService {
 				return cartItem;
 				}
 			}
-		}
+			}
+	
 
 		CartItem cartItem = new CartItem();
 		cartItem.setShoppingCart(shoppingCart);
@@ -162,6 +160,18 @@ public class CartItemServiceImpl implements CartItemService {
 	
 	public ShoppingCart findGuestCartBySessionId(String sessionid) {
 		return shoppingCartRepository.findBySessionId(sessionid);
+	}
+
+	@Override
+	public int findProductQtyInCart(ShoppingCart shoppingCart, Product product) {
+		List<CartItem> cartItemList = shoppingCart.getCartItemList();
+		int productQty = 0;
+		for (CartItem cartItem : cartItemList) {
+			if(cartItem.getProduct().getId() == product.getId()) {
+				productQty += cartItem.getQty(); 
+			}
+		}
+		return productQty;
 	}
 
 

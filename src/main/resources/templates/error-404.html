@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/homeheader :: home-head" />
+	<body class="home-1 top-btn-color">
+		
+        <!-- HEADER -->
+        <div th:replace="common/homeheader :: navbar" />
+ 		<!-- HEADER -->
+ 		<div th:replace="common/homeheader :: ticker-slider" />	
+				
+<div class="container">	
+<div class="row">
+
+		
+		<div class="banner404 col-md-12" th:style="|background-image: url(/image/404.jpg);|">
+		<div class="text404 col-md-12">
+			
+			<div class="col-md-7">
+				<p class="title404">OH SNAP!
+				<br/>Something's a little too mixed up!<br/>
+				This page is lost in the garden<br/>
+				404 - FILE OR DIRECTORY NOT FOUND<br/>
+				We apologize for the inconvenience.<br/>
+				</p>
+				<p class="title4042">
+It looks like the page you're looking for might have been removed, had its name changed or is temporarily unavailable
+<br/>
+Looks like we need to do a little trail maintenance
+				
+				 </p>
+				<p class="content404">
+						<a class="btn btn-primary" th:href="@{/products}">Continue
+							Shopping</a>
+				</p>
+			</div>
+			
+			<div class="col-md-5 banner44">
+				<p>TRY SEARCHING OUR SITE OR START ON OUR <a th:href="@{/}">HOME PAGE</a></p>
+				<div class="col-md-12 col-sm-12 search-div" style="margin-top:0px;">
+						<!-- SECRCH FORM -->
+				<div class="header-search-form text-right search404-div">
+					<form th:action="@{/searchProduct}" method="post">
+						<input type="text" class="search404" name="keyword" placeholder="Enter your keyword..." th:value="${keyword}"/>
+						<button type="submit"><i class="fa fa-search"></i></button>
+					</form>
+				</div>
+				</div>
+			</div>
+		</div>	
+			<!--img src="/image/404.jpg"/-->
+		</div>
+</div>
+</div>		
+<div class="container">	
+<div class="row">
+
+			<!-- MAIN CONTENT AREA -->
+        <div class="maincontent-area" style="padding-top:0px;">
+					<div class="special-wid-h2">
+						<div class="special-overlay"></div>
+						<div class="special-bg-h2">
+							<img th:src="${fileUrl}+${homePage.categoryOneImg}" alt=""/>
+						</div>
+						<div class="special-text-h2 textwhite text-center text-uppercase">
+							<h4  th:text="${homePage.categoryOneLable}"></h4>
+							<span  th:text="${homePage.categoryOneLable2}"></span>
+							<!-- /br-->
+							<a class="read-more-h2" th:href="@{/}+${homePage.categoryOneUrl}">get the look <i class="fa fa-angle-double-right"></i></a>
+						</div>
+					</div> 
+					<div class="special-wid-h2">
+						<div class="special-overlay"></div>
+						<div class="special-bg-h2">
+							<img th:src="${fileUrl}+${homePage.categoryTwoImg}" alt=""/>
+						</div>
+						<div class="special-text-h2 s-second-f-s text-center text-uppercase">
+							<h4 th:text="${homePage.categoryTwoLable}"></h4>
+							<span th:text="${homePage.categoryTwoLable2}"></span>
+							<!-- /br-->
+							<a class="read-more-h2" th:href="@{/}+${homePage.categoryTwoUrl}">get the look <i class="fa fa-angle-double-right"></i></a>
+						</div>
+					</div> 
+					<div class="special-wid-h2">
+						<div class="special-overlay"></div>
+						<div class="special-bg-h2">
+							<img th:src="${fileUrl}+${homePage.categoryThreeImg}" alt=""/>
+						</div>
+						<div class="special-text-h2 textwhite s-second-f-t text-center text-uppercase">
+							<h4 th:text="${homePage.categoryThreeLable}"></h4>
+							<span th:text="${homePage.categoryThreeLable2}"></span>
+							<!-- /br-->
+							<a class="read-more-h2" th:href="@{/}+${homePage.categoryThreeUrl}">get the look <i class="fa fa-angle-double-right"></i></a>
+						</div>
+					</div> 
+					<div class="special-wid-h2">
+						<div class="special-overlay"></div>
+						<div class="special-bg-h2">
+							<img th:src="${fileUrl}+${homePage.categoryFourImg}" alt=""/>
+						</div>
+						<div class="special-text-h2 text-center s-second-f-t text-uppercase">
+							<h4 th:text="${homePage.categoryFourLable}"></h4>
+							<span th:text="${homePage.categoryFourLable}"></span>
+							<!-- /br-->
+							<a class="read-more-h2" th:href="@{/}+${homePage.categoryFourUrl}">get the look <i class="fa fa-angle-double-right"></i></a>
+						</div>
+					</div>                                                
+        </div>
+		<!-- MAIN CONTENT AREA -->
+	
+</div>
+</div>
+
+<!-- Blog -->
+		<div id="blog-col">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<div class="section-title"><span>STYLE CONCEPTS</span></div>
+					</div>
+					<div class="bolg-col">
+						<div class="col-md-3 col-sm-6">
+							<div class="blog-post-area">
+								<div class="blog-post-col">
+									<div class="blog-thumb">
+										<img th:src="${fileUrl}+${homePage.offerOneImg}" alt=""/>
+										<div class="post-meta-date post-meta-home">
+											<a th:href="@{/}+${homePage.offerOneUrl}">GET THE LOOK</a>
+										</div>
+									</div>
+									<div class="blog-post">	
+										<h5><a th:href="@{/}+${homePage.offerOneUrl}" th:text="${homePage.offerOneTitle}"></a></h5>
+										<p th:text="${homePage.offerOneText}"></p>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6">
+							<div class="blog-post-area">
+								<div class="blog-post-col">
+									<div class="blog-thumb">
+										<img th:src="${fileUrl}+${homePage.offerTwoImg}" alt=""/>
+										<div class="post-meta-date post-meta-home">
+											<a th:href="@{/}+${homePage.offerTwoUrl}">GET THE LOOK</a>
+										</div>
+									</div>
+									<div class="blog-post">	
+										<h5><a th:href="@{/}+${homePage.offerTwoUrl}" th:text="${homePage.offerTwoTitle}"></a></h5>
+										<p th:text="${homePage.offerTwoText}"></p>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6">
+							<div class="blog-post-area">
+								<div class="blog-post-col">
+									<div class="blog-thumb">
+										<img th:src="${fileUrl}+${homePage.offerThreeImg}" alt=""/>
+										<div class="post-meta-date post-meta-home">
+											<a th:href="@{/}+${homePage.offerThreeUrl}">GET THE LOOK</a>
+										</div>
+									</div>
+									<div class="blog-post">	
+										<h5><a th:href="@{/}+${homePage.offerThreeUrl}" th:text="${homePage.offerThreeTitle}"></a></h5>
+										<p th:text="${homePage.offerThreeText}"></p>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-6">
+							<div class="blog-post-area">
+								<div class="blog-post-col">
+									<div class="blog-thumb">
+										<img th:src="${fileUrl}+${homePage.offerFourImg}" alt=""/>
+										<div class="post-meta-date post-meta-home">
+											<a th:href="@{/}+${homePage.offerFourUrl}">GET THE LOOK</a>
+										</div>
+									</div>
+									<div class="blog-post">	
+										<h5><a th:href="@{/}+${homePage.offerFourUrl}" th:text="${homePage.offerFourTitle}"></a></h5>
+										<p th:text="${homePage.offerFourText}"></p>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Blog -->
+		
+		<!-- Special -->
+		<div id="special">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="special-box-col">
+							<div class="col-md-3 col-sm-3 text-center special-box">
+								<span class="special-icon"><i class="fas fa-shipping-fast"></i></span>
+								<h5><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html">fast SHIPPING</a></h5>
+								<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse</p>
+							</div>
+							<div class="col-md-3 col-sm-3 text-center special-box">
+								<span class="special-icon"><i class="fas fa-credit-card"></i></span>
+								<h5><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html">SECURE PAYMENTS</a></h5>
+								<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse</p>
+							</div>
+							<div class="col-md-3 col-sm-3 text-center special-box">
+								<span class="special-icon"><i class="fas fa-comments"></i></span>
+								<h5><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html">CUSTOMER SUPPORT</a></h5>
+								<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse</p>
+							</div>
+							<div class="col-md-3 col-sm-3 text-center special-box">
+								<span class="special-icon"><i class="fas fa-shopping-bag"></i></span>
+								<h5><a href="http://bootexperts.com/html/kolystyle-ecommerce/kolystyle/index-2.html">EASY SHOPPING</a></h5>
+								<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	
+				<!-- Footer -->
+		<div th:replace="common/homeheader :: footer" />
+		
+
+</body>
+</html>

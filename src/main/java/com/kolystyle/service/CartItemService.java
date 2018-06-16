@@ -30,6 +30,8 @@ public interface CartItemService {
 	
 	//Guest Cart Added
 	ShoppingCart findGuestCartBySessionId(String sessionid);
+
+	int findProductQtyInCart(ShoppingCart shoppingCart, Product product);
 	
 	/*List<CartItem> findByGuestShoppingCart(GuestShoppingCart guestShoppingCart);*/
 	

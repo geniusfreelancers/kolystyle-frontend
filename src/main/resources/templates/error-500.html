@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/homeheader :: home-head" />
+	<body class="home-1 top-btn-color">
+		
+        <!-- HEADER -->
+        <div th:replace="common/homeheader :: navbar" />
+ 		<!-- HEADER -->
+ 		<div th:replace="common/homeheader :: ticker-slider" />	
+				
+<div class="container">	
+<div class="row">
+
+		
+		<div class="banner404 col-md-12" th:style="|background-image: url(/image/404.jpg);|">
+		<div class="text404 col-md-12">
+			
+			<div class="col-md-7">
+				<p class="title404">OH SNAP!
+				<br/>Something's a little too mixed up!<br/>
+				This page is lost in the garden<br/>
+				404 - FILE OR DIRECTORY NOT FOUND<br/>
+				We apologize for the inconvenience.<br/>
+				</p>
+				<p class="title4042">
+It looks like the page you're looking for might have been removed, had its name changed or is temporarily unavailable
+<br/>
+Looks like we need to do a little trail maintenance
+				
+				 </p>
+				<p class="content404">
+						<a class="btn btn-primary" th:href="@{/products}">Continue
+							Shopping</a>
+				</p>
+			</div>
+			
+			<div class="col-md-5 banner44">
+				<p>TRY SEARCHING OUR SITE OR START ON OUR <a th:href="@{/}">HOME PAGE</a></p>
+				<div class="col-md-12 col-sm-12 search-div" style="margin-top:0px;">
+						<!-- SECRCH FORM -->
+				<div class="header-search-form text-right search404-div">
+					<form th:action="@{/searchProduct}" method="post">
+						<input type="text" class="search404" name="keyword" placeholder="Enter your keyword..." th:value="${keyword}"/>
+						<button type="submit"><i class="fa fa-search"></i></button>
+					</form>
+				</div>
+				</div>
+			</div>
+		</div>	
+			<!--img src="/image/404.jpg"/-->
+		</div>
+</div>
+</div>		
+<div class="container">	
+<div class="row">
+
+			<!-- MAIN CONTENT AREA -->
+        <div class="maincontent-area" style="padding-top:0px;">
+					<div class="special-wid-h2">
+						<div class="special-overlay"></div>
+						<div class="special-bg-h2">
+							<img th:src="${fileUrl}+${homePage.categoryOneImg}" alt=""/>
+						</div>
+						<div class="special-text-h2 textwhite text-center text-uppercase">
+							<h4  th:text="${homePage.categoryOneLable}"></h4>
+							<span  th:text="${homePage.categoryOneLable2}"></span>
+							<!-- /br-->
+							<a class="read-more-h2" th:href="@{/}+${homePage.categoryOneUrl}">get the look <i class="fa fa-angle-double-right"></i></a>
+						</div>
+					</div> 
+					<div class="special-wid-h2">
+						<div class="special-overlay"></div>
+						<div class="special-bg-h2">
+							<img th:src="${fileUrl}+${homePage.categoryTwoImg}" alt=""/>
+						</div>
+						<div class="special-text-h2 s-second-f-s text-center text-uppercase">
+							<h4 th:text="${homePage.categoryTwoLable}"></h4>
+							<span th:text="${homePage.categoryTwoLable2}"></span>
+							<!-- /br-->
+							<a class="read-more-h2" th:href="@{/}+${homePage.categoryTwoUrl}">get the look <i class="fa fa-angle-double-right"></i></a>
+						</div>
+					</div> 
+					<div class="special-wid-h2">
+						<div class="special-overlay"></div>
+						<div class="special-bg-h2">
+							<img th:src="${fileUrl}+${homePage.categoryThreeImg}" alt=""/>
+						</div>
+						<div class="special-text-h2 textwhite s-second-f-t text-center text-uppercase">
+							<h4 th:text="${homePage.categoryThreeLable}"></h4>
+							<span th:text="${homePage.categoryThreeLable2}"></span>
+							<!-- /br-->
+							<a class="read-more-h2" th:href="@{/}+${homePage.categoryThreeUrl}">get the look <i class="fa fa-angle-double-right"></i></a>
+						</div>
+					</div> 
+					<div class="special-wid-h2">
+						<div class="special-overlay"></div>
+						<div class="special-bg-h2">
+							<img th:src="${fileUrl}+${homePage.categoryFourImg}" alt=""/>
+						</div>
+						<div class="special-text-h2 text-center s-second-f-t text-uppercase">
+							<h4 th:text="${homePage.categoryFourLable}"></h4>
+							<span th:text="${homePage.categoryFourLable}"></span>
+							<!-- /br-->
+							<a class="read-more-h2" th:href="@{/}+${homePage.categoryFourUrl}">get the look <i class="fa fa-angle-double-right"></i></a>
+						</div>
+					</div>                                                
+        </div>
+		<!-- MAIN CONTENT AREA -->
+	
+</div>
+</div>
+
+
+	
+				<!-- Footer -->
+		<div th:replace="common/homeheader :: footer" />
+		
+
+</body>
+</html>

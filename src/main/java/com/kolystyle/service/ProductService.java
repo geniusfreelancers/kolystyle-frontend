@@ -43,6 +43,8 @@ public interface ProductService {
 	Page<Product> searchByKeyword(String keyword, PageRequest pageRequest);
 
 	Page<Product> findByProductTagsContaining(String deal, PageRequest pageRequest);
+
+	Page<Product> findByGenderOrderByIdDesc(String gender, PageRequest pageRequest);
 	
 
 }

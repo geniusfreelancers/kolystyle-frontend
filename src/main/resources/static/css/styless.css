@@ -86,6 +86,58 @@ Version:1.0
 /*-----------------------------
  1. Global Styles 
 -------------------------------*/
+.banner404{
+	margin-bottom: 10px;
+	background-position: center center;
+    width: 100%;
+    height: 350px;
+}
+.text404{
+	top: 40px;
+}
+.title404 {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 1px 2px 3px #403e3e;
+}
+.title4042 {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 15px;
+    text-shadow: 1px 2px 3px #374850;
+}
+.content404{
+	text-align: center;
+}
+.banner404 img{
+	width:100%;
+}
+.banner44{
+    top: 60px;
+}
+.banner44 p{
+	text-align: center;
+    color: #ffffff!important;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.banner44 a{
+	color:#91e6f5!important;
+}
+.search404-div{
+	background:#ffffff!important;
+	/* float: none!important; */
+	width: 100%;
+	margin-top:0px!important;
+}
+.search404-div button{
+	color:#000000!important;
+}
+.search404{
+	background:none!important;
+	width: 375px!important;
+}
 .testimonial-content li{
 	width:23%!important;
 }
@@ -1632,14 +1684,14 @@ padding: 9px 0 !important;}
     float: left;
     font-size: 14px;
     margin-right: 3px;
-    width: 34%;
+    /* width: 34%; */
 }
 .product-listprice {
     color: #f95656;
     float: left;
     font-size: 14px;
     margin-right: 3px;
-    width: 34%;
+    /* width: 34%; */
 }
 .product-listprice span {
     text-decoration: line-through;
@@ -1664,17 +1716,18 @@ padding: 9px 0 !important;}
 }
 .product-pd {
     float: left;
-    width: 60%
+    width: 65%
     }
 
 .product-review {
     float: left;
     text-align: right;
-    width: 40%
+    width: 35%
     }
 
 .product-review span {
-    color: #000
+    color: #000;
+    font-size: 12px;
     }
 .product-pds {
     float: left;
@@ -1961,7 +2014,13 @@ ul.pro-cat a:hover {
     font-family: "Montserrat", sans-serif;
     font-weight: bold
     }
-
+.top-product-listprice {
+    color: #f95656;
+    float: left;
+    font-size: 14px;
+    margin-right: 3px;
+    width: 34%; 
+}
 .top-price-red {
     color: #f8423f;
     font-family: "Montserrat", sans-serif;
@@ -4726,16 +4785,19 @@ input.form-control {
     font-family: Arial;
     font-size: 14px;
     font-weight: normal;
-    margin-bottom: 25px
+    /* margin-bottom: 25px */
     }
-
+label.error{
+	color:red;
+	font-weight:100;
+}
 textarea.form-control {
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
     border-radius: 0;
     font-family: Arial;
     height: auto;
-    margin-bottom: 28px
+   /*  margin-bottom: 28px */
     }
 
 .btn.btnContact {

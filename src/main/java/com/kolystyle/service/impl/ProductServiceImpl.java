@@ -216,4 +216,11 @@ public class ProductServiceImpl implements ProductService{
 		return productRepository.findByProductTagsContaining(deal,pageRequest);
 	}
 
+
+	@Override
+	public Page<Product> findByGenderOrderByIdDesc(String gender, PageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return productRepository.findByGenderOrderByIdDesc(gender,pageRequest);
+	}
+
 }

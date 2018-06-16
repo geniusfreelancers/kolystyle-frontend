@@ -25,6 +25,12 @@ public class SiteSetting {
 	private String shopOfferBanner;
 	@Transient
 	private MultipartFile shopOfferBannerImage;
+	private String maleImageName;
+	@Transient
+	private MultipartFile maleImage;
+	private String femaleImageName;
+	@Transient
+	private MultipartFile femaleImage;
 	private String cartOfferBanner;
 	@Transient
 	private MultipartFile cartOfferBannerImage;
@@ -69,6 +75,31 @@ public class SiteSetting {
 	}
 	public void setShopOfferBannerImage(MultipartFile shopOfferBannerImage) {
 		this.shopOfferBannerImage = shopOfferBannerImage;
+	}
+	
+	public String getMaleImageName() {
+		return maleImageName;
+	}
+	public void setMaleImageName(String maleImageName) {
+		this.maleImageName = maleImageName;
+	}
+	public MultipartFile getMaleImage() {
+		return maleImage;
+	}
+	public void setMaleImage(MultipartFile maleImage) {
+		this.maleImage = maleImage;
+	}
+	public String getFemaleImageName() {
+		return femaleImageName;
+	}
+	public void setFemaleImageName(String femaleImageName) {
+		this.femaleImageName = femaleImageName;
+	}
+	public MultipartFile getFemaleImage() {
+		return femaleImage;
+	}
+	public void setFemaleImage(MultipartFile femaleImage) {
+		this.femaleImage = femaleImage;
 	}
 	public MultipartFile getCartOfferBannerImage() {
 		return cartOfferBannerImage;

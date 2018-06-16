@@ -21,10 +21,26 @@ import com.kolystyle.repository.ContactRepository;
 import com.kolystyle.service.ContactService;
 import com.kolystyle.service.SiteSettingService;
 import com.kolystyle.service.StaticPageService;
+import com.kolystyle.service.impl.AmazonClient;
 
 @Controller
 @RequestMapping("/public")
 public class PublicController {
+	 private AmazonClient amazonClient;
+		
+
+	    @Value("${amazonProperties.endpointUrl}")
+	    private String endpointUrl;
+	    @Value("${amazonProperties.bucketName}")
+	    private String bucketName;
+	    @Value("${amazonProperties.accessKey}")
+	    private String accessKey;
+	    @Value("${amazonProperties.secretKey}")
+	    private String secretKey;
+	    @Autowired
+	    PublicController(AmazonClient amazonClient) {
+	        this.amazonClient = amazonClient;
+	    }
 	@Autowired
 	private ContactRepository contactRepository;
 	
@@ -42,6 +58,8 @@ public class PublicController {
 	public String contact(Model model) {
 		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
         Contact contact = new Contact();
         model.addAttribute("contact",contact);
 		return "contact";
@@ -52,6 +70,8 @@ public class PublicController {
 			Model model,HttpServletRequest request) {
 		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
         //Do empty validation here
         if(contact.getFullName().isEmpty() ||
         		contact.getEmail().isEmpty() ||
@@ -112,6 +132,8 @@ public class PublicController {
 		StaticPage staticpage = staticPageService.findByPagename(pagename);
 		SiteSetting siteSettings = siteSettingService.findOne(new Long(1));
         model.addAttribute("siteSettings",siteSettings);
+        String fileUrl = endpointUrl + "/" + bucketName + "/";
+		model.addAttribute("fileUrl", fileUrl);
 		if(staticpage != null && staticpage.isPublished()) {
 			model.addAttribute("staticpage", staticpage);
 			return "staticpage";

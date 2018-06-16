@@ -342,8 +342,14 @@ private AmazonClient amazonClient;
 		List<String> sizeList = Arrays.asList(availableSize.split("\\s*,\\s*"));
 		String productImages = product.getProductImagesName();
 		List<String> productImagesList = Arrays.asList(productImages.split("\\s*,\\s*"));
-		model.addAttribute("product", product);
-		 
+		String genderImage;
+		if(product.getGender().equalsIgnoreCase("female")) {
+			genderImage = siteSettings.getFemaleImageName();
+		}else {
+			genderImage = siteSettings.getMaleImageName();
+		}
+		model.addAttribute("genderImage", genderImage);
+		model.addAttribute("product", product); 
 		//List<Integer> qtyList = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
 		int qtly = product.getInStockNumber();
 		List<Integer> qtyList = new ArrayList<Integer>();

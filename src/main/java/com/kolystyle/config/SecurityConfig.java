@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return SecurityUtility.passwordEncoder();
 	}
 
-	private static final String[] PUBLIC_MATCHERS = { "/css/**", "/js/**", "/image/**","/rest/cart/**", "/","/index","/currentdeals", "/newUser","/forgetPassword","/forgotpassword","/login","/register","/fonts/**","/home","/productshelf","/productDetail","/public/**","/searchByBrand","/searchByCategory","/searchBySubCategory","/searchBySubSubCategory","/searchProduct","/shoppingCart/**","/paypal/**","/checkouts/**","/cart/guestcheckout","/customize/**","/chargeguest","/thankyou/**","/newsletter/**","/ordertracking/**","/guest/charge","/guest/checkout","/products" };
+	private static final String[] PUBLIC_MATCHERS = {"/error", "/css/**", "/js/**", "/image/**","/rest/cart/**", "/","/index","/currentdeals", "/newUser","/forgetPassword","/forgotpassword","/login","/register","/fonts/**","/home","/productshelf","/productDetail","/public/**","/searchByBrand","/searchByCategory","/searchBySubCategory","/searchBySubSubCategory","/searchProduct","/productByGender","/shoppingCart/**","/paypal/**","/checkouts/**","/cart/guestcheckout","/customize/**","/chargeguest","/thankyou/**","/newsletter/**","/ordertracking/**","/guest/charge","/guest/checkout","/products" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {

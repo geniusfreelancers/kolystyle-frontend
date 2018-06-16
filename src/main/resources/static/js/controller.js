@@ -54,9 +54,9 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
             	    action: 'hide'
             })
            
-            if($scope.shoppingCart.errors == null){
+            if($scope.shoppingCart.errors == null && $scope.shoppingCart.discountedAmount > 0){
              $('.applyPromoError').show();	
-       		 $('.applyPromoError').html('<p class="text-success"><span>You saved $</span><span>'+$scope.shoppingCart.discountedAmount.toFixed(2)+'</span> using promo code <span>'+$scope.shoppingCart.promoCode.toUpperCase()+'</span>');
+       		 $('.applyPromoError').html('<p class="text-success"><span>You saved $</span><span>'+$scope.shoppingCart.discountedAmount.toFixed(2)+'</span> using promo code <span>'+$scope.shoppingCart.promoCode+'</span>');
        		 $('#applyPromoNow').hide();
        		 $('#removePromoNow').show();
        		 $("#enterPromoCode").prop("disabled",true);
@@ -110,6 +110,7 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
 		        	$scope.shoppingCart = data;
 		        	$scope.shoppingCart.shippingCost = $scope.calShipping(data);
 		        	 if($scope.shoppingCart.errors == null){
+		        		 $('.applyPromoError').show();
 		        		 $('.applyPromoError').html('<p class="text-success"><span>You saved $</span><span>'+$scope.shoppingCart.discountedAmount.toFixed(2)+'</span> using promo code <span>'+$scope.shoppingCart.promoCode.toUpperCase()+'</span>');
 		        		 $('#applyPromoNow').hide();
                 		 $('#removePromoNow').show();
@@ -191,7 +192,7 @@ $(document).ready(function(){
     	 }else{
     	for (i = 0; i < data.cartItemList.length; i++) {
            item += data.cartItemList[i].qty;
-           items += '<tr class="border-bottom"><td><img class="img-responsive product-shelf" style="width:70px;" src="https://s3.us-east-2.amazonaws.com/kolystyle/'+data.cartItemList[i].product.coverImageName+'" /></td><td><span class="col-md-12"><strong>'+data.cartItemList[i].product.title+'</strong></span><span class="col-md-12">Size: '+data.cartItemList[i].productSize+' | '+data.cartItemList[i].qty+' x $'+data.cartItemList[i].product.ourPrice+'</span></td><td> $'+data.cartItemList[i].subtotal+'</td></tr>';
+           items += '<tr class="border-bottom"><td><img class="img-responsive product-shelf" style="width:70px;" src="https://s3.us-east-2.amazonaws.com/kolystylebucket/'+data.cartItemList[i].product.coverImageName+'" /></td><td><span class="col-md-12"><strong>'+data.cartItemList[i].product.title+'</strong></span><span class="col-md-12">Size: '+data.cartItemList[i].productSize+' | '+data.cartItemList[i].qty+' x $'+data.cartItemList[i].product.ourPrice+'</span></td><td> $'+data.cartItemList[i].subtotal+'</td></tr>';
        	
         }
     	   
