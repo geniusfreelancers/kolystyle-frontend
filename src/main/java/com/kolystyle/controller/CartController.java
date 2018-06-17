@@ -180,7 +180,7 @@ public class CartController {
 	@RequestMapping("/addItem")
 	    public @ResponseBody
 	    ShoppingCart addItem(@ModelAttribute("product") Product product,
-			@ModelAttribute("qty") String qty,
+			@ModelAttribute("qty") int qty,
 			@ModelAttribute("size") String size,
 			HttpServletRequest request, HttpServletResponse response, 
 			Model model, 
@@ -197,15 +197,15 @@ public class CartController {
 			product = productService.findOne(product.getId());
 		}catch (NullPointerException  e){
 			model.addAttribute("doesNotExist",true);
-			LOG.info("User is looking to add non existing product with ID {} to cart in {} qty",product.getId(), Integer.parseInt(qty));
+			LOG.info("User is looking to add non existing product with ID {} to cart in {} qty",product.getId(), qty);
 			return null ;
 		}
 		
 		LOG.info("User adding product with ID  {} to cart", product.getId());
 		//Check if product qty is available
-		if(Integer.parseInt(qty) > product.getInStockNumber()){
+		if(qty > product.getInStockNumber()){
 			model.addAttribute("notEnoughStock",true);
-			LOG.info("User is looking to add {} product with ID to cart in following qty", Integer.parseInt(qty));
+			LOG.info("User is looking to add {} product with ID to cart in following qty", qty);
 			return null ;
 		}
 		
@@ -254,7 +254,12 @@ public class CartController {
 
         	}
         }
-        CartItem cartItem = cartItemService.addProductToCartItem(product,shoppingCart,Integer.parseInt(qty), size);
+        if(product.getInStockNumber() < (cartItemService.findProductQtyInCart(shoppingCart,product)+qty) && !cartItemService.ifProductSizeExist(shoppingCart,product,size)) {
+			 model.addAttribute("notEnoughStock",true);	
+			 return null;
+		}
+        
+        CartItem cartItem = cartItemService.addProductToCartItem(product,shoppingCart,qty, size);
      	if(cartItem == null) {
      		model.addAttribute("notEnoughStock",true);
      		return null;
@@ -277,7 +282,17 @@ public class CartController {
     ShoppingCart updateShoppingCart(@PathVariable(value = "cartItemId") Long cartItemId, 
 			@PathVariable(value = "qty") int qty,@PathVariable(value = "promoCode") String promoCode,Model model){
 		CartItem cartItem = cartItemService.findById(cartItemId);
-		ShoppingCart shoppingCart = cartItem.getShoppingCart();
+		 if(cartItem == null) {
+	     		model.addAttribute("notEnoughStock",true);
+	     		return null;
+	     	}
+		 ShoppingCart shoppingCart = cartItem.getShoppingCart();
+		 Product product = cartItem.getProduct();
+		 if(product.getInStockNumber() < cartItemService.findProductQtyInCart(shoppingCart,product)+qty-cartItem.getQty()) {
+			 model.addAttribute("notEnoughStock",true);	
+			 return null;
+			}
+
 		Long shoppingCartId = shoppingCart.getId();
 		//need to change logic to return error message from db
 		if(qty < 1 ){

@@ -2004,7 +2004,12 @@ ul.pro-cat a:hover {
     font-weight: bold;
     font-size: 13px;
     }
-
+.notEnough {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+    display: none;
+}
 .top-product-review {
     margin-bottom: 15px
     }

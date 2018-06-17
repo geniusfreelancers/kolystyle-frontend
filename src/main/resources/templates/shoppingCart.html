@@ -66,6 +66,7 @@
 					<section class="" ng-app="cartApp" th:if="${!emptyCart}">
             <div ng-controller = "cartCtrl" th:attr="ng-init='initCartId('+${shoppingCart.id}+')'">
 					<!-- ***************************Display Products in Cart***************************************** -->
+					<p class="notEnough alert alert-danger"></p>
 					<div class="row" th:attr="ng-repeat = 'cartItem in shoppingCart.cartItemList'">
 					<div class="col-md-12"><hr/>
 						
@@ -110,10 +111,6 @@
 									
 									class="form-control cartItemQty" value="{{cartItem.qty}}" type="number" />
 								<br/>
-								
-								 
-								 
-								<!--  style="display: none;" -->
 								<button th:attr="ng-click='updateCartItem(cartItem.id)'" 
 									id="update-item-{{cartItem.id}}" type="submit"
 									class="btn btn-lol btn-xs updateCartitem">Update</button>

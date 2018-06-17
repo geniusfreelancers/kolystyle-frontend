@@ -483,9 +483,9 @@ $(document).ready(function(){
 													</li>							
 										<!-- INFORMATION -->	
 				
-													<li class="menuBB"><a id="infoLink">Information</a>
+													<li class="menuBB"><a id="infoLink">Men</a>
 														<ul class="sub-menu-drop">
-															<li><a id="aboutLink" th:href="@{/public/about}">About Us</a></li>
+															<li><a id="aboutLink" th:href="@{/productByGender?gender=male}">Men</a></li>
 							                                <li><a id="deliveryLink" th:href="@{/public/delivery}">Delivery Information</a></li>
 							                                <li><a id="privacyLink" th:href="@{/public/privacy}">Privacy Policy</a></li>
 							                                <li><a id="elementLink" th:href="@{/public/terms}">Terms &amp; Conditions</a></li>
@@ -495,7 +495,7 @@ $(document).ready(function(){
 													
 													
 													<!-- Contact Us -->
-													<li class="menuBB"><a id="contactLink" th:href="@{/public/contact}">Contact Us</a></li>
+													<li class="menuBB"><a id="contactLink" th:href="@{/productsByTags?tag=kids}">Kids</a></li>
 													
 												</ul>
 											</div>
@@ -704,15 +704,15 @@ $(document).ready(function(){
 												  </li>
 												  
 												  <li class="has-sub">
-														<a th:href="@{/public/about}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Information</span><span class="holder" style="border-color: rgba(0, 0, 0, 0.34902);"></span></a>
+														<a th:href="@{/productByGender?gender=male}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Men</span><span class="holder" style="border-color: rgba(0, 0, 0, 0.34902);"></span></a>
 															<ul>
-																	<li><a th:href="@{/public/about}"><span>About Us</span></a></li>
+																	<li><a th:href="@{/productByGender?gender=male}"><span>Men</span></a></li>
 																	<li><a th:href="@{/public/delivery}"><span>Delivery Information</span></a></li>
 																	<li><a th:href="@{/public/privacy}"><span>Privacy Policy</span></a></li>
 																	<li class="last"><a th:href="@{/public/terms}"><span>Terms &amp; Conditions</span></a></li>
 															</ul>
 												  </li>
-													<li><a href="@{/public/contact}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Contact Us</span></a></li>
+													<li><a href="@{/productsByTags?tag=kids}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Kids</span></a></li>
 												</ul>
 											</div>
 										</div>

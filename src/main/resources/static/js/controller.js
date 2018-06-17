@@ -43,27 +43,46 @@ cartApp.controller("cartCtrl", function ($scope, $http) {
     	  })
     	var qty = $('#'+cartItemId).val();
     	var promoCode = $('#enterPromoCode').val();
+    	var cartId = $('#cartId').val();
     	if(promoCode==""){
     		promoCode=null;
     	}
+    	if(qty < 1){
+    		$scope.removeFromCart(cartItemId);
+    	}else{
         $http.put('/shoppingCart/updateCartItem/'+cartItemId+'/'+qty+'/'+promoCode).success(function (data) {
-        	$scope.shoppingCart = data;
-        	 $scope.shoppingCart.shippingCost = $scope.calShipping(data);
+        	
+        	if(data == ""){
+         	   $scope.refreshCart(cartId);
+         	   $('.notEnough').show();	
+         	   $('.notEnough').html("NOT ENOUGH STOCK");	
+        	//   console.log("NOT ENOUGH STOCK");
+        	   data = $scope.shoppingCart;
+            }else{
+            	$('.notEnough').hide();	
+            	$scope.shoppingCart = data;
+            }
+            	
+
+    	 $scope.shoppingCart.shippingCost = $scope.calShipping(data);
              $('.updateCartitem').show();
-             $('.spinnerspin').ploading({
-            	    action: 'hide'
-            })
+             
            
             if($scope.shoppingCart.errors == null && $scope.shoppingCart.discountedAmount > 0){
-             $('.applyPromoError').show();	
-       		 $('.applyPromoError').html('<p class="text-success"><span>You saved $</span><span>'+$scope.shoppingCart.discountedAmount.toFixed(2)+'</span> using promo code <span>'+$scope.shoppingCart.promoCode+'</span>');
-       		 $('#applyPromoNow').hide();
-       		 $('#removePromoNow').show();
-       		 $("#enterPromoCode").prop("disabled",true);
-       	 }else{
-       		$('.applyPromoError').hide();
+	             $('.applyPromoError').show();	
+	       		 $('.applyPromoError').html('<p class="text-success"><span>You saved $</span><span>'+$scope.shoppingCart.discountedAmount.toFixed(2)+'</span> using promo code <span>'+$scope.shoppingCart.promoCode+'</span>');
+	       		 $('#applyPromoNow').hide();
+	       		 $('#removePromoNow').show();
+	       		 $("#enterPromoCode").prop("disabled",true);
+       	 	}else{
+       	 		 $('.applyPromoError').hide();
        	 }
+
         });
+    }
+        $('.spinnerspin').ploading({
+    	    action: 'hide'
+    })
     };
 ////
     $scope.removeFromCart = function (cartItemId) {
@@ -236,7 +255,7 @@ $(function() {
 	                for (i = 0; i < data.cartItemList.length; i++) {
 	                    cartListing += '<tr><th scope="row">'+data.cartItemList[i].product.id+'</th><td>'+data.cartItemList[i].product.title+'</td><td>'+data.cartItemList[i].productSize+'</td><td>'+data.cartItemList[i].qty+'</td></tr>';
 	                    item += data.cartItemList[i].qty;
-	                    items += '<tr class="border-bottom"><td><img class="img-responsive product-shelf" style="width:70px;" src="https://s3.us-east-2.amazonaws.com/kolystyle/'+data.cartItemList[i].product.coverImageName+'" /></td><td><span class="col-md-12"><strong>'+data.cartItemList[i].product.title+'</strong></span><span class="col-md-12">Size: '+data.cartItemList[i].productSize+' | '+data.cartItemList[i].qty+' x $'+data.cartItemList[i].product.ourPrice+'</span></td><td> $'+data.cartItemList[i].subtotal+'</td></tr>';
+	                    items += '<tr class="border-bottom"><td><img class="img-responsive product-shelf" style="width:70px;" src="https://s3.us-east-2.amazonaws.com/kolystylebucket/'+data.cartItemList[i].product.coverImageName+'" /></td><td><span class="col-md-12"><strong>'+data.cartItemList[i].product.title+'</strong></span><span class="col-md-12">Size: '+data.cartItemList[i].productSize+' | '+data.cartItemList[i].qty+' x $'+data.cartItemList[i].product.ourPrice+'</span></td><td> $'+data.cartItemList[i].subtotal+'</td></tr>';
 	                	
 	                }
 	                $('.modal-title').show();

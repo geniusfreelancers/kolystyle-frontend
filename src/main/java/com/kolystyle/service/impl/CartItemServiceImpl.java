@@ -58,13 +58,15 @@ public class CartItemServiceImpl implements CartItemService {
 	
 	public CartItem addProductToCartItem(Product product,ShoppingCart shoppingCart,int qty,String size){
 		List<CartItem> cartItemList = findByShoppingCart(shoppingCart);
-		if(product.getInStockNumber() < findProductQtyInCart(shoppingCart,product)+qty) {
-			return null;
-		}
+		
 		for(CartItem cartItem : cartItemList){
 			if(product.getId() == cartItem.getProduct().getId()){
 				//Check if product with same size already exist in cart
 				if(cartItem.getProductSize().equalsIgnoreCase(size)) {
+/*					 if(product.getInStockNumber() < findProductQtyInCart(shoppingCart,product)+qty-cartItem.getQty()) {
+							return null;
+						}*/
+					
 					cartItem.setQty(qty);
 					cartItem.setSubtotal(new BigDecimal(product.getOurPrice()).multiply(new BigDecimal(qty)).setScale(2, BigDecimal.ROUND_HALF_UP));
         			//updateCartItem(cartItem);
@@ -169,6 +171,18 @@ public class CartItemServiceImpl implements CartItemService {
 		for (CartItem cartItem : cartItemList) {
 			if(cartItem.getProduct().getId() == product.getId()) {
 				productQty += cartItem.getQty(); 
+			}
+		}
+		return productQty;
+	}
+
+	@Override
+	public boolean ifProductSizeExist(ShoppingCart shoppingCart, Product product, String size) {
+		List<CartItem> cartItemList = shoppingCart.getCartItemList();
+		boolean productQty = false;
+		for (CartItem cartItem : cartItemList) {
+			if(cartItem.getProduct().getId() == product.getId() && cartItem.getProductSize() == size) {
+				productQty = true;
 			}
 		}
 		return productQty;

@@ -32,6 +32,8 @@ public interface CartItemService {
 	ShoppingCart findGuestCartBySessionId(String sessionid);
 
 	int findProductQtyInCart(ShoppingCart shoppingCart, Product product);
+
+	boolean ifProductSizeExist(ShoppingCart shoppingCart, Product product, String size);
 	
 	/*List<CartItem> findByGuestShoppingCart(GuestShoppingCart guestShoppingCart);*/
 	
