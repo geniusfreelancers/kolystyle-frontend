@@ -176,15 +176,14 @@ public class CartController {
 		
 		return "shoppingCart";
 	}
-	 
+	
 	@RequestMapping("/addItem")
 	    public @ResponseBody
 	    ShoppingCart addItem(@ModelAttribute("product") Product product,
 			@ModelAttribute("qty") int qty,
 			@ModelAttribute("size") String size,
 			HttpServletRequest request, HttpServletResponse response, 
-			Model model, 
-			Principal principal){
+			Model model, Principal principal){
 		 System.out.println("Size is : "+size);
 		User user = null;
 		ShoppingCart shoppingCart;
@@ -233,8 +232,8 @@ public class CartController {
     			Random rand = new Random();
     			int  newrandom = rand.nextInt(99) + 10;
     			
-    			/*Time Stamp and Random Number for Bag Id so we can always
-    			  have unique bag id within Guest Cart*/
+    			//Time Stamp and Random Number for Bag Id so we can always
+    			  //have unique bag id within Guest Cart
     			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     			
     			String bagId = newrandom+"KS"+timestamp.getTime();
@@ -258,13 +257,14 @@ public class CartController {
 			 model.addAttribute("notEnoughStock",true);	
 			 return null;
 		}
-        
+        Long shoppingCartId = shoppingCart.getId();
         CartItem cartItem = cartItemService.addProductToCartItem(product,shoppingCart,qty, size);
-     	if(cartItem == null) {
+        cartItemRepository.save(cartItem);
+        if(cartItem == null) {
      		model.addAttribute("notEnoughStock",true);
      		return null;
      	}
-        cartItemRepository.save(cartItem);
+      //  cartItemRepository.save(cartItem);
 
 		Date addedDate = Calendar.getInstance().getTime();
 		shoppingCart.setUpdatedDate(addedDate);
@@ -273,10 +273,103 @@ public class CartController {
 		shoppingCartService.updateShoppingCart(shoppingCart);
 		shoppingCartRepository.save(shoppingCart);
 		System.out.println("CartList="+shoppingCart.getCartItemList());
-		return shoppingCart;
-		
+		return shoppingCartRepository.findOne(shoppingCartId);	
 	}
 	
+/*	@RequestMapping("/addItem")
+    public @ResponseBody
+    ShoppingCart addItem(@ModelAttribute("product") Product product,
+		@ModelAttribute("qty") String qty,
+		@ModelAttribute("size") String size,
+		HttpServletRequest request, HttpServletResponse response, 
+		Model model, 
+		Principal principal){
+	 System.out.println("Size is : "+size);
+	User user = null;
+	ShoppingCart shoppingCart;
+	//Get Browser cookie and Session
+	HttpSession session = request.getSession();
+	LOG.info("User with session Id {} adding product to cart", request.getSession().getId());
+	
+	//Check this for id being null
+	try {
+		product = productService.findOne(product.getId());
+	}catch (NullPointerException  e){
+		model.addAttribute("doesNotExist",true);
+		LOG.info("User is looking to add non existing product with ID {} to cart in {} qty",product.getId(), Integer.parseInt(qty));
+		return null ;
+	}
+	
+	LOG.info("User adding product with ID  {} to cart", product.getId());
+	//Check if product qty is available
+	if(Integer.parseInt(qty) > product.getInStockNumber()){
+		model.addAttribute("notEnoughStock",true);
+		LOG.info("User is looking to add {} product with ID to cart in following qty", Integer.parseInt(qty));
+		return null ;
+	}
+	
+    if(principal != null){
+    	user =userService.findByUsername(principal.getName());
+    	LOG.info("User {} is adding product to cart", user.getUsername());
+    	shoppingCart = user.getShoppingCart();
+    }else{  
+    	boolean foundCookie = false;
+
+    	 shoppingCart = shoppingCartService.findCartByCookie(request);
+    	 System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
+    	 LOG.info("Returning Guest User is adding product to cart");
+    	 if (shoppingCart != null) {
+    		 foundCookie = true;
+    	 }
+    	 
+    	// If null, create it.
+    	if (shoppingCart == null) {
+    		shoppingCart = new ShoppingCart();
+    		String sessionID = session.getId();
+    		shoppingCart.setSessionId(sessionID);   			
+   			
+			//To generate random number 99 is max and 10 is min
+			Random rand = new Random();
+			int  newrandom = rand.nextInt(99) + 10;
+			
+			Time Stamp and Random Number for Bag Id so we can always
+			  have unique bag id within Guest Cart
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			
+			String bagId = newrandom+"KS"+timestamp.getTime();
+			shoppingCart.setCartType("guest");
+			shoppingCart.setBagId(bagId);
+			shoppingCartRepository.save(shoppingCart);
+			LOG.info("Guest User with Bag ID {} is adding product to cart", shoppingCart.getBagId());
+    		// And store to Session.
+    		request.getSession().setAttribute("ShoppingCart",shoppingCart);
+    		// And CartId to cookie.
+   		 if (!foundCookie) {
+   	            Cookie cookie1 = new Cookie("BagId",shoppingCart.getBagId());
+   	            cookie1.setPath("/");
+   	            cookie1.setMaxAge(30*24*60*60);
+   	            response.addCookie(cookie1); 
+   	        }
+
+    	}
+    }
+    CartItem cartItem = cartItemService.addProductToCartItem(product,shoppingCart,Integer.parseInt(qty), size);
+ 	if(cartItem == null) {
+ 		model.addAttribute("notEnoughStock",true);
+ 		return null;
+ 	}
+    cartItemRepository.save(cartItem);
+
+	Date addedDate = Calendar.getInstance().getTime();
+	shoppingCart.setUpdatedDate(addedDate);
+	
+	shoppingCartRepository.save(shoppingCart);
+	shoppingCartService.updateShoppingCart(shoppingCart);
+	shoppingCartRepository.save(shoppingCart);
+	System.out.println("CartList="+shoppingCart.getCartItemList());
+	return shoppingCart;
+	
+}*/
 	@RequestMapping(value="/updateCartItem/{cartItemId}/{qty}/{promoCode}", method = RequestMethod.PUT)
 	public  @ResponseBody
     ShoppingCart updateShoppingCart(@PathVariable(value = "cartItemId") Long cartItemId, 

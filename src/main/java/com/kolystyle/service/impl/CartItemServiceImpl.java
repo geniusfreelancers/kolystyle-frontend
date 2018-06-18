@@ -69,21 +69,13 @@ public class CartItemServiceImpl implements CartItemService {
 					
 					cartItem.setQty(qty);
 					cartItem.setSubtotal(new BigDecimal(product.getOurPrice()).multiply(new BigDecimal(qty)).setScale(2, BigDecimal.ROUND_HALF_UP));
-        			//updateCartItem(cartItem);
-						//	cartTotal = cartTotal.add(cartItem.getSubtotal());
-					
-					
-			/*		shoppingCart.setGrandTotal(cartTotal);
-				cartItem.setSubtotal(new BigDecimal(product.getOurPrice()).multiply(new BigDecimal(qty)).setScale(2, BigDecimal.ROUND_HALF_UP));
-			*/	cartItemRepository.save(cartItem);
-			//	shoppingCartRepository.save(shoppingCart);
-				
+
+				cartItemRepository.save(cartItem);	
 		       	shoppingCartRepository.save(shoppingCart);
 				return cartItem;
 				}
 			}
 			}
-	
 
 		CartItem cartItem = new CartItem();
 		cartItem.setShoppingCart(shoppingCart);
@@ -93,14 +85,7 @@ public class CartItemServiceImpl implements CartItemService {
 		BigDecimal itemSubTotal = new BigDecimal(product.getOurPrice()).multiply(new BigDecimal(qty)).setScale(2, BigDecimal.ROUND_HALF_UP);
 		cartItem.setSubtotal(itemSubTotal);
 		
-		cartItemRepository.save(cartItem);
-		//updateCartItem(cartItem);
-		/*ProductToCartItem productToCartItem = new ProductToCartItem();
-		productToCartItem.setProduct(product);
-		productToCartItem.setCartItem(cartItem);
-		productToCartItemRepository.save(productToCartItem);*/
-
-		
+		cartItemRepository.save(cartItem);		
 		shoppingCartRepository.save(shoppingCart);
 		return cartItem;
 	}

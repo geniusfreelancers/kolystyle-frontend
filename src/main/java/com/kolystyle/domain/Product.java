@@ -48,7 +48,7 @@ public class Product {
 	@Column(columnDefinition="text")
 	private String shippingAndReturnPolicy;
 	private int inStockNumber;
-
+	
 	private int soldItems=0;
 	private String coverImageName;
 	private String productImagesName;
@@ -56,6 +56,7 @@ public class Product {
 	private String size;
 	private String productTags;
 	private boolean unStiched;
+	private boolean stichingCost;
 	@ManyToOne
 	@JoinColumn(name="category_id")
 	private Category category;
@@ -285,6 +286,14 @@ public class Product {
 
 	public void setUnStiched(boolean unStiched) {
 		this.unStiched = unStiched;
+	}
+
+	public boolean isStichingCost() {
+		return stichingCost;
+	}
+
+	public void setStichingCost(boolean stichingCost) {
+		this.stichingCost = stichingCost;
 	}
 
 	public Category getCategory() {
