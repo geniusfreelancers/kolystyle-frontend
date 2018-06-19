@@ -225,6 +225,7 @@ public class StripeCheckout {
 		   		orderLogRepository.save(orderLog);
 		   		//Sending Confirmation Email to customer
 		   	//	mailSender.send(mailConstructor.constructGuestOrderConfirmationEmail(order,Locale.ENGLISH));
+		   		
 		   		OrderLog orderLog2 = new OrderLog();
 		   		orderLog2.setOrder(order);
 		   		orderLog2.setUpdatedBy("System");
