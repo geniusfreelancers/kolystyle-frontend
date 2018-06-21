@@ -17,6 +17,7 @@
     width: 100%;
     text-align: center;
     display:block;
+    
 }
 .flex-control-thumbs img {
     width: 100%;
@@ -54,7 +55,6 @@
     font-weight: normal;
     height: 45px;
     text-align: center;
-    width: 50px;
 }
 .size > span {
     color: #000;
@@ -73,18 +73,15 @@
     font-weight: normal;
     height: 45px;
     text-align: center;
-    width: 50px;
 }
 .size {
    float: left;
     /* margin-right: 28px; */
-    width: 45%;
     margin-bottom: 10px;
 }
 .stitching{
 	float: left;
     margin-right: 28px;
-    width: 100%;
     margin-bottom: 10px;
 }
 .stitching select , input{
@@ -99,7 +96,6 @@
 }
 .quantity{
 	/* margin-right: 28px; */
-    width: 45%;
     margin-bottom: 10px;
     float: left;
 }
@@ -178,7 +174,7 @@
 										<span><b>SKU:</b></span> <span th:text="${product.sku}"></span><br />
                  	
                  						<span><b>Extra Promo:</b></span> <span th:text="${product.extraPromo}"></span><br />
-                 						
+                 						<input id="id" th:value="${product.id}" type="hidden"/>
                  						<span>Shipping:</span>
 				      						 <span class="readytoship" th:text="${product.shippingOption}"></span> <span>  |  </span>
 				      					 <span style="color:red"><b>Availability:</b></span>
@@ -188,7 +184,7 @@
 										</div> -->
 										<br/><br/>
 										<div class="product-pd-list">
-											<div class="product-price">$<span th:text="${product.ourPrice}"></span></div>
+											<div class="product-price">$<span id="product-price"  th:text="${product.ourPrice}"></span></div>
 											<div class="product-discount" th:with="discount=${100-(product.ourPrice/product.listPrice)*100}" >
 												<div class="product-discount-container" th:if="${discount &gt; 0}">
 														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
@@ -216,26 +212,26 @@
 										<form  method="post">
 										<input hidden="hidden" th:field="*{product.id}" th:name="id" th:value="${product.id}"/>
 										<input hidden="hidden" th:id="'id-addingtocart-'+${product.id}" name="idd" th:value="${product.id}"/>
-											<div class="stitching">
-												<span>Stitching Option </span>
+											<div class="stitching form-group col-md-4" th:if="${product.unStiched}" >
+												<label for="stitching">Stitching Option </label>
 												
-												<select name="stitching" id="stitching">
-													<option value="unstiched">Unstiched</option>
-													<option value="readytowear">Ready to wear</option>
+												<select name="stitching" id="stitching" class="readytowear form-control" >
+													<option  th:selected="${product.unStiched}" value="unstiched">Unstiched</option>
+													<option  th:selected="!${product.unStiched}" value="readytowear">Ready to wear</option>
 												</select>
 											</div>
 										
-											<div class="size">
-												<span>Size </span>
-												<select name="size" id="size">
+											<div class="size col-md-4 form-group" id="sizecontainer">
+												<label for="size">Size </label>
+												<select name="size" id="size" class="form-control">
 													<option th:each="size : ${sizeList}" th:value="${size}" th:text="${size}"></option>
 												</select>
 											</div>
 											
-											<div class="quantity">
-												<span>Qty&nbsp;&nbsp; </span>
+											<div class="quantity  col-md-4 form-group">
+												<label for="qty">Qty&nbsp;&nbsp; </label>
 												
-													<select name="qty" id="qty" >
+													<select name="qty" id="qty" class="form-control" >
 														<option th:each="qty : ${qtyList}" th:value="${qty}" th:text="${qty}"></option>
 													</select>
 												

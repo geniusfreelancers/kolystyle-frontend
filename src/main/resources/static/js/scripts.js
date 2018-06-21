@@ -367,7 +367,7 @@ $(document).ready(function(){
 });
 
 
-$(document).ready(function(){
+/*$(document).ready(function(){
 	$("#stitching").on('change',function(){
 		var id=this.value;
 		if(this.value != 'unstiched'){	
@@ -376,17 +376,31 @@ $(document).ready(function(){
 			$('.sizecontainer').css('display','none');
 		}
 	});
-	});
+	});*/
 
 $(document).ready(function(){
-	$("#readytowear").on('change',function(){
-		var id=this.value;
-		if(this.value != 'readytowear'){	
-			$('.sizecontainer').css('display','none');
+	if($('#stitching').val()== "unstiched"){
+		$('#sizecontainer').css('display','none');
+	}
+	$(".readytowear").on('change',function(){
+		var option=$('.readytowear').val();
+	//	var id = $('#id').val();
+		if(option != 'readytowear'){	
+			$('#sizecontainer').css('display','none');
 		}else{
-			$('.sizecontainer').css('display','block');
+			$.get("/stitchingoption/", {id : $('#id').val(),
+		        ajax : 'true'
+		    }, function(data) {
+			
+	    	    $('#sizecontainer').css('display','block');
+	    	    $('#product-price').html("FREE");
+	    	    //  alert("Submitted"+id);
+	    	    });
 		}
 	});
+	    	  return false;
+			
+
 	});
 
 /*$(function(){

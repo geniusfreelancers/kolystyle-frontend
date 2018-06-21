@@ -1,0 +1,167 @@
+<div class="product-single-col" ng-app="productApp" >
+<div ng-controller = "cartCtrl" th:attr="ng-init='initCartId('+${shoppingCart.id}+')'">
+								<div class="col-md-5 col-sm-4 product-slider">
+									<div class="product-img ">
+
+<!-- XZOOM -->
+<img class="xzoom" th:src="${fileUrl}+${product.coverImageName}" th:attr="xoriginal=${fileUrl}+${product.coverImageName}" />
+
+<div class="xzoom-thumbs xzoom-thumbs-control-nav" >
+<li data-th-each="proimage : ${productImagesList}">
+  <a th:href="${fileUrl}+${proimage}">
+    <img class="xzoom-gallery" width="80" th:src="${fileUrl}+${proimage}"  th:attr="xpreview=${fileUrl}+${proimage}"/>
+  </a>
+</li>
+</div>
+<!-- XZOOM -->
+
+
+
+						</div>
+								</div>
+								<div class="col-md-7  col-sm-8 product-details-single">
+									<div class="product-details-list productSingle">
+									
+										<p  th:if="${notEnoughStock}"><span style="color: red">Oops, only <span th:text="${product.inStockNumber}"></span> In Stock.</span></p>
+										<h3 class="single-product-title"><a href="#" th:text="${product.title}"></a></h3>
+										
+										<div class="product-review-list pRviewListSingle ">
+											<ul>
+												<li>
+													<div class="star">
+														<span class="yes"><i class="fa fa-star"></i></span>
+														<span class="yes"><i class="fa fa-star"></i></span>
+														<span class="yes"><i class="fa fa-star"></i></span>
+														<span class="yes"><i class="fa fa-star"></i></span>
+														<span class="yes"><i class="fa fa-star"></i></span>
+													</div>
+												</li>
+												<li><a onClick="$('a[href=\'#review\']').trigger('click');">10 reviews (s)</a></li>
+												<li><a onClick="$('a[href=\'#review\']').trigger('click');">Add Your Review</a></li>
+											</ul>
+										</div>
+										<a class="brandNameLink" th:href="@{/searchByBrand(brand=${product.brand})}"><span th:text="${product.brand}"></span></a>
+										<br/>
+										<span><b>SKU:</b></span> <span th:text="${product.sku}"></span><br />
+                 	
+                 						<span><b>Extra Promo:</b></span> <span th:text="${product.extraPromo}"></span><br />
+                 						
+                 						<span>Shipping:</span>
+				      						 <span class="readytoship" th:text="${product.shippingOption}"></span> <span>  |  </span>
+				      					 <span style="color:red"><b>Availability:</b></span>
+				       									<span th:text="${product.availabilityToShip}"></span>	 
+										<!-- <div class="shortDiscription">
+											<p th:utext="${product.description}"></p>
+										</div> -->
+										<br/><br/>
+										<div class="product-pd-list">
+											<div class="product-price">$<span th:text="${product.ourPrice}"></span></div>
+											<div class="product-discount" th:with="discount=${100-(product.ourPrice/product.listPrice)*100}" >
+												<div class="product-discount-container" th:if="${discount &gt; 0}">
+														-<span class="discount-digit" th:text="${#numbers.formatDecimal(discount,0,0)}"></span>%
+												</div>
+												</div>
+											<div th:if="${product.listPrice} &gt; ${product.ourPrice}" class="product-listing">$<span th:text="${product.listPrice}"></span></div>
+										</div>
+										<div class="saving">
+											You save: $<span th:text="${#numbers.formatDecimal((product.listPrice - product.ourPrice),0 , 'COMMA',2,'POINT')}"></span>
+										</div>
+										<div class="stock">
+											<span th:if="*{product.inStockNumber&gt;10}" class="available">Availability: <span>In Stock</span></span>
+											<span th:if="*{product.inStockNumber&lt;10 and product.inStockNumber&gt;0}" class="available">Only <span th:text="${product.inStockNumber}"></span> In Stock</span>
+											<span th:if="*{product.inStockNumber==0}" class="unavailable">Unavailable</span>
+											
+											
+										</div>
+
+										<!-- AddThis Button BEGIN -->
+						                <div class="addthis_toolbox addthis_default_style col-md-12"> <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a> <a class="addthis_button_tweet"></a> <a class="addthis_button_google_plusone" g:plusone:size="medium"></a> <a class="addthis_counter addthis_pill_style"></a> </div>
+						                <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-506f325f57fbfc95"></script>
+						                <!-- AddThis Button END -->										
+										
+										<div th:if="!${noMore}" class="product-cart-area-single col-md-12">
+										<form  method="post">
+										<input hidden="hidden" th:field="*{product.id}" th:name="id" th:value="${product.id}"/>
+										<input hidden="hidden" th:id="'id-addingtocart-'+${product.id}" name="idd" th:value="${product.id}"/>
+											<div class="stitching">
+												<span>Stitching Option </span>
+												
+												<select name="stitching" id="stitching">
+													<option value="unstiched">Unstiched</option>
+													<option value="readytowear">Ready to wear</option>
+												</select>
+											</div>
+										
+											<div class="size">
+												<span>Size </span>
+												<select name="size" id="size">
+													<option th:each="size : ${sizeList}" th:value="${size}" th:text="${size}"></option>
+												</select>
+											</div>
+											
+											<div class="quantity">
+												<span>Qty&nbsp;&nbsp; </span>
+												
+													<select name="qty" id="qty" >
+														<option th:each="qty : ${qtyList}" th:value="${qty}" th:text="${qty}"></option>
+													</select>
+												
+											</div>
+											</form>
+										</div>
+										<!-- Bootstrap Modal -->
+<div class="modal" id="mymodal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul id="modal-body">
+        
+        </ul>
+        <table class="table" id="mod-table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody id="modal-table">
+    
+  </tbody>
+</table>
+      </div>
+      <div class="modal-footer">
+      	<a href="/shoppingCart/cart" class="btn btn-info" role="button">View Cart and Checkout</a>
+        
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+										<!-- Bootstrap modal -->
+										<div class="product-cart-area-button col-md-12">
+											<div  th:if="!${noMore}" class="add-to-cart-single cart-btn">
+												<a href="#" id="addthisproduct">ADD TO CART</a>
+											</div>
+											<div class="btn-others-single" th:if="!${siteSettings.loginKillSwitch}">
+												<ul>
+													<li><a href=""><i class="fa fa-heart-o"></i></a></li>
+													<li><a href=""><i class="fa fa-exchange"></i></a></li>
+												</ul>
+											</div>
+										</div>
+									
+
+									</div>
+								</div>
+							</div>
+</div>

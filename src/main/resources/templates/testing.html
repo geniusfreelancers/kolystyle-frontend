@@ -1,0 +1,199 @@
+	<section class="" ng-app="cartApp" th:if="${!emptyCart}">
+            <div ng-controller = "cartCtrl" th:attr="ng-init='initCartId('+${shoppingCart.id}+')'">
+					<!-- ***************************Display Products in Cart***************************************** -->
+					<p class="notEnough alert alert-danger"></p>
+					<div class="row" th:attr="ng-repeat = 'cartItem in shoppingCart.cartItemList'">
+					<div class="col-md-12"><hr/>
+						
+						<form method="post">	
+							<div class="col-md-2 col-xs-4">
+								<a href="/productDetail?id={{cartItem.product.id}}"> <img
+									class="img-responsive product-shelf" style="width:84px;height:99px;"
+									th:src="${fileUrl}+@{{{cartItem.product.coverImageName}}}" />
+								</a>
+							</div>
+							<div class="col-md-4 col-xs-8">
+							<div class="cart-product-details">	
+							<a href="/productDetail?id={{cartItem.product.id}}"><h5>{{cartItem.product.title}}</h5></a>
+								<p><span><strong>Size: </strong></span><span>{{cartItem.productSize}}</span></p>
+								<p><span>Web ID: </span><span>{{cartItem.product.sku}}</span></p>
+								<!-- <p th:if="${cartItem.product.inStockNumber&gt;10}"
+									style="color: green;">In Stock</p>
+								<p
+									th:if="${cartItem.product.inStockNumber&lt;11 and cartItem.product.inStockNumber&gt;0 }"
+									style="color: green;">
+									Only <span th:text="${cartItem.product.inStockNumber}"></span>
+									In Stock
+								</p>
+								<p th:if="${cartItem.product.inStockNumber==0}"
+									style="color: darkred;">Product Unavailable</p> -->
+									
+									
+							</div>
+							</div>
+							<div class="col-md-2 col-xs-4">
+								<h5 class="text-success">
+									<strong>$<span>{{cartItem.product.ourPrice}}</span></strong>
+								</h5>
+								<h5 style="color: #db3208;text-decoration: line-through;">
+									$<span>{{cartItem.product.listPrice}}</span>
+								</h5>
+								
+							</div>
+							<div class="col-md-2 col-xs-8">
+								<input hidden="hidden" name="id" value="{{cartItem.id}}" /> <input
+									id="{{cartItem.id}}" style="width:100%;" name="qty" step="1"
+									
+									class="form-control cartItemQty" value="{{cartItem.qty}}" type="number" />
+								<br/>
+								<button th:attr="ng-click='updateCartItem(cartItem.id)'" 
+									id="update-item-{{cartItem.id}}" type="submit"
+									class="btn btn-lol btn-xs updateCartitem">Update</button>
+							</div>
+							<div class="col-md-2 col-xs-8">
+							<p class="text-right"> 
+									<strong>$<span>{{(cartItem.product.ourPrice * cartItem.qty).toFixed(2)}}</span></strong>
+								</p>
+								<br/><br/>
+							
+							
+							</div>
+							<div class="col-md-10 col-md-offset-2 col-xs-12 text-right">
+							<a href="#" class="text-danger removeItems" th:attr="ng-click='removeFromCart(cartItem.id)'" ><i class="fa fa-trash" aria-hidden="true"></i> Remove</a>	
+								
+							</div>
+						</form>
+						
+</div>
+					</div>
+					<div class="row" th:if="${!emptyCart}">
+						
+						<div class="col-md-12">
+						<hr/>
+						
+						<input hidden="hidden" th:name="bagId" id="bagId" th:value="${shoppingCart.bagId}"/>
+						<div class="form-group">
+						<label class="col-md-3 control-label" style="margin-top:5px;" for="promoCode">
+							HAVE A PROMO CODE? </label>
+						<div class="col-md-4">
+							<input hidden="hidden" name="id" id="cartId" th:value="${shoppingCart.id}" />
+							
+							 <input
+									th:id="enterPromoCode" th:name="promocode"	th:value="${shoppingCart.promoCode}"				
+									class="form-control promoCode" placeholder="Enter Promo Code" th:type="text"/>
+									
+									<!-- Coupon you applied is not valid th:if="${invalidPromoError}"-->
+									<p id="applyPromoError">{{shoppingCart.errors}}</p>
+									<p class="applyPromoError text-danger"></p>
+						</div>
+						<div class="col-md-5">			
+								<button style="display:none;" 
+									th:id="applyPromoNow" th:attr="ng-click='applyPromo()'"  type="submit"
+									class="btn btn-primary">Apply</button>
+							
+								<button type="submit" style="display: none;" class="btn btn-danger" th:attr="ng-click='removePromo()'"
+									th:id="removePromoNow">Remove</button>	
+						</div>
+					</div>
+					
+					
+							
+						
+						
+						</div>
+						</div>
+						<div class="row" th:if="${!emptyCart}">
+						<div class="col-md-12 text-right">
+						
+						<!-- Subtotal -->
+						<div class="col-md-10 col-xs-6">
+						<p>
+							<strong>Subtotal :
+							</strong> 
+						</p>
+						</div>	
+						<div class="col-md-2 col-xs-6">
+							<p><strong> <span>$<span id="subtotalamount">{{shoppingCart.grandTotal.toFixed(2)}}</span>
+								<input hidden="hidden" name="id" id="subamount" value="{{calGrandTotal()}}" />
+							
+								</span></strong> 
+						</p>
+						</div>
+						<!-- Promo Discount -->
+						<div class="col-md-10 col-xs-6 text-success">
+						<p>
+							<strong>PROMO</strong> 
+						</p>
+						</div>	
+						<div class="col-md-2 col-xs-6 text-success">
+							<p><strong> <span>- $<span id="discountamount">{{shoppingCart.discountedAmount.toFixed(2)}}</span>
+								<input hidden="hidden" name="id" id="discountamounts" value="{{shoppingCart.discountedAmount}}" />
+							
+								</span></strong> 
+						</p>
+						</div>
+						<!-- Shipping -->
+						<div class="col-md-10 col-xs-6">
+						<p>
+							Shipping :		
+						</p>
+						</div>	
+						<div class="col-md-2 col-xs-6">
+							<p> <span>
+								 <span id="shippingcost">{{shoppingCart.shippingCost}}</span>
+								 <!-- <input hidden="hidden" name="id" id="subamount" th:value="${shoppingCart.shippingCost}" />
+								<input hidden="hidden" name="id" id="subamount" th:value="${shoppingCart.grandTotal}" /> -->
+								</span> 
+						</p>
+						</div>
+						<!-- Estimated Tax -->
+						<div th:if="${estSalesTax}">
+						<div class="col-md-10 col-xs-6">
+						<p>
+							Estimated tax :
+				
+						</p>
+						</div>	
+						<div class="col-md-2 col-xs-6">
+							<p> <span>$<span id="subtotalamount"
+								th:text="${shoppingCart.grandTotal}"></span>
+								
+							
+								</span>
+						</p>
+						</div>
+						</div>
+						<!-- Order Total -->
+						<div class="col-md-10 col-xs-6">
+						<p><strong>
+							Order total :
+							</strong> 
+						</p>
+						</div>	
+						<div class="col-md-2 col-xs-6">
+							<p><strong> <span>$
+								<span id="ordertotal">{{shoppingCart.orderTotal.toFixed(2)}}</span>
+								<input hidden="hidden" name="id" id="subamount" value="{{shoppingCart.orderTotal.toFixed(2)}}" />
+							
+								</span></strong> 
+						</p>
+						</div>
+						
+						</div>
+						
+						
+					</div>
+					<div class="row">
+					<div class="col-md-12">
+					
+					<div class="col-md-12 col-xs-12 text-right" th:if="${!emptyCart}">
+					
+						<a class="btn btn-primary"
+							th:href="@{/checkout(id=${shoppingCart.id})}">Check Out</a>
+					</div>
+					</div>
+					</div>
+
+				</div>
+				</section>
+				

@@ -18,7 +18,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kolystyle.domain.Category;
 import com.kolystyle.domain.Product;
@@ -161,6 +163,18 @@ private AmazonClient amazonClient;
 	        model.addAttribute("siteSettings",siteSettings);
 		return "productshelf";
 	}*/
+	@RequestMapping(value="/stitchingoption/{id}")
+	public @ResponseBody double stitchingOption(@PathVariable(value = "id") Long id) {
+		Product product = productService.findOne(id);
+		double stitchCost = 0;
+		double productPrice = product.getListPrice();
+		if(product.isUnStiched() == true){
+			 stitchCost = product.getCategory().getStichingCost();
+			 productPrice = stitchCost+ productPrice;
+			
+		}
+		return productPrice;	
+	}
 	
 	@RequestMapping("/productDetail")
 	public String productDetail(@PathParam("id") Long id, Model model, Principal principal,HttpServletRequest request,HttpServletResponse response) 
