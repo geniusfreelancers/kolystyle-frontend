@@ -321,6 +321,8 @@ public class StripeCheckout {
 		   		model.addAttribute("currentStatus",currentStatus);
 		   		model.addAttribute("cartItemList", order.getCartItemList());
 		   		model.addAttribute("noCartExist",true);
+
+				model.addAttribute("noMiniCartExist",true);
 		       return "thankyou";
 		   }
 	
@@ -330,6 +332,8 @@ public class StripeCheckout {
 	        model.addAttribute("siteSettings",siteSettings);
 	        String fileUrl = endpointUrl + "/" + bucketName + "/";
 			model.addAttribute("fileUrl", fileUrl);
+
+			model.addAttribute("noMiniCartExist",true);
 	      //Save in DB
 	        User user = null;
 	        ShoppingCart shoppingCart;
@@ -381,6 +385,8 @@ public class StripeCheckout {
 	        model.addAttribute("siteSettings",siteSettings);
 	        String fileUrl = endpointUrl + "/" + bucketName + "/";
 			model.addAttribute("fileUrl", fileUrl);
+
+			model.addAttribute("noMiniCartExist",true);
 	      //Save in DB
 	        User user = null;
 	        ShoppingCart shoppingCart;
@@ -430,6 +436,8 @@ public class StripeCheckout {
         model.addAttribute("siteSettings",siteSettings);
         String fileUrl = endpointUrl + "/" + bucketName + "/";
 		model.addAttribute("fileUrl", fileUrl);
+
+		model.addAttribute("noMiniCartExist",true);
 		ShoppingCart shoppingCart;
 
 		
