@@ -82,6 +82,10 @@
 							<a href="/productDetail?id={{cartItem.product.id}}"><h5>{{cartItem.product.title}}</h5></a>
 								<p><span><strong>Size: </strong></span><span>{{cartItem.productSize}}</span></p>
 								<p><span>Web ID: </span><span>{{cartItem.product.sku}}</span></p>
+								
+								<p class="stichCos">
+								<strong><span>Stitching: +$</span><span>{{(cartItem.stitchingTotal).toFixed(2)}}</span></strong>
+								 </p>
 								<!-- <p th:if="${cartItem.product.inStockNumber&gt;10}"
 									style="color: green;">In Stock</p>
 								<p
@@ -194,6 +198,19 @@
 							<p><strong> <span>- $<span id="discountamount">{{shoppingCart.discountedAmount.toFixed(2)}}</span>
 								<input hidden="hidden" name="id" id="discountamounts" value="{{shoppingCart.discountedAmount}}" />
 							
+								</span></strong> 
+						</p>
+						</div>
+						<!-- Stitching Total -->
+						<div class="col-md-10 col-xs-6">
+						<p><strong>
+							Stitching :
+							</strong> 
+						</p>
+						</div>	
+						<div class="col-md-2 col-xs-6">
+							<p><strong> <span>$
+								<span id="ordertotal">{{shoppingCart.stitchingTotal.toFixed(2)}}</span>
 								</span></strong> 
 						</p>
 						</div>

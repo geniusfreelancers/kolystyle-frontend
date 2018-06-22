@@ -28,19 +28,19 @@ public class OrderController {
 	@Autowired
 	private ShoppingCartRepository shoppingCartRepository;
 
-    @RequestMapping("/minicart")
+/*    @RequestMapping("/minicart")
     public @ResponseBody
     ShoppingCart getCartById(HttpServletRequest request){
     	ShoppingCart shoppingCart = shoppingCartService.findCartByCookie(request);
     	if(shoppingCart == null) {
     		return shoppingCart;
     	}else {
-    		System.out.println("SUCCESSFUL WITH COOKIE LOGIC");
+    		System.out.println("SUCCESSFUL MINI CART COOKIE LOGIC");
         	//ShoppingCart shoppingCart = shoppingCartRepository.findOne(new Long(cartId));
         	return shoppingCart;
     	}
 		
-    }
+    }*/
 
     
    // @RequestMapping(value = "/add/{shippingMethod}/{cartId}", method = RequestMethod.PUT)

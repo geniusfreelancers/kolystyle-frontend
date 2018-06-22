@@ -227,12 +227,12 @@ $(document).ready(function(){
 });
 $(function() {
 	var sizes = "";
-	var option = "";
+//	var option = "";
 	$('#addthisproduct').click(
 	        function() {
-	        	option = $('#stitching').val();
-	        	
-	        	if(option != "readytowear"){
+	        	//option = $('#stitching').val();
+	        	var option=$('.readytowear').val();
+	        	if(option == "unstiched"){
 	        		  sizes = "unstiched";
 	        	}else{
 	        		  sizes = $('#size').val();
@@ -242,6 +242,7 @@ $(function() {
 	            	id : $('#id').val(),
 	            	size : sizes,
 	                qty : $('#qty').val(),
+	                option: option,
 	                ajax : 'true'
 	            }, function(data) {
 	                var html = '';

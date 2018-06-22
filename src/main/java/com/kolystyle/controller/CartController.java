@@ -173,6 +173,7 @@ public class CartController {
 		model.addAttribute("cartItemList",cartItemList);
 		model.addAttribute("shoppingCart",shoppingCart);
 		model.addAttribute("noCartExist",true);
+		model.addAttribute("noMiniCartExist",true);
 		
 		return "shoppingCart";
 	}
@@ -182,6 +183,7 @@ public class CartController {
 	    ShoppingCart addItem(@ModelAttribute("product") Product product,
 			@ModelAttribute("qty") int qty,
 			@ModelAttribute("size") String size,
+			@ModelAttribute("option") String option,
 			HttpServletRequest request, HttpServletResponse response, 
 			Model model, Principal principal){
 		 System.out.println("Size is : "+size);
@@ -258,7 +260,7 @@ public class CartController {
 			 return null;
 		}
         Long shoppingCartId = shoppingCart.getId();
-        CartItem cartItem = cartItemService.addProductToCartItem(product,shoppingCart,qty, size);
+        CartItem cartItem = cartItemService.addProductToCartItem(product,shoppingCart,qty, size,option);
         cartItemRepository.save(cartItem);
         if(cartItem == null) {
      		model.addAttribute("notEnoughStock",true);

@@ -75,13 +75,10 @@
     text-align: center;
 }
 .size {
-   float: left;
     /* margin-right: 28px; */
     margin-bottom: 10px;
 }
 .stitching{
-	float: left;
-    margin-right: 28px;
     margin-bottom: 10px;
 }
 .stitching select , input{
@@ -97,7 +94,6 @@
 .quantity{
 	/* margin-right: 28px; */
     margin-bottom: 10px;
-    float: left;
 }
 .addthis_toolbox.addthis_default_style {
     margin-bottom: 20px!important;
@@ -212,13 +208,21 @@
 										<form  method="post">
 										<input hidden="hidden" th:field="*{product.id}" th:name="id" th:value="${product.id}"/>
 										<input hidden="hidden" th:id="'id-addingtocart-'+${product.id}" name="idd" th:value="${product.id}"/>
+										<div class="col-md-12" th:if="${product.unStiched}">
+										<p class="stitchingCost">
+											<span>*Stitching cost of $</span>
+											<span th:text="${#numbers.formatDecimal((product.category.stichingCost),0 , 'COMMA',2,'POINT')}"></span>
+											<span> applies for ready to wear</span>
+										</p>
+										</div>	
 											<div class="stitching form-group col-md-4" th:if="${product.unStiched}" >
 												<label for="stitching">Stitching Option </label>
 												
 												<select name="stitching" id="stitching" class="readytowear form-control" >
 													<option  th:selected="${product.unStiched}" value="unstiched">Unstiched</option>
 													<option  th:selected="!${product.unStiched}" value="readytowear">Ready to wear</option>
-												</select>
+												</select>                                 
+												
 											</div>
 										
 											<div class="size col-md-4 form-group" id="sizecontainer">

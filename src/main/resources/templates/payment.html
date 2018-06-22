@@ -92,6 +92,11 @@
 							<div class="col-md-12">	
 								<p><span>Web ID: </span><span th:text="${cartItem.product.sku}"></span></p>
 							</div>
+							<div class="col-md-12">	
+								<p class="stichCos">
+								<strong><span>Stitching: +$</span><span th:text="${cartItem.stitchingTotal}"></span></strong>
+								 </p>
+							</div>
 						</div>
 						
 							<div class="col-md-2 col-xs-4">
@@ -157,11 +162,16 @@
 									-$<span  th:text="${shoppingCart.discountedAmount}"></span>
 								</div>
 							</div>
-							
+							<div class="row">
+								<div class="col-xs-7 text-left">Stitching : </div>
+								<div class="col-xs-5 text-right">
+									$<span  th:text="${shoppingCart.stitchingTotal}"></span>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-xs-7 text-left">Shipping : </div>
 								<div class="col-xs-5 text-right text-success">
-									<span  th:text="${shoppingCart.shippingCost}"></span>
+									$<span  th:text="${shoppingCart.shippingCost}"></span>
 								</div>
 							</div>
 							

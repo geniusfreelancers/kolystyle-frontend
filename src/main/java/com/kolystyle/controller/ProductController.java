@@ -163,15 +163,16 @@ private AmazonClient amazonClient;
 	        model.addAttribute("siteSettings",siteSettings);
 		return "productshelf";
 	}*/
-	@RequestMapping(value="/stitchingoption/{id}")
-	public @ResponseBody double stitchingOption(@PathVariable(value = "id") Long id) {
+	@RequestMapping(value="/stitchingoption")
+	public @ResponseBody double stitchingOption(@PathParam(value = "id") Long id,@PathParam(value = "option") String option) {
 		Product product = productService.findOne(id);
 		double stitchCost = 0;
-		double productPrice = product.getListPrice();
+		double productPrice = product.getOurPrice();
 		if(product.isUnStiched() == true){
+			if(option.equalsIgnoreCase("readytowear")) {
 			 stitchCost = product.getCategory().getStichingCost();
 			 productPrice = stitchCost+ productPrice;
-			
+			}
 		}
 		return productPrice;	
 	}

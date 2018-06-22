@@ -227,6 +227,9 @@ Transit time: 3-6 business days
 							<div>	
 							<a th:href="@{/productDetail?id={{cartItem.product.id}}}"><span class="productTitle">{{cartItem.product.title}}</span></a>
 								<br/><span>Size: </span><span>{{cartItem.productSize}}</span> <br/> <span>Web ID: </span><span>{{cartItem.product.sku}}</span>
+								<p class="stichCos">
+								<strong><span>Stitching: +$</span><span>{{(cartItem.stitchingTotal).toFixed(2)}}</span></strong>
+								 </p>
 							</div>
 							</div>
 							<div class="col-xs-2">
@@ -258,18 +261,22 @@ Transit time: 3-6 business days
 							
 							<div class="row">
 								<div class="col-xs-7 text-left">Discount :</div>
-								<div class="col-xs-5 text-right text-danger">
+								<div class="col-xs-5 text-right text-success">
 									-$<span>{{checkOut.discountedAmount.toFixed(2)}}</span>
 								</div>
 							</div>
-							
+							<div class="row">
+								<div class="col-xs-7 text-left">Stitching : </div>
+								<div class="col-xs-5 text-right">
+									$<span>{{checkOut.stitchingTotal.toFixed(2)}}</span>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-xs-7 text-left">Shipping : </div>
-								<div class="col-xs-5 text-right text-success">
+								<div class="col-xs-5 text-right">
 									<span>{{checkOut.shippingCost}}</span>
 								</div>
 							</div>
-							
 							
 							<div class="row">
 								<div class="col-xs-7 text-left">

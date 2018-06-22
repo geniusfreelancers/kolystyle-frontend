@@ -47,7 +47,13 @@ public class CartItemServiceImpl implements CartItemService {
 	
 	public CartItem updateCartItem(CartItem cartItem){
 		BigDecimal bigDecimal = new BigDecimal(cartItem.getProduct().getOurPrice()).multiply(new BigDecimal(cartItem.getQty()));
-		
+		double stitchCost = 0;
+		if(cartItem.getProduct().isUnStiched() == true){
+			if(!cartItem.getProductSize().equalsIgnoreCase("unstiched")) {
+			 stitchCost = cartItem.getProduct().getCategory().getStichingCost();
+			}
+		}
+		cartItem.setStitchingTotal(new BigDecimal(stitchCost*cartItem.getQty()));
 		bigDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
 		cartItem.setSubtotal(bigDecimal);
 		//Check problem here
@@ -56,17 +62,23 @@ public class CartItemServiceImpl implements CartItemService {
 		return cartItem;		
 	}
 	
-	public CartItem addProductToCartItem(Product product,ShoppingCart shoppingCart,int qty,String size){
+	public CartItem addProductToCartItem(Product product,ShoppingCart shoppingCart,int qty,String size,String option){
 		List<CartItem> cartItemList = findByShoppingCart(shoppingCart);
-		
+		double stitchCost = 0;
+		if(product.isUnStiched() == true){
+			if(option.equalsIgnoreCase("readytowear")) {
+			 stitchCost = product.getCategory().getStichingCost();
+			}
+		}
 		for(CartItem cartItem : cartItemList){
+			
 			if(product.getId() == cartItem.getProduct().getId()){
 				//Check if product with same size already exist in cart
 				if(cartItem.getProductSize().equalsIgnoreCase(size)) {
 /*					 if(product.getInStockNumber() < findProductQtyInCart(shoppingCart,product)+qty-cartItem.getQty()) {
 							return null;
 						}*/
-					
+					cartItem.setStitchingTotal(new BigDecimal(stitchCost*qty));
 					cartItem.setQty(qty);
 					cartItem.setSubtotal(new BigDecimal(product.getOurPrice()).multiply(new BigDecimal(qty)).setScale(2, BigDecimal.ROUND_HALF_UP));
 
@@ -81,6 +93,7 @@ public class CartItemServiceImpl implements CartItemService {
 		cartItem.setShoppingCart(shoppingCart);
 		cartItem.setProduct(product);
 		cartItem.setProductSize(size);
+		cartItem.setStitchingTotal(new BigDecimal(stitchCost*qty));
 		cartItem.setQty(qty);
 		BigDecimal itemSubTotal = new BigDecimal(product.getOurPrice()).multiply(new BigDecimal(qty)).setScale(2, BigDecimal.ROUND_HALF_UP);
 		cartItem.setSubtotal(itemSubTotal);

@@ -48,17 +48,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	}
 	public ShoppingCart updateShoppingCart(ShoppingCart shoppingCart){
 		BigDecimal cartTotal = new BigDecimal(0);
+		BigDecimal stichTotal = new BigDecimal(0);
 		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
 		
 		//May need to check for maximum qty order for same item
 		for(CartItem cartItem : cartItemList){
 			if(cartItem.getProduct().getInStockNumber() > 0){
 				//cartItemService.updateCartItem(cartItem);
-			
+				stichTotal = stichTotal.add(cartItem.getStitchingTotal());
 				cartTotal = cartTotal.add(cartItem.getSubtotal());
 			}
 		}
-		
+		shoppingCart.setStitchingTotal(stichTotal);
 		shoppingCart.setGrandTotal(cartTotal);
 		shoppingCartRepository.save(shoppingCart);
 	//	shoppingCart.setGrandTotal(calculateCartSubTotal(shoppingCart).setScale(2, BigDecimal.ROUND_HALF_UP));
@@ -147,7 +148,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		BigDecimal cartSubTotal = shoppingCart.getGrandTotal();
 		BigDecimal cartDiscountVal = shoppingCart.getDiscountedAmount();
 		BigDecimal shippingCost = shoppingCart.getShippingCost();
-		BigDecimal cartOrderTotal = cartSubTotal.add(shippingCost).subtract(cartDiscountVal);
+		BigDecimal stitchingCost = shoppingCart.getStitchingTotal();
+		BigDecimal cartOrderTotal = cartSubTotal.add(shippingCost).add(stitchingCost).subtract(cartDiscountVal);
 		return cartOrderTotal;	
 	}
 	

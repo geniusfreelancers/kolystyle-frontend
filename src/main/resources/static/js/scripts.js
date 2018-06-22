@@ -340,13 +340,14 @@ $(function() {
 
 
 //Add Product to cart
-$(function() {
+/*$(function() {
     $(".cart").click(function() {
     	var id=this.id;
       // validate and process form here
     	var ids = $("#id-"+id).val();
+    	var option=$('.readytowear').val();
     	var qty = 1;
-    	var dataString = 'id='+ ids + '&qty=' + qty;
+    	var dataString = 'id='+ ids + '&qty=' + qty + '&option=' + option;
     	$.ajax({
     	    type: "POST",
     	    url: "/shoppingCart/addItem",
@@ -359,9 +360,9 @@ $(function() {
     	  });
     	  return false;
     });
-  });
+  });*/
 
-//Display or hide SIZE dropdown on product details page
+//Display or hide SIZE dropdown on product details page 
 $(document).ready(function(){
 	$(".sizecontainer").hide();
 });
@@ -386,21 +387,34 @@ $(document).ready(function(){
 		var option=$('.readytowear').val();
 	//	var id = $('#id').val();
 		if(option != 'readytowear'){	
-			$('#sizecontainer').css('display','none');
-		}else{
-			$.get("/stitchingoption/", {id : $('#id').val(),
-		        ajax : 'true'
-		    }, function(data) {
+			var dataString = 'id='+ $('#id').val() + '&option=' + option;
+	    	$.ajax({
+	    	    type: "GET",
+	    	    url: "/stitchingoption",
+	    	    data: dataString,
+	    	    success: function(data) {
+		
+	    	    	$('#sizecontainer').css('display','none');
+	    			$('#product-price').html(data);
+    	    }
+	});
+			
+		}else{		    	
+		    	var dataString =  'id='+ $('#id').val() + '&option=' + option;
+		    	$.ajax({
+		    	    type: "GET",
+		    	    url: "/stitchingoption",
+		    	    data: dataString,
+		    	    success: function(data) {
 			
 	    	    $('#sizecontainer').css('display','block');
-	    	    $('#product-price').html("FREE");
+	    	    $('#product-price').html(data);
 	    	    //  alert("Submitted"+id);
-	    	    });
+	    	    }
+		});
 		}
 	});
 	    	  return false;
-			
-
 	});
 
 /*$(function(){

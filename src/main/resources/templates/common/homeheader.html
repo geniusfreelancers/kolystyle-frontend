@@ -34,7 +34,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/jquery.validate.js}"></script>
 	<script th:src="@{/js/jquery-dateFormat.min.js}"></script>
-		
+	<script th:src="@{/js/js.cookie.js}"></script>
 		<!-- Libs CSS
 		============================================ -->
 		<link rel="stylesheet" th:href="@{/css/animate.css}"/>
@@ -46,6 +46,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 		    $('#slider').nivoSlider(); 
 		}); 
 		</script>
+
 		<!-- jQuery ui css
 		============================================ -->
 		<link th:href="@{/css/jquery-ui.css}" rel="stylesheet"/>
@@ -161,6 +162,19 @@ $(document).ready(function(){
     border-color: #535353;
 }
 </style>
+ <script>
+                         function checkCookie(){
+                            // alert("BAGID: "+ Cookies.get('BagId'));
+                             return Cookies.get('BagId');
+                         }
+                         
+                         $( document ).ready(function() {
+                        	 checkCookie();
+                        	});
+                        </script>
+                      
+						<div ng-app="miniCartApp" th:if="!${noMiniCartExist}">
+						<div ng-controller = "miniCartCtrl" th:attr="ng-init='initCartId()'">
                         <div class="col-md-4 col-sm-3">
 							<!-- SHOPPING CART -->
 							<div th:if="!${noCartExist}" id="shopping-cart" class="shopping-cart floatright">
@@ -175,28 +189,42 @@ $(document).ready(function(){
 						<!-- Mini Cart -->
 
 						<div th:if="!${noCartExist}" class="b-content" >
-                        <div class="mini-cart-info">
+                        <div class="mini-cart-infos">
                         	<div class="col-md-12">
-                            <table id="cart-item-list">
-                            	
+                            <table id="cart-item-lists" th:attr="ng-repeat = 'cartItem in miniCart.cartItemList'">
+                            	<tr class="border-bottom">
+                            	<td>
+                            	<img class="img-responsive product-shelf" style="width:70px;" th:src="${fileUrl}+@{{{cartItem.product.coverImageName}}}"/>
+                            	</td>
+                            	<td><span class="col-md-12"><strong>{{cartItem.product.title}}</strong></span>
+                            	<span class="col-md-12">Size: {{cartItem.productSize}}
+                            	 | ${{cartItem.product.ourPrice}} x {{cartItem.qty}}</span>
+                            	</td>
+                            	<td> ${{cartItem.subtotal}}</td></tr>
+       
                             </table>
                             </div>
                         </div>
+                       
                         <div class="mini-cart-total" >
                         	<div id="" class="col-md-4">
                         		<br/>
                         		<a th:href="@{/shoppingCart/cart}" class="btn btn-cart">View Cart</a>
                         		
+                        		
                         	</div> 
-                            <div id="" class="col-md-8">
-                                <p><span class="text-left col-xs-8">Subtotal</span><span class="text-right mini-Subtotal col-xs-4"></span></p>
-                                <p><span class="text-left col-xs-8">Discount</span><span class="text-right mini-Discount col-xs-4"></span></p>
-                                <p><span class="text-left col-xs-8">Shipping</span><span class="text-right mini-Shipping col-xs-4"></span></p>
-                                <p><span class="text-left col-xs-8"><strong>Order total</strong></span><span class="text-right mini-Ordertotal col-xs-4"><strong></strong></span></p>
+                            <div id="" class="col-md-8" >
+                                <p><span class="text-left col-xs-8">Subtotal</span><span class="text-right mini-Subtotal col-xs-4">${{miniCart.grandTotal.toFixed(2)}}</span></p>
+                                <p><span class="text-left col-xs-8">Discount</span><span class="text-right mini-Discount col-xs-4">${{miniCart.discountedAmount.toFixed(2)}}</span></p>
+                                <p><span class="text-left col-xs-8">Stitching</span><span class="text-right mini-Stitching col-xs-4">${{miniCart.stitchingTotal.toFixed(2)}}</span></p>
+                                <p><span class="text-left col-xs-8">Shipping</span><span class="text-right mini-Shipping col-xs-4">${{miniCart.shippingCost}}</span></p>
+                                <p><span class="text-left col-xs-8"><strong>Order total</strong></span><span class="text-right mini-Ordertotal col-xs-4"><strong>${{shoppingCart.orderTotal.toFixed(2)}}</strong></span></p>
                                
                             </div>
                         </div>
                         
+                    </div>
+                    </div>
                     </div>
 						<!-- Mini Cart -->
 						<div class="col-md-12 search-div">
@@ -936,6 +964,7 @@ $(document).ready(function(){
 <div id="fb-root"></div>
 <script th:src="@{/js/facebooktext.js}"></script>
 <script th:src="@{/js/controller.js}"></script>
+<script th:if="!${noMiniCartExist}" th:src="@{/js/minicart.js}"></script>
 <!-- Your customer chat code -->
 <div class="fb-customerchat"
   attribution="setup_tool"

@@ -105,7 +105,10 @@
     </script>
 </div>
 <div class="col-md-4">
-<p><strong>Shipping Method:</strong> <span th:text="${order.shippingMethod}"></span></p>
+<p><strong>Shipping Method:</strong> 
+<span th:if="${order.shippingMethod} == 'groundShipping'">Ground Shipping</span>
+<span th:if="${order.shippingMethod} == 'premiumShipping'">Premium Shipping</span>
+</p>
 <p><strong>Shipping address</strong></p>
 <p><span th:text="${order.shippingAddress.firstName}"></span> <span th:text="${order.shippingAddress.lastName}"></span></p>
 <p><span th:text="${order.shippingAddress.ShippingAddressStreet1}"></span></p>
@@ -148,7 +151,7 @@
 </div>
 
 </div>
-<div class="col-md-12 text-center">
+<div class="col-md-12 text-center hide-me">
 <p><strong>Estimated Delivery Date:</strong> <span class="text-success" th:text="${estimatedDeliveryDate}"></span></p>
 </div>
 </div>
@@ -187,6 +190,9 @@
 							<div style="margin-left:50px;">	
 							<a th:href="@{/productDetail?id=}+${cartItem.product.id}"><h4 th:text="${cartItem.product.title}"></h4></a>
 								<span>Size: </span><span th:text="${cartItem.productSize}"></span> | <span>Web ID: </span><span th:text="${cartItem.product.sku}"></span>
+								<p class="stichCos">
+								<strong><span>Stitching: +$</span><span th:text="${cartItem.stitchingTotal}"></span></strong>
+								 </p>						
 							</div>
 							</div>
 							<div class="col-xs-2">
@@ -216,8 +222,9 @@
 <div class="col-md-10 col-md-offset-1">
 <div class="col-md-4 order-summary">
 <p><strong>Order summary</strong></p>
-<p><span class="col-xs-6">Subtotal(2 items)</span><span class="col-xs-6">$<span th:text="${order.orderSubtotal}"></span></span></p>
+<p><span class="col-xs-6">Subtotal - <span th:text="${order.orderSize}"></span> item(s)</span><span class="col-xs-6">$<span th:text="${order.orderSubtotal}"></span></span></p>
 <p class="text-success"><span class="col-xs-6">Promo Discount</span><span class="col-xs-6">$<span th:text="${order.discount}"></span></span></p>
+<p><span class="col-xs-6">Stitching</span><span class="col-xs-6">$<span th:text="${order.stitchingTotal}"></span></span></p>
 <p><span class="col-xs-6">Shipping</span><span class="col-xs-6">$<span th:text="${order.shippingCost}"></span></span></p>
 <hr class="dark-line"/>
 <p><strong><span class="col-xs-6">Total</span><span class="col-xs-6">$<span th:text="${order.orderTotal}"></span></span></strong></p>

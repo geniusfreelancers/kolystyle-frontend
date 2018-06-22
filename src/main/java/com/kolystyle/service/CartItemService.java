@@ -15,7 +15,7 @@ public interface CartItemService {
 
 	List<CartItem> findByShoppingCart(ShoppingCart shoppingCart);
 	
-	CartItem addProductToCartItem(Product product,ShoppingCart shoppingCart,int qty,String size);
+	CartItem addProductToCartItem(Product product,ShoppingCart shoppingCart,int qty,String size, String option);
 	
 	CartItem updateCartItem(CartItem cartItem);
 	

@@ -7,7 +7,7 @@ var checkoutApp = angular.module("checkoutApp", []);
 checkoutApp.controller("checkoutCtrl", function ($scope, $http) {
 
     $scope.refreshCheck = function () {
-        $http.get('/customize/minicart').success(function (data) {
+        $http.get('/rest/cart/mycart').success(function (data) {
         	data.errors = $scope.calSaving(data);
         	data.shippingCost = $scope.calShippingCost(data);
             $scope.checkOut = data;
@@ -73,7 +73,7 @@ checkoutApp.controller("checkoutCtrl", function ($scope, $http) {
 
 
 //Testing Some shitty ideas
-checkoutApp.controller("miniCartCtrl", function ($scope, $http) {
+/*checkoutApp.controller("miniCartCtrl", function ($scope, $http) {
 
     $scope.refreshCheck = function () {
         $http.get('/customize/minicart').success(function (data) {
@@ -106,29 +106,5 @@ checkoutApp.controller("miniCartCtrl", function ($scope, $http) {
         return itemList;
     };
 });
-
-
-/*checkoutApp.controller("miniCartCtrl", function ($scope, $http) {
-
-    $scope.refreshCheck = function () {
-        $http.get('/customize/'+$scope.cartId).success(function (data) {
-            $scope.miniCart = data;
-        });
-    };
-
-    $scope.initCartId = function (cartId) {
-        $scope.cartId = cartId;
-        $scope.refreshCheck(cartId);
-    };
-    
-    $scope.showOrNoshow = function () {
-    	var itemList= false;
-    	var itemLists = $scope.miniCart.cartItemList.length;
-        
-        if (itemLists > 0){
-        	itemList = true;
-        }
-        return itemList;
-    };
-});*/
+*/
 
