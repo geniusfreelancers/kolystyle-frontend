@@ -86,6 +86,10 @@ Version:1.0
 /*-----------------------------
  1. Global Styles 
 -------------------------------*/
+.dashed-border{
+	border-bottom:1px dashed #dad2d2;
+	padding: 10px 0px;
+}
 .banner404{
 	margin-bottom: 10px;
 	background-position: center center;

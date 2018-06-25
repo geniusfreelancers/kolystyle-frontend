@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.kolystyle.KolystyleApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 152.137 sec - in com.kolystyle.KolystyleApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 125.278 sec - in com.kolystyle.KolystyleApplicationTests

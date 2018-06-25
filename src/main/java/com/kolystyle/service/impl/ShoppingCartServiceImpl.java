@@ -49,16 +49,19 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	public ShoppingCart updateShoppingCart(ShoppingCart shoppingCart){
 		BigDecimal cartTotal = new BigDecimal(0);
 		BigDecimal stichTotal = new BigDecimal(0);
+		int cartItemQty = new Integer(0);
 		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
 		
 		//May need to check for maximum qty order for same item
 		for(CartItem cartItem : cartItemList){
 			if(cartItem.getProduct().getInStockNumber() > 0){
 				//cartItemService.updateCartItem(cartItem);
+				cartItemQty+=cartItem.getQty();
 				stichTotal = stichTotal.add(cartItem.getStitchingTotal());
 				cartTotal = cartTotal.add(cartItem.getSubtotal());
 			}
 		}
+		shoppingCart.setCartItemQty(cartItemQty);
 		shoppingCart.setStitchingTotal(stichTotal);
 		shoppingCart.setGrandTotal(cartTotal);
 		shoppingCartRepository.save(shoppingCart);
@@ -94,7 +97,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 			cartItem.setShoppingCart(null);
 			cartItemService.save(cartItem);
 		}
-		
+		shoppingCart.setCartItemQty(new Integer(0));
 		shoppingCart.setGrandTotal(new BigDecimal(0));
 		Date addedDate = Calendar.getInstance().getTime();
 		shoppingCart.setUpdatedDate(addedDate);
@@ -200,7 +203,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	}
 	public int cartItemCount(ShoppingCart shoppingCart) {
 		List<CartItem> cartItemList = shoppingCart.getCartItemList();
-		int itemCount = 0;
+		int itemCount = new Integer(0);
 		for (CartItem cartItem : cartItemList) {
 			itemCount = itemCount+cartItem.getQty();
 		}

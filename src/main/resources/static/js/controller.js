@@ -197,7 +197,7 @@ $('.shopping-cart').mouseenter(function(){
 	 $('.b-content').mouseleave(function(){
 	    $('.b-content').hide(); 
 	 });
- 
+ /*
 $(document).ready(function(){
 	$.get("/rest/cart/mycart", {
         ajax : 'true'
@@ -224,12 +224,16 @@ $(document).ready(function(){
     	$('.mini-Ordertotal').html('$'+data.orderTotal);
     	 }
     });
-});
+});*/
 $(function() {
 	var sizes = "";
 //	var option = "";
 	$('#addthisproduct').click(
 	        function() {
+	        	$('.spinnerspin').ploading({
+	        	    action: 'show', 
+	        	    spinner: 'wave'
+	        	  })
 	        	//option = $('#stitching').val();
 	        	var option=$('.readytowear').val();
 	        	if(option == "unstiched"){
@@ -237,7 +241,6 @@ $(function() {
 	        	}else{
 	        		  sizes = $('#size').val();
 	        	}	
-	        	
 	            $.post("/shoppingCart/addItem", {
 	            	id : $('#id').val(),
 	            	size : sizes,
@@ -254,33 +257,21 @@ $(function() {
 	                var item =0;
 	                var items="";
 	                for (i = 0; i < data.cartItemList.length; i++) {
-	                    cartListing += '<tr><th scope="row">'+data.cartItemList[i].product.id+'</th><td>'+data.cartItemList[i].product.title+'</td><td>'+data.cartItemList[i].productSize+'</td><td>'+data.cartItemList[i].qty+'</td></tr>';
-	                    item += data.cartItemList[i].qty;
-	                    items += '<tr class="border-bottom"><td><img class="img-responsive product-shelf" style="width:70px;" src="https://s3.us-east-2.amazonaws.com/kolystylebucket/'+data.cartItemList[i].product.coverImageName+'" /></td><td><span class="col-md-12"><strong>'+data.cartItemList[i].product.title+'</strong></span><span class="col-md-12">Size: '+data.cartItemList[i].productSize+' | '+data.cartItemList[i].qty+' x $'+data.cartItemList[i].product.ourPrice+'</span></td><td> $'+data.cartItemList[i].subtotal+'</td></tr>';
-	                	
+	                	cartListing += '<div class="row dashed-border"><li class="col-md-2" id="product-modalimage"><img class="img-responsive product-shelf" style="width:70px;" src="https://s3.us-east-2.amazonaws.com/kolystylebucket/'+data.cartItemList[i].product.coverImageName+'" /></li><li class="col-md-5" id="product-modalinfo"><p>'+data.cartItemList[i].product.title+'</p><p><span>Size: '+data.cartItemList[i].productSize+'</span> | <span>SKU : '+data.cartItemList[i].product.sku+'</span></p></li><li class="col-md-3"><p><span>$'+data.cartItemList[i].product.ourPrice+'</span> X <span>'+data.cartItemList[i].qty+'</span></p></li><li class="col-md-2" id="product-modalamount">$'+data.cartItemList[i].subtotal+'</li></div>';	
 	                }
+
+	                cartListing+='<div class="row"><div class="col-md-6 col-md-offset-6"><div class="col-md-6"><p>Subtotal</p><p>Discount</p><p>Stitching</p><p>Shipping</p><p>Order total</p></div><div class="col-md-6"><p>$'+data.grandTotal+'</p><p>$'+data.discountedAmount+'</p><p>$'+data.stitchingTotal+'</p><p>$'+data.shippingCost+'</p><p>$'+data.orderTotal+'</p></div></div></div>';
 	                $('.modal-title').show();
 	                $('.modal-title').html('Item Added To Your Bag');
-	                $('#modal-body').hide();
-	                $('#mod-table').show();
-	                $('#modal-table').html(cartListing);
+	                $('#modal-body').show();
+	                $('#modal-body').html(cartListing);
 	                $('#mymodal').modal('show');	                
-	                
-	                //Update mini cart
-	                $('.count').html(item+' items');
-	            	$('.amount').html('$'+data.orderTotal);
-	            	$('#cart-item-list').html(items);	
-	            	$('.mini-Subtotal').html('$'+data.grandTotal);
-	            	$('.mini-Discount').html('$'+data.discountedAmount);
-	            	$('.mini-Shipping').html('$'+data.shippingCost);
-	            	$('.mini-Ordertotal').html('$'+data.orderTotal);
-	                
 	                }else{	
+
 	                	$('.modal-title').show();
 	                	$('.modal-title').html('Item cannot be added to your Bag');	
 	                	$('#modal-body').show();
 		                $('#modal-body').html('<i class="fa fa-exclamation-circle text-danger" aria-hidden="true"></i> <span class="text-danger">Not Enough Quantity.</span>');
-		                $('#mod-table').hide();
 		                $('#mymodal').modal('show');
 	                }                
 	            });

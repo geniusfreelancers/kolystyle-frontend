@@ -274,7 +274,7 @@ public class CartController {
 		shoppingCartRepository.save(shoppingCart);
 		shoppingCartService.updateShoppingCart(shoppingCart);
 		shoppingCartRepository.save(shoppingCart);
-		System.out.println("CartList="+shoppingCart.getCartItemList());
+		//System.out.println("CartList="+shoppingCart.getCartItemList());
 		return shoppingCartRepository.findOne(shoppingCartId);	
 	}
 	
@@ -393,6 +393,7 @@ public class CartController {
 		if(qty < 1 ){
 			//model.addAttribute("notEnoughStock",true);
 			cartItemService.removeCartItem(cartItem);
+		//	shoppingCart.setCartItemQty(shoppingCart.getCartItemQty()-cartItem.getQty());
 		}else if(qty > cartItem.getProduct().getInStockNumber()) {
 			model.addAttribute("notEnoughStock",true);
 		}else {
@@ -403,6 +404,7 @@ public class CartController {
 			shoppingCart = promoCodesService.validatePromoCode(promoCodes,shoppingCart,promoCode);
 			shoppingCart = shoppingCartService.updateShoppingCart(shoppingCart);
 		}
+		
 		shoppingCartRepository.save(shoppingCart);
 		shoppingCartService.updateShoppingCart(shoppingCart);
 		return shoppingCartRepository.findOne(shoppingCartId);

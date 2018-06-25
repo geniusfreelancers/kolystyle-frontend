@@ -169,12 +169,7 @@ public class StripeCheckout {
         		return "redirect:/cart/guestcheckout?missingRequiredField=true";
         	}
         			
-        	List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
-        	int orderSize = 0;
-        	for(CartItem cartItem : cartItemList) {
-        		orderSize+=cartItem.getQty();
-        	}
-        	model.addAttribute("cartItemList",cartItemList);
+     
 	        chargeRequest.setDescription(shoppingCart.getBagId());
 	        chargeRequest.setCurrency(Currency.USD);
 	        chargeRequest.setAmount(finalamount);
@@ -200,7 +195,7 @@ public class StripeCheckout {
 		   		order.setOrderSubtotal(shoppingCart.getGrandTotal());
 		   		order.setDiscount(shoppingCart.getDiscountedAmount());
 		   		order.setStitchingTotal(shoppingCart.getStitchingTotal());
-		   		order.setOrderSize(orderSize);
+		   		order.setOrderSize(shoppingCart.getCartItemQty());
 		   		LocalDate today = LocalDate.now();
 		   		LocalDate estimatedDeliveryDate;
 		   		if(order.getShippingMethod().equals("groundShipping")){

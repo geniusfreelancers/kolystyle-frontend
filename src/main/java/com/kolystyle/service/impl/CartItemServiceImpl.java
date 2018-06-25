@@ -64,7 +64,8 @@ public class CartItemServiceImpl implements CartItemService {
 	
 	public CartItem addProductToCartItem(Product product,ShoppingCart shoppingCart,int qty,String size,String option){
 		List<CartItem> cartItemList = findByShoppingCart(shoppingCart);
-		double stitchCost = 0;
+		double stitchCost = new Double(0);
+		int cartItemQty = shoppingCart.getCartItemQty();
 		if(product.isUnStiched() == true){
 			if(option.equalsIgnoreCase("readytowear")) {
 			 stitchCost = product.getCategory().getStichingCost();
@@ -78,11 +79,13 @@ public class CartItemServiceImpl implements CartItemService {
 /*					 if(product.getInStockNumber() < findProductQtyInCart(shoppingCart,product)+qty-cartItem.getQty()) {
 							return null;
 						}*/
+					cartItemQty = cartItemQty+qty-cartItem.getQty();
 					cartItem.setStitchingTotal(new BigDecimal(stitchCost*qty));
 					cartItem.setQty(qty);
 					cartItem.setSubtotal(new BigDecimal(product.getOurPrice()).multiply(new BigDecimal(qty)).setScale(2, BigDecimal.ROUND_HALF_UP));
 
 				cartItemRepository.save(cartItem);	
+				shoppingCart.setCartItemQty(cartItemQty);
 		       	shoppingCartRepository.save(shoppingCart);
 				return cartItem;
 				}
@@ -98,7 +101,8 @@ public class CartItemServiceImpl implements CartItemService {
 		BigDecimal itemSubTotal = new BigDecimal(product.getOurPrice()).multiply(new BigDecimal(qty)).setScale(2, BigDecimal.ROUND_HALF_UP);
 		cartItem.setSubtotal(itemSubTotal);
 		
-		cartItemRepository.save(cartItem);		
+		cartItemRepository.save(cartItem);	
+		shoppingCart.setCartItemQty(cartItemQty+qty);
 		shoppingCartRepository.save(shoppingCart);
 		return cartItem;
 	}
@@ -142,10 +146,12 @@ public class CartItemServiceImpl implements CartItemService {
 	}
 	
 	public void removeCartItem(CartItem cartItem){
-		
+		ShoppingCart shoppingCart = cartItem.getShoppingCart();
+		shoppingCart.setCartItemQty(shoppingCart.getCartItemQty()-cartItem.getQty());
 	//	productToCartItemService.deleteByCartItem(cartItem);
 	//	cartItemRepository.deleteById(cartItem.getId());
 		cartItemRepository.delete(cartItem);
+		shoppingCartRepository.save(shoppingCart);
 	}
 	
 	public CartItem save(CartItem cartItem){

@@ -179,9 +179,9 @@ $(document).ready(function(){
 							<!-- SHOPPING CART -->
 							<div th:if="!${noCartExist}" id="shopping-cart" class="shopping-cart floatright">
 								<a title="View your shopping cart" th:href="@{/shoppingCart/cart}" class="cart-contents">
-									<span class="count">0 items</span>
+									<span class="count">{{miniCart.cartItemQty}} item(s)</span>
 									-
-									<span class="amount">$0.00</span>
+									<span class="amount">${{miniCart.orderTotal.toFixed(2)}}</span>
 								</a>
 							</div>
 							<!-- SHOPPING CART -->
@@ -189,12 +189,14 @@ $(document).ready(function(){
 						<!-- Mini Cart -->
 
 						<div th:if="!${noCartExist}" class="b-content" >
-                        <div class="mini-cart-infos">
+                        <div class="mini-cart-info">
                         	<div class="col-md-12">
-                            <table id="cart-item-lists" th:attr="ng-repeat = 'cartItem in miniCart.cartItemList'">
+                            <table id="cart-item-list" th:attr="ng-repeat = 'cartItem in miniCart.cartItemList'">
                             	<tr class="border-bottom">
                             	<td>
-                            	<img class="img-responsive product-shelf" style="width:70px;" th:src="${fileUrl}+@{{{cartItem.product.coverImageName}}}"/>
+                            	<a href="/productDetail?id={{cartItem.product.id}}">
+                            		<img class="img-responsive product-shelf" style="width:70px;" th:src="${fileUrl}+@{{{cartItem.product.coverImageName}}}"/>
+                            	</a>
                             	</td>
                             	<td><span class="col-md-12"><strong>{{cartItem.product.title}}</strong></span>
                             	<span class="col-md-12">Size: {{cartItem.productSize}}
@@ -218,7 +220,7 @@ $(document).ready(function(){
                                 <p><span class="text-left col-xs-8">Discount</span><span class="text-right mini-Discount col-xs-4">${{miniCart.discountedAmount.toFixed(2)}}</span></p>
                                 <p><span class="text-left col-xs-8">Stitching</span><span class="text-right mini-Stitching col-xs-4">${{miniCart.stitchingTotal.toFixed(2)}}</span></p>
                                 <p><span class="text-left col-xs-8">Shipping</span><span class="text-right mini-Shipping col-xs-4">${{miniCart.shippingCost}}</span></p>
-                                <p><span class="text-left col-xs-8"><strong>Order total</strong></span><span class="text-right mini-Ordertotal col-xs-4"><strong>${{shoppingCart.orderTotal.toFixed(2)}}</strong></span></p>
+                                <p><span class="text-left col-xs-8"><strong>Order total</strong></span><span class="text-right mini-Ordertotal col-xs-4"><strong>${{miniCart.orderTotal.toFixed(2)}}</strong></span></p>
                                
                             </div>
                         </div>
@@ -498,6 +500,81 @@ $(document).ready(function(){
 										<li class="menuBB"><a id="jewelryLink" th:href="@{/searchByCategory?category=jewellery}">JEWELRY</a></li>	
 										<!-- Accessories -->
 										<li class="menuBB"><a id="accessoriesLink" th:href="@{/searchByCategory?category=accessories}">Accessories</a></li>	
+											
+					<!-- SALWAR KAMEEZ -->		
+					<li class="dropdown kolystyle-fw menuBB"><a id="menLink" th:href="@{/productByGender?gender=male}">MEN</a>
+														<ul class="dropdown-menu list-unstyled">
+															<li>
+																<div class="kolystyle-content">
+																	<div class="row">
+																		<div class="col-md-2 col-sm-2">
+																			<div class="header-menu">
+																				<h4><a id="salwaroccasionLink" th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=occasion}">Occasion</a></h4>
+																			</div> 
+																			<ul class="list-unstyled">
+																				<li><a id="salwarwedLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=wedding}">Wedding Wear</a></li>
+										                                        <li><a id="salwarpartyLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=party}">Party Wear</a></li>
+										                                        <li><a id="salwarfestiveLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=festive}">Festive Wear</a></li>
+										                                        <li><a id="salwarcasualLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=casual}">Casual Wear</a></li>
+										                                        <li><a id="salwaralloccasionLink" th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=occasion}">All Occasions...</a></li>
+																			</ul>
+																		</div>
+
+
+																		<div class="col-md-2 col-sm-2">
+																			<div class="header-menu">
+																				<h4><a id="salwarstyleLink" th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=style}">Style</a></h4>
+																			</div>
+																			<ul class="list-unstyled">
+																				<li><a id="salwaranarkaliLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=anarkali}">Anarkali Style</a></li>
+										                                        <li><a id="salwarstraightLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=straight}">Straight Style</a></li>
+										                                        <li><a id="salwarabayaLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=abaya}">Abaya Style</a></li>
+										                                        <li><a id="salwarpakistaniLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=pakistani}">Pakistani Style</a></li>
+										                                        <li><a id="salwarpunjabiLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=punjabi}">Punjabi Style</a></li>
+										                                        <li><a id="salwarallstyleLink" th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=style}">All styles...</a></li>
+																			</ul>
+																		</div>
+																		<div class="col-md-2 col-sm-2">
+																			<div class="header-menu">
+																				<h4><a id="salwarfabricLink" th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=fabric}">Fabric</a></h4>
+																			</div>
+																			<ul class="list-unstyled">
+																				<li><a id="salwarchadLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=chanderi}">Chanderi Suits</a></li>
+										                                        <li><a id="salwargeoLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=georgette}">Georgette Suits</a></li>
+										                                        <li><a id="salwarcottonLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=cotton}">Cotton Suits</a></li>
+										                                        <li><a id="salwarnetLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=net}">Net Suits</a></li>
+										                                        <li><a id="salwarartLink" th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=art}">Art Silk Suits</a></li>
+										                                        <li><a id="salwarallfabLink" th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=fabric}">All Fabrics...</a></li>
+																			</ul>
+																		</div>
+																		<div class="col-md-2 col-sm-2">
+																			<div class="header-menu">
+																				<h4><a id="salwaraltLink" th:href="@{/searchByCategory?category=Salwar}">Alternates</a></h4>
+																			</div> 
+																			<ul class="list-unstyled">
+																				<li><a id="salwarlongLink" th:href="@{/searchByCategory?category=Kurtas}">Long Kurtas</a></li>
+										                                        <li><a id="salwartunicsLink" th:href="@{/searchByCategory?category=Tunics}">Tunics</a></li>
+										                                        <li><a id="salwarbottomsLink" th:href="@{/searchByCategory?category=Bottoms}">Bottoms</a></li>
+										                                        <li><a id="salwardupattasLink" th:href="@{/searchByCategory?category=Dupattas}">Dupattas</a></li>
+										                                        <li><a id="salwargownsLink" th:href="@{/searchByCategory?category=Gowns}">Gowns</a></li>
+																			</ul>
+																		</div>
+																		<div class="col-md-4 col-sm-4">
+																			<div class="banner col-md-10">
+																				<a th:href="@{/searchByCategory?category=Salwar}">
+																					<img alt="" th:src="${fileUrl}+${siteSettings.menu2Banner}"/>
+																				</a> 
+																			</div>
+																		</div>
+																	</div>
+
+																</div>
+															</li>
+														</ul>
+													</li>
+					<!-- Kids -->
+					<li class="menuBB"><a id="contactLink" th:href="@{/productsByTags?tag=kids}">Kids</a></li>
+																		
 											<!-- Accounts -->	
 							
 					<li class="menuBB" th:if="!${siteSettings.loginKillSwitch}"><a id="myaccLink" >My Account</a>							
@@ -509,21 +586,10 @@ $(document).ready(function(){
 							                                <li><a id="trackLink" th:href="@{/ordertracking}">Track Order</a></li>
 														</ul>													
 													</li>							
-										<!-- INFORMATION -->	
-				
-													<li class="menuBB"><a id="infoLink">Men</a>
-														<ul class="sub-menu-drop">
-															<li><a id="aboutLink" th:href="@{/productByGender?gender=male}">Men</a></li>
-							                                <li><a id="deliveryLink" th:href="@{/public/delivery}">Delivery Information</a></li>
-							                                <li><a id="privacyLink" th:href="@{/public/privacy}">Privacy Policy</a></li>
-							                                <li><a id="elementLink" th:href="@{/public/terms}">Terms &amp; Conditions</a></li>
-														</ul>													
-													</li>
+									
 													
 													
 													
-													<!-- Contact Us -->
-													<li class="menuBB"><a id="contactLink" th:href="@{/productsByTags?tag=kids}">Kids</a></li>
 													
 												</ul>
 											</div>
@@ -721,7 +787,67 @@ $(document).ready(function(){
 													<li><a th:href="@{/searchByCategory?category=jewellery}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">JEWELRY</span></a></li>
 													<li><a th:href="@{/searchByCategory?category=accessories}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Accessories</span></a></li>
 													
-													<li class="has-sub" th:if="!${siteSettings.loginKillSwitch}">
+
+												  
+												  <li class="has-sub">
+														<a th:href="@{/productByGender?gender=male}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">MEN</span><span class="holder" style="border-color: rgba(0, 0, 0, 0.34902);"></span></a>
+														<ul>
+															<li class="has-sub">
+																<a th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=occasion}"><span>Occasion</span></a>
+																<ul>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=wedding}"><span>Wedding Wear</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=party}"><span>Party Wear</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=festive}"><span>Festive Wear</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=occasion&amp;mainsubCategory=casual}"><span>Casual Wear</span></a></li>
+																	<li class="last"><a th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=occasion}"><span>All Occasions...</span></a></li>
+																</ul>
+															</li>
+															<li class="has-sub">
+																<a th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=style}"><span>Style</span></a>
+																<ul>		
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=anarkali}"><span>Anarkali Style</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=straight}"><span>Straight Style</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=abaya}"><span>Abaya Style</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=pakistani}"><span>Pakistani Style</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=style&amp;mainsubCategory=punjabi}"><span>Punjabi Style</span></a></li>
+																	<li class="last"><a th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=style}"><span>All styles...</span></a></li>
+																</ul>
+															</li>
+															<li class="has-sub">
+																<a th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=fabric}"><span>Fabric</span></a>
+																<ul>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=chanderi}"><span>Chanderi Suits</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=georgette}"><span>Georgette Suits</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=cotton}"><span>Cotton Suits</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=net}"><span>Net Suits</span></a></li>
+																	<li><a th:href="@{/searchBySubSubCategory?category=Salwar&amp;subCategory=fabric&amp;mainsubCategory=art}"><span>Art Silk Suits</span></a></li>
+																	<li class="last"><a th:href="@{/searchBySubCategory?category=Salwar&amp;subCategory=fabric}"><span>All Fabrics...</span></a></li>
+																</ul>
+															</li>
+															<li class="has-sub">
+																<a th:href="@{/searchByCategory?category=Salwar}"><span>Alternates</span></a>
+																<ul>	
+																	<li><a th:href="@{/searchByCategory?category=Kurtas}"><span>Long Kurtas</span></a></li>
+																	<li><a th:href="@{/searchByCategory?category=Tunics}"><span>Tunics</span></a></li>
+																	<li><a th:href="@{/searchByCategory?category=Bottoms}"><span>Bottoms</span></a></li>
+																	<li><a th:href="@{/searchByCategory?category=Dupattas}"><span>Dupattas</span></a></li>
+																	<li class="last"><a th:href="@{/searchByCategory?category=Gowns}"><span>Gowns</span></a></li>
+																</ul>
+															</li>
+															<li class="img-nav">
+																<div class="in1">
+																	<div class="col-md-6">
+																		<a th:href="@{/searchByCategory?category=Salwar}">
+																		<img th:src="${fileUrl}+${siteSettings.menu2Banner}" alt=""/></a>
+																	</div>
+																</div>
+															</li>
+														</ul>
+													</li>
+												  
+												  <li><a href="@{/productsByTags?tag=kids}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Kids</span></a></li>
+												
+												  <li class="has-sub" th:if="!${siteSettings.loginKillSwitch}">
 														<a th:href="@{/customer/account}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">My Account</span><span class="holder" style="border-color: rgba(0, 0, 0, 0.34902);"></span></a>
 															<ul>			
 																	<li><a th:href="@{/customer/account}"><span>My Account</span></a></li>
@@ -731,17 +857,7 @@ $(document).ready(function(){
 															</ul>
 												  </li>
 												  
-												  <li class="has-sub">
-														<a th:href="@{/productByGender?gender=male}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Men</span><span class="holder" style="border-color: rgba(0, 0, 0, 0.34902);"></span></a>
-															<ul>
-																	<li><a th:href="@{/productByGender?gender=male}"><span>Men</span></a></li>
-																	<li><a th:href="@{/public/delivery}"><span>Delivery Information</span></a></li>
-																	<li><a th:href="@{/public/privacy}"><span>Privacy Policy</span></a></li>
-																	<li class="last"><a th:href="@{/public/terms}"><span>Terms &amp; Conditions</span></a></li>
-															</ul>
-												  </li>
-													<li><a href="@{/productsByTags?tag=kids}" style="text-shadow: rgba(0, 0, 0, 0.34902) 0px 1px 1px;"><span style="border-color: rgba(0, 0, 0, 0.34902);">Kids</span></a></li>
-												</ul>
+													</ul>
 											</div>
 										</div>
 									</div>

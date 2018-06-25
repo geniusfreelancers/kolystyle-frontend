@@ -5,6 +5,7 @@
 
     
 	<body class="home-1 top-btn-color">
+	
         <!-- HEADER -->
         <div th:replace="common/homeheader :: navbar" />
  		<!-- HEADER -->
@@ -116,7 +117,7 @@
 		
 		
  		<!--Breadcrumbs-->
- 		<div class="container">
+ 		<div class="container spinnerspin">
 			<div class="row">
 				<!-- Site Content  -->
 				<div class="col-md-9">
@@ -243,7 +244,7 @@
 											</form>
 										</div>
 										<!-- Bootstrap Modal -->
-<div class="modal" id="mymodal" tabindex="-1" role="dialog">
+<div class="modal" id="mymodal" tabindex="-1" role="dialog" >
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -254,26 +255,28 @@
       </div>
       <div class="modal-body">
         <ul id="modal-body">
-        
         </ul>
-        <table class="table" id="mod-table">
-  <thead class="thead-light">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody id="modal-table">
-    
-  </tbody>
-</table>
       </div>
       <div class="modal-footer">
       	<a href="/shoppingCart/cart" class="btn btn-info" role="button">View Cart and Checkout</a>
         
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Shopping</button>
+        <button type="button" class="btn btn-secondary" id="reloadPage" data-dismiss="modal">Continue Shopping</button>
+     <script>
+     $('#reloadPage').click(function() {
+    	    location.reload();
+    	 $('.spinnerspin').ploading({
+     	    action: 'hide'
+     	  })
+    	});
+     $('.close').click(function() {
+     	    location.reload();
+     	 $('.spinnerspin').ploading({
+      	    action: 'hide'
+      	  })
+     	});
+     
+     </script>
+     
       </div>
     </div>
   </div>
@@ -637,6 +640,7 @@ width: 300px;
         });
     });
 </script-->
+
 </body>
 
 </html> 
